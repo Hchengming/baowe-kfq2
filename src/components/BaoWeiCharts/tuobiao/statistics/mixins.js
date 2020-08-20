@@ -334,7 +334,10 @@ export const screenMixins = {
     // 内容部分点击事件
     statisticsContentClick () {
       this.whereOffon = false
-      this.$refs['where'].show(this.statisticsAll.conditionAreaConfig, false)
+      this.$refs['where'].show(
+        this.statisticsAll.conditionAreaConfig,
+        this.whereOffon
+      )
     },
     // 筛选下拉框保存事件
     whereSubmit () {

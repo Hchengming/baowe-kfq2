@@ -1,0 +1,10 @@
+{
+  "list": [
+    { "jgmc": "占用基本农田", "jgsl": "36" },
+    { "jgmc": "触碰生态红线", "jgsl": "10" },
+    { "jgmc": "侵占自然保护地", "jgsl": "9" },
+    { "jgmc": "调整为非建设用地", "jgsl": "53" }
+  ],
+  "totalCount": null,
+  "data": null
+}

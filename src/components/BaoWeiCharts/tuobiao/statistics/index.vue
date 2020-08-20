@@ -128,10 +128,12 @@
         <!-- 模块修改表单 -->
         <settingForm ref="settingForm"
                      :form="settingForm"
+                     :dataUrl="dataUrl"
                      @submit="settingKeep"></settingForm>
         <!-- 子模块新增表单 -->
         <settingForm ref="childSettingForm"
                      :form="childSettingForm"
+                     :dataUrl="dataUrl"
                      @submit="childSettingKeep"></settingForm>
         <!-- 筛选配置弹出层 -->
         <screen ref="screenSetting"
@@ -151,7 +153,7 @@ import { dataMixins, childMixins, screenMixins } from './mixins'
 import dataPresentation from '../../components/settingForm/dataPresentation.json'
 
 export default {
-  props: ['statisticsAll', 'browserXY', 'systemPermissions'],
+  props: ['statisticsAll', 'browserXY', 'systemPermissions', 'dataUrl'],
   mixins: [dataMixins, childMixins, screenMixins],
   components: { SettingForm, List, BwLine, BwTable, Screen, Where },
   data () {
@@ -241,8 +243,8 @@ export default {
       this.$emit('updateMoule', this.settingForm, this.statisticsAll.moduleId)
     },
     // 分页事件
-    tablePageSort (currentPage) {
-      this.$emit('tablePageSort', this.statisticsAll.moduleId, currentPage)
+    tablePageSort (pageAll) {
+      this.$emit('tablePageSort', this.statisticsAll.moduleId, pageAll)
     },
     // 图表点击事件
     eventClick (e) {

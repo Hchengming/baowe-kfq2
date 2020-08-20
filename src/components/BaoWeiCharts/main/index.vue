@@ -44,7 +44,9 @@
 <script>
 import MyMenu from './find/my-menu'
 import MyPage from './find/myPage'
-import axios from 'axios'
+// import axios from 'axios'
+// eslint-disable-next-line no-unused-vars
+import defaultData from './menuData.json'
 export default {
   name: 'wrap',
   props: {
@@ -82,22 +84,22 @@ export default {
       this.$refs['myPage'].menuClick(item)
     },
     // 菜单树数据查询事件
-    getTreeMenu () {
-      axios
-        .post(this.settingConfig.commonUrl + '/menu/insertMenu')
-        .then(res => {
-          let status = res.data.status
-          let reqData = res.data.data
-          if (status === 0) {
-            this.menuData = reqData
-            if (this.menuData[0]) {
-              this.$refs['myPage'].menuClick(this.menuData[0])
-            }
-          }
-        })
+    getTreeMenu: function () {
+      this.menuData = defaultData
+      // axios
+      // .post(this.settingConfig.commonUrl + '/menu/insertMenu')
+      // .then(res => {
+      //   let status = res.data.status
+      //   let reqData = res.data.data
+      //   if (status === 0) {
+      //     this.menuData = reqData
+      //     if (this.menuData[0]) {
+      //       this.$refs['myPage'].menuClick(this.menuData[0])
+      //     }
+      //   }
+      // })
     },
     // 菜单数据变化更新
-
     getMenuChange (menuData) {
       this.menuData = menuData
       this.leftMenu = this.menuData[this.menuActiveIndex].children

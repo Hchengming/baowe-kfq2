@@ -34,14 +34,23 @@ export default {
     },
     // statistics组件--模块修改保存事件
     updateMoule (contentAreaConfig, moduleId, fn) {
+      const reqData = {
+        secondMasterPageConfigPOS: [
+          {
+            contentAreaConfig: contentAreaConfig,
+            moduleId: moduleId
+          }
+        ]
+      }
       axios
-        .post(this.settingConfig.commonUrl + '/page/updateModule', {
-          contentAreaConfig,
-          moduleId
-        })
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
+          reqData
+        )
         .then(res => {
-          let status = res.data.status
-          if (status === 0) {
+          let code = res.data.code
+          if (code === 20000) {
             this.$message({
               message: '模块配置修改成功',
               type: 'success'
@@ -61,18 +70,25 @@ export default {
               obj.currentPage = 1
             }
             this.getTableData(obj)
+          } else {
+            this.$message({
+              message: '模块修改失败',
+              type: 'error'
+            })
           }
         })
     },
     // statistics组件--模块删除事件
     deleteMoule (moduleId) {
       axios
-        .post(this.settingConfig.commonUrl + '/page/removeModule', { moduleId })
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData',
+          { moduleId }
+        )
         .then(res => {
-          // console.log(res)
-          let status = res.data.status
-          // let reqData = res.data.data;
-          if (status === 0) {
+          let code = res.data.code
+          if (code === 20000) {
             this.$message({
               message: '模块删除成功',
               type: 'success'
@@ -170,34 +186,62 @@ export default {
     },
     // 新增确认事件
     addKeep (contentAreaConfig) {
-      axios
-        .post(this.settingConfig.commonUrl + '/page/addModule', {
-          contentAreaConfig: contentAreaConfig,
-          menuId: this.menuId
+      const reqData = {
+        secondMasterPageConfigPOS: [
+          {
+            contentAreaConfig: contentAreaConfig,
+            menuId: this.menuId
+          }
+        ]
+      }
+      if (!this.menuId) {
+        this.$message({
+          message: '菜单id不能为空',
+          type: 'error'
         })
+      }
+      axios
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/insertSecondMasterPageConfigData',
+          reqData
+        )
         .then(res => {
-          let status = res.data.status
-          // let reqData = res.data.data;
-          if (status === 0) {
+          let code = res.data.code
+          if (code === 20000) {
             this.$message({
               message: '模块添加成功',
               type: 'success'
             })
+            this.$refs['settingForm'].close()
             this.getData()
+          } else {
+            this.$message({
+              message: '模块添加失败',
+              type: 'error'
+            })
           }
         })
     },
     // statistics组件--筛选模块配置数据保存
     screenKeep (conditionAreaConfig, moduleId) {
+      const reqData = {
+        secondMasterPageConfigPOS: [
+          {
+            conditionAreaConfig: conditionAreaConfig,
+            moduleId: moduleId
+          }
+        ]
+      }
       axios
-        .post(this.settingConfig.commonUrl + '/page/emitScreenModule', {
-          conditionAreaConfig,
-          moduleId
-        })
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
+          reqData
+        )
         .then(res => {
-          let status = res.data.status
-          // let reqData = res.data.data;
-          if (status === 0) {
+          let code = res.data.code
+          if (code === 20000) {
             this.$message({
               message: '筛选配置数据添加成功',
               type: 'success'

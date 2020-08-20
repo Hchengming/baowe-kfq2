@@ -6,9 +6,11 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "devs": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js  --host 0.0.0.0",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "builds": "webpack --progress --config src/components/BaoWeiCharts/webpack.config.js --hide-modules"
   },
   "dependencies": {
     "axios": "^0.19.2",

@@ -7,20 +7,21 @@
 import Vue from 'vue'
 import BaoWeiCharts from '@/components/BaoWeiCharts'
 Vue.component('BaoWeiCharts', BaoWeiCharts)
-// import ChartsTable from "@/components/dist/baoweiCharts"
-// Vue.use(ChartsTable)
+// import BaoWeiCharts from '@/../static/js/baoweiCharts'
+// Vue.component('BaoWeiCharts', BaoWeiCharts)
 export default {
   data () {
     return {
       settingConfig: {
-        commonUrl: 'http://localhost:4000' // 请求公共路径
+        commonUrl: 'http://23.36.71.171:8080', // 请求公共路径
+        dataUrl: 'http://23.36.71.171:8081/api/v1'
       }
     }
   },
   // components:{BaoWeiCharts},
   mounted () {
     // eslint-disable-next-line no-undef
-    console.log($('#asd'))
+    // console.log($('#asd'))
   }
 }
 </script>

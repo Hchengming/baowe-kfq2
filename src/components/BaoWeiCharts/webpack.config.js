@@ -1,20 +1,14 @@
+// const { resolve } = require('./resolve')
+
 // eslint-disable-next-line no-undef
 var path = require('path')
 // eslint-disable-next-line no-undef
 var webpack = require('webpack')
 
-// 执行环境
-// const NODE_ENV = 'production';
-function resolve (dir) {
-  // eslint-disable-next-line no-undef
-  return path.join(__dirname, '..', dir)
-}
 // eslint-disable-next-line no-undef
 module.exports = {
   // 根据不同的执行环境配置不同的入口
-  entry: {
-    entry: './src/components/BaoWeiCharts/pack.js'
-  },
+  entry: './src/components/BaoWeiCharts/pack.js',
   output: {
     // eslint-disable-next-line no-undef
     path: path.resolve(__dirname, '../dist'),
@@ -61,7 +55,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': resolve('src')
+      '@': path.resolve(__dirname, './src')
     }
   },
   devServer: {

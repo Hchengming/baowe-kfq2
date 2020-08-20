@@ -4,6 +4,7 @@
              :key="index">
       <statistics :statisticsAll="item"
                   :browserXY="browserXY"
+                  :dataUrl="settingConfig.dataUrl"
                   @deleteMoule="deleteMoule"
                   @rowClick="rowClick"
                   @updateMoule="updateMoule"
@@ -18,6 +19,7 @@
     <!-- 新增弹窗模块 -->
     <settingForm ref="settingForm"
                  :form="addSettingForm"
+                 :dataUrl="settingConfig.dataUrl"
                  @submit="addKeep"></settingForm>
   </div>
 </template>
@@ -26,6 +28,8 @@ import dataMixins from './mixins'
 import statistics from '../statistics'
 import axios from 'axios'
 import settingForm from '../../components/settingForm'
+// eslint-disable-next-line no-unused-vars
+// import defaultData from './KFQTJData.json'
 export default {
   mixins: [dataMixins],
   props: {
@@ -47,27 +51,27 @@ export default {
         subtitle2: '副标题2', // 副标题2
         url: '/page/insertTableData', // 接口
         keyArr: [
-          {
-            key: 'title',
-            explain: '类型',
-            dw: '',
-            relationKey: '',
-            width: 180
-          },
-          {
-            key: 'num',
-            explain: '个数',
-            dw: '个',
-            relationKey: '',
-            width: 100
-          },
-          {
-            key: 'area',
-            explain: '面积',
-            dw: '公顷',
-            relationKey: '',
-            width: 120
-          }
+          // {
+          //   key: 'title',
+          //   explain: '类型',
+          //   dw: '',
+          //   relationKey: '',
+          //   width: 180
+          // },
+          // {
+          //   key: 'num',
+          //   explain: '个数',
+          //   dw: '个',
+          //   relationKey: '',
+          //   width: 100
+          // },
+          // {
+          //   key: 'area',
+          //   explain: '面积',
+          //   dw: '公顷',
+          //   relationKey: '',
+          //   width: 120
+          // }
         ],
         height: 24.55,
         width: 27.69,
@@ -100,23 +104,24 @@ export default {
       })
     },
     // 表格分页点击事件
-    tablePageSort (moduleId, currentPage) {
+    tablePageSort (moduleId, paginationAll) {
       let offon = true
       // eslint-disable-next-line no-unused-vars
       let obj = {}
+      // let currentPage=pageAll.currentPage?
       this.pageData.forEach((item, index) => {
         if (item.moduleId === moduleId) {
           obj.index = index
-          obj.pageSize = item.contentAreaConfig.pageSize
-          obj.currentPage = currentPage
+          obj.pageSize = paginationAll.pageSize
+          obj.currentPage = paginationAll.currentPage
           obj.url = item.contentAreaConfig.url
 
           if (item.parentModuleId) {
             // 子级页面分页--测试
             offon = false
             item.data = this.childData.slice(
-              (currentPage - 1) * item.paginationAll.pageSize,
-              currentPage * item.paginationAll.pageSize
+              (paginationAll.currentPage - 1) * paginationAll.pageSize,
+              paginationAll.currentPage * paginationAll.pageSize
             )
           }
         }
@@ -128,18 +133,25 @@ export default {
     },
     // 模块图表配置数据获取
     getData (moduleId, currentPage) {
+      this.pageData = []
       axios
-        .post(this.settingConfig.commonUrl + '/page/insertModule', {
+        .post(this.settingConfig.commonUrl + '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin', {
           menuId: this.menuId
         })
         .then(res => {
-          let status = res.data.status
-          let reqData = res.data.data
-          if (status === 0) {
-            this.pageData = reqData
-            reqData.forEach((item, index) => {
+          let code = res.data.code
+          let resData = res.data.data
+
+          if (code === 20000) {
+            resData.forEach((item, index) => {
               // console.log(item)
               // item.isLoading=true;
+              item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
+              item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
+              // if (!item.conditionAreaConfig || item.conditionAreaConfig === 'null') {
+              //   item.contentAreaConfig = undefined
+              // }
+              // console.log(item.contentAreaConfig)
               let keys = []
               item.contentAreaConfig.keyArr.forEach(obj => {
                 keys.push(obj.key)
@@ -158,12 +170,13 @@ export default {
 
                 obj.pageSize = item.contentAreaConfig.pageSize
               }
+              this.pageData = resData
               setTimeout(() => {
+                console.log(obj)
                 this.getTableData(obj)
               }, 500)
             })
           }
-          this.$refs['settingForm'].close()
         })
         .catch(msg => {
           console.log(msg)
@@ -177,18 +190,21 @@ export default {
         keys: obj.keys
       }
       axios
-        .post(this.settingConfig.commonUrl + obj.url, reqData)
+        .post(this.settingConfig.dataUrl + '/kfqcxtj/getKfqmjqkData', reqData)
         .then(res => {
-          let status = res.data.status
-          let resData = res.data.data
-          if (status === 0) {
-            this.$set(this.pageData[obj.index], 'data', resData.tableData)
-            this.$set(
-              this.pageData[obj.index],
-              'paginationAll',
-              resData.paginationAll
-            )
-          }
+          console.log(res)
+          return false
+          // let status = res.data.status
+          // let resData = res.data.data
+          // if (status === 0) {
+          //   this.$set(this.pageData[obj.index], 'data', resData.tableData)
+          //   this.$set(
+          //     this.pageData[obj.index],
+          //     'paginationAll',
+          //     resData.paginationAll
+          //   )
+          //   console.log(this.pageData)
+          // }
         })
         .catch(msg => {
           console.log(msg)

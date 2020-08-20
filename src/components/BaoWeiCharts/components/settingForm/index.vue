@@ -3,20 +3,23 @@
     <el-dialog class="settingForm"
                title="模块配置信息"
                :append-to-body="true"
+               :rules="rules"
                :visible.sync="dialogVisible">
-      <el-form ref="form"
+      <el-form ref="settingForm"
                :model="form"
                label-width="130px">
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
-            <el-form-item label="模块标题">
+            <el-form-item label="模块标题"
+                          prop="title">
               <el-input size="small"
                         v-model="form.title"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="副标题1">
+            <el-form-item label="副标题1"
+                          prop="subtitle1">
               <el-input size="small"
                         :disabled="form.mask ? true : false"
                         v-model="form.subtitle1"></el-input>
@@ -26,13 +29,15 @@
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
-            <el-form-item label="副标题2">
+            <el-form-item label="副标题2"
+                          prop="subtitle2">
               <el-input size="small"
                         v-model="form.subtitle2"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="数据展现方式">
+            <el-form-item label="数据展现方式"
+                          prop="displayMode">
               <el-select v-model="form.displayMode"
                          size="small"
                          placeholder="请选择">
@@ -47,7 +52,8 @@
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
-            <el-form-item label="是否有子模块">
+            <el-form-item label="是否有子模块"
+                          prop="submodule">
               <el-radio-group v-model="form.submodule">
                 <el-radio label="1">有</el-radio>
                 <el-radio label="0">没有</el-radio>
@@ -56,7 +62,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="form.submodule == '1'"
-                          label="子模块点击展现">
+                          label="子模块点击展现"
+                          prop="clickToShow">
               <el-radio-group v-model="form.clickToShow">
                 <el-radio label="row">行点击</el-radio>
                 <el-radio label="cell">单元格点击</el-radio>
@@ -66,7 +73,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="数据是否添加分页">
+            <el-form-item label="数据是否添加分页"
+                          prop="isPage">
               <el-radio-group v-model="form.isPage">
                 <el-radio label="1">是</el-radio>
                 <el-radio label="0">否</el-radio>
@@ -75,7 +83,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="form.isPage == '1'"
-                          label="每页显示数据(条)">
+                          label="每页显示数据(条)"
+                          prop="pageSize">
               <el-input-number size="small"
                                v-model="form.pageSize"
                                :min="0"
@@ -87,7 +96,8 @@
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="18">
-            <el-form-item label="接口">
+            <el-form-item label="接口"
+                          prop="url">
               <el-input size="small"
                         v-model="form.url"
                         placeholder="接口路径(不含公共部分)"></el-input>
@@ -101,6 +111,7 @@
         </el-row>
 
         <el-form-item label="字段配置"
+                      prop="keyArr"
                       :class="['zdpz_box',{'mt':!isWidth}]">
           <p class="tips"
              v-if="!isWidth">*第一个字段必须为图表标题字段</p>
@@ -173,7 +184,8 @@
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
-            <el-form-item label="宽度(页面占比)">
+            <el-form-item label="宽度(页面占比)"
+                          prop="width">
               <el-input-number size="small"
                                v-model="form.width"
                                :min="0"
@@ -182,7 +194,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="高度(页面占比)">
+            <el-form-item label="高度(页面占比)"
+                          prop="height">
               <el-input-number size="small"
                                v-model="form.height"
                                :min="0"
@@ -194,7 +207,8 @@
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
-            <el-form-item label="位置X轴(页面占比)">
+            <el-form-item label="位置X轴(页面占比)"
+                          prop="left">
               <el-input-number size="small"
                                v-model="form.left"
                                :min="0"
@@ -203,7 +217,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="位置Y轴(页面占比)">
+            <el-form-item label="位置Y轴(页面占比)"
+                          prop="top">
               <el-input-number size="small"
                                v-model="form.top"
                                :min="0"
@@ -215,7 +230,8 @@
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
-            <el-form-item label="视图层级">
+            <el-form-item label="视图层级"
+                          prop="zindex">
               <el-input v-model="form.zindex"
                         size="small"
                         placeholder="若模块重叠,低层级模块会被高层级覆盖"></el-input>
@@ -226,6 +242,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item v-if="form.mask"
+                          prop="mask"
                           label="是否添加遮罩层">
               <el-radio-group v-model="form.mask">
                 <el-radio label="1">是</el-radio>
@@ -235,9 +252,10 @@
           </el-col>
         </el-row>
       </el-form>
+      {{csData}}
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="close">取 消</el-button>
         <el-button type="primary"
                    @click="onSubmit">确 定</el-button>
       </span>
@@ -246,13 +264,16 @@
 </template>
 <script>
 import dataPresentation from './dataPresentation.json'
-// import axios from "axios";
+import axios from 'axios'
+
 export default {
-  props: ['form'],
+  props: ['form', 'dataUrl'],
   data () {
     return {
       dialogVisible: false,
       options: [],
+      rules: [],
+      csData: [],
       defaultData: [
         {
           title: '',
@@ -283,33 +304,51 @@ export default {
     }
   },
   methods: {
+    // 弹窗关闭事件
+    close () {
+      this.dialogVisible = false
+      this.$refs['settingForm'].resetFields()
+    },
     // 通过接口获取当前字段配置初始数据
     getKeysData () {
-      for (let key in this.defaultData[0]) {
-        if (this.form.keyArr.length === 0) {
-          this.form.keyArr.push({
-            key: key,
-            explain: '',
-            dw: '',
-            width: ''
-          })
-        } else {
-          let offon = true
-          this.form.keyArr.forEach(item => {
-            if (item.key === key) {
-              offon = false
+      const reqData = {}
+      if (this.form.isPage === '1') {
+        // reqData.pageSize = this.form.pageSize
+        // reqData.currentPage = 1
+        reqData.jgmc = '占用基本农田'
+      }
+
+      axios.post(this.dataUrl + this.form.url, reqData).then(res => {
+        if (res.data.code === 20000) {
+          this.csData = res.data.data
+          for (let key in res.data.data[0]) {
+            if (this.form.keyArr.length === 0) {
+              this.form.keyArr.push({
+                key: key,
+                explain: '',
+                dw: '',
+                width: ''
+              })
+            } else {
+              let offon = true
+              this.form.keyArr.forEach(item => {
+                if (item.key === key) {
+                  offon = false
+                }
+              })
+              if (offon) {
+                this.form.keyArr.push({
+                  key: key,
+                  explain: '',
+                  dw: '',
+                  width: ''
+                })
+              }
             }
-          })
-          if (offon) {
-            this.form.keyArr.push({
-              key: key,
-              explain: '',
-              dw: '',
-              width: ''
-            })
           }
         }
-      }
+        // console.log(res)
+      })
     },
     // 弹窗显示事件
     show () {
@@ -326,10 +365,6 @@ export default {
       if (offon) return
       this.form.keyArr.splice(index, 1)
       this.form.keyArr.splice(index + 1, 0, item)
-    },
-    // 弹窗关闭事件
-    close () {
-      this.dialogVisible = false
     },
     // 字段新增事件
     keyAdd (index) {

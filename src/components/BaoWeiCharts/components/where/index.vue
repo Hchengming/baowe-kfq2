@@ -97,6 +97,12 @@ export default {
     },
     // 弹窗显示事件
     show (screenData, offon) {
+      if (
+        !screenData ||
+        typeof screenData !== 'object'
+      ) {
+        screenData = []
+      }
       this.isShow = offon
       let whereData = JSON.parse(JSON.stringify(screenData))
       this.whereAll.form = {}
