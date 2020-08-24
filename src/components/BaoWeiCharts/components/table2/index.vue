@@ -23,15 +23,15 @@
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="paginationAll.total"
                    v-if="paginationAll"></el-pagination>
-<!--    <el-pagination-->
-<!--      @size-change="handleSizeChange"-->
-<!--      @current-change="handleCurrentChange"-->
-<!--      :current-page="currentPage4"-->
-<!--      :page-sizes="[10,50, 100, 500, 1000]"-->
-<!--      :page-size="10"-->
-<!--      layout="total, sizes, prev, pager, next, jumper"-->
-<!--      :total="400">-->
-<!--    </el-pagination>-->
+    <!--    <el-pagination-->
+    <!--      @size-change="handleSizeChange"-->
+    <!--      @current-change="handleCurrentChange"-->
+    <!--      :current-page="currentPage4"-->
+    <!--      :page-sizes="[10,50, 100, 500, 1000]"-->
+    <!--      :page-size="10"-->
+    <!--      layout="total, sizes, prev, pager, next, jumper"-->
+    <!--      :total="400">-->
+    <!--    </el-pagination>-->
   </div>
 </template>
 <script>
@@ -76,7 +76,7 @@ export default {
     },
     // 分页变化事件
     handleCurrentChange (currentPage) {
-      // eslint-disable-next-line no-undef
+      console.log(this.paginationAll)
       this.paginationAll.currentPage = currentPage
       this.$emit('tablePageSort', this.paginationAll)
     },

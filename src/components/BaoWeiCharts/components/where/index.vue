@@ -107,13 +107,17 @@ export default {
       let whereData = JSON.parse(JSON.stringify(screenData))
       this.whereAll.form = {}
       whereData.forEach(item => {
-        if (item.type === 'number') {
-          this.$set(this.whereAll.form, item.key, null)
-        }
-        if (item.type === 'checkbox') {
-          this.$set(this.whereAll.form, item.key, [])
+        if (item.defaultValue) {
+          this.$set(this.whereAll.form, item.key, item.defaultValue)
         } else {
-          this.$set(this.whereAll.form, item.key, '')
+          if (item.type === 'number') {
+            this.$set(this.whereAll.form, item.key, null)
+          }
+          if (item.type === 'checkbox') {
+            this.$set(this.whereAll.form, item.key, [])
+          } else {
+            this.$set(this.whereAll.form, item.key, '')
+          }
         }
       })
       this.$set(this.whereAll, 'data', whereData)

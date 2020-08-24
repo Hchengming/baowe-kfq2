@@ -13,6 +13,7 @@
                   @statisticsClose="statisticsClose"
                   @screenKeep="screenKeep"
                   @tablePageSort="tablePageSort"
+                  @whereSubmit="whereSubmit"
                   :systemPermissions="systemPermissions"></statistics>
     </section>
 
@@ -49,7 +50,7 @@ export default {
         title: '开发区分类统计', // 标题
         subtitle1: '副标题1', // 副标题1
         subtitle2: '副标题2', // 副标题2
-        url: '/page/insertTableData', // 接口
+        url: '/data/cs1', // 接口
         keyArr: [
           // {
           //   key: 'title',
@@ -77,6 +78,7 @@ export default {
         width: 27.69,
         top: 32.02,
         left: 20.78,
+        defaultParameters: '', // 接口默认参数
         zindex: '8', // 模块z-index
         displayMode: 'list', // 数据展现方式
         submodule: '0', // 是否含有子页面
@@ -87,7 +89,7 @@ export default {
     }
   },
   mounted () {
-    this.getData()
+    // this.getData()
   },
   methods: {
     // 左侧菜单点击事件
@@ -104,7 +106,7 @@ export default {
       })
     },
     // 表格分页点击事件
-    tablePageSort (moduleId, paginationAll) {
+    tablePageSort (moduleId, paginationAll, whereForm) {
       let offon = true
       // eslint-disable-next-line no-unused-vars
       let obj = {}
@@ -128,7 +130,7 @@ export default {
       })
 
       if (offon) {
-        this.getTableData(obj)
+        this.getTableData(obj, whereForm)
       }
     },
     // 模块图表配置数据获取
@@ -144,14 +146,15 @@ export default {
 
           if (code === 20000) {
             resData.forEach((item, index) => {
-              // console.log(item)
-              // item.isLoading=true;
+              // 模块配置数据格式转换
               item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
-              item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
-              // if (!item.conditionAreaConfig || item.conditionAreaConfig === 'null') {
-              //   item.contentAreaConfig = undefined
-              // }
-              // console.log(item.contentAreaConfig)
+              // 筛选配置数据格式转换
+              if (item.conditionAreaConfig.replace(/\s*/g, '')) {
+                item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
+              } else {
+                item.conditionAreaConfig = []
+              }
+
               let keys = []
               item.contentAreaConfig.keyArr.forEach(obj => {
                 keys.push(obj.key)
@@ -171,9 +174,16 @@ export default {
                 obj.pageSize = item.contentAreaConfig.pageSize
               }
               this.pageData = resData
+              // 默认请求参数解析
+              let defaultReqData = {}
+              item.conditionAreaConfig.forEach(conditionObj => {
+                if (conditionObj.defaultValue) {
+                  defaultReqData[conditionObj.key] = conditionObj.defaultValue
+                }
+              })
+
               setTimeout(() => {
-                console.log(obj)
-                this.getTableData(obj)
+                this.getTableData(obj, defaultReqData)
               }, 500)
             })
           }
@@ -183,31 +193,46 @@ export default {
         })
     },
     // 图表数据获取
-    getTableData (obj) {
+    getTableData (obj, whereReqData) {
       let reqData = {
         currentPage: obj.currentPage,
         pageSize: obj.pageSize,
         keys: obj.keys
       }
+      // 查询参数接入
+      if (whereReqData) {
+        for (let key in whereReqData) {
+          reqData[key] = whereReqData[key]
+        }
+      }
       axios
-        .post(this.settingConfig.dataUrl + '/kfqcxtj/getKfqmjqkData', reqData)
+        .post(this.settingConfig.dataUrl + obj.url, reqData)
         .then(res => {
-          console.log(res)
-          return false
-          // let status = res.data.status
-          // let resData = res.data.data
-          // if (status === 0) {
-          //   this.$set(this.pageData[obj.index], 'data', resData.tableData)
-          //   this.$set(
-          //     this.pageData[obj.index],
-          //     'paginationAll',
-          //     resData.paginationAll
-          //   )
-          //   console.log(this.pageData)
-          // }
+          if (res.data.code === 20000) {
+            let resData = res.data.data
+            if (reqData.currentPage && reqData.pageSize) {
+              this.$set(this.pageData[obj.index], 'data', resData.list)
+              this.$set(
+                this.pageData[obj.index],
+                'paginationAll',
+                {
+                  currentPage: obj.currentPage,
+                  pageSize: obj.pageSize,
+                  total: resData.totalCount
+                }
+              )
+            } else {
+              this.$set(this.pageData[obj.index], 'data', resData)
+              this.$set(this.pageData[obj.index], 'paginationAll', undefined)
+            }
+          }
         })
         .catch(msg => {
-          console.log(msg)
+          this.$message({
+            message: '请求失败' + msg,
+            type: 'error'
+          })
+          return false
         })
     }
   }

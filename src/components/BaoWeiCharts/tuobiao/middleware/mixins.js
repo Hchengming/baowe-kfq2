@@ -33,7 +33,7 @@ export default {
       this.$emit('rowClick', item)
     },
     // statistics组件--模块修改保存事件
-    updateMoule (contentAreaConfig, moduleId, fn) {
+    updateMoule (contentAreaConfig, moduleId, fn, whereForm) {
       const reqData = {
         secondMasterPageConfigPOS: [
           {
@@ -69,7 +69,7 @@ export default {
               obj.pageSize = contentAreaConfig.pageSize
               obj.currentPage = 1
             }
-            this.getTableData(obj)
+            this.getTableData(obj, whereForm)
           } else {
             this.$message({
               message: '模块修改失败',
@@ -110,9 +110,7 @@ export default {
           key: obj.key
         })
         .then(res => {
-          // console.log(res)
           let status = res.data.status
-          // let reqData = res.data.data;
           if (status === 0) {
             this.$message({
               message: '模块添加成功',
@@ -257,6 +255,25 @@ export default {
         .catch(msg => {
           console.log(msg)
         })
+    },
+    // 列表数据筛选事件
+    whereSubmit (moduleId, whereForm) {
+      const obj = {}
+      this.pageData.forEach((item, index) => {
+        if (item.moduleId === moduleId) {
+          obj.index = index
+          obj.url = item.contentAreaConfig.url
+          if (item.contentAreaConfig.isPage === '1') {
+            obj.pageSize = item.contentAreaConfig.pageSize
+            obj.currentPage = 1
+          }
+          obj.keys = []
+          item.contentAreaConfig.keyArr.forEach(obj => {
+            obj.keys.push(obj.key)
+          })
+          this.getTableData(obj, whereForm)
+        }
+      })
     }
   }
 }

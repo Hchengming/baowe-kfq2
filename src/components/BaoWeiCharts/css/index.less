@@ -451,8 +451,14 @@ body {
 
 @media screen and (max-height: 800px) {
   .settingForm .el-dialog {
-    margin-top: 5vh !important;
+    // margin-top: 5vh !important;
+    // top: 50%;
+    // transform: translateY(-50%);
+    margin-top: 3vh !important;
     margin-bottom: 0;
+    .el-dialog__body {
+      max-height: 400px;
+    }
   }
 
   .QXStatistics,
@@ -508,9 +514,14 @@ body {
   .el-dialog {
     width: 730px;
   }
+  .el-dialog__footer,
+  .el-dialog__header {
+    padding: 10px 20px;
+  }
 
   .el-dialog__body {
     padding: 15px;
+    // height: 395px;
     max-height: 500px;
     overflow-y: auto;
   }
@@ -654,29 +665,11 @@ body {
 /*screenForm*/
 .screenForm {
   .el-dialog {
-    width: 900px;
-
-    .row-bg {
-      border-bottom: 1px dashed;
-      padding-top: 5px;
-    }
-
-    .row-bg:first-child {
-      padding-top: 0;
-    }
-
-    .el-form-item__label {
-      padding-right: 5px;
-    }
-
-    .el-form-item {
-      margin-bottom: 5px;
-    }
-
+    width: 800px;
     .rightIcon {
-      height: 40px;
-      line-height: 40px;
-      text-align: right;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
 
       i {
         font-size: 18px;
@@ -699,7 +692,25 @@ body {
     }
   }
 }
-
+.screenForm {
+  .form-table {
+    display: block;
+    margin: 0 auto;
+    /*为表格设置合并边框模型*/
+    border-collapse: collapse;
+    /*列宽由表格宽度和列宽度设定*/
+    table-layout: fixed;
+    td {
+      border: 1px solid #999999;
+      /*允许在单词内换行。*/
+      word-break: break-word;
+      line-height: 28px;
+    }
+    .t-header {
+      text-align: center;
+    }
+  }
+}
 /*settingData*/
 .settingData {
   .el-dialog {

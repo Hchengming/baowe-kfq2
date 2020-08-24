@@ -192,6 +192,7 @@ export const childMixins = {
         width: 27.69,
         top: 32.02,
         left: 0.78,
+        defaultParameters: '', // 接口默认参数
         zindex: '100', // 模块z-index
         displayMode: 'table', // 数据展现方式
         submodule: '1', // 是否含有子页面 1:有 0:没有
@@ -308,19 +309,56 @@ export const screenMixins = {
   data () {
     return {
       whereOffon: false,
-      conditionAreaConfig: [] // 后台返回筛选配置数据
+      conditionAreaConfig: [], // 后台返回筛选配置数据
+      whereForm: {}
     }
   },
+  mounted () {
+    this.setWhereForm(this.statisticsAll.conditionAreaConfig)
+  },
   methods: {
+    // 筛选数据获取
+    setWhereForm (data) {
+      if (data && data.length > 0) {
+        data.forEach(item => {
+          if (item.defaultValue) {
+            this.whereForm[item.key] = item.defaultValue
+          }
+        })
+      }
+    },
     // 筛选模块配置图标点击事件
     screenSetting () {
+      const defaultParameters = this.statisticsAll.contentAreaConfig.defaultParameters.replace(
+        /\s*/g,
+        ''
+      )
+      console.log(defaultParameters)
+      if (defaultParameters) {
+        const obj = JSON.parse(defaultParameters)
+        if (
+          !this.statisticsAll.conditionAreaConfig ||
+          this.statisticsAll.conditionAreaConfig.length === 0
+        ) {
+          this.statisticsAll.conditionAreaConfig = []
+          for (let key in obj) {
+            this.statisticsAll.conditionAreaConfig.push({
+              key: key,
+              defaultValue: obj[key],
+              sfxjcx: '0',
+              type: ''
+            })
+          }
+        }
+      }
       this.$refs['screenSetting'].show(
         this.statisticsAll.conditionAreaConfig,
-        this.whereOffon
+        true
       )
     },
     // 筛选模块配置数据保存事件
     screenKeep (conditionAreaConfig) {
+      this.setWhereForm(conditionAreaConfig)
       this.$emit('screenKeep', conditionAreaConfig, this.statisticsAll.moduleId)
     },
     // 筛选模块显示事件
@@ -340,8 +378,12 @@ export const screenMixins = {
       )
     },
     // 筛选下拉框保存事件
-    whereSubmit () {
+    whereSubmit (form) {
       this.whereOffon = false
+      for (let key in form) {
+        this.whereForm[key] = form[key]
+      }
+      this.$emit('whereSubmit', this.statisticsAll.moduleId, form)
       // console.log(form)
     }
   }

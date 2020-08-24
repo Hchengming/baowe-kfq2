@@ -7,24 +7,16 @@
                :visible.sync="isShow">
       <div class="screenBox">
         <el-form ref="form">
-          <table class="form-table">
-            <tr class="t-header">
-              <td v-for="item in tableClums"
-                  :style="{width:item.width+'px'}"
-                  :key="item.title">
-                {{item.title}}
-              </td>
-            </tr>
-            <tr class="t-body"
-                v-for="(items,index) in screenData"
-                :key="index">
-              <td v-for="item in tableClums"
-                  :style="{width:item.width+'px'}"
-                  :key="item.title">
-                <!-- 表单类型 -->
-                <el-select v-if="item.key=='type'"
-                           @change="typeChange(items)"
-                           v-model="items[item.key]"
+
+          <el-row type="flex"
+                  class="row-bg theme-border-color"
+                  v-for="(item,index) in screenData"
+                  :key="index">
+            <el-col :span="5">
+              <el-form-item label="表单类型"
+                            label-width="65px">
+                <el-select @change="typeChange(item)"
+                           v-model="item.type"
                            size="small"
                            placeholder="请选择">
                   <el-option v-for="option in typeData"
@@ -32,13 +24,30 @@
                              :label="option.label"
                              :value="option.value"></el-option>
                 </el-select>
-                <!-- 字段名、标签、 -->
-                <el-input v-if="'key,label,defaultValue'.indexOf(item.key)>-1"
-                          v-model="items[item.key]"
-                          size="small"></el-input>
-                <!-- 下级筛选引用-->
-                <el-select v-if="item.key=='sfxjcx'"
-                           v-model="items[item.key]"
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-row type="flex">
+                <el-col :span="12">
+                  <el-form-item label="字段名"
+                                label-width="55px">
+                    <el-input v-model="item.key"
+                              size="small"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label-width="45px"
+                                label="标签">
+                    <el-input v-model="item.label"
+                              size="small"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-col>
+            <!-- <el-col :span="5">
+              <el-form-item label="默认值"
+                            label-width="90px">
+                <el-select v-model="item.sfxjcx"
                            size="small"
                            placeholder="请选择">
                   <el-option label="是"
@@ -46,41 +55,60 @@
                   <el-option label="否"
                              value="0"></el-option>
                 </el-select>
-                <!-- 选择框配置数据 -->
-                <div v-if="item.key=='changeData'">
-                  <el-input v-if="!items.dataUrl&&!items.arr"
-                            :disabled="['input','number','textarea'].indexOf(items.type)>-1"
-                            readonly
-                            @click.native="itemDataChange(items,index)"
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="5">
+              <el-form-item label="下级筛选引用"
+                            label-width="90px">
+                <el-select v-model="item.sfxjcx"
+                           size="small"
+                           placeholder="请选择">
+                  <el-option label="是"
+                             value="1"></el-option>
+                  <el-option label="否"
+                             value="0"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="5">
+              <el-form-item v-if="!item.dataUrl&&!item.arr"
+                            label-width="70px"
+                            label="数据配置">
+                <el-input :disabled="['input','number','textarea'].indexOf(item.type)>-1"
+                          readonly
+                          @click.native="itemDataChange(item,index)"
+                          size="small"></el-input>
+              </el-form-item>
+              <el-form-item v-if="item.dataUrl"
+                            label-width="70px"
+                            label="数据接口">
+                <el-input readonly
+                          v-model="item.dataUrl"
+                          @click.native="itemDataChange(item,index)"
+                          size="small"></el-input>
+              </el-form-item>
+              <el-form-item v-if="item.arr"
+                            label-width="70px"
+                            label="选择数据">
+                <section :title="JSON.stringify(item.arr)">
+                  <el-input readonly
+                            v-model="item.arrStr"
+                            @click.native="itemDataChange(item,index)"
                             size="small"></el-input>
-                  <el-input v-if="item.dataUrl"
-                            readonly
-                            v-model="items.dataUrl"
-                            @click.native="itemDataChange(items,index)"
-                            size="small"></el-input>
-                  <section v-if="items.arr"
-                           :title="JSON.stringify(items.arr)">
-                    <el-input readonly
-                              v-model="items.arrStr"
-                              @click.native="itemDataChange(items,index)"
-                              size="small"></el-input>
-                  </section>
-                </div>
-
-                <!-- 操作区域 -->
-                <div class="rightIcon"
-                     v-if="item.title=='操作'">
-                  <i @click="sortPrev(items,index,index==0)"
-                     :class="['iconfont','iconshangyi','theme-color',{'disabled':index==0}]"></i>
-                  <i @click="sortNext(items,index,screenData.length-1==index)"
-                     :class="['iconfont','iconxiayi','theme-color',{'disabled':screenData.length-1==index}]"></i>
-                  <i @click="screenDelete(items,index)"
-                     class="el-icon-delete"></i>
-                </div>
-              </td>
-            </tr>
-          </table>
-
+                </section>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div class="rightIcon">
+                <i @click="sortPrev(item,index,index==0)"
+                   :class="['iconfont','iconshangyi','theme-color',{'disabled':index==0}]"></i>
+                <i @click="sortNext(item,index,screenData.length-1==index)"
+                   :class="['iconfont','iconxiayi','theme-color',{'disabled':screenData.length-1==index}]"></i>
+                <i @click="screenDelete(item,index)"
+                   class="el-icon-delete"></i>
+              </div>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <span slot="footer"
@@ -110,7 +138,7 @@ export default {
       isShow: false,
       tableClums: [{
         title: '表单类型',
-        key: 'type',
+        key: 'value',
         width: 100
       }, {
         title: '字段名',
@@ -122,19 +150,15 @@ export default {
         width: 100
       }, {
         title: '配置数据/接口',
-        key: 'changeData',
+        key: 'value',
         width: 200
       }, {
         title: '默认值',
         key: 'defaultValue',
         width: 100
       }, {
-        title: '下级筛选引用',
-        key: 'sfxjcx',
-        width: 100
-      }, {
         title: '操作',
-        width: 75
+        width: 70
       }],
       // 表单类型
       typeData: [
@@ -281,18 +305,3 @@ export default {
   }
 }
 </script>
-table {
-    display: block;
-    margin: 0 auto;
-     /*为表格设置合并边框模型*/
-    border-collapse: collapse;
-   /*列宽由表格宽度和列宽度设定*/
-    table-layout: fixed;
-}
-
-table td {
-    border: 1px solid black;
-    /*允许在单词内换行。*/
-     word-break: break-word;
-    width: 100px;
-}

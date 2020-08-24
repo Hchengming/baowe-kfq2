@@ -93,6 +93,12 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item label="接口默认参数"
+                      prop="defaultParameters">
+          <el-input size="small"
+                    v-model="form.defaultParameters"
+                    placeholder='例:{"num":9,"area":"44公顷"}'></el-input>
+        </el-form-item>
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="18">
@@ -252,12 +258,13 @@
           </el-col>
         </el-row>
       </el-form>
-      {{csData}}
       <span slot="footer"
             class="dialog-footer">
-        <el-button @click="close">取 消</el-button>
+        <el-button @click="close"
+                   size="small">取 消</el-button>
         <el-button type="primary"
-                   @click="onSubmit">确 定</el-button>
+                   @click="onSubmit"
+                   size="small">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -312,16 +319,44 @@ export default {
     // 通过接口获取当前字段配置初始数据
     getKeysData () {
       const reqData = {}
-      if (this.form.isPage === '1') {
-        // reqData.pageSize = this.form.pageSize
-        // reqData.currentPage = 1
-        reqData.jgmc = '占用基本农田'
+      // 判断是否有默认参数
+      let defaultParameters = this.form.defaultParameters.replace(/\s*/g, '')
+      if (defaultParameters) {
+        try {
+          var defaultParametersObj = JSON.parse(defaultParameters)
+          if (typeof defaultParametersObj === 'object' && defaultParametersObj) {
+            for (let key in defaultParametersObj) {
+              reqData[key] = defaultParametersObj[key]
+            }
+          } else {
+            return false
+          }
+        } catch (e) {
+          this.$message({
+            message: '默认参数请输入正确的JSON格式',
+            type: 'error'
+          })
+          return false
+        }
       }
-
+      // 判断是否分页
+      if (this.form.isPage === '1') {
+        reqData.pageSize = this.form.pageSize
+        reqData.currentPage = 1
+      }
+      // console.log(reqData)
       axios.post(this.dataUrl + this.form.url, reqData).then(res => {
         if (res.data.code === 20000) {
-          this.csData = res.data.data
-          for (let key in res.data.data[0]) {
+          let resData = this.form.isPage === '1' ? res.data.data.list : res.data.data
+          if (resData.length === 0) {
+            this.$message({
+              message: '接口返回数据为空，无法生成字段',
+              type: 'error'
+            })
+            return false
+          }
+          // this.csData = res.data.data
+          for (let key in resData[0]) {
             if (this.form.keyArr.length === 0) {
               this.form.keyArr.push({
                 key: key,

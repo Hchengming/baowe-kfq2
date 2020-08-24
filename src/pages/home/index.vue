@@ -13,8 +13,9 @@ export default {
   data () {
     return {
       settingConfig: {
-        commonUrl: 'http://23.36.71.171:8080', // 请求公共路径
-        dataUrl: 'http://23.36.71.171:8081/api/v1'
+        commonUrl: 'http://23.36.71.171:8082', // 配置公共路径
+        // dataUrl: 'http://23.36.71.171:8081/api/v1',//图表数据公告路径
+        dataUrl: 'http://localhost:4000'
       }
     }
   },

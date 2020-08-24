@@ -18,9 +18,11 @@
       </li>
     </ul>
     <el-pagination @current-change="handleCurrentChange"
+                   @size-change="handleSizeChange"
                    :current-page="paginationAll.currentPage"
                    :page-size="paginationAll.pageSize"
-                   layout="total,  prev, pager, next, jumper"
+                   :page-sizes="[10,50, 100, 500, 1000]"
+                   layout="total, sizes, prev, pager, next, jumper"
                    :total="paginationAll.total"
                    v-if="paginationAll"></el-pagination>
   </div>
@@ -47,9 +49,15 @@ export default {
       this.$emit('cellClick', item, key)
     },
     // 分页变化事件
-    handleCurrentChange (val) {
-      // this.paginationAll.currentPage = val;
-      this.$emit('tablePageSort', val)
+    handleCurrentChange (currentPage) {
+      // eslint-disable-next-line no-undef
+      this.paginationAll.currentPage = currentPage
+      this.$emit('tablePageSort', this.paginationAll)
+    },
+    // 每页条数变化事件
+    handleSizeChange (pageSize) {
+      this.paginationAll.pageSize = pageSize
+      this.$emit('tablePageSort', this.paginationAll)
     }
   }
 }

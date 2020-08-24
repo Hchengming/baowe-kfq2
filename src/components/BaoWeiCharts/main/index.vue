@@ -94,7 +94,7 @@ export default {
       //   if (status === 0) {
       //     this.menuData = reqData
       //     if (this.menuData[0]) {
-      //       this.$refs['myPage'].menuClick(this.menuData[0])
+      this.$refs['myPage'].menuClick(this.menuData[0])
       //     }
       //   }
       // })

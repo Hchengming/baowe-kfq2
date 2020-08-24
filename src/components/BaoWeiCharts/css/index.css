@@ -380,8 +380,11 @@ body {
 }
 @media screen and (max-height: 800px) {
   .settingForm .el-dialog {
-    margin-top: 5vh !important;
+    margin-top: 3vh !important;
     margin-bottom: 0;
+  }
+  .settingForm .el-dialog .el-dialog__body {
+    max-height: 400px;
   }
   .QXStatistics .statistics_title .box .t_list,
   .YDGCStatistics .statistics_title .box .t_list {
@@ -423,6 +426,10 @@ body {
 /* settingForm  start*/
 .settingForm .el-dialog {
   width: 730px;
+}
+.settingForm .el-dialog__footer,
+.settingForm .el-dialog__header {
+  padding: 10px 20px;
 }
 .settingForm .el-dialog__body {
   padding: 15px;
@@ -543,25 +550,12 @@ body {
 }
 /*screenForm*/
 .screenForm .el-dialog {
-  width: 900px;
-}
-.screenForm .el-dialog .row-bg {
-  border-bottom: 1px dashed;
-  padding-top: 5px;
-}
-.screenForm .el-dialog .row-bg:first-child {
-  padding-top: 0;
-}
-.screenForm .el-dialog .el-form-item__label {
-  padding-right: 5px;
-}
-.screenForm .el-dialog .el-form-item {
-  margin-bottom: 5px;
+  width: 800px;
 }
 .screenForm .el-dialog .rightIcon {
-  height: 40px;
-  line-height: 40px;
-  text-align: right;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
 }
 .screenForm .el-dialog .rightIcon i {
   font-size: 18px;
@@ -577,6 +571,23 @@ body {
 .screenForm .el-dialog .dialog-footer {
   display: flex;
   justify-content: space-between;
+}
+.screenForm .form-table {
+  display: block;
+  margin: 0 auto;
+  /*为表格设置合并边框模型*/
+  border-collapse: collapse;
+  /*列宽由表格宽度和列宽度设定*/
+  table-layout: fixed;
+}
+.screenForm .form-table td {
+  border: 1px solid #999999;
+  /*允许在单词内换行。*/
+  word-break: break-word;
+  line-height: 28px;
+}
+.screenForm .form-table .t-header {
+  text-align: center;
 }
 /*settingData*/
 .settingData .el-dialog {

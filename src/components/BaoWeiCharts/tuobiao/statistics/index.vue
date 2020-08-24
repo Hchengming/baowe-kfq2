@@ -230,7 +230,8 @@ export default {
         this.statisticsAll.moduleId,
         () => {
           this.$refs['settingForm'].close()
-        }
+        },
+        this.whereForm
       )
     },
     // 设置按钮点击事件
@@ -240,11 +241,11 @@ export default {
     // 展示方式选择点击事件
     chooseType (chartType) {
       this.settingForm.displayMode = chartType
-      this.$emit('updateMoule', this.settingForm, this.statisticsAll.moduleId)
+      this.$emit('updateMoule', this.settingForm, this.statisticsAll.moduleId, () => { }, this.whereForm)
     },
     // 分页事件
     tablePageSort (pageAll) {
-      this.$emit('tablePageSort', this.statisticsAll.moduleId, pageAll)
+      this.$emit('tablePageSort', this.statisticsAll.moduleId, pageAll, this.whereForm)
     },
     // 图表点击事件
     eventClick (e) {
