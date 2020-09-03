@@ -3,8 +3,14 @@
               v-if="menuItem.children&&menuItem.children.length>0"
               :index="menuItem.menuCode">
     <template slot="title">
-      <i :class="['iconfont',menuItem.menuIcon]"></i>
-      <span slot="title">{{menuItem.menuName}}</span>
+      <i v-if="menuItem.menuIcon"
+         :class="['iconfont',menuItem.menuIcon]"></i>
+      <span v-if="!menuItem.url"
+            slot="title">{{menuItem.menuName}}</span>
+      <a v-if="menuItem.url"
+         :href="menuItem.url"
+         target="_blank"
+         slot="title">{{menuItem.menuName}}</a>
     </template>
     <my-menu v-for="item in menuItem.children"
              :key="item.menuCode"
@@ -14,8 +20,14 @@
   <el-menu-item v-else
                 :index="menuItem.menuCode"
                 @click="leftMenuClick(menuItem)">
-    <i :class="['iconfont',menuItem.menuIcon]"></i>
-    <span slot="title">{{menuItem.menuName}}</span>
+    <i v-if="menuItem.menuIcon"
+       :class="['iconfont',menuItem.menuIcon]"></i>
+    <span v-if="!menuItem.url"
+          slot="title">{{menuItem.menuName}}</span>
+    <a v-if="menuItem.url"
+       :href="menuItem.url"
+       target="_blank"
+       slot="title">{{menuItem.menuName}}</a>
   </el-menu-item>
 </template>
 <script>

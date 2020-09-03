@@ -1,7 +1,7 @@
 <template>
   <!-- 表单项数据配置模块 -->
   <div>
-    <el-dialog class="screenForm settingData"
+    <el-dialog class="screenForm settingData dialog-common"
                title="表单项数据配置信息"
                :append-to-body="true"
                :visible.sync="isShow">
@@ -10,7 +10,7 @@
                       label-width="65px">
           <el-radio-group v-model="dataType">
             <el-radio :disabled="customDisabled"
-                      label="custom">自定义</el-radio>
+                      label="custom">自定义配置</el-radio>
             <el-radio label="dataUrl">接口数据</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -56,11 +56,14 @@
             class="dialog-footer">
         <div>
           <el-button @click="addData"
+                     size="small"
                      type="primary">新 增</el-button>
         </div>
         <div class="right">
-          <el-button @click="isShow=false">取 消</el-button>
-          <el-button type="primary"
+          <el-button size="small"
+                     @click="isShow=false">取 消</el-button>
+          <el-button size="small"
+                     type="primary"
                      @click="onSubmit">确 定</el-button>
         </div>
       </span>

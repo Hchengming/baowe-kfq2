@@ -4,12 +4,14 @@
          :style="{ 'z-index': settingForm.zindex }"
          @click="statisticsClose"
          v-if="settingForm.mask && settingForm.mask == '1'"></div>
-    <article ref="statisticsWrap"
+    <article :ref="'statisticsWrap'"
+             @mousedown="mousedown_tz"
              :style="{
         height: modelStyle.height - 16 + 'px',
         width: modelStyle.width - 40 + 'px',
         left: modelStyle.left + 'px',
         top: modelStyle.top + 'px',
+cursor:cursor,
         'z-index': settingForm.zindex
       }"
              :class="['statisticsWrap', 'statisticsWrapCase2']">
@@ -28,37 +30,49 @@
               <span class="txt3">{{ settingForm.subtitle2 }}</span>
               <i title="同级新增"
                  class="iconzengjia iconfont"
-                 v-if="this.statisticsAll.parentModuleId"
+                 v-if="this.statisticsAll.parentModuleId&&isAdmin"
                  @click="TJAdd"></i>
               <!-- 设置按钮 -->
               <el-popconfirm icon="el-icon-info"
+                             class="delete-template-popconfirm"
                              @onConfirm="deleteTemplate"
                              iconColor="red"
-                             title="确定删除删除当前模块？"
+                             :title="deleteTitle"
                              v-if="isAdmin">
                 <i title="删除"
                    slot="reference"
                    class="el-icon-delete"></i>
               </el-popconfirm>
+
               <i title="筛选配置"
                  v-if="isAdmin"
                  @click="screenSetting"
                  class="iconicon-system-fn-configure iconfont"></i>
-              <i @mousedown="mousedown_tz"
+              <i title="详情配置"
                  v-if="isAdmin"
-                 title="拖拽"
-                 class="icontuozhuai iconfont"></i>
+                 @click="destailSettingShow"
+                 class="iconxiangqingpeizhi iconfont"></i>
               <i @click="settingClick"
                  v-if="isAdmin"
-                 title="设置"
+                 title="模块设置"
                  class="el-icon-setting"></i>
-              <i title="筛选"
+              <!-- <i title="筛选"
                  v-if="
                   statisticsAll.conditionAreaConfig &&
                     statisticsAll.conditionAreaConfig.length > 0
                 "
                  @click="filterShow"
-                 class="iconshaixuan iconfont theme-color"></i>
+                 class="iconshaixuan iconfont theme-color"></i> -->
+              <el-popconfirm icon="el-icon-info"
+                             class="copy-template-popconfirm"
+                             @onConfirm="copyTemplate"
+                             iconColor="#8E9298"
+                             title="是否克隆当前模块"
+                             v-if="isAdmin">
+                <i title="克隆"
+                   slot="reference"
+                   class="iconfont iconkelong"></i>
+              </el-popconfirm>
               <div class="pic"
                    v-if="isAdmin && typeData.length > 1">
                 <i class="iconfont icondangan theme-color"></i>
@@ -82,20 +96,23 @@
             </div>
           </div>
         </div>
+        <!-- {{statisticsAll.data}} -->
         <!-- 筛选模块 -->
         <where ref="where"
+               :conditionAreaConfig="statisticsAll.conditionAreaConfig"
+               @whereOtherBtnClick="whereOtherBtnClick"
                @whereSubmit="whereSubmit"></where>
         <div class="statistics-content"
-             @click="statisticsContentClick"
              v-loading="!statisticsAll.data"
              element-loading-text="拼命加载中"
              element-loading-spinner="el-icon-loading"
              element-loading-background="rgba(0, 0, 0, 0.2)">
           <!-- 列表展示 -->
           <list v-if="settingForm.displayMode == 'list'"
-                :height="modelStyle.height - 46"
+                :height="boxHeight()"
                 :data="statisticsAll.data"
                 :colums="nowClums()"
+                :statisticsAll="statisticsAll"
                 :paginationAll="statisticsAll.paginationAll"
                 @rowClick="rowClick"
                 @cellClick="cellClick"
@@ -104,8 +121,10 @@
           <bw-table v-if="settingForm.displayMode == 'table'"
                     :tabledata="statisticsAll.data"
                     :colums="nowClums()"
-                    :height="modelStyle.height - 46"
+                    :height="boxHeight()"
                     :width="modelStyle.width - 40"
+                    :statisticsAll="statisticsAll"
+                    :border="false"
                     :paginationAll="statisticsAll.paginationAll"
                     @cellClick="cellClick"
                     @rowClick="rowClick"
@@ -115,58 +134,92 @@
                    :data="statisticsAll.data"
                    :chartColumns="nowClums()"
                    :chartType="settingForm.displayMode"
-                   :height="modelStyle.height - 46"
+                   :height="boxHeight()"
                    @eventClick="eventClick"></bw-line>
           <!-- <slot name="otherBox"></slot> -->
-          <div class="suofang"
-               v-if="isAdmin">
-            <i @mousedown="mousedown_ls"
-               class="iconfont iconkuozhan theme-color"></i>
-          </div>
-        </div>
 
+          <!-- 拖拽图标显示控制 -->
+          <!-- <i v-if="isAdmin"
+             title="拖拽"
+             :style="TZStyle"
+             class="icontuozhuai iconfont"></i> -->
+        </div>
+        <!-- 左侧缩放按钮控制 -->
+        <div class="suofang suofang-left"
+             v-if="isAdmin"
+             @mousedown="mousedown_left_ls">
+          <!-- <i
+             class="iconfont iconkuozhan-copy theme-color"></i> -->
+        </div>
+        <!-- 右侧缩放按钮控制 -->
+        <div class="suofang suofang-right"
+             v-if="isAdmin"
+             @mousedown='mousedown_right_ls'>
+          <!-- <i
+             class="iconfont iconkuozhan theme-color"></i> -->
+        </div>
         <!-- 模块修改表单 -->
         <settingForm ref="settingForm"
                      :form="settingForm"
                      :dataUrl="dataUrl"
+                     :statisticsAll="statisticsAll"
                      @submit="settingKeep"></settingForm>
         <!-- 子模块新增表单 -->
         <settingForm ref="childSettingForm"
                      :form="childSettingForm"
                      :dataUrl="dataUrl"
+                     :statisticsAll="statisticsAll"
                      @submit="childSettingKeep"></settingForm>
         <!-- 筛选配置弹出层 -->
-        <screen ref="screenSetting"
-                @screenKeep="screenKeep"></screen>
+        <where-setting ref="screenSetting"
+                       @screenKeep="screenKeep"></where-setting>
+        <!-- 详情配置弹窗 -->
+        <destail-setting ref="destailSetting"
+                         @submit="destailSettingSubmit"></destail-setting>
+        <!-- 详情弹窗 -->
+        <destail ref="destail"
+                 :statisticsAll="statisticsAll"></destail>
       </div>
     </article>
   </div>
 </template>
 <script>
-import Screen from '../../components/screen'
-import Where from '../../components/where'
+import WhereSetting from '../../components/WhereSetting'
+import Where from '../../components/Where2.0'
 import List from '../../components/list'
 import BwLine from '../../components/line'
 import BwTable from '../../components/table2'
 import SettingForm from '../../components/settingForm'
-import { dataMixins, childMixins, screenMixins } from './mixins'
+import { dataMixins, childMixins, screenMixins, destailMixins } from './mixins'
 import dataPresentation from '../../components/settingForm/dataPresentation.json'
-
+import DestailSetting from '../../components/DestailSetting'
+import Destail from '../../components/Destail'
 export default {
   props: ['statisticsAll', 'browserXY', 'systemPermissions', 'dataUrl'],
-  mixins: [dataMixins, childMixins, screenMixins],
-  components: { SettingForm, List, BwLine, BwTable, Screen, Where },
+  mixins: [dataMixins, childMixins, screenMixins, destailMixins],
+  components: { SettingForm, List, BwLine, BwTable, WhereSetting, Where, DestailSetting, Destail },
   data () {
     return {
       statisticsShow: true,
       bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line'],
       typeData: dataPresentation,
       chooseHover: null
+      // deleteTitle: '确定删除删除当前模块？'
     }
   },
   computed: {
     isAdmin () {
       return this.systemPermissions === 'admin'
+    },
+    // 删除判断弹出文字
+    deleteTitle () {
+      let title = ''
+      if (this.statisticsAll.isRowDrillDown === '1' || this.statisticsAll.drillDownKeyAll) {
+        title = '当前模块已配置有子级，是否强制删除当前模块和所有子级模块？'
+      } else {
+        title = '确定删除删除当前模块？'
+      }
+      return title
     }
   },
   watch: {
@@ -186,12 +239,37 @@ export default {
     }
   },
   mounted () {
+    // console.log(this.statisticsAll)
     this.settingForm = JSON.parse(
       JSON.stringify(this.statisticsAll.contentAreaConfig)
     )
     this.setDemos()
   },
   methods: {
+    // 表单内容区域高度
+    boxHeight () {
+      if (this.statisticsAll.conditionAreaConfig && this.statisticsAll.conditionAreaConfig.screenData.length > 0) {
+        return this.modelStyle.height - 46 - 42
+      } else {
+        return this.modelStyle.height - 46
+      }
+    },
+    // 模板克隆事件
+    copyTemplate () {
+      // 克隆当前模块配置数据
+      let contentAreaConfigCopy = JSON.parse(JSON.stringify(this.settingForm))
+      contentAreaConfigCopy.title = contentAreaConfigCopy.title + '-copy'
+      contentAreaConfigCopy.zindex = (parseFloat(contentAreaConfigCopy.zindex) + 1).toString()
+      // console.log(contentAreaConfigCopy)
+      // 判断当前克隆模块为子级还是一级页面模块
+      if (this.statisticsAll.menuId) {
+        // 一级克隆 --调用一级新增方法
+        this.$emit('firstAddKeep', contentAreaConfigCopy)
+      } else {
+        this.childAddType = '0'
+        this.childSettingKeep(contentAreaConfigCopy)
+      }
+    },
     // 配置字段筛选
     nowClums () {
       let data = []
@@ -202,17 +280,6 @@ export default {
       })
       return data
     },
-    // 获取当前页面配置数据
-    // paginationAll() {
-    //   let paginationAll;
-    //   if (this.settingForm.isPage) {
-    //     paginationAll = {
-    //       total: 30, //总数据量
-    //       currentPage: 1, //当前显示页数
-    //       pageSize: 10 //每页数据条数
-    //     };
-    //   }
-    // },
     // 弹窗关闭事件
     statisticsClose () {
       this.$emit('statisticsClose', this.statisticsAll.moduleId)
@@ -220,7 +287,7 @@ export default {
 
     // 模块删除按钮点击事件
     deleteTemplate () {
-      this.$emit('deleteMoule', this.statisticsAll.moduleId)
+      this.$emit('deleteMoule', this.statisticsAll.moduleId, this.statisticsAll.menuId)
     },
     // 模块设置表单保存事件
     settingKeep (contentAreaConfig) {
@@ -251,7 +318,7 @@ export default {
     eventClick (e) {
       this.statisticsAll.data.forEach((items, index) => {
         if (e.dataIndex === index) {
-          this.rowClick(items)
+          this.rowClick(items, index)
           this.settingForm.keyArr.forEach((item, num) => {
             if (num > 0 && items[item.key] === e.value) {
               this.cellClick(items, item.key)

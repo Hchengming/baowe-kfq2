@@ -1,9 +1,11 @@
 <template>
   <div>
-    <el-dialog class="settingForm"
+    <el-dialog class="settingForm dialog-common"
                title="模块配置信息"
                :append-to-body="true"
+               ref="settingFormDialog"
                :rules="rules"
+               @mousedown.native="dragElement"
                :visible.sync="dialogVisible">
       <el-form ref="settingForm"
                :model="form"
@@ -21,7 +23,7 @@
             <el-form-item label="副标题1"
                           prop="subtitle1">
               <el-input size="small"
-                        :disabled="form.mask ? true : false"
+                        :disabled="statisticsAll&&statisticsAll.parentModuleId ? true : false"
                         v-model="form.subtitle1"></el-input>
             </el-form-item>
           </el-col>
@@ -60,13 +62,24 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.submodule == '1'"
-                          label="子模块点击展现"
+          <el-col :span="12"
+                  v-if="form.submodule == '1'">
+            <el-form-item label="子模块点击展现"
                           prop="clickToShow">
-              <el-radio-group v-model="form.clickToShow">
+              <el-radio-group v-model="form.clickToShow"
+                              @change="clickToShowChange">
                 <el-radio label="row">行点击</el-radio>
                 <el-radio label="cell">单元格点击</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12"
+                  v-if="form.submodule == '0'">
+            <el-form-item label="是否添加详情展示"
+                          prop="isDestail">
+              <el-radio-group v-model="form.isDestail">
+                <el-radio label="0">否</el-radio>
+                <el-radio label="1">是</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -195,17 +208,16 @@
               <el-input-number size="small"
                                v-model="form.width"
                                :min="0"
-                               :max="100"
+                               :max="200"
                                :precision="2"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="高度(页面占比)"
+            <el-form-item label="高度(像素)"
                           prop="height">
               <el-input-number size="small"
                                v-model="form.height"
                                :min="0"
-                               :max="100"
                                :precision="2"></el-input-number>
             </el-form-item>
           </el-col>
@@ -218,17 +230,16 @@
               <el-input-number size="small"
                                v-model="form.left"
                                :min="0"
-                               :max="100"
+                               :max="200"
                                :precision="2"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="位置Y轴(页面占比)"
+            <el-form-item label="位置Y轴(像素)"
                           prop="top">
               <el-input-number size="small"
                                v-model="form.top"
                                :min="0"
-                               :max="100"
                                :precision="2"></el-input-number>
             </el-form-item>
           </el-col>
@@ -244,11 +255,9 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
-            <el-form-item v-if="form.mask"
-                          prop="mask"
+            <el-form-item prop="mask"
                           label="是否添加遮罩层">
               <el-radio-group v-model="form.mask">
                 <el-radio label="1">是</el-radio>
@@ -266,21 +275,30 @@
                    @click="onSubmit"
                    size="small">确 定</el-button>
       </span>
+
     </el-dialog>
+    <judge-pop ref="judgePop"
+               @handleClose="handleClose"
+               @confirm="judgePopConfirm"></judge-pop>
   </div>
 </template>
 <script>
 import dataPresentation from './dataPresentation.json'
 import axios from 'axios'
-
+import JudgePop from '../JudgePop/index.vue'
+import { dragDialog } from '../../utils/mixins.js'
 export default {
-  props: ['form', 'dataUrl'],
+  props: ['form', 'dataUrl', 'statisticsAll'],
+  mixins: [dragDialog],
+  components: { JudgePop },
   data () {
     return {
+      dialogRef: 'settingFormDialog', // 弹出框refs名
       dialogVisible: false,
       options: [],
       rules: [],
       csData: [],
+      deleteKeyIndex: null,
       defaultData: [
         {
           title: '',
@@ -311,10 +329,28 @@ export default {
     }
   },
   methods: {
+    // 行点击、单元格点击切换事件
+    clickToShowChange (val) {
+      let html = ''
+      // console.log(val)
+      if (this.statisticsAll) {
+        if (val === 'row' && this.statisticsAll.drillDownKeyAll) {
+          html = '当前单元格点击已配置子级模块，是否<span class="txt1">强制切换</span>？'
+          this.$refs['judgePop'].show(html, 'cell')
+        } else if (val === 'cell' && this.statisticsAll.isRowDrillDown === '1') {
+          html = '当前行点击已配置子级模块，是否<span class="txt1">强制切换</span>？'
+          this.$refs['judgePop'].show(html, 'row')
+        }
+      }
+    },
+    // 行点击、单元格点击--切换取消事件
+    handleClose (clickToShow) {
+      this.form.clickToShow = clickToShow
+    },
     // 弹窗关闭事件
     close () {
       this.dialogVisible = false
-      this.$refs['settingForm'].resetFields()
+      // this.$refs['settingForm'].resetFields()
     },
     // 通过接口获取当前字段配置初始数据
     getKeysData () {
@@ -408,7 +444,21 @@ export default {
     },
     // 字段删除事件
     keyRemove (index) {
-      this.form.keyArr.splice(index, 1)
+      // this.form.keyArr.splice(index, 1)
+      let nowKey = this.form.keyArr[index].key
+      // 判断当前删除字段是否已经挂载子级，若挂载，则弹出提示信息
+      if (this.form.submodule === '1' && this.form.clickToShow === 'cell' && this.statisticsAll && this.statisticsAll.drillDownKeyAll.indexOf(nowKey) > -1) {
+        let html = '当前字段已配置子级模块，是否<span class="txt1">强制删除</span>？'
+        this.$refs['judgePop'].show(html)
+        this.deleteKeyIndex = index
+      } else {
+        this.form.keyArr.splice(index, 1)
+      }
+    },
+    // 强制删除字段确认事件
+    judgePopConfirm () {
+      console.log('judgePopConfirm')
+      this.form.keyArr.splice(this.deleteKeyIndex, 1)
     },
     // 表单确认事件
     onSubmit () {

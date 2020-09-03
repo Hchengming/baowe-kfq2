@@ -6,6 +6,9 @@
                 @rowClick="rowClick"></middleware>
     <!-- 地图组件 -->
     <!-- <myMap ref="myMaps"></myMap> -->
+    <!-- 顶部栏组件 -->
+    <top-bar ref="topBar"
+             :settingConfig="settingConfig"></top-bar>
     <!-- 页面配置 -->
     <div class="hoverMenu">
       <div class="box">
@@ -36,6 +39,7 @@
 </template>
 <script>
 import middleware from '../../tuobiao/middleware/index'
+import TopBar from '../../components/TopBar'
 import assembly from './assembly'
 let _this
 // import myMap from '../../components/maps/map'
@@ -56,7 +60,8 @@ export default {
   },
   components: {
     middleware,
-    assembly
+    assembly,
+    TopBar
     // myMap
   },
   mounted () {
@@ -100,6 +105,9 @@ export default {
     addAssembly (type) {
       switch (type) {
         case 'tableChart': // 图表组件集
+          this.$refs['middleware'].addTemplate()
+          break
+        case 'topBar': // 顶部栏组件
           this.$refs['middleware'].addTemplate()
           break
         // case 'map': //行政区图

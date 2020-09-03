@@ -12,7 +12,16 @@ body {
   color: #333333;
   min-width: 1200px;
 }
-
+/*鼠标移入样式*/
+.cursor-default {
+  cursor: default;
+}
+.cursor-auto {
+  cursor: auto;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
 @bg: #ebeef5;
 @border: #c1c1c1;
 .theme-bg {
@@ -166,6 +175,9 @@ body {
 //抽屉模块配置
 .pageSetting {
   @width1: 100px;
+  .el-drawer {
+    width: 265px !important;
+  }
   .assembly_wrap {
     margin-left: 20px;
     display: flex;
@@ -250,6 +262,10 @@ body {
   border: none;
   border-radius: 10px;
   box-shadow: 0px 0px 5px rgba(123, 117, 117, 0.54);
+  .icontuozhuai {
+    font-size: 14px;
+    position: absolute;
+  }
 }
 
 .el-popconfirm .el-popconfirm__action {
@@ -323,11 +339,6 @@ body {
       .el-icon-delete {
         color: red;
       }
-
-      .icontuozhuai {
-        font-size: 14px;
-        cursor: pointer;
-      }
     }
 
     .pic {
@@ -394,11 +405,47 @@ body {
       bottom: 2px;
     }
   }
+  .el-table__row .cell {
+    height: 23px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 #bw_list,
 #bw_table {
   .el-pagination {
     margin-top: 5px;
+  }
+}
+
+/*list 列表*/
+.bw_list1 {
+  border-bottom: 1px solid #f1f1f1;
+  li {
+    display: flex;
+    line-height: 32px;
+    justify-content: space-between;
+    .cell {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      height: 30px;
+    }
+    // > span {
+    //   display: inline-block;
+    //   text-align: left;
+    // }
+    .txt3 {
+      // color: @color;
+      font-weight: lighter;
+      // color: #7f7f7f;
+      font-size: 12px;
+      padding-left: 5px;
+    }
+  }
+  li.border {
+    border-bottom: 1px solid #d8d8d8;
   }
 }
 
@@ -449,34 +496,6 @@ body {
   }
 }
 
-@media screen and (max-height: 800px) {
-  .settingForm .el-dialog {
-    // margin-top: 5vh !important;
-    // top: 50%;
-    // transform: translateY(-50%);
-    margin-top: 3vh !important;
-    margin-bottom: 0;
-    .el-dialog__body {
-      max-height: 400px;
-    }
-  }
-
-  .QXStatistics,
-  .YDGCStatistics {
-    .statistics_title .box .t_list {
-      left: auto;
-      right: 20px;
-      padding-right: 5px;
-      padding-left: 0;
-      z-index: 99;
-    }
-  }
-
-  #explainWrap {
-    overflow-y: auto;
-  }
-}
-
 // case2
 .statisticsWrapCase2 {
   position: absolute;
@@ -492,35 +511,48 @@ body {
 
   .suofang {
     position: absolute;
-    bottom: -10px;
-    right: -30px;
-    height: 20px;
-    width: 20px;
 
-    .iconkuozhan {
-      font-size: 20px;
-      cursor: pointer;
-      display: none;
-    }
+    height: 30px;
+    width: 30px;
+    // background: #999999;
+
+    // .iconfont {
+    //   font-size: 20px;
+    //   cursor: pointer;
+    //   // display: none;
+    // }
   }
 
-  .suofang:hover .iconkuozhan {
+  .suofang:hover .iconfont {
     display: block;
   }
 }
 
+.shubiao-move {
+  cursor: move;
+}
+.suofang-right {
+  bottom: -10px;
+  right: -20px;
+  &:hover {
+    cursor: nw-resize;
+  }
+}
+.suofang-left {
+  bottom: -10px;
+  left: -20px;
+  &:hover {
+    cursor: ne-resize;
+  }
+}
 /* settingForm  start*/
 .settingForm {
   .el-dialog {
     width: 730px;
   }
-  .el-dialog__footer,
-  .el-dialog__header {
-    padding: 10px 20px;
-  }
 
   .el-dialog__body {
-    padding: 15px;
+    // padding: 15px;
     // height: 395px;
     max-height: 500px;
     overflow-y: auto;
@@ -653,9 +685,9 @@ body {
 }
 
 .statisticsMask {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background: black;
   opacity: 0.2;
   top: 0;
@@ -665,7 +697,13 @@ body {
 /*screenForm*/
 .screenForm {
   .el-dialog {
-    width: 800px;
+    width: 900px;
+    .el-input__inner {
+      padding: 0 5px;
+    }
+    .el-input-number--small {
+      width: 100%;
+    }
     .rightIcon {
       height: 30px;
       line-height: 30px;
@@ -692,10 +730,18 @@ body {
     }
   }
 }
+.btn-color-choose {
+  button {
+    width: 75px;
+  }
+}
 .screenForm {
+  fieldset {
+    padding: 5px 10px;
+  }
   .form-table {
     display: block;
-    margin: 0 auto;
+    // margin: 0 auto;
     /*为表格设置合并边框模型*/
     border-collapse: collapse;
     /*列宽由表格宽度和列宽度设定*/
@@ -709,15 +755,53 @@ body {
     .t-header {
       text-align: center;
     }
+    .t-head-cz-icon {
+      font-size: 18px;
+      // color: #f56c6c;
+      cursor: pointer;
+    }
+  }
+  .other-btn-table {
+    width: 380px;
+    .t-head {
+      text-align: center;
+      .t-head-cz {
+        i {
+          font-size: 18px;
+          // color: #f56c6c;
+          cursor: pointer;
+        }
+      }
+    }
+    .t-body-cz {
+      text-align: center;
+      i {
+        font-size: 18px;
+        cursor: pointer;
+      }
+      i.disabled {
+        cursor: no-drop;
+        color: #c0c4cc;
+      }
+
+      i.remove {
+        color: red;
+      }
+    }
   }
 }
 /*settingData*/
 .settingData {
   .el-dialog {
     width: 600px;
-
-    .el-dialog {
-      padding: 10px 20px;
+    .el-form-item {
+      margin-bottom: 10px;
+    }
+    .el-form-item__label {
+      padding-right: 5px;
+    }
+    .rightIcon {
+      padding-top: 5px;
     }
   }
 }
@@ -770,4 +854,262 @@ body {
   opacity: 1;
   // width: 300px;
   // right: 2px;
+}
+
+/*判断弹窗组件*/
+.judge-pop-model {
+  .el-dialog {
+    width: 450px;
+    top: ~'calc(50vh - 62px)';
+    margin-top: 0 !important;
+  }
+  .el-dialog__body {
+    .content {
+      i,
+      .txt1 {
+        color: red;
+      }
+      // text-align: center;
+    }
+  }
+  .el-dialog__footer {
+    padding: 10px 20px;
+  }
+}
+/*dialog 公共配置*/
+.dialog-common {
+  .el-dialog__header,
+  .el-dialog__footer {
+    padding: 10px 20px;
+    .el-dialog__title {
+      font-size: 16px;
+    }
+    .el-dialog__headerbtn {
+      top: 14px;
+    }
+  }
+  .el-dialog__body {
+    padding: 5px 20px;
+  }
+}
+/*详情配置组件 */
+.destail-setting {
+  .el-dialog {
+    width: 550px;
+    .el-dialog__body {
+      overflow: auto;
+      max-height: 500px;
+    }
+    fieldset {
+      padding: 5px 10px;
+    }
+    .zdpz-ul {
+      margin-top: 10px;
+    }
+    .zdpz_list {
+      display: inline-block;
+      border-right: 1px solid @border;
+      border-bottom: 1px solid @border;
+      li {
+        display: flex;
+        justify-items: center;
+        .hTxt {
+          display: block;
+          border-left: 1px solid @border;
+          border-top: 1px solid @border;
+          width: 100px;
+          height: auto;
+          text-align: center;
+          line-height: 28px;
+          padding: 1px 3px;
+        }
+        .hTxt.icons {
+          width: 120px;
+        }
+        .hTxt1 {
+          width: 75px;
+          .el-input-number--small {
+            width: 100%;
+          }
+          .el-input-number.is-controls-right .el-input__inner {
+            padding-left: 5px;
+            padding-right: 35px;
+          }
+        }
+        .hTxt5 {
+          width: 60px;
+        }
+      }
+      li.box-shadow-error {
+        box-shadow: 0 0 5px red;
+      }
+    }
+  }
+}
+
+/*详情展示弹窗*/
+.destail-wrap .detail_box:hover .page_detail {
+  display: block;
+}
+
+.detail_box {
+  position: relative;
+  border-right: 1px solid @border;
+  border-top: 1px solid @border;
+  .page_detail {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: absolute;
+    font-size: 35px;
+    top: 50%;
+    margin-top: -20px;
+    z-index: 99;
+    // color: #0081ba;
+    cursor: pointer;
+    display: none;
+    opacity: 0.8;
+  }
+  .page_prev {
+    left: -20px;
+    right: auto;
+  }
+  .page_next {
+    left: auto;
+    right: -20px;
+  }
+  .page_prev.first,
+  .page_next.last {
+    opacity: 0.3;
+    cursor: no-drop;
+  }
+  .detail_row {
+    display: flex;
+    width: 100%;
+    height: auto;
+
+    .detail_col {
+      display: flex;
+      .key {
+        width: 80px;
+        padding: 5px;
+        border-left: 1px solid @border;
+        border-bottom: 1px solid @border;
+        display: flex;
+        align-items: center;
+        background: #f5f5f5;
+        box-sizing: border-box;
+      }
+      .value {
+        width: calc(100% - 80px);
+        padding: 5px;
+        clear: right;
+        border-left: 1px solid @border;
+        border-bottom: 1px solid @border;
+        word-break: break-all;
+        word-wrap: break-word;
+        max-height: 81px;
+        overflow: auto;
+        box-sizing: border-box;
+      }
+      .value.bg {
+        background: #dcdcdc;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .settingForm .el-dialog,
+  .destail-setting .el-dialog {
+    // margin-top: 5vh !important;
+    // top: 50%;
+    // transform: translateY(-50%);
+    margin-top: 3vh !important;
+    margin-bottom: 0;
+    .el-dialog__body {
+      max-height: 400px;
+    }
+  }
+
+  .QXStatistics,
+  .YDGCStatistics {
+    .statistics_title .box .t_list {
+      left: auto;
+      right: 20px;
+      padding-right: 5px;
+      padding-left: 0;
+      z-index: 99;
+    }
+  }
+
+  #explainWrap {
+    overflow-y: auto;
+  }
+}
+
+/*查询模块样式*/
+.static-where-2 {
+  display: flex;
+  border-bottom: 1px solid @border;
+  width: 100%;
+  justify-content: space-between;
+  overflow: hidden;
+  .where-left {
+    display: flex;
+  }
+  .where-form {
+    display: flex;
+    .el-form-item__label {
+      padding-right: 0px;
+      text-align: left;
+      color: #999999;
+    }
+    .el-form-item {
+      margin-bottom: 0;
+      margin-right: 5px;
+    }
+    .el-input__inner {
+      padding: 0 5px;
+    }
+    .el-form-item__content {
+      // line-height: 32px;
+    }
+    .el-radio-group {
+      padding: 6px 2px;
+      border: 1px solid @border;
+      border-radius: 5px;
+
+      label {
+        margin-right: 10px;
+      }
+    }
+    .el-checkbox-group {
+      margin-top: 5px;
+      padding: 0 2px;
+      display: flex;
+      border: 1px solid @border;
+      border-radius: 5px;
+      height: 28px;
+      line-height: 28px;
+      label {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .staticWhereBottom {
+    line-height: 39px;
+    margin-left: 10px;
+  }
+  .where-right {
+    display: flex;
+    button {
+      height: 32px;
+      margin-top: 5px;
+      margin-left: 10px;
+    }
+  }
 }

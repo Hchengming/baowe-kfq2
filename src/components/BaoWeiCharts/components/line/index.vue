@@ -186,7 +186,6 @@ export default {
         })
         chartData.rows.push(obj)
       })
-      // console.log(chartData)
       return chartData
     },
     // 获取饼图、环图切换配置数据

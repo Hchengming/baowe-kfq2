@@ -4,16 +4,24 @@
               :data="tabledata"
               @cell-click="cellClick"
               @row-click="rowClick"
+              :row-class-name="tableRowClassName"
               stripe
               :height="nowHieght()"
               :style="{width: '100%'}">
       <el-table-column v-for="(item,index) in colums"
                        :key="index"
-                       :prop="item.key"
-                       :class-name="item.className"
+                       :class-name="item.className+' '+cellCursorClass(item.key)"
                        :sortable="index>0?true:false"
                        :label="colLabel(item)"
-                       :width="colWidth(item,index)"></el-table-column>
+                       :width="colWidth(item,index)">
+        <template slot-scope="scope">
+          <el-tooltip :content="NumStrTransformation(scope.row[item.key])"
+                      :placement="setPlacement(index,colums)">
+            <span>{{scope.row[item.key]}}</span>
+          </el-tooltip>
+          <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination @current-change="handleCurrentChange"
                    @size-change="handleSizeChange"
@@ -36,9 +44,49 @@
 </template>
 <script>
 export default {
-  props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border'],
+  data () {
+    return {
+      cellCursor: ''
+    }
+  },
+  props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
   computed: {},
   methods: {
+    // 获取行索引
+    tableRowClassName ({ row, rowIndex }) {
+      // 把每一行的索引放进row
+      row.rowIndex = rowIndex
+    },
+    // 数字转字符串
+    NumStrTransformation (val) {
+      if (typeof val === 'number') {
+        val = val.toString()
+      }
+      return val
+    },
+    // topTitle显示位置控制
+    setPlacement (index, column) {
+      let length = column.length
+      if (index + 1 <= length / 2) {
+        return 'top-start'
+      } else {
+        return 'top-end'
+      }
+    },
+    // 单元格样式
+    cellCursorClass (key) {
+      let calss = 'cursor-default'
+      if (this.statisticsAll.contentAreaConfig.submodule === '1') {
+        if (this.statisticsAll.contentAreaConfig.clickToShow === 'row' && this.statisticsAll.isRowDrillDown === '1') {
+          calss = 'cursor-pointer'
+        }
+        if (this.statisticsAll.contentAreaConfig.clickToShow === 'cell' && this.statisticsAll.drillDownKeyAll &&
+          this.statisticsAll.drillDownKeyAll.indexOf(key) > -1) {
+          calss = 'cursor-pointer'
+        }
+      }
+      return calss
+    },
     nowHieght () {
       if (this.paginationAll) {
         return this.height - 35
@@ -67,8 +115,9 @@ export default {
       return widths
     },
     // 行点击事件
-    rowClick (row) {
-      this.$emit('rowClick', row)
+    rowClick (row, column, event) {
+      // console.log(row)
+      this.$emit('rowClick', row, row.rowIndex)
     },
     // 表格单元格点击事件
     cellClick (row, column) {

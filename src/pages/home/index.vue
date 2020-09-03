@@ -1,6 +1,13 @@
 <template>
   <div>
     <bao-wei-charts :setting-config="settingConfig"></bao-wei-charts>
+
+    <!-- 权限控制 测试 -->
+    <el-radio-group class="system-cs"
+                    v-model="settingConfig.systemPermissions">
+      <el-radio-button label="admin">管理员</el-radio-button>
+      <el-radio-button label="user">用户</el-radio-button>
+    </el-radio-group>
   </div>
 </template>
 <script>
@@ -14,15 +21,13 @@ export default {
     return {
       settingConfig: {
         commonUrl: 'http://23.36.71.171:8082', // 配置公共路径
-        // dataUrl: 'http://23.36.71.171:8081/api/v1',//图表数据公告路径
-        dataUrl: 'http://localhost:4000'
+        dataUrl: 'http://23.36.71.243:4000', // 数据接口公告路径
+        systemPermissions: 'admin' // 权限控制
       }
     }
   },
   // components:{BaoWeiCharts},
   mounted () {
-    // eslint-disable-next-line no-undef
-    // console.log($('#asd'))
   }
 }
 </script>
@@ -41,5 +46,12 @@ $--color-primary: #1890ff;
 }
 .theme-border-color {
   border-color: $--color-primary !important;
+}
+
+/*测试*/
+.system-cs {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
 }
 </style>

@@ -4,16 +4,24 @@
     <ul class="bw_list1"
         :style="{'height':nowHieght+'px','overflow':'auto'}">
       <li v-for="(item,index) in data"
-          @click="rowClick(item)"
+          @click="rowClick(item,index)"
           :style="{'line-height':'30px'}"
           :class="{'border':item.border}"
           :key="index">
         <div v-for="(col,num) in colums"
              :key="num"
+             :class="['cell',cellCursorClass(col.key)]"
              @click="cellClick(item,col.key)"
              :style="{'width':col.width+'px'}">
-          {{item[col.key]}}
-          <span class="txt3 theme-color">{{col.dw}}</span>
+          <el-tooltip :content="NumStrTransformation(item[col.key],col.dw)"
+                      :placement="setPlacement(num,colums)">
+            <span>
+              {{item[col.key]}}
+              <span class="txt3 theme-color">{{col.dw}}</span>
+            </span>
+
+          </el-tooltip>
+
         </div>
       </li>
     </ul>
@@ -30,7 +38,7 @@
 
 <script>
 export default {
-  props: ['data', 'colums', 'height', 'paginationAll'],
+  props: ['data', 'colums', 'height', 'paginationAll', 'statisticsAll'],
   computed: {
     nowHieght () {
       if (this.paginationAll) {
@@ -41,8 +49,41 @@ export default {
     }
   },
   methods: {
-    rowClick (item) {
-      this.$emit('rowClick', item)
+    // 数字转字符串
+    NumStrTransformation (val, dw) {
+      let str = ''
+      if (typeof val === 'number') {
+        str = val.toString() + dw
+      } else {
+        str = val + dw
+      }
+      return str
+    },
+    // topTitle显示位置控制
+    setPlacement (index, column) {
+      let length = column.length
+      if (index + 1 <= length / 2) {
+        return 'top-start'
+      } else {
+        return 'top-end'
+      }
+    },
+    // 单元格样式
+    cellCursorClass (key) {
+      let calss = 'cursor-default'
+      if (this.statisticsAll.contentAreaConfig.submodule === '1') {
+        if (this.statisticsAll.contentAreaConfig.clickToShow === 'row' && this.statisticsAll.isRowDrillDown === '1') {
+          calss = 'cursor-pointer'
+        }
+        if (this.statisticsAll.contentAreaConfig.clickToShow === 'cell' && this.statisticsAll.drillDownKeyAll &&
+          this.statisticsAll.drillDownKeyAll.indexOf(key) > -1) {
+          calss = 'cursor-pointer'
+        }
+      }
+      return calss
+    },
+    rowClick (item, index) {
+      this.$emit('rowClick', item, index)
       // console.log(item)
     },
     cellClick (item, key) {
@@ -62,30 +103,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-// @color: #4886f7;
-
-.bw_list1 {
-  border-bottom: 1px solid #f1f1f1;
-  li {
-    display: flex;
-    line-height: 32px;
-    justify-content: space-between;
-
-    > span {
-      display: inline-block;
-      text-align: left;
-    }
-    .txt3 {
-      // color: @color;
-      font-weight: lighter;
-      // color: #7f7f7f;
-      font-size: 12px;
-      padding-left: 5px;
-    }
-  }
-  li.border {
-    border-bottom: 1px solid #d8d8d8;
-  }
-}
-</style>

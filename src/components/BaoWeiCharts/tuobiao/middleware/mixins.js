@@ -79,13 +79,15 @@ export default {
         })
     },
     // statistics组件--模块删除事件
-    deleteMoule (moduleId) {
+    deleteMoule (moduleId, menuId) {
+      let reqUrl
+      if (menuId) {
+        reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
+      } else {
+        reqUrl = '/busSecondmasterpageconfig/deleteDrillDownData'
+      }
       axios
-        .post(
-          this.settingConfig.commonUrl +
-            '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData',
-          { moduleId }
-        )
+        .post(this.settingConfig.commonUrl + reqUrl, { moduleId })
         .then(res => {
           let code = res.data.code
           if (code === 20000) {
@@ -93,84 +95,109 @@ export default {
               message: '模块删除成功',
               type: 'success'
             })
-            this.pageData.forEach((item, index) => {
-              if (item.moduleId === moduleId) {
-                this.pageData.splice(index, 1)
-              }
-            })
+            this.getData()
           }
         })
     },
     // 子页面新增事件
     childSettingAdd (obj) {
+      // console.log(obj)
       axios
-        .post(this.settingConfig.commonUrl + '/child/addChildModule', {
-          contentAreaConfig: obj.contentAreaConfig,
-          parentModuleId: obj.moduleId,
-          key: obj.key
-        })
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/insertDrillDownData',
+          {
+            contentAreaConfig: obj.contentAreaConfig,
+            parentModuleId: obj.moduleId,
+            drillDownKeyCurrent: obj.key
+          }
+        )
         .then(res => {
-          let status = res.data.status
-          if (status === 0) {
+          let code = res.data.code
+          if (code === 20000) {
             this.$message({
               message: '模块添加成功',
               type: 'success'
             })
             this.getData()
-            this.childInsertData(obj.moduleId, obj.rowid, '', obj.key)
+            // this.childInsertData(obj.moduleId, obj.rowid, '', obj.key)
             obj.fn()
           }
         })
     },
     // 子页面数据查询事件
     // 父级模块id 行数据id 副标题1 单元格点击选中格key值
-    childInsertData (parentModuleId, rowid, subtitle1, key) {
+    childInsertData (parentModuleId, childKV, subtitle1, key) {
+      // console.log(parentModuleId, rowid, subtitle1, key)
+
       axios
-        .post(this.settingConfig.commonUrl + '/child/insertChildModule', {
-          parentModuleId,
-          rowid,
-          subtitle1,
-          key
-        })
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/queryDrillDownData',
+          {
+            parentModuleId,
+            drillDownKeyCurrent: key
+          }
+        )
         .then(res => {
-          let status = res.data.status
+          let code = res.data.code
           let reqData = res.data.data
 
-          if (status === 0) {
+          if (code === 20000) {
             for (let i = this.pageData.length - 1; i >= 0; i--) {
               if (
                 this.pageData[i].drillDownKeyCurrent &&
-                this.pageData[i].drillDownKeyCurrent !== key
+                this.pageData[i].drillDownKeyCurrent !== key &&
+                this.pageData[i].parentModuleId === parentModuleId
               ) {
                 this.pageData.splice(i, 1)
               }
             }
+
             reqData.forEach(items => {
               let offon = true
+              this.itemGSH(items)
+              items.contentAreaConfig.subtitle1 = subtitle1
+              let reqObj = {
+                url: items.contentAreaConfig.url
+              }
               // 分页
               if (items.contentAreaConfig.isPage === '1') {
-                items.paginationAll = {
-                  currentPage: 1, // 当前显示页数
-                  pageSize: items.contentAreaConfig.pageSize, // 每页数据条数
-                  total: 35 // 总数据量
-                }
-                this.childData = JSON.parse(JSON.stringify(items.data))
-                items.data = this.childData.slice(
-                  0,
-                  items.paginationAll.pageSize
-                )
-                // console.log(items)
+                reqObj.currentPage = 1
+                reqObj.pageSize = items.contentAreaConfig.pageSize
+                // items.paginationAll = {
+                //   currentPage: 1, // 当前显示页数
+                //   pageSize: items.contentAreaConfig.pageSize, // 每页数据条数
+                //   total: null // 总数据量
+                // }
               }
-              this.pageData.forEach(item => {
+              this.pageData.forEach((item, index) => {
                 if (item.moduleId === items.moduleId) {
                   item.contentAreaConfig = items.contentAreaConfig
-                  item.data = items.data
+                  item.conditionAreaConfig = items.conditionAreaConfig
+                  reqObj.index = index
                   offon = false
                 }
               })
               if (offon) {
                 this.pageData.push(items)
+                reqObj.index = this.pageData.length - 1
               }
+              // 默认请求参数解析
+              let defaultReqData = {}
+              items.conditionAreaConfig.screenData.forEach(conditionObj => {
+                if (conditionObj.defaultValue) {
+                  defaultReqData[conditionObj.key] = conditionObj.defaultValue
+                }
+              })
+              // 请求参数（关键字段-值）写入
+              for (let key in childKV) {
+                defaultReqData[key] = childKV[key]
+              }
+
+              setTimeout(() => {
+                this.getTableData(reqObj, defaultReqData)
+              }, 100)
             })
           }
         })
@@ -267,13 +294,45 @@ export default {
             obj.pageSize = item.contentAreaConfig.pageSize
             obj.currentPage = 1
           }
-          obj.keys = []
-          item.contentAreaConfig.keyArr.forEach(obj => {
-            obj.keys.push(obj.key)
-          })
+          // obj.keys = []
+          // item.contentAreaConfig.keyArr.forEach(obj => {
+          //   obj.keys.push(obj.key)
+          // })
           this.getTableData(obj, whereForm)
         }
       })
+    },
+    // 详情配置保存事件
+    detailsAreaConfigEmit (moduleId, detailsAreaConfig, fn) {
+      // console.log(detailsAreaConfig)
+      const reqData = {
+        moduleId,
+        detailsAreaConfig
+      }
+      axios
+        .post(
+          this.settingConfig.commonUrl +
+            '/busSecondmasterpageconfig/insertDetailsAreaConfig',
+          reqData
+        )
+        .then(res => {
+          let code = res.data.code
+          if (code === 20000) {
+            this.$message({
+              message: '详情配置数据添加成功',
+              type: 'success'
+            })
+            this.pageData.forEach(item => {
+              if (item.moduleId === moduleId) {
+                item.detailsAreaConfig = detailsAreaConfig
+              }
+            })
+            fn()
+          }
+        })
+        .catch(msg => {
+          console.log(msg)
+        })
     }
   }
 }

@@ -1,3 +1,4 @@
+// let _this
 export const dataMixins = {
   data () {
     return {
@@ -10,16 +11,21 @@ export const dataMixins = {
       },
       // 模块修改表单设置
       settingForm: {},
+      // 拖拽图标样式设置
+      // TZStyle: {},
       // 内容区域宽高
       mainStyle: {
         width: null,
         height: null,
         offsetTop: null,
         offsetLeft: null
-      }
+      },
+      cursor: 'defalut'
+      // shubiaoMove: '' // 鼠标拖拽状态样式
     }
   },
   mounted () {
+    // _this = this
     this.getMainStyle()
     this.getDemos()
   },
@@ -32,91 +38,143 @@ export const dataMixins = {
     },
     // 图表宽高设置
     setDemos () {
-      this.modelStyle.height = parseFloat(
-        (this.settingForm.height * this.mainStyle.height) / 100
-      )
+      this.modelStyle.height = this.settingForm.height
+      // this.modelStyle.height = parseFloat(
+      //   (this.settingForm.height * this.mainStyle.height) / 100
+      // )
       this.modelStyle.width = parseFloat(
         (this.settingForm.width * this.mainStyle.width) / 100
       )
-      this.modelStyle.top = parseFloat(
-        (this.settingForm.top * this.mainStyle.height) / 100
-      )
+      this.modelStyle.top = this.settingForm.top
+      // this.modelStyle.top = parseFloat(
+      //   (this.settingForm.top * this.mainStyle.height) / 100
+      // )
       this.modelStyle.left = parseFloat(
         (this.settingForm.left * this.mainStyle.width) / 100
       )
     },
     // 获取模块初始位置和宽高
     getDemos () {
-      this.settingForm.height =
-        (this.modelStyle.height / this.mainStyle.height) * 100
+      this.settingForm.height = this.modelStyle.height
+      // this.settingForm.height =
+      //   (this.modelStyle.height / this.mainStyle.height) * 100
       this.settingForm.width =
         (this.modelStyle.width / this.mainStyle.width) * 100
-      this.settingForm.top = (this.modelStyle.top / this.mainStyle.height) * 100
+      this.settingForm.top = this.modelStyle.top
+      // this.settingForm.top = (this.modelStyle.top / this.mainStyle.height) * 100
       this.settingForm.left =
         (this.modelStyle.left / this.mainStyle.width) * 100
     },
+    // 拖拽图标显示、样式控制
+    // setTZStyle (display, left, top) {
+    //   this.TZStyle = {
+    //     display: display,
+    //     left: left + 'px',
+    //     top: top + 'px'
+    //   }
+    // },
     // 模块拖拽事件e
     mousedown_tz (e) {
-      let event = e || window.event // 兼容IE浏览器
-      let drag = this.$refs.statisticsWrap
-      var diffX = event.clientX - drag.offsetLeft
-      var diffY = event.clientY - drag.offsetTop
+      // console.log('mousedown')
       let _this = this
-      let element = document.getElementsByClassName('my_main_content')[0]
-      if (typeof drag.setCapture !== 'undefined') {
-        drag.setCapture()
-      }
-
-      document.onmousemove = function (event) {
-        // eslint-disable-next-line no-redeclare
-        var event = event || window.event
-        var moveX = event.clientX - diffX
-        var moveY = event.clientY - diffY
-        if (moveX < 8) {
-          moveX = 8
-        } else if (moveX > element.scrollWidth - drag.offsetWidth + 6) {
-          moveX = element.scrollWidth - drag.offsetWidth + 6
+      //  设置定时器，鼠标按下一秒后启动拖拽事件
+      var timer = null
+      var mousedownTzZx = null
+      this.cursor = ''
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        // 权限控制
+        if (this.isAdmin) {
+          mousedownTzZx(e)
+          this.cursor = 'move'
         }
+      }, 200)
+      const drag = this.$refs['statisticsWrap']
+      mousedownTzZx = e => {
+        let event = e || window.event // 兼容IE浏览器
 
-        if (moveY < 8) {
-          moveY = 8
-        } else if (moveY > element.scrollHeight - drag.offsetHeight + 6) {
-          moveY = element.scrollHeight - drag.offsetHeight + 6
+        var diffX = event.clientX - drag.offsetLeft
+        var diffY = event.clientY - drag.offsetTop
+        let element = document.getElementsByClassName('my_main_content')[0]
+        if (typeof drag.setCapture !== 'undefined') {
+          drag.setCapture()
         }
+        document.onmousemove = function (event) {
+          // console.log('onmousemove')
+          // eslint-disable-next-line no-redeclare
+          var event = event || window.event
+          var moveX = event.clientX - diffX
+          var moveY = event.clientY - diffY
+          if (moveX < 8) {
+            moveX = 8
+          } else if (moveX > element.scrollWidth - drag.offsetWidth + 6) {
+            moveX = element.scrollWidth - drag.offsetWidth + 6
+          }
 
-        _this.modelStyle.left = moveX
-        _this.modelStyle.top = moveY
+          if (moveY < 8) {
+            moveY = 8
+          } else if (moveY > element.scrollHeight - drag.offsetHeight + 6) {
+            moveY = element.scrollHeight - drag.offsetHeight + 6
+          }
 
-        _this.getDemos()
+          _this.modelStyle.left = moveX
+          _this.modelStyle.top = moveY
+
+          _this.getDemos()
+        }
       }
       document.onmouseup = function () {
         this.onmousemove = null
         this.onmouseup = null
+        clearTimeout(timer)
+        // console.log('onmouseup')
+        if (_this.cursor === 'move') {
+          _this.TZLSKeep()
+        }
+        _this.cursor = ''
         // 修复低版本ie bug
         if (typeof drag.releaseCapture !== 'undefined') {
           drag.releaseCapture()
         }
-        _this.TZLSKeep()
       }
     },
+    // 左侧缩放
+    mousedown_left_ls (e) {
+      this.mousedown_ls(e, 'left')
+    },
+    // 右侧缩放
+    mousedown_right_ls (e) {
+      this.mousedown_ls(e, 'right')
+    },
     // 模块拉伸事件
-    mousedown_ls (event) {
-      // let event = e || windeow.event;  //兼容IE浏览器
-      let drag = this.$refs.statisticsWrap
-      var diffX = event.clientX
-      var diffY = event.clientY
+    mousedown_ls (event, type) {
+      // console.log('mousedown')
       let _this = this
+      this.stopPropagation(event)
+      this.stopDefault(event)
+      // let event = e || windeow.event;  //兼容IE浏览器
+      const drag = this.$refs['statisticsWrap']
+      const diffX = event.clientX
+      const diffY = event.clientY
+
       if (typeof drag.setCapture !== 'undefined') {
         drag.setCapture()
       }
-      let width = _this.modelStyle.width
-      let height = _this.modelStyle.height
+      const modelStyleClone = JSON.parse(JSON.stringify(_this.modelStyle))
+      const width = modelStyleClone.width
+      const height = modelStyleClone.height
+      const left = modelStyleClone.left
       document.onmousemove = function (event) {
         // eslint-disable-next-line no-redeclare
         var event = event || window.event
-        var moveX = event.clientX - diffX
-        var moveY = event.clientY - diffY
-        _this.modelStyle.width = width + moveX
+        const moveX = event.clientX - diffX
+        const moveY = event.clientY - diffY
+        if (type === 'left') {
+          _this.modelStyle.width = width - moveX
+          _this.modelStyle.left = left + moveX
+        } else {
+          _this.modelStyle.width = width + moveX
+        }
         _this.modelStyle.height = height + moveY
         _this.getDemos()
       }
@@ -130,15 +188,27 @@ export const dataMixins = {
         _this.TZLSKeep()
       }
     },
+    // 阻止事件冒泡
+    stopPropagation (event) {
+      // 如果提供了事件对象，则这是一个非IE浏览器
+      if (event && event.stopPropagation) {
+        // 因此它支持W3C的stopPropagation()方法
+        event.stopPropagation()
+      } else {
+        // 否则，我们需要使用IE的方式来取消事件冒泡
+        window.event.cancelBubble = true
+      }
+    },
+    // 阻止浏览器默认事件
+    stopDefault (e) {
+      // 阻止默认浏览器动作(W3C)
+      if (e && e.preventDefault) e.preventDefault()
+      // IE中阻止函数器默认动作的方式
+      else window.event.returnValue = false
+      return false
+    },
     // 模块拖拽拉伸后保存事件
     TZLSKeep () {
-      // this.$confirm('是否保存当前操作信息', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'warning'
-      // }).then(() => {
-
-      // })
       this.$emit(
         'updateMoule',
         this.settingForm,
@@ -164,75 +234,90 @@ export const childMixins = {
         title: '开发区分类统计', // 标题
         subtitle1: '', // 副标题1
         subtitle2: '副标题2', // 副标题2
-        url: '/api/kftjData', // 接口
+        url: '/data/cs1', // 接口
         keyArr: [
           {
-            key: 'title',
+            key: 'mjname',
             explain: '类型',
             dw: '',
             relationKey: '',
-            width: 180
+            width: 300
           },
           {
-            key: 'num',
-            explain: '个数',
-            dw: '个',
-            relationKey: '',
-            width: 100
-          },
-          {
-            key: 'area',
+            key: 'mj',
             explain: '面积',
             dw: '公顷',
             relationKey: '',
-            width: 120
+            width: 200
           }
+          // {
+          //   key: 'area',
+          //   explain: '面积',
+          //   dw: '公顷',
+          //   relationKey: '',
+          //   width: 120
+          // }
         ],
         height: 24.55,
         width: 27.69,
         top: 32.02,
         left: 0.78,
-        defaultParameters: '', // 接口默认参数
+        defaultParameters: '{"jgmc":"占用基本农田"}', // 接口默认参数
         zindex: '100', // 模块z-index
         displayMode: 'table', // 数据展现方式
         submodule: '1', // 是否含有子页面 1:有 0:没有
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
         isPage: '0', // 数据是否添加分页
         pageSize: 10, // 每页显示数据条数
-        mask: '0' // 是否添加遮罩层  1:是 0:否
+        mask: '0', // 是否添加遮罩层  1:是 0:否
+        isDestail: '0' // 是否添加详情弹窗
       },
       childAddType: '1' // 0：同级新增  1：子级新增
     }
   },
   methods: {
     // 表格行点击事件
-    rowClick (rowData) {
-      if (
-        this.settingForm.submodule !== '1' ||
-        this.settingForm.clickToShow !== 'row'
-      ) {
-        return
-      }
-      this.nowRowId = rowData.id
-      this.nowCellKey = ''
-      if (rowData.url) {
-        window.open(rowData.url, '_blank')
+    rowClick (rowData, index) {
+      // console.log(rowData)
+      if (this.settingForm.submodule !== '1') {
+        // 点击弹出详情
+        if (this.settingForm.isDestail === '1') {
+          if (this.statisticsAll.detailsAreaConfig) {
+            this.destailShow(index)
+          } else {
+            this.destailSettingShow()
+          }
+        }
       } else {
-        let subtitle1 = rowData[this.settingForm.keyArr[0].key]
-        if (this.statisticsAll.childModuleId) {
-          this.$emit(
-            'childInsertData',
-            this.statisticsAll.moduleId,
-            rowData.id,
-            subtitle1
-          )
-          this.$emit('rowClick', rowData, this.statisticsAll)
+        if (this.settingForm.clickToShow !== 'row') return
+        // 行下钻
+        this.nowCellKey = ''
+        if (rowData.url) {
+          window.open(rowData.url, '_blank')
         } else {
-          if (this.isAdmin) {
-            this.$refs['childSettingForm'].show()
+          let subtitle1 = rowData[this.settingForm.keyArr[0].key]
+          // 下钻代入参数-值获取
+          const childKV = this.getChildKeyValue(
+            this.settingForm.keyArr,
+            rowData
+          )
+          if (this.statisticsAll.isRowDrillDown === '1') {
+            this.$emit(
+              'childInsertData',
+              this.statisticsAll.moduleId,
+              childKV,
+              subtitle1
+            )
+            this.$emit('rowClick', rowData, this.statisticsAll)
+          } else {
+            if (this.isAdmin) {
+              this.$refs['childSettingForm'].show()
+              this.childAddType = '1'
+            }
           }
         }
       }
+      // this.nowRowId = rowData.id
     },
     // 表格/列表单元格点击事件
     cellClick (rowData, key) {
@@ -249,16 +334,20 @@ export const childMixins = {
         window.open(rowData[key + 'url'], '_blank')
       } else {
         if (
-          this.statisticsAll.childModuleId &&
           this.statisticsAll.drillDownKeyAll &&
           this.statisticsAll.drillDownKeyAll.indexOf(key) > -1
         ) {
           this.$emit('cellClick', rowData, this.statisticsAll)
           let subtitle1 = rowData[this.settingForm.keyArr[0].key]
+          // 下钻代入参数-值获取
+          const childKV = this.getChildKeyValue(
+            this.settingForm.keyArr,
+            rowData
+          )
           this.$emit(
             'childInsertData',
             this.statisticsAll.moduleId,
-            rowData.id,
+            childKV,
             subtitle1,
             key
           )
@@ -270,6 +359,30 @@ export const childMixins = {
         }
       }
     },
+    // 下钻代入参数-值获取  下钻父级查询模块代入子级参数-值获取
+    getChildKeyValue (keyArr, rowData) {
+      const obj = {}
+      keyArr.forEach(item => {
+        if (item.isCruxKey) {
+          obj[item.key] = rowData[item.key]
+        }
+      })
+      // 下钻父级查询模块代入子级参数-值获取
+      let conditionAreaConfig = this.statisticsAll.conditionAreaConfig
+      let whereForms = this.$refs['where'].whereAll.form
+      if (
+        conditionAreaConfig &&
+        conditionAreaConfig.screenData &&
+        conditionAreaConfig.screenData.length > 0
+      ) {
+        conditionAreaConfig.screenData.forEach(item => {
+          if (item.sfxjcx === '1') {
+            obj[item.key] = whereForms[item.key]
+          }
+        })
+      }
+      return obj
+    },
     // 子级表单新增事件
     childSettingKeep (contentAreaConfig) {
       let obj
@@ -277,7 +390,7 @@ export const childMixins = {
         obj = {
           contentAreaConfig,
           moduleId: this.statisticsAll.moduleId,
-          rowid: this.nowRowId,
+          // rowid: this.nowRowId,
           fn: () => {
             this.$refs['childSettingForm'].close()
           },
@@ -287,7 +400,7 @@ export const childMixins = {
         obj = {
           contentAreaConfig,
           moduleId: this.statisticsAll.parentModuleId,
-          rowid: '',
+          // rowid: '',
           key: this.statisticsAll.drillDownKeyCurrent,
           fn: () => {
             this.$refs['childSettingForm'].close()
@@ -309,7 +422,7 @@ export const screenMixins = {
   data () {
     return {
       whereOffon: false,
-      conditionAreaConfig: [], // 后台返回筛选配置数据
+      conditionAreaConfig: {}, // 后台返回筛选配置数据
       whereForm: {}
     }
   },
@@ -318,9 +431,10 @@ export const screenMixins = {
   },
   methods: {
     // 筛选数据获取
-    setWhereForm (data) {
-      if (data && data.length > 0) {
-        data.forEach(item => {
+    setWhereForm (conditionAreaConfig) {
+      // console.log(conditionAreaConfig)
+      if (conditionAreaConfig && conditionAreaConfig.screenData) {
+        conditionAreaConfig.screenData.forEach(item => {
           if (item.defaultValue) {
             this.whereForm[item.key] = item.defaultValue
           }
@@ -333,16 +447,16 @@ export const screenMixins = {
         /\s*/g,
         ''
       )
-      console.log(defaultParameters)
       if (defaultParameters) {
         const obj = JSON.parse(defaultParameters)
         if (
           !this.statisticsAll.conditionAreaConfig ||
-          this.statisticsAll.conditionAreaConfig.length === 0
+          !this.statisticsAll.conditionAreaConfig.screenData ||
+          this.statisticsAll.conditionAreaConfig.screenData.length === 0
         ) {
-          this.statisticsAll.conditionAreaConfig = []
+          this.statisticsAll.conditionAreaConfig.screenData = []
           for (let key in obj) {
-            this.statisticsAll.conditionAreaConfig.push({
+            this.statisticsAll.conditionAreaConfig.screenData.push({
               key: key,
               defaultValue: obj[key],
               sfxjcx: '0',
@@ -362,29 +476,60 @@ export const screenMixins = {
       this.$emit('screenKeep', conditionAreaConfig, this.statisticsAll.moduleId)
     },
     // 筛选模块显示事件
-    filterShow () {
-      this.whereOffon = !this.whereOffon
-      this.$refs['where'].show(
-        this.statisticsAll.conditionAreaConfig,
-        this.whereOffon
-      )
-    },
+    // filterShow () {
+    //   this.whereOffon = !this.whereOffon
+    //   this.$refs['where'].show(
+    //     this.statisticsAll.conditionAreaConfig,
+    //     this.whereOffon
+    //   )
+    // },
     // 内容部分点击事件
-    statisticsContentClick () {
-      this.whereOffon = false
-      this.$refs['where'].show(
-        this.statisticsAll.conditionAreaConfig,
-        this.whereOffon
-      )
-    },
+    // statisticsContentClick () {
+    //   this.whereOffon = false
+    //   this.$refs['where'].show(
+    //     this.statisticsAll.conditionAreaConfig,
+    //     this.whereOffon
+    //   )
+    // },
     // 筛选下拉框保存事件
     whereSubmit (form) {
-      this.whereOffon = false
+      // this.whereOffon = false
       for (let key in form) {
         this.whereForm[key] = form[key]
       }
       this.$emit('whereSubmit', this.statisticsAll.moduleId, form)
-      // console.log(form)
+    },
+    // 查询模块其他按钮点击事件
+    whereOtherBtnClick (item) {
+      this.$emit('whereOtherBtnClick', item, this.statisticsAll.moduleId)
+    }
+  }
+}
+
+// 详情配置、显示模块配置
+export const destailMixins = {
+  methods: {
+    // 详情配置组件显示事件
+    destailSettingShow () {
+      this.$refs.destailSetting.show(
+        this.statisticsAll.data,
+        this.settingForm.keyArr,
+        this.statisticsAll.detailsAreaConfig
+      )
+    },
+    // 详情配置保存事件
+    destailSettingSubmit (detailsAreaConfig, fn) {
+      this.$emit(
+        'detailsAreaConfigEmit',
+        this.statisticsAll.moduleId,
+        detailsAreaConfig,
+        fn
+      )
+    },
+    // 详情弹出显示事件
+    destailShow (index) {
+      // console.log(this.statisticsAll)
+      this.$refs['destail'].show(index)
     }
   }
 }
