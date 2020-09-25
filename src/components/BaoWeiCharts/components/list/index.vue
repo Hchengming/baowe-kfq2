@@ -6,7 +6,7 @@
       <li v-for="(item,index) in data"
           @click="rowClick(item,index)"
           :style="{'line-height':'30px'}"
-          :class="{'border':item.border}"
+          :class="{'border':item.border?true:false}"
           :key="index">
         <div v-for="(col,num) in colums"
              :key="num"
@@ -17,7 +17,7 @@
                       :placement="setPlacement(num,colums)">
             <span>
               {{item[col.key]}}
-              <span class="txt3 theme-color">{{col.dw}}</span>
+              <span class="txt3 theme-color">{{col.dw?col.dw:""}}</span>
             </span>
 
           </el-tooltip>
@@ -38,7 +38,24 @@
 
 <script>
 export default {
-  props: ['data', 'colums', 'height', 'paginationAll', 'statisticsAll'],
+  // props: ['data', 'colums', 'height', 'paginationAll', 'statisticsAll'],
+  props:{
+    data:{
+      type: Array
+    },
+    colums:{
+      type: Array
+    },
+    height:{
+       type: Number
+    },
+     paginationAll:{
+       type: Object
+    },
+    statisticsAll:{
+      type: Object
+    }
+  },
   computed: {
     nowHieght () {
       if (this.paginationAll) {
@@ -52,6 +69,7 @@ export default {
     // 数字转字符串
     NumStrTransformation (val, dw) {
       let str = ''
+      dw = dw ? dw : ''
       if (typeof val === 'number') {
         str = val.toString() + dw
       } else {
@@ -84,7 +102,6 @@ export default {
     },
     rowClick (item, index) {
       this.$emit('rowClick', item, index)
-      // console.log(item)
     },
     cellClick (item, key) {
       this.$emit('cellClick', item, key)

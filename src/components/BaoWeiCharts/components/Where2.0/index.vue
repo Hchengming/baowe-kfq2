@@ -7,8 +7,8 @@
                :model="whereAll.form">
         <el-form-item v-for="(item,index) in whereAll.data"
                       :key="index"
-                      :label="item.label+':'"
-                      :label-width="item.labelWidth+'px'">
+                      :label="label(item)"
+                      :label-width="item.sfjssj === '1'?'10px':item.labelWidth+'px'">
           <!-- 输入框 -->
           <el-input v-if="item.type=='input'"
                     v-model="whereAll.form[item.key]"
@@ -47,6 +47,23 @@
           <el-input-number v-if="item.type=='number'"
                            size="small"
                            v-model="whereAll.form[item.key]"></el-input-number>
+          <!-- 日期框  -->
+           <el-date-picker
+           v-if="item.type==='date'"
+            :style="{width:item.rightWidth+'px'}"
+      v-model="whereAll.form[item.key]"
+      type="date"
+      :placeholder="datePlaceholder(item,index)">
+    </el-date-picker>
+
+     <!-- 日期时间框  -->
+      <el-date-picker
+       v-if="item.type==='dateTime'"
+        :style="{width:item.rightWidth+'px'}"
+      v-model="whereAll.form[item.key]"
+      type="datetime"
+     :placeholder="dateTimePlaceholder(item,index)">
+    </el-date-picker>
         </el-form-item>
       </el-form>
       <div class="staticWhereBottom">
@@ -86,7 +103,7 @@ export default {
     }
   },
   watch: {
-    conditionAreaConfig (val) {
+    conditionAreaConfig () {
       this.setWhereAll(this.conditionAreaConfig)
     }
   },
@@ -94,9 +111,36 @@ export default {
     this.setWhereAll(this.conditionAreaConfig)
   },
   methods: {
+    //日期 placeholder显示
+    datePlaceholder(item,index){
+        if(item.sfjssj === '1'){
+             return '结束日期'
+        }else if(index+1 <= this.whereAll.data.length-1&&this.whereAll.data[index+1].sfjssj === '1'){
+             return '开始日期' 
+        } else {
+             return '日期选择' 
+        }
+    },
+     //日期时间 placeholder显示
+    dateTimePlaceholder(item,index){
+        if(item.sfjssj === '1'){
+             return '结束日期时间'
+        }else if(index+1 <= this.whereAll.data.length-1&&this.whereAll.data[index+1].sfjssj === '1'){
+             return '开始日期时间' 
+        } else {
+             return '日期时间选择' 
+        }
+    },
+    // 左侧标签显示数据
+    label(item){
+      if((item.type==='date'||item.type==='dateTime')&&item.sfjssj==='1'){
+          return '-'
+      }else{
+         return  item.label+':'
+      }
+    },
     // 弹窗显示事件
     setWhereAll (conditionAreaConfig) {
-      // console.log(conditionAreaConfig)
 
       if (conditionAreaConfig) {
         if (!conditionAreaConfig.screenData ||
@@ -130,16 +174,16 @@ export default {
           }
         }
       })
-      // console.log(whereData)
+
       this.$set(this.whereAll, 'data', whereData)
       // 其他按钮配置
       this.btnSettingData = JSON.parse(JSON.stringify(conditionAreaConfig.btnSettingData))
-      //  if(this.btnSettingData.length>0)
+
     },
     // 查询按钮点击事件
     onSubmit () {
       let form = JSON.parse(JSON.stringify(this.whereAll.form))
-      // console.log(form)
+
       this.$emit('whereSubmit', form)
     },
     // 其他按钮点击事件

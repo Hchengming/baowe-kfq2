@@ -33,7 +33,11 @@
 </template>
 <script>
 export default {
-  props: ['menuFormAll'],
+  props:{
+    menuFormAll:{
+      type: Object
+    }
+  },
   watch: {
     'menuFormAll.isShow' (val) {
       if (!val) {

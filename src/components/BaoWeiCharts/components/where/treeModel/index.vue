@@ -102,8 +102,8 @@ export default {
       this.isShow = false
       //  console.log(this.$refs.elTree.getCheckedNodes())
     },
-    getCheckedNodes (data) {
-      console.log(data)
+    getCheckedNodes () {
+      // console.log(data)
     }
   }
 }

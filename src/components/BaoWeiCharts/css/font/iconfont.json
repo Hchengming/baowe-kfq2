@@ -1,0 +1,163 @@
+{
+  "id": "1931343",
+  "name": "开发区用地审核系统",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6589921",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "9578822",
+      "name": "删 除 ",
+      "font_class": "shanchu",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "11968065",
+      "name": "修 改",
+      "font_class": "xiugai",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "2836156",
+      "name": "顶部栏",
+      "font_class": "dingbulan",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "4933443",
+      "name": "右翻页",
+      "font_class": "youfanye",
+      "unicode": "e76a",
+      "unicode_decimal": 59242
+    },
+    {
+      "icon_id": "4933458",
+      "name": "左翻页",
+      "font_class": "zuofanye",
+      "unicode": "e773",
+      "unicode_decimal": 59251
+    },
+    {
+      "icon_id": "12628766",
+      "name": "详情配置",
+      "font_class": "xiangqingpeizhi",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "12737543",
+      "name": "克隆",
+      "font_class": "kelong",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "14445791",
+      "name": "档案",
+      "font_class": "dangan",
+      "unicode": "e762",
+      "unicode_decimal": 59234
+    },
+    {
+      "icon_id": "15057781",
+      "name": "新增",
+      "font_class": "zengjia",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "8988071",
+      "name": "图表",
+      "font_class": "tubiao",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "13547933",
+      "name": "菜单",
+      "font_class": "menu",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "15080314",
+      "name": "框架设置",
+      "font_class": "kuangjiashezhi",
+      "unicode": "e729",
+      "unicode_decimal": 59177
+    },
+    {
+      "icon_id": "6941971",
+      "name": "收起",
+      "font_class": "shouqi-",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "10047333",
+      "name": "收起",
+      "font_class": "ziyuan",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "1276753",
+      "name": "下移",
+      "font_class": "xiayi",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
+      "icon_id": "1276754",
+      "name": "上移",
+      "font_class": "shangyi",
+      "unicode": "e682",
+      "unicode_decimal": 59010
+    },
+    {
+      "icon_id": "1614114",
+      "name": "配置",
+      "font_class": "icon-system-fn-configure",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "14114617",
+      "name": "筛 选",
+      "font_class": "shaixuan",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "16792732",
+      "name": "扩展",
+      "font_class": "kuozhan-copy",
+      "unicode": "e804",
+      "unicode_decimal": 59396
+    },
+    {
+      "icon_id": "6857178",
+      "name": "拖拽",
+      "font_class": "tuozhuai",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "11426356",
+      "name": "扩展",
+      "font_class": "kuozhan",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    }
+  ]
+}

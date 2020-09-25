@@ -1,0 +1,87 @@
+export default {
+  data() {
+    return {
+      destailSetting: []
+    }
+  },
+  computed: {
+    skyWidth() {
+      return this.labelWidth ? this.labelWidth + 'px' : '80px'
+    },
+    valWidth() {
+      if (this.labelWidth) {
+        return `calc(100% - ${this.labelWidth}px)`
+      } else {
+        return `calc(100% - 80px)`
+      }
+    }
+  },
+  mounted() {
+    if (this.detailsTableAll) {
+      this.setDestailSetting()
+    }
+  },
+  watch: {
+    detailsTableAll: {
+      handler() {
+        this.setDestailSetting()
+      },
+      deep: true
+    }
+  },
+  methods: {
+    //
+    // 展示数据配置事件
+    setDestailSetting() {
+      const tableItem = this.tableData
+      // console.log(this.detailsTableAll)
+      const detailsAreaConfig = JSON.parse(JSON.stringify(this.detailsTableAll))
+      detailsAreaConfig.forEach(item => {
+        for (let key in tableItem) {
+          if (item.key === key) {
+            item.val = tableItem[key]
+          }
+        }
+      })
+
+      let num = 0
+      let RowData = []
+      this.destailSetting = []
+      let lastBQ = index => {
+        if (index === detailsAreaConfig.length - 1) {
+          if (num < 24) {
+            let RowDataLength = RowData.length
+            let colSpan = 0
+            RowData.forEach((obj, objIndex) => {
+              if (objIndex !== RowDataLength - 1) {
+                colSpan += obj.proportion
+              }
+            })
+            RowData[RowDataLength - 1].proportion = 24 - colSpan
+            this.destailSetting.push({ row: RowData })
+          }
+        }
+      }
+      detailsAreaConfig.forEach((item, index) => {
+        if (item.isShow === true) {
+          let proportion = item.proportion ? item.proportion : 24
+          if (num + proportion === 24) {
+            RowData.push(item)
+            this.destailSetting.push({ row: RowData })
+            num = 0
+            RowData = []
+          } else if (num + proportion > 24) {
+            this.destailSetting.push({ row: RowData })
+            num = proportion
+            RowData = [item]
+            lastBQ(index)
+          } else {
+            RowData.push(item)
+            num += proportion
+            lastBQ(index)
+          }
+        }
+      })
+    }
+  }
+}

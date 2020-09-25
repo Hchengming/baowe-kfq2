@@ -5,7 +5,7 @@
 export const dragDialog = {
   methods: {
     // 弹出框拖拽事件
-    dragElement (e) {
+    dragElement(e) {
       let eventF = e || window.event // 兼容IE浏览器
       var diffX = eventF.clientX
       var diffY = eventF.clientY
@@ -17,7 +17,7 @@ export const dragDialog = {
       clearTimeout(timer)
       settingFormStyle.cursor = 'default'
       timer = setTimeout(() => {
-        document.onmousemove = function (event) {
+        document.onmousemove = function(event) {
           var moveX = event.clientX - diffX + left
           var moveY = event.clientY - diffY + top
           settingFormStyle.top = moveY + 'px'
@@ -26,7 +26,7 @@ export const dragDialog = {
         }
       }, 500)
 
-      document.onmouseup = function () {
+      document.onmouseup = function() {
         this.onmousemove = null
         this.onmouseup = null
         settingFormStyle.cursor = 'default'
@@ -34,7 +34,7 @@ export const dragDialog = {
       }
     },
     // 字符串转数组
-    numberStr (val) {
+    numberStr(val) {
       let num = 0
       if (val) {
         num = Number(val.replace('px', ''))
@@ -43,3 +43,25 @@ export const dragDialog = {
     }
   }
 }
+
+// 递归方法封装
+export const commonMethods = {
+  methods: {
+    // 递归排序    data:递归数组  childName:子数组字段名 fn:应用方法   Hierarchy:当前数据位于数组的层级
+    recursion(data, childName, fn, Hierarchy) {
+      Hierarchy = Hierarchy ? Hierarchy + 1 : 1
+      data.forEach(item => {
+        item.hierarchy = Hierarchy
+        if (
+          item &&
+          item[childName] != undefined &&
+          item[childName].length > 0
+        ) {
+          this.recursion(item[childName], childName, fn, Hierarchy)
+        }
+        fn(item)
+      })
+    }
+  }
+}
+

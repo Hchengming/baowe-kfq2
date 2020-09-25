@@ -1,12 +1,13 @@
 <template>
   <!-- 筛选 -->
   <div>
-    <el-dialog class="screenForm dialog-common"
-               title="筛选项配置信息"
+    <el-dialog class="screenForm dialog-common"  
                ref="screenFormDialog"
-               @mousedown.native="dragElement"
                :append-to-body="true"
                :visible.sync="isShow">
+           <div class="headerTitle" slot="title" @mousedown="dragElement">
+                     筛选项配置信息
+               </div>    
       <div class="screenBox">
         <fieldset>
           <legend class="theme-color">表单配置</legend>
@@ -61,6 +62,18 @@
                   <el-select v-if="item.key=='sfxjcx'"
                              v-model="items[item.key]"
                              size="small"
+                             placeholder="请选择">
+                    <el-option label="是"
+                               value="1"></el-option>
+                    <el-option label="否"
+                               value="0"></el-option>
+                  </el-select>
+                  <!-- 是否结束时间-->
+                  <el-select v-if="item.key=='sfjssj'"
+                             v-model="items[item.key]"
+                             :disabled="items.type!=='date'&&items.type!=='dateTime'"
+                             size="small"
+                             @change="isOverTimeChange(items,item)"
                              placeholder="请选择">
                     <el-option label="是"
                                value="1"></el-option>
@@ -187,7 +200,11 @@ import { dragDialog } from '../../utils/mixins.js'
 export default {
   components: { settingData },
   mixins: [dragDialog],
-  props: ['screenAll'],
+  props: {
+    screenAll:{
+      type: Object
+    }
+  },
   data () {
     return {
       buttonTypeArr: ['default', 'primary', 'success', 'info', 'warning', 'danger'],
@@ -226,6 +243,10 @@ export default {
         key: 'sfxjcx',
         width: 100
       }, {
+        title: '是否结束时间',
+        key: 'sfjssj',
+        width: 100
+      },{
         title: '操作',
         width: 75
       }],
@@ -250,6 +271,12 @@ export default {
         {
           value: 'number',
           label: '数字输入框'
+        },{
+          value: 'date',
+          label: '时间选择框'
+        },{
+          value: 'dateTime',
+          label: '时间日期选择框'
         }
         // {
         //   value: 'tree',
@@ -282,6 +309,12 @@ export default {
         type: 'primary'
       })
     },
+    //是否结束时间变化事件
+    isOverTimeChange(items,item){
+       if(items[item.key] === '1'){
+         items.label = ''
+       }
+    },
     // 其他按钮删除事件
     btnRemove (index) {
       this.btnSettingData.splice(index, 1)
@@ -295,13 +328,12 @@ export default {
     labelChange (index, item, items) {
       // .key,items[item.key]
       if (item.key === 'label') {
-        // console.log(items[item.key])
         const length = items.label.length
-        this.$set(items, 'labelWidth', length * 16)
+        this.$set(items, 'labelWidth', length * 16+1)
       }
     },
     // 弹窗显示事件
-    show (conditionAreaConfig, offon) {
+    show (conditionAreaConfig) {
       this.isShow = true
 
       if (conditionAreaConfig) {
@@ -316,12 +348,23 @@ export default {
     },
     // 表单类型变化事件
     typeChange (item) {
+      if(['date','dateTime'].indexOf(item.type) === -1){
+        item.sfjssj = ''
+      }
       switch (item.type) {
         case 'input':
           delete item.dataUrl
           delete item.arr
           break
         case 'number':
+          delete item.dataUrl
+          delete item.arr
+          break
+        case 'date':
+          delete item.dataUrl
+          delete item.arr
+          break
+        case 'dateTime':
           delete item.dataUrl
           delete item.arr
           break

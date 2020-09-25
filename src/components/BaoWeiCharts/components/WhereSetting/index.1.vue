@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     // 弹窗显示事件
-    show (screenData, offon) {
+    show (screenData) {
       this.isShow = true
       if (screenData) {
         this.screenData = screenData

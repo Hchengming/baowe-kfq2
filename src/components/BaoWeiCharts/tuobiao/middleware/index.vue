@@ -3,6 +3,7 @@
     <!-- @firstAddKeep   一级新增(克隆)
          @deleteMoule    模块删除
          @rowClick       行点击事件
+         @cellClick   单元格点击事件
          @updateMoule    模块修改事件
          @childSettingAdd  子页面新增事件
          @childInsertData   子页面数据查询事件
@@ -11,15 +12,20 @@
          @tablePageSort    表格/列表分页点击事件
          @whereSubmit      筛选确认事件
          @destailsAreaConfigEmit  详情配置保存事件
+         @whereOtherBtnClick   查询模块其他按钮点击事件
+         @statisticsMore  头部右侧更多按钮点击事件
     -->
     <section v-for="(item, index) in pageData"
              :key="index">
       <statistics :statisticsAll="item"
                   :browserXY="browserXY"
                   :dataUrl="settingConfig.dataUrl"
+                  :addSettingForm='addSettingForm'
+                  :itemApiData="itemApiData"
                   @firstAddKeep="addKeep"
                   @deleteMoule="deleteMoule"
                   @rowClick="rowClick"
+                  @cellClick="cellClick"
                   @updateMoule="updateMoule"
                   @childSettingAdd="childSettingAdd"
                   @childInsertData="childInsertData"
@@ -29,6 +35,8 @@
                   @whereSubmit="whereSubmit"
                   @detailsAreaConfigEmit="detailsAreaConfigEmit"
                   @whereOtherBtnClick="whereOtherBtnClick"
+                  @statisticsMore="statisticsMore"
+                  @settingClick="settingClick"
                   :systemPermissions="settingConfig.systemPermissions"></statistics>
     </section>
 
@@ -36,15 +44,16 @@
     <settingForm ref="settingForm"
                  :form="addSettingForm"
                  :dataUrl="settingConfig.dataUrl"
+                 :itemApiData="itemApiData"
                  @submit="addKeep"></settingForm>
 
   </div>
 </template>
 <script>
 import dataMixins from './mixins'
-import statistics from '../statistics'
-import axios from 'axios'
-import settingForm from '../../components/settingForm'
+import Statistics from '../statistics'
+import serviceAxios from '@/utils/request.js'
+import SettingForm from '../../components/SettingForm'
 // eslint-disable-next-line no-unused-vars
 // import defaultData from './KFQTJData.json'
 export default {
@@ -54,51 +63,46 @@ export default {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
+    },
+    itemApiData:{
+      type: Array
     }
   },
-  components: { statistics, settingForm },
+  components: { Statistics, SettingForm },
   data () {
     return {
       // systemPermissions: 'admin', // 系统权限控制
       templateArr: ['baowei_1'],
       menuId: '',
       addSettingForm: {
-        title: '开发区分类统计', // 标题
-        subtitle1: '副标题1', // 副标题1
-        subtitle2: '副标题2', // 副标题2
-        url: '/data/cs1', // 接口
-        keyArr: [
-          {
-            key: 'mjname',
-            explain: '类型',
-            dw: '',
-            relationKey: '',
-            width: 300
-          },
-          {
-            key: 'mj',
-            explain: '面积',
-            dw: '公顷',
-            relationKey: '',
-            width: 200
-          }
-          // {
-          //   key: 'area',
-          //   explain: '面积',
-          //   dw: '公顷',
-          //   relationKey: '',
-          //   width: 120
-          // }
-        ],
-        height: 24.55,
+        title: '', // 标题
+        subtitle1: '', // 副标题1
+        subtitle2: '', // 副标题2
+        isAddMoreIcon:'0',//是否添加更多按钮 0：否 1：是
+        moreUrl:'',//更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
+        moduleType: '0',//模块内容  0:图表 1:iframe地图 2:详情表格展示
+        url: '', // 接口
+        urlName:'',//接口名称
+        options:'GET',//请求方式  GET/POST
+        keyArr: [],//图表字段配置数据
+        paramConfig:[],//请求参数配置
+        destailsTableLabelWidth:100,//详情列表左侧标题宽度
+        detailsTableAll:[],//详情列表配置数据
+        iframeAll:{
+         iframeType:'0',// 0-map地图  1-其他类型
+         iframeUrl:'http://23.36.250.99:666/views/showmap.html?callid=10129',//iframe嵌入路径,
+        },
+        height: 300,
         width: 27.69,
         top: 32.02,
         left: 20.78,
         defaultParameters: '', // 接口默认参数
         zindex: '8', // 模块z-index
-        displayMode: 'list', // 数据展现方式
+        displayMode: 'table', // 数据展现方式
         submodule: '0', // 是否含有子页面
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
+        isLinkMap:'0',//是否链接iframe地图  0:不链接 1:链接 
+        mapPosition:'0',//地图定位   0-定位到重庆 1-定位到区县  2-定位到开发区
         isPage: '0', // 数据是否添加分页
         mask: '0', // 是否添加遮罩层
         pageSize: 10, // 每页显示数据条数
@@ -110,22 +114,49 @@ export default {
     // this.getData()
   },
   methods: {
+    // 图表方法暴露
+    chartsMethods (reqObj) {
+      // console.log(reqObj)
+      // let obj = {
+      //   moduleId: reqObj.moduleId,
+      //   methodsName: reqObj.methodsName,
+      //   rowItem: reqObj.rowItem ? reqObj.rowItem : undefined,
+      //   otherItem: reqObj.otherItem ? reqObj.otherItem : undefined
+      // }
+      this.$emit('chartsMethods', reqObj)
+    },
     // 查询模块其他按钮点击事件(按钮配置数据，模块id)
     whereOtherBtnClick (setttingItem, moduleId) {
-
+      this.chartsMethods({
+        moduleId: moduleId,
+        name: '查询模块其他按钮点击事件',
+        methodsName: setttingItem.methodsName,
+        otherItem: setttingItem
+      })
+    },
+    //头部右侧更多按钮点击事件
+    statisticsMore(statisticsAll){
+      this.chartsMethods({
+        moduleId: statisticsAll.moduleId,
+        name: '头部右侧更多按钮点击事件',
+        methodsName: 'statisticsMore'
+      })
     },
     // 左侧菜单点击事件
     menuClick (menuItem) {
       this.menuId = menuItem.menuId
       this.getData()
     },
-    // 子级弹窗关闭事件
-    statisticsClose (moduleId) {
-      this.pageData.forEach((item, index) => {
-        if (item.moduleId === moduleId) {
-          this.pageData.splice(index, 1)
+    // 子级弹窗关闭事件--同级子弹窗全部关闭
+    statisticsClose (moduleId, parentModuleId) {
+      let datas = []
+      this.pageData.forEach((item) => {
+        if (item.parentModuleId !== parentModuleId) {
+          // this.pageData.splice(index, 1)
+          datas.push(item)
         }
       })
+      this.pageData = datas
     },
     // 表格分页点击事件
     tablePageSort (moduleId, paginationAll, whereForm) {
@@ -133,13 +164,14 @@ export default {
       // eslint-disable-next-line no-unused-vars
       let obj = {}
       // let currentPage=pageAll.currentPage?
+      let nowItem = {}
       this.pageData.forEach((item, index) => {
         if (item.moduleId === moduleId) {
           obj.index = index
           obj.pageSize = paginationAll.pageSize
           obj.currentPage = paginationAll.currentPage
           obj.url = item.contentAreaConfig.url
-
+          nowItem = item
           if (item.parentModuleId) {
             // 子级页面分页--测试
             offon = false
@@ -152,7 +184,7 @@ export default {
       })
 
       if (offon) {
-        this.getTableData(obj, whereForm)
+        this.getTableData(obj, whereForm, nowItem)
       }
     },
     // 配置数据格式转换
@@ -200,15 +232,14 @@ export default {
     // 模块图表配置数据获取
     getData () {
       this.pageData = []
-      axios
-        .post(this.settingConfig.commonUrl + '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin', {
+      serviceAxios['post'](this.settingConfig.commonUrl + '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin', {
           menuId: this.menuId
         })
         .then(res => {
-          let code = res.data.code
-          let resData = res.data.data
-
+          let code = res.code
+          let resData = res.data
           if (code === 20000) {
+          
             resData.forEach((item, index) => {
               this.itemGSH(item)
               // 配置数据字段集获取
@@ -242,59 +273,105 @@ export default {
                   }
                 })
               }
-
-              setTimeout(() => {
-                this.getTableData(obj, defaultReqData)
-              }, 100)
+             
+              if(item.contentAreaConfig.moduleType!=='1'){
+                 this.getTableData(obj, defaultReqData, item)
+              }
             })
           }
         })
         .catch(msg => {
-          console.log(msg)
+          this.$message({
+              message: '请求失败' + msg,
+              type: 'error'
+            })
+            return false
         })
     },
     // 图表数据获取
-    getTableData (obj, whereReqData) {
+    getTableData (obj, whereReqData, config) {
       let reqData = {
         currentPage: obj.currentPage,
         pageSize: obj.pageSize,
-        keys: obj.keys
+        // keys: obj.keys,
       }
       // 查询其他-参数接入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
-      axios
-        .post(this.settingConfig.dataUrl + obj.url, reqData)
-        .then(res => {
-          if (res.data.code === 20000) {
-            let resData = res.data.data
-
-            if (reqData.currentPage && reqData.pageSize) {
-              this.$set(this.pageData[obj.index], 'data', resData.list)
-              this.$set(
-                this.pageData[obj.index],
-                'paginationAll',
-                {
-                  currentPage: obj.currentPage,
-                  pageSize: obj.pageSize,
-                  total: resData.totalCount
-                }
-              )
-            } else {
-              this.$set(this.pageData[obj.index], 'data', resData)
-              this.$set(this.pageData[obj.index], 'paginationAll', undefined)
+      let resDataFn = (resData) => {
+        if (reqData.currentPage && reqData.pageSize) {
+          this.$set(this.pageData[obj.index], 'data', resData.list)
+          this.$set(
+            this.pageData[obj.index],
+            'paginationAll',
+            {
+              currentPage: obj.currentPage,
+              pageSize: obj.pageSize,
+              total: resData.totalCount
             }
-            // console.log(this.pageData)
+          )
+        } else {
+          this.$set(this.pageData[obj.index], 'data', resData)
+          this.$set(this.pageData[obj.index], 'paginationAll', undefined)
+        }
+      }
+      let reqObj = JSON.parse(JSON.stringify(reqData))
+      reqObj.methodsName = "getchartsList"
+      reqObj.name = "图表数据请求事件"
+      reqObj.config = config;
+      reqObj.url = obj.url;
+      //特殊情况处理 (获取数据格式特殊，默认情况无法处理)
+      let sftsqk = false;//当前是否未特殊情况
+      reqObj.sftsqk = (offon) => {//是否未特殊情况返回
+        sftsqk = offon ? true : false
+      }
+      reqObj.tsqkData = (data) => {//特殊情况数据处理后返回
+        resDataFn(data)
+      }
+      // console.log(reqObj, '===')
+      this.$emit('chartsMethods', reqObj)
+      if (!sftsqk) {
+        //根据请求方式的不同进行调整
+        let options=config.contentAreaConfig.options==='POST'?'post':'get'
+      //参数写入
+      if(config.contentAreaConfig.paramConfig){
+        config.contentAreaConfig.paramConfig.forEach(item=>{
+         if(!reqData[item.paramKey]&&item.isUse){
+           reqData[item.paramKey]=item.paramValue
+         }
+       })
+      }
+       if(options === 'get'){
+          reqData={
+            params:reqData
           }
-        })
-        .catch(msg => {
-          this.$message({
-            message: '请求失败' + msg,
-            type: 'error'
+        }
+        //判断当前接口是完全接口还是测试接口
+        let nowUrl=''
+        if(obj.url.indexOf('http')>-1){
+            nowUrl= obj.url
+        }else{
+          nowUrl=this.settingConfig.dataUrl + obj.url
+        }
+        console.log(config.contentAreaConfig.paramConfig)
+        serviceAxios[options](nowUrl, reqData)
+          .then(res => {
+            if (res.code === 20000) {
+              let resData = res.data
+              resDataFn(resData)
+            }
           })
-          return false
-        })
+          .catch(msg => {
+            this.$message({
+              message: '请求失败' + msg,
+              type: 'error'
+            })
+            return false
+          })
+      }
+
+
     }
   }
 }

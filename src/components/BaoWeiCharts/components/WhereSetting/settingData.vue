@@ -2,9 +2,12 @@
   <!-- 表单项数据配置模块 -->
   <div>
     <el-dialog class="screenForm settingData dialog-common"
-               title="表单项数据配置信息"
+               ref="screenFormSettings"
                :append-to-body="true"
                :visible.sync="isShow">
+             <div class="headerTitle" slot="title" @mousedown="dragElement">
+                     表单项数据配置信息
+               </div>   
       <el-form ref="form">
         <el-form-item label="数据源"
                       label-width="65px">
@@ -71,9 +74,12 @@
   </div>
 </template>
 <script>
+import { dragDialog } from '../../utils/mixins.js'
 export default {
+   mixins: [dragDialog],
   data () {
     return {
+      dialogRef:'screenFormSettings',
       isShow: false,
       dataType: 'custom',
       customDisabled: false,

@@ -28,7 +28,7 @@
                    :current-page="paginationAll.currentPage"
                    :page-size="paginationAll.pageSize"
                    :page-sizes="[10,50, 100, 500, 1000]"
-                   layout="total, sizes, prev, pager, next, jumper"
+                   layout="total, prev, pager, next"
                    :total="paginationAll.total"
                    v-if="paginationAll"></el-pagination>
     <!--    <el-pagination-->
@@ -49,7 +49,30 @@ export default {
       cellCursor: ''
     }
   },
-  props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
+  // props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
+  props:{
+    tabledata:{
+      type: Array
+    },
+    colums:{
+      type: Array
+    },
+    height:{
+       type: Number
+    },
+     width:{
+       type: Number
+    },
+     paginationAll:{
+       type: Object
+    },
+    statisticsAll:{
+      type: Object
+    },
+    border:{
+      type: Boolean
+    }
+  },
   computed: {},
   methods: {
     // 获取行索引
@@ -115,8 +138,7 @@ export default {
       return widths
     },
     // 行点击事件
-    rowClick (row, column, event) {
-      // console.log(row)
+    rowClick (row) {
       this.$emit('rowClick', row, row.rowIndex)
     },
     // 表格单元格点击事件
@@ -125,7 +147,6 @@ export default {
     },
     // 分页变化事件
     handleCurrentChange (currentPage) {
-      console.log(this.paginationAll)
       this.paginationAll.currentPage = currentPage
       this.$emit('tablePageSort', this.paginationAll)
     },

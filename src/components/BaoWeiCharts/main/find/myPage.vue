@@ -2,13 +2,22 @@
   <div class="my_main_content">
     <!-- 图表组件 -->
     <middleware ref="middleware"
+                :itemApiData="itemApiData"
                 :settingConfig="settingConfig"
-                @rowClick="rowClick"></middleware>
+                @chartsMethods="elementMethods"></middleware>
     <!-- 地图组件 -->
     <!-- <myMap ref="myMaps"></myMap> -->
     <!-- 顶部栏组件 -->
     <top-bar ref="topBar"
-             :settingConfig="settingConfig"></top-bar>
+             v-if="topBarAll.data&&topBarAll.data.length>0"
+             @delete="topBarDelete"
+             @update="topBarUpdate"
+             @topBarClick="topBarClick"
+             :itemApiData="itemApiData"
+             :topBarAll="topBarAll"></top-bar>
+    <top-bar-setting ref="topBarSetting"
+                :itemApiData="itemApiData"
+                     @submit="topBarAdd"></top-bar-setting>
     <!-- 页面配置 -->
     <div class="hoverMenu">
       <div class="box">
@@ -39,11 +48,17 @@
 </template>
 <script>
 import middleware from '../../tuobiao/middleware/index'
-import TopBar from '../../components/TopBar'
 import assembly from './assembly'
+
+/* 顶部栏导入 */
+import TopBar from '../../components/TopBar'
+import TopBarSetting from '../../components/TopBarSetting'
+import topBarMixins from './mixins/topBarMixins.js'
+/* ====end==== */
 let _this
 // import myMap from '../../components/maps/map'
 export default {
+  mixins: [topBarMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -54,6 +69,7 @@ export default {
   data () {
     return {
       rightDrawerType: '',
+      nowMenuItem: {}, // 当前选中菜单配置信息
       settingDrawer: false, // 右侧抽屉显示隐藏控制
       chooseType: ''
     }
@@ -61,7 +77,8 @@ export default {
   components: {
     middleware,
     assembly,
-    TopBar
+    TopBar,
+    TopBarSetting
     // myMap
   },
   mounted () {
@@ -72,16 +89,22 @@ export default {
     }
   },
   methods: {
-    // 图表组件行点击事件
-    rowClick (rowData) {
-      if (rowData.marker) {
-        this.$refs['myMaps'].addMarker(rowData.marker)
-      }
+    // 组件事件暴露
+    elementMethods (reqObj) {
+      this.$emit('elementMethods', reqObj)
+      // this.chartsMethods(reqObj)
     },
-    // 左侧菜单点击事件
+    // 菜单点击事件
     menuClick (menuItem) {
+      this.nowMenuItem = menuItem
       this.$refs['middleware'].menuClick(menuItem)
-      // this.$refs['myMaps'].menuClick(menuItem)
+      this.getTopBarConfig()
+      this.elementMethods({
+        name: '菜单点击事件',
+        methodsName: 'menuClick',
+        menuItem
+      })
+      sessionStorage.setItem('menuItem',JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
     mainStyleChange () {
@@ -108,7 +131,7 @@ export default {
           this.$refs['middleware'].addTemplate()
           break
         case 'topBar': // 顶部栏组件
-          this.$refs['middleware'].addTemplate()
+          this.$refs['topBarSetting'].show()
           break
         // case 'map': //行政区图
         //   this.$refs['myMaps'].addTemplate()

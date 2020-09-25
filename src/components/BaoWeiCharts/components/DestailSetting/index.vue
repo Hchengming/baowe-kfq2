@@ -1,12 +1,34 @@
 <template>
   <!-- 详情配置组件 -->
   <el-dialog class="destail-setting dialog-common"
-             title="模块配置信息"
              :append-to-body="true"
              ref="destailSettingDialog"
+
              :visible.sync="dialogVisible">
+              <div class="headerTitle" slot="title" @mousedown="dragElement">
+                     详情配置信息
+               </div>
     <div>
-      <fieldset>
+       <el-form ref="settingForm"
+               :model="destailSetObj"
+               label-width="130px">
+               
+             <el-form-item label="详情内容展示"
+                          prop="detailType">
+              <el-radio-group v-model="destailSetObj.detailType">
+                <el-radio label="0">自定义配置</el-radio>
+                <el-radio label="1">跳转新页面</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="跳转页路径"
+            v-if="destailSetObj.detailType==='1'"
+                          prop="detailsUrl">
+             <el-input size="mini"
+                        placeholder="跳转页路径"
+                        v-model="destailSetObj.detailsUrl"></el-input>
+            </el-form-item>
+        </el-form>
+      <fieldset v-if="destailSetObj.detailType==='0'">
         <legend class="theme-color">全局配置</legend>
         <el-row>
           <el-col :span="12">
@@ -23,12 +45,11 @@
                              controls-position="right"
                              size="small"
                              :min="1"
-                             :max="200"></el-input-number>
+                             :max="300"></el-input-number>
           </el-col>
         </el-row>
       </fieldset>
-      <!-- {{settingData}} -->
-      <fieldset class="zdpz-ul">
+      <fieldset class="zdpz-ul" v-if="destailSetObj.detailType==='0'">
         <legend class="theme-color">显示内容配置</legend>
         <ul class="zdpz_list">
           <li class="zdpz_list_header">
@@ -108,10 +129,13 @@
 
 </template>
 <script>
+import { dragDialog } from '../../utils/mixins.js'
 export default {
+  mixins: [dragDialog],
   data () {
     return {
       dialogVisible: false,
+      dialogRef:"destailSettingDialog",
       settingData: [], // 详情配置数据
       proportionAll: [{
         label: '1',
@@ -129,6 +153,8 @@ export default {
       chooseKey: '', // 当前选中key
       errorKey: [], // 为填写完整字段
       destailSetObj: {
+        detailType:'0',//详情内容展示 0:自定义配置  1：跳转新页面
+        detailsUrl:'',//跳转新页面路径
         width: 600,
         titleWidth: 100
       }
@@ -193,11 +219,12 @@ export default {
     // 弹窗显示事件
     show (tableData, keyArr, detailsAreaConfig) {
       this.dialogVisible = true
-      // console.log(tableData)
       if (detailsAreaConfig) {
         this.settingData = detailsAreaConfig.settingData
         this.destailSetObj.width = detailsAreaConfig.width
         this.destailSetObj.titleWidth = detailsAreaConfig.titleWidth
+         this.destailSetObj.detailType = detailsAreaConfig.detailType
+          this.destailSetObj.detailsUrl = detailsAreaConfig.detailsUrl
         if (tableData && tableData.length > 0) {
           for (let key in tableData[0]) {
             let offon = false

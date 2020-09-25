@@ -1,54 +1,63 @@
 <template>
-  <el-container class="KFQ_wrap">
-    <el-header>
-      <div class="logo">
-        <span>重庆市开发区用地审核与监管系统</span>
-        <i @click="leftMenuControl"
-           v-if="leftMenu.length > 0"
-           :class="['menu_icon theme-color', menu_i]"></i>
-      </div>
-      <ul class="header_menu">
-        <li v-for="(item, index) in menuData"
-            @click="topMenuClick(item, index)"
-            :class="{
-            'theme-color theme-border-color active': menuActiveIndex == index
+  <div id="bao-wei-charts">
+    <el-container class="KFQ_wrap">
+      <el-header >
+        <div class="logo">
+          <img :src="settingConfig.logoUrl" />
+          <span>{{settingConfig.itemTitle}}</span>
+          <i @click="leftMenuControl"
+             v-if="leftMenu.length > 0"
+             :class="['menu_icon theme-color', menu_i]"></i>
+        </div>
+        <ul class="header_menu">
+          <li v-for="(item, index) in menuData"
+              @click="topMenuClick(item, index)"
+              :class="{
+            'active': menuActiveIndex == index
           }"
-            :key="index">
-          <i :class="['iconfont', item.menuIcon, 'theme-color']"></i>
-          {{ item.menuName }}
-        </li>
-      </ul>
-    </el-header>
-    <el-container>
-      <!-- 左侧导航栏 -->
-      <el-aside :width="leftMenuWidth"
-                v-if="leftMenu.length > 0">
-        <el-menu default-active
-                 class="el-menu-vertical-demo"
-                 :collapse="isCollapse">
-          <my-menu v-for="menuItem in leftMenu"
-                   :key="menuItem.menuCode"
-                   :menuItem="menuItem"
-                   @leftMenuClick="leftMenuClick"></my-menu>
-        </el-menu>
-      </el-aside>
-      <!-- 内容区域 -->
-      <el-main class="theme-bg">
-        <my-page ref="myPage"
-                 @getMenuData="getMenuChange"
-                 :settingConfig="settingConfig"></my-page>
-      </el-main>
+              :key="index">
+            <i :class="['iconfont', item.menuIcon, 'theme-color']"></i>
+            {{ item.menuName }}
+          </li>
+        </ul>
+      </el-header>
+      <el-container>
+        <!-- 左侧导航栏 -->
+        <el-aside :width="leftMenuWidth"
+                  v-if="leftMenu.length > 0">
+          <el-menu :default-active="defaultActive()"
+                   class="el-menu-vertical-demo menu-bg-color"
+                   :collapse="isCollapse">
+            <my-menu v-for="menuItem in leftMenu"
+                     :key="menuItem.menuCode"
+                     :menuItem="menuItem"
+                     @leftMenuClick="leftMenuClick"></my-menu>
+          </el-menu>
+        </el-aside>
+        <!-- 内容区域 -->
+        <el-main class="theme-bg">
+          <my-page ref="myPage"
+                   @getMenuData="getMenuChange"
+                   @elementMethods="elementMethods"
+                   :settingConfig="settingConfig"></my-page>
+          <slot name="content"></slot>
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
+  </div>
 </template>
 <script>
+import '../css/font/iconfont.css'
+import '../css/index.css'
 import MyMenu from './find/my-menu'
 import MyPage from './find/myPage'
-// import axios from 'axios'
 // eslint-disable-next-line no-unused-vars
 import defaultData from './menuData.json'
+import serviceAxios from '@/utils/request.js'
+import { commonMethods } from '../utils/mixins.js'
 export default {
   name: 'wrap',
+  mixins: [commonMethods],
   props: {
     settingConfig: {
       type: Object,
@@ -72,9 +81,21 @@ export default {
     this.getTreeMenu()
   },
   methods: {
+    defaultActive () {
+      return ''
+    },
+    // 组件事件暴露
+    elementMethods (obj) {
+      this.$emit('elementMethods', obj)
+    },
     // 左侧菜单点击事件
     leftMenuClick (menuItem) {
       this.$refs['myPage'].menuClick(menuItem)
+      this.$emit('elementMethods', {
+        name: '左侧菜单点击事件',
+        methodsName: "menuClick",
+        menuItem
+      })
     },
     // 顶部菜单点击事件
     topMenuClick (item, index) {
@@ -82,22 +103,38 @@ export default {
       this.leftMenu = item.children
       this.$refs['myPage'].mainStyleChange()
       this.$refs['myPage'].menuClick(item)
+      this.$emit('elementMethods', {
+        name: '顶部菜单点击事件',
+        methodsName: "menuClick",
+        menuItem: item
+      })
     },
     // 菜单树数据查询事件
     getTreeMenu: function () {
       this.menuData = defaultData
-      // axios
-      // .post(this.settingConfig.commonUrl + '/menu/insertMenu')
-      // .then(res => {
-      //   let status = res.data.status
-      //   let reqData = res.data.data
-      //   if (status === 0) {
-      //     this.menuData = reqData
-      //     if (this.menuData[0]) {
-      this.$refs['myPage'].menuClick(this.menuData[0])
-      //     }
-      //   }
-      // })
+      if (this.menuData[0]) {
+            this.$refs['myPage'].menuClick(this.menuData[0])
+          return false
+      }
+      serviceAxios
+      .get(this.settingConfig.getMenuUrl,{})
+      .then(res => {
+        let code = res.code
+        let resData = res.data
+        if (code === 20000) {
+          this.recursion(resData,'children',(item)=>{
+            item.menuCode=item.apeCode
+            item.menuName=item.apeName
+            item.children=item.children?item.children:[]
+            item.menuId=item.apeKey
+          })
+          this.menuData=resData
+          if (this.menuData[0]) {
+            this.$refs['myPage'].menuClick(this.menuData[0])
+             this.leftMenu = this.menuData[0].children
+          }
+        }
+      })
     },
     // 菜单数据变化更新
     getMenuChange (menuData) {
@@ -116,6 +153,15 @@ export default {
     }
   }
 }
+
+// {
+//     "menuName": "一张图查询",//菜单名
+//     "menuCode": "100",//菜单编码
+//     "menuIcon": "",//菜单图标
+//     "menuId": "9d984bd0cbbe11eaa14021da1718822c",//菜单id
+//     "url":"",//新页面打开路径
+//     "children": []
+//   },
 </script>
 
 <style>

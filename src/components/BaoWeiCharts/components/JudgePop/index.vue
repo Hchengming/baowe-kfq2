@@ -31,7 +31,7 @@ export default {
     // 弹窗取消事件
     handleClose () {
       this.dialogVisible = false
-      this.$emit('handleClose', this.transmissionValue)
+      this.$emit('handleClose',this.transmissionKey,this.transmissionValue)
     },
     // 确认按钮点击事件
     confirm () {

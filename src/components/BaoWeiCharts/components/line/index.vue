@@ -68,28 +68,50 @@
  * titleShow 图表头部切换是否显示  Boolean
  * ringSettings  环图配置  Object
  */
-let _this
+// let _this
 // import Vue from 'vue'
 
 export default {
-  props: [
-    'data',
-    'chartColumns',
-    'height',
-    'chartType',
-    'titleShow',
-    'pieSettings',
-    'ringSettings'
-  ],
+   props:{
+    data:{
+      type: Array
+    },
+    chartColumns:{
+      type: Array
+    },
+    height:{
+       type: Number
+    },
+    chartType:{
+       type: String
+    },
+    titleShow:{
+       type: Boolean
+    },
+    pieSettings:{
+       type: Object
+    },
+    ringSettings:{
+      type: Object
+    }
+  },
   data () {
     return {
       pieDW: '',
       pieType: '',
       xAxis: {},
       options: {
-        // series: { barMinHeight: 1 },
         grid: {},
-        xAxis: {},
+        xAxis: {
+          axisLabel: {
+            interval: 0,
+            rotate: 25,
+            fontSize: 10
+          }
+        },
+        'yAxis.0.axisLabel.fontSize': 10,
+        'yAxis.0.axisLabel.interval':0,
+        // 'yAxis.0.nameTextStyle.height ':5,
         tooltip: {
           // trigger: "item",
           // position: function(pt) {
@@ -98,40 +120,41 @@ export default {
           // formatter: "{a} {b}: {c} ({d}%)" // 这里是鼠标移上去的显示数据
         }
       },
-      chartEvents: {
-        click (e) {
-          _this.$emit('eventClick', e)
-        }
-      },
+      // chartEvents: {
+      //   click (e) {
+      //     this.$emit('eventClick', e)
+      //   }
+      // },
       extend: {},
       chartSettings: {}
     }
   },
   mounted () {
-    //  this.options.yAxis.data.push(JSON.parse("{\"value\":\"" + '哈哈哈' + "\", \"id\":\"" + '66666666' + "\"}"));
-    _this = this
-    this.$set(this.options.xAxis, 'axisLabel', {
-      interval: 0,
-      rotate: 25,
-      fontSize: 10
-    })
     if (!this.titleShow) {
       this.$set(this.options, 'grid', {
         top: 15,
         left: 5,
-        bottom: 5,
+        bottom: 0,
         right: 5
       })
     } else {
       this.$set(this.options, 'grid', {
-        top: 30,
+        top: 45,
         left: 5,
-        bottom: 5,
+        bottom: 0,
         right: 5
       })
     }
   },
   computed: {
+    chartEvents(){
+      let _this=this;
+      return {
+        click (e) {
+              _this.$emit('eventClick', e)
+            }
+      }
+    },
     chartData () {
       let chartData = {}
       if (!this.data || this.data.length === 0) return {}
@@ -149,12 +172,14 @@ export default {
         })
         chartData.rows.push(obj)
       })
+
+
+
       return chartData
     },
     // 饼图、环图数据获取
     chartData2 () {
       let chartData = {}
-      // console.log(this.data.length)
 
       if (!this.data || this.data.length === 0) return {}
       //  return chartData;

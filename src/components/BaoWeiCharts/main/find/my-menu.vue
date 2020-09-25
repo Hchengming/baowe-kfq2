@@ -43,6 +43,7 @@ export default {
     // 左侧菜单点击事件
     leftMenuClick (menuItem) {
       this.$emit('leftMenuClick', menuItem)
+      // sessionStorage.setItem("leftMenuCode",menuItem.menuCode)
     }
   }
 }

@@ -1,11 +1,11 @@
 <template>
   <!-- 详情展示组件 -->
   <el-dialog class="destail-wrap dialog-common"
-             title="模块配置信息"
+             title="详情展示信息"
              :append-to-body="true"
              :width="width"
              ref="destailSettingDialog"
-             :visible.sync="dialogVisible">
+             :visible.sync="dialogVisible">  
     <div class="detail_box model_box info_table">
       <el-row class="detail_row"
               v-for="(items,indexs) in destailSetting"
@@ -135,7 +135,6 @@ export default {
           }
         }
       })
-      // console.log(this.destailSetting)
     },
     // 翻页事件
     pageBtn (num, offon) {
