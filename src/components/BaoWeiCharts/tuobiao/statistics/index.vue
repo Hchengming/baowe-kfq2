@@ -29,7 +29,7 @@
             </div>
             <div class="right">
               <span class="txt3">{{ settingForm.subtitle2 }}</span>
-             
+
               <i title="同级新增"
                  class="iconzengjia iconfont"
                  v-if="this.statisticsAll.parentModuleId&&isAdmin"
@@ -90,11 +90,10 @@
                   </ul>
                 </div>
               </div>
-               <span 
-                 @click="moduleMore"
-                 v-if="settingForm.isAddMoreIcon==='1'"
-                 class="more">更多</span>
-                 <!-- iconfont icongengduo -->
+              <span @click="moduleMore"
+                    v-if="settingForm.isAddMoreIcon==='1'"
+                    class="more">更多</span>
+              <!-- iconfont icongengduo -->
             </div>
           </div>
         </div>
@@ -102,7 +101,7 @@
 
         <div class="statistics-content"
              v-loading="!statisticsAll.data&&settingForm.moduleType!=='1'"
-             element-loading-text="拼命加载中"
+             element-loading-text="数据加载中"
              element-loading-spinner="el-icon-loading"
              element-loading-background="rgba(0, 0, 0, 0.2)">
           <!-- 筛选模块 -->
@@ -117,14 +116,18 @@
                 :colums="nowClums()"
                 :statisticsAll="statisticsAll"
                 :paginationAll="statisticsAll.paginationAll"
+                :settingForm="settingForm"
                 @rowClick="rowClick"
                 @cellClick="cellClick"
+                @operateButtonClick="operateButtonClick"
                 @tablePageSort="tablePageSort"></list>
           <!-- 数据表格展示 -->
           <bw-table v-if="settingForm.displayMode == 'table'&&isCharts()"
                     :tabledata="statisticsAll.data"
+                    @operateButtonClick="operateButtonClick"
                     :colums="nowClums()"
                     :height="boxHeight()"
+                    :settingForm="settingForm"
                     :width="modelStyle.width - 40"
                     :statisticsAll="statisticsAll"
                     :border="false"
@@ -283,7 +286,6 @@ export default {
 
   },
   methods: {
-
     //当前模块是否为图表组件判断
     isCharts () {
       let offon = !this.settingForm.moduleType || this.settingForm.moduleType === '0' ? true : false
@@ -363,10 +365,10 @@ export default {
     // 展示方式选择点击事件
     chooseType (chartType) {
       this.settingForm.displayMode = chartType
-      if(this.isAdmin){
+      if (this.isAdmin) {
         this.$emit('updateMoule', this.settingForm, this.statisticsAll.moduleId, () => { }, this.whereForm)
       }
-      
+
     },
     // 分页事件
     tablePageSort (pageAll) {

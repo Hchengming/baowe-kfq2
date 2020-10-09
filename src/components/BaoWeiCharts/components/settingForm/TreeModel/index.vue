@@ -3,6 +3,7 @@
     <el-dialog title="参数值选择弹窗"
                class="param-tree-dialog"
                :append-to-body="true"
+                v-drag
                :visible.sync="isShow">
       <el-tree ref="elTree"
                :data="treeData"

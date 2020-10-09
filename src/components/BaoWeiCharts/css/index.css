@@ -21,6 +21,9 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+.warning-color {
+  color: #f69e37;
+}
 .theme-bg {
   background: #ebeef5;
 }
@@ -386,7 +389,8 @@ body {
   bottom: 2px;
 }
 #bw_table .el-table__row .cell {
-  height: 23px;
+  height: 26px;
+  line-height: 26px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -417,6 +421,9 @@ body {
 }
 .bw_list1 li.border {
   border-bottom: 1px solid #d8d8d8;
+}
+.right-operate-button .el-button--mini {
+  padding: 5px 10px;
 }
 /*详情模块*/
 .YDFLStatistics .statistics_title,
@@ -567,6 +574,9 @@ body {
 }
 .settingForm .el-form-item {
   margin-bottom: 5px;
+}
+.settingForm .el-row-menu-tap {
+  margin-top: 5px;
 }
 .settingForm .el-form-item__content {
   line-height: 34px;
@@ -756,7 +766,13 @@ body {
 }
 /*screenForm*/
 .screenForm .el-dialog {
-  width: 1000px;
+  width: 1100px;
+}
+.screenForm .el-dialog .screenForm-top {
+  margin-bottom: 15px;
+}
+.screenForm .el-dialog .form-setting {
+  margin-bottom: 15px;
 }
 .screenForm .el-dialog .el-input__inner {
   padding: 0 5px;
@@ -790,48 +806,48 @@ body {
 .screenForm fieldset {
   padding: 5px 10px;
 }
-.screenForm .form-table {
+.form-table {
   display: block;
   /*为表格设置合并边框模型*/
   border-collapse: collapse;
   /*列宽由表格宽度和列宽度设定*/
   table-layout: fixed;
 }
-.screenForm .form-table td {
+.form-table td {
   border: 1px solid #999999;
   /*允许在单词内换行。*/
   word-break: break-word;
-  line-height: 28px;
 }
-.screenForm .form-table .t-header {
+.form-table td.sfxjcx {
   text-align: center;
 }
-.screenForm .form-table .t-head-cz-icon {
+.form-table .t-header {
+  text-align: center;
+}
+.form-table .t-head-cz-icon {
   font-size: 18px;
   cursor: pointer;
 }
-.screenForm .other-btn-table {
-  width: 380px;
-}
-.screenForm .other-btn-table .t-head {
+/*筛选其他按钮配置、列表、表格右侧按钮配置*/
+.other-btn-table .t-head {
   text-align: center;
 }
-.screenForm .other-btn-table .t-head .t-head-cz i {
+.other-btn-table .t-head .t-head-cz i {
   font-size: 18px;
   cursor: pointer;
 }
-.screenForm .other-btn-table .t-body-cz {
+.other-btn-table .t-body-cz {
   text-align: center;
 }
-.screenForm .other-btn-table .t-body-cz i {
+.other-btn-table .t-body-cz i {
   font-size: 18px;
   cursor: pointer;
 }
-.screenForm .other-btn-table .t-body-cz i.disabled {
+.other-btn-table .t-body-cz i.disabled {
   cursor: no-drop;
   color: #c0c4cc;
 }
-.screenForm .other-btn-table .t-body-cz i.remove {
+.other-btn-table .t-body-cz i.remove {
   color: red;
 }
 /*settingData*/
@@ -846,6 +862,17 @@ body {
 }
 .settingData .el-dialog .rightIcon {
   padding-top: 5px;
+}
+/*表格、列表右侧按钮配置模块*/
+.operate-button-setting-dialog .el-dialog {
+  width: 600px;
+}
+.operate-button-setting-dialog .el-dialog .operate-button-table {
+  width: auto;
+}
+/*按钮事件js脚本配置*/
+.js-methods-setting-dialog .el-dialog {
+  width: 500px;
 }
 /*staticWhere*/
 .staticWhere {
@@ -1081,29 +1108,34 @@ body {
 .static-where-2 .where-form .el-input__inner {
   padding: 0 5px;
 }
-.static-where-2 .where-form .el-radio-group {
+.static-where-2 .where-form .el-radio-group.border {
   padding: 6px 2px;
   border: 1px solid #c1c1c1;
   border-radius: 5px;
 }
-.static-where-2 .where-form .el-radio-group label {
+.static-where-2 .where-form .el-radio-group.border label {
   margin-right: 10px;
+}
+.static-where-2 .where-form .el-radio {
+  margin-right: 0;
+  margin-left: 5px;
 }
 .static-where-2 .where-form .el-date-editor--date input,
 .static-where-2 .where-form .el-date-editor--datetime input {
   text-indent: 24px;
 }
 .static-where-2 .where-form .el-checkbox-group {
-  margin-top: 5px;
-  padding: 0 2px;
+  margin-top: 3px;
   display: flex;
-  border: 1px solid #c1c1c1;
-  border-radius: 5px;
-  height: 28px;
-  line-height: 28px;
+  height: 30px;
+  line-height: 30px;
 }
-.static-where-2 .where-form .el-checkbox-group label {
+.static-where-2 .where-form .el-checkbox-group .el-checkbox {
   margin-right: 10px;
+}
+.static-where-2 .where-form .el-checkbox-group .el-checkbox.is-bordered {
+  margin-right: 0;
+  line-height: 20px;
 }
 .static-where-2 .staticWhereBottom {
   line-height: 39px;

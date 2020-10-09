@@ -5,16 +5,19 @@
                ref="screenFormSettings"
                :append-to-body="true"
                :visible.sync="isShow">
-             <div class="headerTitle" slot="title" @mousedown="dragElement">
-                     表单项数据配置信息
-               </div>   
+      <div class="headerTitle"
+           slot="title"
+           @mousedown="dragElement">
+        表单项数据配置信息
+      </div>
       <el-form ref="form">
         <el-form-item label="数据源"
                       label-width="65px">
           <el-radio-group v-model="dataType">
             <el-radio :disabled="customDisabled"
                       label="custom">自定义配置</el-radio>
-            <el-radio label="dataUrl">接口数据</el-radio>
+            <el-radio disabled
+                      label="dataUrl">接口数据</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="dataType=='dataUrl'"
@@ -76,10 +79,10 @@
 <script>
 import { dragDialog } from '../../utils/mixins.js'
 export default {
-   mixins: [dragDialog],
+  mixins: [dragDialog],
   data () {
     return {
-      dialogRef:'screenFormSettings',
+      dialogRef: 'screenFormSettings',
       isShow: false,
       dataType: 'custom',
       customDisabled: false,

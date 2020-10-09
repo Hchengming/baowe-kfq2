@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="middleware"
+      >
+
     <!-- @firstAddKeep   一级新增(克隆)
          @deleteMoule    模块删除
          @rowClick       行点击事件
@@ -14,6 +16,7 @@
          @destailsAreaConfigEmit  详情配置保存事件
          @whereOtherBtnClick   查询模块其他按钮点击事件
          @statisticsMore  头部右侧更多按钮点击事件
+         @operateButtonClick  表格、列表右侧其他按钮点击事件
     -->
     <section v-for="(item, index) in pageData"
              :key="index">
@@ -35,6 +38,7 @@
                   @whereSubmit="whereSubmit"
                   @detailsAreaConfigEmit="detailsAreaConfigEmit"
                   @whereOtherBtnClick="whereOtherBtnClick"
+                  @operateButtonClick='operateButtonClick'
                   @statisticsMore="statisticsMore"
                   @settingClick="settingClick"
                   :systemPermissions="settingConfig.systemPermissions"></statistics>
@@ -64,7 +68,7 @@ export default {
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
     },
-    itemApiData:{
+    itemApiData: {
       type: Array
     }
   },
@@ -78,19 +82,20 @@ export default {
         title: '', // 标题
         subtitle1: '', // 副标题1
         subtitle2: '', // 副标题2
-        isAddMoreIcon:'0',//是否添加更多按钮 0：否 1：是
-        moreUrl:'',//更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
+        isAddMoreIcon: '0',//是否添加更多按钮 0：否 1：是
+        moreUrl: '',//更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
         moduleType: '0',//模块内容  0:图表 1:iframe地图 2:详情表格展示
         url: '', // 接口
-        urlName:'',//接口名称
-        options:'GET',//请求方式  GET/POST
+        urlName: '',//接口名称
+        options: 'GET',//请求方式  GET/POST
         keyArr: [],//图表字段配置数据
-        paramConfig:[],//请求参数配置
-        destailsTableLabelWidth:100,//详情列表左侧标题宽度
-        detailsTableAll:[],//详情列表配置数据
-        iframeAll:{
-         iframeType:'0',// 0-map地图  1-其他类型
-         iframeUrl:'http://23.36.250.99:666/views/showmap.html?callid=10129',//iframe嵌入路径,
+        operateButton: [],//列表、表格右侧操作按钮配置数据
+        paramConfig: [],//请求参数配置
+        destailsTableLabelWidth: 100,//详情列表左侧标题宽度
+        detailsTableAll: [],//详情列表配置数据
+        iframeAll: {
+          iframeType: '0',// 0-map地图  1-其他类型
+          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129',//iframe嵌入路径,
         },
         height: 300,
         width: 27.69,
@@ -100,18 +105,24 @@ export default {
         zindex: '8', // 模块z-index
         displayMode: 'table', // 数据展现方式
         submodule: '0', // 是否含有子页面
+        menuTapAll: {
+          isMenuTap: '0',//是否执行菜单页面跳转   0:否 1:是
+          menuTapKey: '',//点击触发跳转字段
+          menuCodeKey: ''//菜单编码字段
+        },
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
-        isLinkMap:'0',//是否链接iframe地图  0:不链接 1:链接 
-        mapPosition:'0',//地图定位   0-定位到重庆 1-定位到区县  2-定位到开发区
+        isLinkMap: '0',//是否链接iframe地图  0:不链接 1:链接 
+        mapPosition: '0',//地图定位   0-定位到重庆 1-定位到区县  2-定位到开发区
         isPage: '0', // 数据是否添加分页
         mask: '0', // 是否添加遮罩层
         pageSize: 10, // 每页显示数据条数
         isDestail: '0' // 是否添加详情弹窗
-      }
+      },
+      addSettingFormClone: {}
     }
   },
   mounted () {
-    // this.getData()
+    this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
     // 图表方法暴露
@@ -130,12 +141,22 @@ export default {
       this.chartsMethods({
         moduleId: moduleId,
         name: '查询模块其他按钮点击事件',
-        methodsName: setttingItem.methodsName,
+        methodsName: 'whereOtherBtnClick',
         otherItem: setttingItem
       })
     },
+    // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
+    operateButtonClick (buttonSetting, rowItem, moduleId) {
+      this.chartsMethods({
+        moduleId: moduleId,
+        name: '表格、列表右侧其他按钮点击事件',
+        methodsName: 'operateButtonClick',
+        buttonSetting,
+        rowItem
+      })
+    },
     //头部右侧更多按钮点击事件
-    statisticsMore(statisticsAll){
+    statisticsMore (statisticsAll) {
       this.chartsMethods({
         moduleId: statisticsAll.moduleId,
         name: '头部右侧更多按钮点击事件',
@@ -196,6 +217,15 @@ export default {
 
       // 模块配置数据格式转换
       item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
+      //菜单跳转字段旧版本未添加处理
+      if (!item.contentAreaConfig.menuTapAll) {
+        item.contentAreaConfig.menuTapAll = {
+          isMenuTap: '0',//是否执行菜单页面跳转   0:否 1:是
+          menuTapKey: '',//点击触发跳转字段
+          menuCodeKey: ''//菜单编码字段
+        }
+      }
+
       // 筛选配置数据格式转换
       if (item.conditionAreaConfig && item.conditionAreaConfig.replace(/\s*/g, '')) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
@@ -229,17 +259,22 @@ export default {
         }
       }
     },
+    //页面加载状态变化
+    pageLoding(offon){
+      this.$emit('pageLoading',offon)
+    },
     // 模块图表配置数据获取
     getData () {
       this.pageData = []
+      this.pageLoding(true)
       serviceAxios['post'](this.settingConfig.commonUrl + '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin', {
-          menuId: this.menuId
-        })
+        menuId: this.menuId
+      })
         .then(res => {
           let code = res.code
           let resData = res.data
           if (code === 20000) {
-          
+           
             resData.forEach((item, index) => {
               this.itemGSH(item)
               // 配置数据字段集获取
@@ -273,19 +308,21 @@ export default {
                   }
                 })
               }
-             
-              if(item.contentAreaConfig.moduleType!=='1'){
-                 this.getTableData(obj, defaultReqData, item)
+
+              if (item.contentAreaConfig.moduleType !== '1') {
+                this.getTableData(obj, defaultReqData, item)
               }
             })
           }
+           this.pageLoding(false)
         })
         .catch(msg => {
           this.$message({
-              message: '请求失败' + msg,
-              type: 'error'
-            })
-            return false
+            message: '请求失败' + msg,
+            type: 'error'
+          })
+          this.pageLoding(false)
+          return false
         })
     },
     // 图表数据获取
@@ -312,6 +349,9 @@ export default {
             }
           )
         } else {
+          if (resData.constructor === Object) {
+            resData = []
+          }
           this.$set(this.pageData[obj.index], 'data', resData)
           this.$set(this.pageData[obj.index], 'paginationAll', undefined)
         }
@@ -333,26 +373,26 @@ export default {
       this.$emit('chartsMethods', reqObj)
       if (!sftsqk) {
         //根据请求方式的不同进行调整
-        let options=config.contentAreaConfig.options==='POST'?'post':'get'
-      //参数写入
-      if(config.contentAreaConfig.paramConfig){
-        config.contentAreaConfig.paramConfig.forEach(item=>{
-         if(!reqData[item.paramKey]&&item.isUse){
-           reqData[item.paramKey]=item.paramValue
-         }
-       })
-      }
-       if(options === 'get'){
-          reqData={
-            params:reqData
+        let options = config.contentAreaConfig.options === 'POST' ? 'post' : 'get'
+        //参数写入
+        if (config.contentAreaConfig.paramConfig) {
+          config.contentAreaConfig.paramConfig.forEach(item => {
+            if (!reqData[item.paramKey] && item.isUse) {
+              reqData[item.paramKey] = item.paramValue
+            }
+          })
+        }
+        if (options === 'get') {
+          reqData = {
+            params: reqData
           }
         }
         //判断当前接口是完全接口还是测试接口
-        let nowUrl=''
-        if(obj.url.indexOf('http')>-1){
-            nowUrl= obj.url
-        }else{
-          nowUrl=this.settingConfig.dataUrl + obj.url
+        let nowUrl = ''
+        if (obj.url.indexOf('http') > -1) {
+          nowUrl = obj.url
+        } else {
+          nowUrl = this.settingConfig.dataUrl + obj.url
         }
         console.log(config.contentAreaConfig.paramConfig)
         serviceAxios[options](nowUrl, reqData)

@@ -8,8 +8,18 @@
            <div class="headerTitle" slot="title" @mousedown="dragElement">
                      筛选项配置信息
                </div>    
+         <div class="screenForm-top">
+           <span>是否显示查询按钮</span> 
+            <el-radio-group 
+                          v-model="isShowInsertButton"
+                          size="small">
+            <el-radio label="1">是</el-radio>
+                    <el-radio label="0">否</el-radio>   
+                      
+          </el-radio-group>
+           </div>  
       <div class="screenBox">
-        <fieldset>
+        <fieldset class="form-setting">
           <legend class="theme-color">表单配置</legend>
           <el-form ref="form">
             <table class="form-table">
@@ -34,7 +44,7 @@
                              @change="typeChange(items)"
                              v-model="items[item.key]"
                              size="small"
-                             placeholder="请选择">
+                              :placeholder="item.title">
                     <el-option v-for="option in typeData"
                                :key="option.value"
                                :label="option.label"
@@ -56,25 +66,42 @@
                   <!-- 字段名、标签、 -->
                   <el-input v-if="'key,label,defaultValue'.indexOf(item.key)>-1"
                             v-model="items[item.key]"
+                            :placeholder="item.title"
                             @blur="labelChange(index,item,items)"
                             size="small"></el-input>
                   <!-- 下级筛选引用-->
-                  <el-select v-if="item.key=='sfxjcx'"
+                  <!-- <el-checkbox v-if="item.key=='sfxjcx'"
+                             v-model="items[item.key]"></el-checkbox> -->
+                  <el-select v-if="item.key=='sfxjcx'||item.key=='isInsert'"
                              v-model="items[item.key]"
                              size="small"
-                             placeholder="请选择">
+                              :placeholder="item.title">
                     <el-option label="是"
                                value="1"></el-option>
                     <el-option label="否"
                                value="0"></el-option>
                   </el-select>
+                  <!-- 单选、多选显示样式 -->
+                   <el-select v-if="item.key=='styleType'"
+                             v-model="items[item.key]"
+                             :disabled="items.type!=='radio'&&items.type!=='checkbox'"
+                             size="small"
+                              :placeholder="item.title">
+                    <el-option label="默认样式"
+                               value="0"></el-option>
+                    <el-option label="带有边框"
+                               value="1"></el-option>
+                                <el-option label="按钮组"
+                               value="2"></el-option>
+                  </el-select>
+                  
                   <!-- 是否结束时间-->
                   <el-select v-if="item.key=='sfjssj'"
                              v-model="items[item.key]"
                              :disabled="items.type!=='date'&&items.type!=='dateTime'"
                              size="small"
                              @change="isOverTimeChange(items,item)"
-                             placeholder="请选择">
+                              :placeholder="item.title">
                     <el-option label="是"
                                value="1"></el-option>
                     <el-option label="否"
@@ -119,67 +146,12 @@
         </fieldset>
         <fieldset>
           <legend class="theme-color">其他按钮配置配置</legend>
-          <table class="form-table other-btn-table">
-            <tr class="t-head">
-              <td width="100"
-                  class="txt1">按钮名</td>
-              <td width="100"
-                  class="txt2">方法名</td>
-              <td width="100"
-                  class="txt3">按钮颜色</td>
-              <td width="80"
-                  class="t-head-cz"><i @click="btnAdd"
-                   class="iconfont iconzengjia theme-color"></i></td>
-            </tr>
-            <tr v-for="(item,index) in btnSettingData"
-                :key="index">
-              <td>
-                <el-input v-model="item.name"
-                          size="small"></el-input>
-              </td>
-              <td>
-                <el-input v-model="item.methodsName"
-                          size="small"></el-input>
-              </td>
-              <td>
-                <el-select v-model="item.type"
-                           size="small"
-                           placeholder="请选择">
-                  <el-option class="btn-color-choose"
-                             v-for="value in buttonTypeArr"
-                             :key="value"
-                             :label="value"
-                             :value="value">
-                    <el-button size="small"
-                               :type="value">{{value}}</el-button>
-                  </el-option>
-
-                </el-select>
-              </td>
-              <td class="t-body-cz">
-                <i @click="sortChange(item, index,-1, index == 0)"
-                   :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"></i>
-                <i @click="
-                    sortChange(item, index,1, btnSettingData.length - 1 == index)
-                  "
-                   :class="[
-                    'iconfont',
-                    'iconxiayi',
-                    { disabled: btnSettingData.length - 1 == index }
-                  ]"></i>
-                <i @click="btnRemove(index)"
-                   class="el-icon-delete remove"></i>
-              </td>
-            </tr>
-          </table>
+           <button-setting :operateButton="btnSettingData" settingType="2"></button-setting>
         </fieldset>
       </div>
       <span slot="footer"
             class="dialog-footer">
         <div>
-          <!-- <el-button @click="addScreen"
-                     size="small"
-                     type="primary">新 增</el-button> -->
         </div>
         <div class="right">
           <el-button @click="isShow=false"
@@ -196,9 +168,10 @@
 </template>
 <script>
 import settingData from './settingData'
+import ButtonSetting from '../ButtonSetting/index.vue'
 import { dragDialog } from '../../utils/mixins.js'
 export default {
-  components: { settingData },
+  components: { settingData ,ButtonSetting},
   mixins: [dragDialog],
   props: {
     screenAll:{
@@ -207,7 +180,6 @@ export default {
   },
   data () {
     return {
-      buttonTypeArr: ['default', 'primary', 'success', 'info', 'warning', 'danger'],
       dialogRef: 'screenFormDialog',
       isShow: false,
       tableClums: [{
@@ -239,14 +211,22 @@ export default {
         key: 'defaultValue',
         width: 100
       }, {
-        title: '下级筛选引用',
+        title: '下级参数',
         key: 'sfxjcx',
+        width: 80
+      }, {
+        title: '显示样式',
+        key: 'styleType',
         width: 100
       }, {
         title: '是否结束时间',
         key: 'sfjssj',
         width: 100
       },{
+          key: 'isInsert',
+          title: '是否直接查询',
+          width: 100
+        },{
         title: '操作',
         width: 75
       }],
@@ -288,6 +268,7 @@ export default {
         // }
       ],
       btnSettingData: [], // 其他按钮配置数据
+      isShowInsertButton:'1',//是否显示查询按钮  1:是 0：否
       screenData: [
         {
           type: 'input',
@@ -301,29 +282,15 @@ export default {
     }
   },
   methods: {
-    // 其他按钮新增事件
-    btnAdd () {
-      this.btnSettingData.push({
-        name: '',
-        methodsName: '',
-        type: 'primary'
-      })
-    },
+   
     //是否结束时间变化事件
     isOverTimeChange(items,item){
        if(items[item.key] === '1'){
          items.label = ''
        }
     },
-    // 其他按钮删除事件
-    btnRemove (index) {
-      this.btnSettingData.splice(index, 1)
-    },
-    sortChange (item, index, num, offon) {
-      if (offon) return
-      this.btnSettingData.splice(index, 1)
-      this.btnSettingData.splice(index + num, 0, item)
-    },
+   
+   
     // 标签名变化事件--获取自适应右侧标签宽度
     labelChange (index, item, items) {
       // .key,items[item.key]
@@ -335,7 +302,7 @@ export default {
     // 弹窗显示事件
     show (conditionAreaConfig) {
       this.isShow = true
-
+       this.isShowInsertButton=conditionAreaConfig.isShowInsertButton?conditionAreaConfig.isShowInsertButton:'1'
       if (conditionAreaConfig) {
         this.screenData = conditionAreaConfig.screenData ? conditionAreaConfig.screenData : []
         this.btnSettingData = conditionAreaConfig.btnSettingData ? conditionAreaConfig.btnSettingData : []
@@ -345,6 +312,7 @@ export default {
           }
         })
       }
+      // console.log(this.isShowInsertButton)
     },
     // 表单类型变化事件
     typeChange (item) {
@@ -383,7 +351,7 @@ export default {
       // console.log(this.screenData)
       this.screenData.forEach(item => {
         delete item.arrStr
-        if (!item.key || !item.label || !item.type) {
+        if (!item.key || !item.type) {
           offon = true
         }
         if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
@@ -392,7 +360,6 @@ export default {
           }
         }
       })
-      // console.log(this.btnSettingData)
       // 其他按钮配置数据校验
       let offon2 = false
       this.btnSettingData.forEach(item => {
@@ -403,7 +370,7 @@ export default {
       if (offon || offon2) {
         let err1 = ''
         let err2 = ''
-        if (offon) err1 = '表单配置写完整(字段名、标签名不能为空，单选、多选、下拉框配置数据不能为空);'
+        if (offon) err1 = '表单配置写完整(字段名不能为空，单选、多选、下拉框配置数据不能为空);'
         if (offon2) err2 = '其他按钮配置数据未填写完整'
         this.$message({
           type: 'error',
@@ -412,7 +379,8 @@ export default {
       } else {
         let datas = JSON.parse(JSON.stringify({
           screenData: this.screenData,
-          btnSettingData: this.btnSettingData
+          btnSettingData: this.btnSettingData,
+          isShowInsertButton:this.isShowInsertButton
         }))
         // console.log(datas);
         this.$emit('screenKeep', datas)

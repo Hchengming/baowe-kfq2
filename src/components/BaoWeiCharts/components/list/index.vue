@@ -13,15 +13,20 @@
              :class="['cell',cellCursorClass(col.key)]"
              @click="cellClick(item,col.key)"
              :style="{'width':col.width+'px'}">
-          <el-tooltip :content="NumStrTransformation(item[col.key],col.dw)"
+          <el-tooltip v-if="col.key!=='operationButton'" :content="NumStrTransformation(item[col.key],col.dw)"
                       :placement="setPlacement(num,colums)">
-            <span>
+            <span :class="colClass(col)">
               {{item[col.key]}}
               <span class="txt3 theme-color">{{col.dw?col.dw:""}}</span>
             </span>
-
           </el-tooltip>
-
+          <div v-else class="right-operate-button">
+             <el-button v-for="val in settingForm.operateButton"
+                 :key="val.name"
+                 :type="val.type"
+                 @click.native="operateButtonClick(val,item)"
+                 size="mini">{{val.name}}</el-button>
+          </div>
         </div>
       </li>
     </ul>
@@ -37,7 +42,9 @@
 </template>
 
 <script>
+import listTableCommonJs from '../Table2/commonMixins'
 export default {
+   mixins:[listTableCommonJs],
   // props: ['data', 'colums', 'height', 'paginationAll', 'statisticsAll'],
   props:{
     data:{
@@ -49,7 +56,10 @@ export default {
     height:{
        type: Number
     },
-     paginationAll:{
+    settingForm:{
+      type: Object
+    },
+    paginationAll:{
        type: Object
     },
     statisticsAll:{
@@ -66,6 +76,7 @@ export default {
     }
   },
   methods: {
+    
     // 数字转字符串
     NumStrTransformation (val, dw) {
       let str = ''
@@ -77,45 +88,11 @@ export default {
       }
       return str
     },
-    // topTitle显示位置控制
-    setPlacement (index, column) {
-      let length = column.length
-      if (index + 1 <= length / 2) {
-        return 'top-start'
-      } else {
-        return 'top-end'
-      }
-    },
-    // 单元格样式
-    cellCursorClass (key) {
-      let calss = 'cursor-default'
-      if (this.statisticsAll.contentAreaConfig.submodule === '1') {
-        if (this.statisticsAll.contentAreaConfig.clickToShow === 'row' && this.statisticsAll.isRowDrillDown === '1') {
-          calss = 'cursor-pointer'
-        }
-        if (this.statisticsAll.contentAreaConfig.clickToShow === 'cell' && this.statisticsAll.drillDownKeyAll &&
-          this.statisticsAll.drillDownKeyAll.indexOf(key) > -1) {
-          calss = 'cursor-pointer'
-        }
-      }
-      return calss
-    },
     rowClick (item, index) {
       this.$emit('rowClick', item, index)
     },
     cellClick (item, key) {
       this.$emit('cellClick', item, key)
-    },
-    // 分页变化事件
-    handleCurrentChange (currentPage) {
-      // eslint-disable-next-line no-undef
-      this.paginationAll.currentPage = currentPage
-      this.$emit('tablePageSort', this.paginationAll)
-    },
-    // 每页条数变化事件
-    handleSizeChange (pageSize) {
-      this.paginationAll.pageSize = pageSize
-      this.$emit('tablePageSort', this.paginationAll)
     }
   }
 }

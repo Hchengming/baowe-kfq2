@@ -1,0 +1,57 @@
+[
+  {
+    "menuName": "一张图查询",
+    "menuCode": "100",
+    "menuIcon": "",
+    "menuId": "9d984bd0cbbe11eaa14021da1718822c",
+    "url": "",
+    "children": []
+  },
+  {
+    "menuName": "业务审批",
+    "menuCode": "200",
+    "menuIcon": "",
+    "menuId": "28925720cbc011ea8d8039e3741bab11",
+    "children": [
+      {
+        "menuName": "待处理",
+        "menuCode": "200100",
+        "menuId": "28925720cbc011ea8d8039e3741bab11",
+        "children": ""
+      },
+      {
+        "menuName": "已处理",
+        "menuCode": "200200",
+        "menuId": "28925720cbc011ea8d8039e3741bab12",
+        "children": ""
+      }
+    ]
+  },
+  {
+    "menuName": "查询统计",
+    "menuCode": "300",
+    "menuIcon": "",
+    "menuId": "e9ab2bd0cbc011eaad11d500e182c5cf",
+    "children": []
+  },
+  {
+    "menuName": "监测监管",
+    "menuCode": "400",
+    "menuIcon": "",
+    "menuId": "f8c76d40cbc011eaad11d500e182c5cc",
+    "children": [
+      {
+        "menuName": "审批监管",
+        "menuCode": "400100",
+        "menuId": "f8c76d40cbc011eaad11d500e182c5cc",
+        "children": ""
+      },
+      {
+        "menuName": "日常监管",
+        "menuCode": "400200",
+        "menuId": "f8c76d40cbc011eaad11d500e182c5cd",
+        "children": ""
+      }
+    ]
+  }
+]

@@ -82,6 +82,39 @@ export const ChartsMixins = {
     return {}
   },
   methods: {
+    //操作按钮配置 按钮点击事件
+    operateButtonSetting() {
+      this.$refs['operateButtonSetting'].show(this.form.operateButton)
+    },
+    //操作按钮配置数据确认事件
+    operateButtonSubmit(data) {
+      this.form.operateButton = data
+      let offon = false
+      let num = null
+      this.form.keyArr.forEach((item, index) => {
+        if (item.key === 'operationButton') {
+          offon = true
+          num = index
+        }
+      })
+      if (data.length > 0) {
+        if (!offon) {
+          this.form.keyArr.push({
+            key: 'operationButton',
+            explain: '操作',
+            dw: '',
+            width: 100,
+            isShow: true,
+            isCruxKey: false,
+            isMapKey: false
+          })
+        }
+      } else {
+        if (num !== null) {
+          this.form.keyArr.splice(num, 1)
+        }
+      }
+    },
     //是否下钻切换事件
     submoduleChange(val) {
       if (val === '1') return false
@@ -255,7 +288,14 @@ export const ChartsMixins = {
     },
     // 字段新增事件
     keyAdd(index) {
-      this.form.keyArr.splice(index + 1, 0, { key: '', text: '' })
+      this.form.keyArr.splice(index + 1, 0, {
+        key: '',
+        explain: '',
+        width: 120,
+        dw: '',
+        isCruxKey: false,
+        isShow: true
+      })
     },
     // 字段删除事件
     keyRemove(index) {

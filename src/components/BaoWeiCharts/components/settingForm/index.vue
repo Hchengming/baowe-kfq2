@@ -4,10 +4,10 @@
                :append-to-body="true"
                ref="settingFormDialog"
                :rules="rules"
+               v-drag
                :visible.sync="dialogVisible">
       <div class="headerTitle"
-           slot="title"
-           @mousedown="dragElement">
+           slot="title" >
         模块配置信息
       </div>
       <el-form ref="settingForm"
@@ -101,7 +101,7 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col :span="16"
+            <el-col :span="8"
                     v-if="form.submodule == '1'">
               <el-form-item label="子模块点击展现"
                             prop="clickToShow">
@@ -113,7 +113,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="16"
+            <el-col :span="8"
                     v-if="form.submodule == '0'">
               <el-form-item label="是否添加详情展示"
                             prop="isDestail">
@@ -123,7 +123,6 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-
           </el-row>
           <el-row>
             <el-col :span="8">
@@ -172,12 +171,12 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="接口默认参数"
+          <!-- <el-form-item label="接口默认参数"
                         prop="defaultParameters">
             <el-input size="small"
                       v-model="form.defaultParameters"
                       placeholder='例:{"num":9,"area":"44公顷"}'></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <!-- 数据接口处理部分 -->
           <api-choose :itemApiData="itemApiData"
                       :form="form"></api-choose>
@@ -190,6 +189,9 @@
             <div slot="keys">
               <el-button size="small"
                          @click="getKeysData">字段获取</el-button>
+                         <el-button size="small"
+                         v-if="['table','list'].indexOf(form.displayMode)>-1"
+                         @click="operateButtonSetting">右侧操作按钮配置</el-button>
               <p class="tips"><span v-if="!isWidth">*第一个字段必须为图表标题字段</span></p>
               <ul class="zdpz_list keys-config-list">
                 <li class="zdpz_list_header">
@@ -198,7 +200,7 @@
                   <span class="hTxt3 hTxt"
                         v-if="isWidth">宽度</span>
                   <span class="hTxt4 hTxt">单位</span>
-                  <span class="hTxt7 hTxt">下级参数</span>
+                  <span class="hTxt7 hTxt" v-if='form.submodule=="1"'>下级参数</span>
                   <span class="hTxt9 hTxt"
                         v-if="form.isLinkMap=='1'">地图使用字段</span>
                   <span class="hTxt8 hTxt">是否显示</span>
@@ -215,11 +217,13 @@
                   <span class="hTxt1 hTxt">
                     <el-input size="mini"
                               placeholder="字段名"
+                              :disabled="item.key==='operationButton'"
                               v-model="item.key"></el-input>
                   </span>
                   <span class="hTxt2 hTxt">
                     <el-input size="mini"
                               placeholder="含义"
+                              :disabled="item.key==='operationButton'"
                               v-model="item.explain"></el-input>
                   </span>
                   <span class="hTxt3 hTxt"
@@ -231,26 +235,26 @@
                   <span class="hTxt4 hTxt">
                     <el-input size="mini"
                               placeholder="单位"
+                              :disabled="item.key==='operationButton'"
                               v-model="item.dw"></el-input>
                   </span>
-                  <!-- <label class="hTxt5 hTxt" v-if="form.clickToShow=='cell'">
-                <el-input size="mini" placeholder="下拽关联字段" v-model="item.relationKey"></el-input>
-              </label>-->
-                  <span class="hTxt7 hTxt">
-                    <el-checkbox v-model="item.isCruxKey"></el-checkbox>
+                  <span class="hTxt7 hTxt" v-if='form.submodule=="1"'>
+                    <el-checkbox :disabled="item.key==='operationButton'" v-model="item.isCruxKey"></el-checkbox>
                   </span>
                   <span class="hTxt9 hTxt"
                         v-if="form.isLinkMap=='1'">
                     <el-checkbox @change="isMapKeyChange(item)"
+                    :disabled="item.key==='operationButton'"
                                  v-model="item.isMapKey"></el-checkbox>
                   </span>
+                 
                   <span class="hTxt8 hTxt">
-                    <el-checkbox v-model="item.isShow"></el-checkbox>
+                    <el-checkbox :disabled="item.key==='operationButton'" v-model="item.isShow"></el-checkbox>
                   </span>
                   <span class="icons hTxt6 hTxt">
                     <i @click="keyAdd(index)"
                        class="el-icon-circle-plus-outline  theme-color"></i>
-                    <i v-show="form.keyArr.length > 1"
+                    <i v-show="form.keyArr.length > 1&&item.key!=='operationButton'"
                        @click="keyRemove(index)"
                        class="el-icon-remove-outline remove"></i>
                     <i @click="sortPrev(item, index, index == 0)"
@@ -268,11 +272,44 @@
               </ul>
             </div>
           </param-key-config>
-          <!-- <el-form-item label="字段配置"
-                        prop="keyArr"
-                        :class="['zdpz_box',{'mt':!isWidth}]">
-           
-          </el-form-item> -->
+          <el-row class="el-row-menu-tap" v-if="form.menuTapAll"> 
+             <el-col :span="8" >   
+              <el-form-item label="是否绑定菜单页面跳转"
+              label-width="140px"
+                            >
+                <el-radio-group v-model="form.menuTapAll.isMenuTap">
+                   <el-radio label="1">是</el-radio>
+                  <el-radio label="0">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" v-if="form.menuTapAll.isMenuTap==='1'">   
+              <el-form-item label="触发跳转字段"
+                            >
+                <el-select v-model="form.menuTapAll.menuTapKey"
+                           size="small"
+                           placeholder="触发跳转字段">
+                  <el-option v-for="item in form.keyArr"
+                             :key="item.key"
+                             :label="item.key"
+                             :value="item.key"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+             <el-col :span="8" v-if="form.menuTapAll.isMenuTap==='1'">   
+              <el-form-item label="菜单编码字段"
+                            >
+                <el-select v-model="form.menuTapAll.menuCodeKey"
+                           size="small"
+                           placeholder="触发跳转字段">
+                  <el-option v-for="item in form.keyArr"
+                             :key="item.key"
+                             :label="item.key"
+                             :value="item.key"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
         </div>
         <!-- iframe嵌入 -->
@@ -488,6 +525,7 @@
                @confirm="judgePopConfirm"></judge-pop>
     <judge-pop ref="judgePop2"
                @handleClose="handleClose2"></judge-pop>
+               <operate-button-setting ref="operateButtonSetting" @submit="operateButtonSubmit" :form='form'></operate-button-setting>
   </div>
 </template>
 <script>
@@ -497,6 +535,7 @@ import { dragDialog } from '../../utils/mixins.js'
 import { DetailsTable, ChartsMixins,iframeMixins } from './mixins.js'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index.vue'
+import OperateButtonSetting from './OperateButtonSetting/index.vue'
 export default {
   mixins: [DetailsTable, dragDialog, ChartsMixins,iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
@@ -517,7 +556,7 @@ export default {
       type: Object
     }
   },
-  components: { JudgePop, ApiChoose, ParamKeyConfig },
+  components: { JudgePop, ApiChoose, ParamKeyConfig,OperateButtonSetting},
   data () {
     return {
       dialogRef: 'settingFormDialog', // 弹出框refs名
@@ -565,6 +604,7 @@ export default {
     // 弹窗显示事件
     show (obj) {
       this.dialogVisible = true
+      
       if (obj) {
         this.parentParamsAll = obj
       }

@@ -448,6 +448,15 @@ export const childMixins = {
     TJAdd() {
       this.$refs['childSettingForm'].show()
       this.childAddType = '0'
+    },
+    // 表格、列表右侧按钮点击事件
+    operateButtonClick(buttonSetting, rowItem) {
+      this.$emit(
+        'operateButtonClick',
+        buttonSetting,
+        rowItem,
+        this.statisticsAll.moduleId
+      )
     }
   }
 }

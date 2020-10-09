@@ -72,26 +72,26 @@
 // import Vue from 'vue'
 
 export default {
-   props:{
-    data:{
+  props: {
+    data: {
       type: Array
     },
-    chartColumns:{
+    chartColumns: {
       type: Array
     },
-    height:{
-       type: Number
+    height: {
+      type: Number
     },
-    chartType:{
-       type: String
+    chartType: {
+      type: String
     },
-    titleShow:{
-       type: Boolean
+    titleShow: {
+      type: Boolean
     },
-    pieSettings:{
-       type: Object
+    pieSettings: {
+      type: Object
     },
-    ringSettings:{
+    ringSettings: {
       type: Object
     }
   },
@@ -110,12 +110,12 @@ export default {
           }
         },
         'yAxis.0.axisLabel.fontSize': 10,
-        'yAxis.0.axisLabel.interval':0,
+        'yAxis.0.axisLabel.interval': 0,
         // 'yAxis.0.nameTextStyle.height ':5,
         tooltip: {
-          // trigger: "item",
+          trigger: "item",
           // position: function(pt) {
-          //   return [pt[0], "10%"];
+          //   return  pt
           // },
           // formatter: "{a} {b}: {c} ({d}%)" // 这里是鼠标移上去的显示数据
         }
@@ -147,12 +147,12 @@ export default {
     }
   },
   computed: {
-    chartEvents(){
-      let _this=this;
+    chartEvents () {
+      let _this = this;
       return {
         click (e) {
-              _this.$emit('eventClick', e)
-            }
+          _this.$emit('eventClick', e)
+        }
       }
     },
     chartData () {
@@ -208,9 +208,11 @@ export default {
         let obj = {}
         this.chartColumns.forEach(item => {
           obj[item.explain] = items[item.key] ? items[item.key] : index
+          obj.itemStyle={color:"black"}
         })
         chartData.rows.push(obj)
       })
+
       return chartData
     },
     // 获取饼图、环图切换配置数据
@@ -228,6 +230,10 @@ export default {
       let obj = this.pieSettings ? this.pieSettings : {}
       obj.radius = this.height / 4
       obj.offsetY = this.height / 2
+      obj.label = {
+        show: true,
+        formatter: '{b} : {c}'
+      }
       return obj
     },
     // 环图配置
@@ -237,6 +243,24 @@ export default {
         this.height / 4 > 80 ? this.height / 4 - 15 : this.height / 4 - 10
       obj.radius = [nRadius, this.height / 4]
       obj.offsetY = this.height / 2
+      obj.label = {
+        show: true,
+        formatter: '{b} : {c}'
+        // formatter: '{b} : {c} ({d}%)'
+      }
+      // 饼图颜色自定义
+      // obj.itemStyle={
+      //   color:function(params) {
+      //     console.log(params)
+      //                //自定义颜色
+      //                var colorList = [           
+      //                        'red','#B5C334','#FCCE10','#E87C25','#27727B',                                    
+      //                        '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',                                            
+      //                        '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
+      //                    ];
+      //                    return colorList[params.dataIndex]
+      //                 }
+      // }
       return obj
     }
   },

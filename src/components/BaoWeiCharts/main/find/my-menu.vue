@@ -19,6 +19,7 @@
   </el-submenu>
   <el-menu-item v-else
                 :index="menuItem.menuCode"
+                :class="menuItem.menuCode"
                 @click="leftMenuClick(menuItem)">
     <i v-if="menuItem.menuIcon"
        :class="['iconfont',menuItem.menuIcon]"></i>

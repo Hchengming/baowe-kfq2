@@ -35,6 +35,7 @@ export default {
         methodsName: 'rowClick',
         rowItem: item,
         name: '行点击事件',
+        statisticsAll,
         moduleId: statisticsAll.moduleId
       })
       // this.iframeMapChange(item, statisticsAll)
@@ -45,6 +46,7 @@ export default {
         methodsName: 'cellClick',
         rowItem: item,
         name: '单元格点击事件',
+        statisticsAll,
         moduleId: statisticsAll.moduleId,
         key
       })
@@ -288,6 +290,7 @@ export default {
     },
     // 新增按钮点击事件
     addTemplate() {
+      this.addSettingForm = JSON.parse(JSON.stringify(this.addSettingFormClone))
       this.$refs['settingForm'].show()
     },
     // 新增确认事件
