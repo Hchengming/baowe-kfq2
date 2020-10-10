@@ -30,6 +30,23 @@ export default {
           })
         }
       })
+      //分页参数配置
+      if (this.form.isPage === '1') {
+        this.form.paramConfig.push({
+          paramKey: 'pageSize',
+          description: '每页显示条数',
+          paramValue: this.form.pageSize,
+          dataType: 'number',
+          isUse: true
+        })
+        this.form.paramConfig.push({
+          paramKey: 'currentPage',
+          description: '当前页码',
+          paramValue: 1,
+          dataType: 'number',
+          isUse: true
+        })
+      }
       //自定义配置筛选项参数写入
       if (
         this.statisticsAll &&

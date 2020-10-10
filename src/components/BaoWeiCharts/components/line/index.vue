@@ -23,7 +23,7 @@
       <ve-histogram v-if="chartType=='histogram'"
                     :legend-visible="titleShow"
                     :data="chartData"
-                    :settings="chartSettings"
+                    :settings="histogramSettings"
                     :height="height+'px'"
                     :extend="options"
                     :events="chartEvents"></ve-histogram>
@@ -111,7 +111,6 @@ export default {
         },
         'yAxis.0.axisLabel.fontSize': 10,
         'yAxis.0.axisLabel.interval': 0,
-        // 'yAxis.0.nameTextStyle.height ':5,
         tooltip: {
           trigger: "item",
           // position: function(pt) {
@@ -120,13 +119,9 @@ export default {
           // formatter: "{a} {b}: {c} ({d}%)" // 这里是鼠标移上去的显示数据
         }
       },
-      // chartEvents: {
-      //   click (e) {
-      //     this.$emit('eventClick', e)
-      //   }
-      // },
       extend: {},
-      chartSettings: {}
+      chartSettings: {},
+     
     }
   },
   mounted () {
@@ -145,6 +140,17 @@ export default {
         right: 5
       })
     }
+    if(this.chartType=='histogram'){
+      this.options.series=(v)=>{
+          v.forEach(i=>{
+             i.barMaxWidth = 50;
+          })
+          return v
+      }
+      //  this.$set(this.options, 'series', obj.series(v){
+          
+      //   })
+    }
   },
   computed: {
     chartEvents () {
@@ -158,6 +164,7 @@ export default {
     chartData () {
       let chartData = {}
       if (!this.data || this.data.length === 0) return {}
+      // console.log(123)
       chartData.columns = []
       this.chartColumns.forEach(item => {
         let dw = item.dw ? item.dw : ''
@@ -224,6 +231,12 @@ export default {
         }
       })
       return arr
+    },
+    //柱状图配置
+    histogramSettings(){
+        let obj={};
+       
+        return obj
     },
     // 饼图配置
     nowPieSetting () {

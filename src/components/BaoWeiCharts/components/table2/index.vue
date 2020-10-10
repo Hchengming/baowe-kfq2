@@ -1,6 +1,6 @@
 <template>
   <div id="bw_table">
-    <el-table :border="true"
+    <el-table :border="false"
               :data="tabledata"
               @cell-click="cellClick"
               @row-click="rowClick"

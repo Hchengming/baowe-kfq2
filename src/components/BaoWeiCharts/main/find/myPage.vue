@@ -1,6 +1,5 @@
 <template>
-  <div class="my_main_content"
-       v-loading="pageLoading"
+  <div class="my_main_content"  v-loading="pageLoading"
        element-loading-text="页面加载中"
        element-loading-spinner="el-icon-loading"
        element-loading-background="rgba(0, 0, 0, 0.2)">
@@ -21,7 +20,7 @@
              :itemApiData="itemApiData"
              :topBarAll="topBarAll"></top-bar>
     <top-bar-setting ref="topBarSetting"
-                     :itemApiData="itemApiData"
+                :itemApiData="itemApiData"
                      @submit="topBarAdd"></top-bar-setting>
     <!-- 页面配置 -->
     <div class="hoverMenu">
@@ -31,7 +30,6 @@
              class="iconfont iconkuangjiashezhi"></i>
         </div>
         <ul class="theme-box-shadow">
-          <li @click="rightDrawerShow('menu')">菜单</li>
           <li @click="rightDrawerShow('assembly')"
               :class="{ 'theme-color': chooseType == 1 }"
               @mouseout="chooseType = null"
@@ -46,10 +44,6 @@
                direction="rtl"
                :before-close="drawerClose"
                class="pageSetting">
-      <!-- 菜单配置内容 -->
-      <menu-setting v-if="rightDrawerType=='menu'"
-                    :settingConfig="settingConfig"
-                    @getMenuData="getMenuData"></menu-setting>
       <!-- 页面组件新增 -->
       <assembly v-if="rightDrawerType == 'assembly'"
                 @addAssembly="addAssembly"></assembly>
@@ -59,7 +53,7 @@
 <script>
 import middleware from '../../tuobiao/middleware/index'
 import assembly from './assembly'
-import MenuSetting from '../../components/MenuSetting'
+
 /* 顶部栏导入 */
 import TopBar from '../../components/TopBar'
 import TopBarSetting from '../../components/TopBarSetting'
@@ -78,7 +72,7 @@ export default {
   },
   data () {
     return {
-      pageLoading: false,
+      pageLoading:false,
       rightDrawerType: '',
       nowMenuItem: {}, // 当前选中菜单配置信息
       settingDrawer: false, // 右侧抽屉显示隐藏控制
@@ -89,8 +83,7 @@ export default {
     middleware,
     assembly,
     TopBar,
-    TopBarSetting,
-    MenuSetting
+    TopBarSetting
     // myMap
   },
   mounted () {
@@ -101,9 +94,9 @@ export default {
     }
   },
   methods: {
-    setPageLoding (offon) {
+    setPageLoding(offon){
       console.log(offon)
-      this.pageLoading = offon
+      this.pageLoading=offon
     },
     // 组件事件暴露
     elementMethods (reqObj) {
@@ -120,7 +113,7 @@ export default {
         methodsName: 'menuClick',
         menuItem
       })
-      sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
+      sessionStorage.setItem('menuItem',JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
     mainStyleChange () {
@@ -128,9 +121,9 @@ export default {
       // this.$refs['myMaps'].resize()
     },
     // 菜单数据传递
-    getMenuData (menuData) {
-      this.$emit("getMenuData", menuData);
-    },
+    // getMenuData(menuData) {
+    //   this.$emit("getMenuData", menuData);
+    // },
     // 右侧抽屉显示事件
     rightDrawerShow (type) {
       this.rightDrawerType = type

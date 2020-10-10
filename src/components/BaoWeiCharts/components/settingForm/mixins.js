@@ -76,6 +76,7 @@ export const DetailsTable = {
   }
 }
 import serviceAxios from '@/utils/request.js'
+
 // 图表组件配置
 export const ChartsMixins = {
   data() {
@@ -196,9 +197,15 @@ export const ChartsMixins = {
           params: params
         }
       }
-      serviceAxios[options](this.form.url, params).then(res => {
-        if (res.code === 20000) {
+      let url =
+        this.form.url.indexOf('http') > -1
+          ? this.form.url
+          : this.dataUrl + this.form.url
+      // console.log(url.replace(/\s*/g, ''))
+      serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
+        if (res.code === 20000 || res.code === 200) {
           let resData = res.data
+          // console.log(resData)
           fn(resData)
         }
       })

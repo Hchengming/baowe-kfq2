@@ -58,6 +58,7 @@ import dataMixins from './mixins'
 import Statistics from '../statistics'
 import serviceAxios from '@/utils/request.js'
 import SettingForm from '../../components/SettingForm'
+// import axios from 'axios'
 // eslint-disable-next-line no-unused-vars
 // import defaultData from './KFQTJData.json'
 export default {
@@ -345,7 +346,7 @@ export default {
             {
               currentPage: obj.currentPage,
               pageSize: obj.pageSize,
-              total: resData.totalCount
+              total: resData.total
             }
           )
         } else {
@@ -394,10 +395,10 @@ export default {
         } else {
           nowUrl = this.settingConfig.dataUrl + obj.url
         }
-        console.log(config.contentAreaConfig.paramConfig)
+        console.log(options,nowUrl,reqData)
         serviceAxios[options](nowUrl, reqData)
           .then(res => {
-            if (res.code === 20000) {
+            if (res.code === 20000||res.code === 200) {
               let resData = res.data
               resDataFn(resData)
             }

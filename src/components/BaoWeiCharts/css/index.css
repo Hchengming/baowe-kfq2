@@ -148,6 +148,7 @@ body {
 }
 .KFQ_wrap .el-main .my_main_content {
   height: 100%;
+  position: relative;
 }
 .hoverMenu {
   position: fixed;
@@ -1285,12 +1286,4 @@ body {
 }
 .iframe-statistics-wrap:hover .statistics_title {
   display: block;
-}
-/*菜单编码弹窗*/
-.menu-form-setting .el-dialog {
-  width: 600px;
-  margin-top: 150px;
-}
-.menu-form-setting .el-dialog .el-form-item {
-  margin-bottom: 20px;
 }

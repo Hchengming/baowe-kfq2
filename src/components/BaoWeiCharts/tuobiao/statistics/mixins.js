@@ -105,16 +105,16 @@ export const dataMixins = {
           var event = event || window.event
           var moveX = event.clientX - diffX
           var moveY = event.clientY - diffY
-          if (moveX < 8) {
-            moveX = 8
-          } else if (moveX > element.scrollWidth - drag.offsetWidth + 6) {
-            moveX = element.scrollWidth - drag.offsetWidth + 6
+          if (moveX <=0) {
+            moveX = 0
+          } else if (moveX > element.scrollWidth - drag.offsetWidth) {
+            moveX = element.scrollWidth - drag.offsetWidth
           }
 
-          if (moveY < 8) {
-            moveY = 8
-          } else if (moveY > element.scrollHeight - drag.offsetHeight + 6) {
-            moveY = element.scrollHeight - drag.offsetHeight + 6
+          if (moveY <=0) {
+            moveY = 0
+          } else if (moveY > element.scrollHeight - drag.offsetHeight) {
+            moveY = element.scrollHeight - drag.offsetHeight
           }
 
           _this.modelStyle.left = moveX

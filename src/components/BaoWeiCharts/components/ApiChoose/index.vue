@@ -6,7 +6,7 @@
         <el-form-item label="请求方式">
           <el-select v-model="form.options"
                      size="small"
-                     disabled
+                     
                      placeholder="接口名称">
             <el-option label="POST"
                        value="POST"></el-option>
@@ -33,7 +33,7 @@
       <el-col :span="12">
         <el-form-item label="接口路径:"
                       label-width="65px">
-          <el-select v-model="form.url"
+          <!-- <el-select v-model="form.url"
                      size="small"
                      filterable
                      @change="urlChange"
@@ -42,11 +42,11 @@
                        :key="option.aaaRequestUrl"
                        :label="option.aaaRequestUrl"
                        :value="option.aaaRequestUrl"></el-option>
-          </el-select>
-          <!-- <el-input v-model="form.url"
+          </el-select> -->
+           <el-input v-model="form.url"
                     size="small"
                     @change="urlChange"
-                    placeholder="接口路径"></el-input> -->
+                    placeholder="接口路径"></el-input>
         </el-form-item>
       </el-col>
       <!-- <el-col :span="3" v-if="!form.submodule">

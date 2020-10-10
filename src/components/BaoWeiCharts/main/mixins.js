@@ -1,5 +1,5 @@
 import serviceAxios from '@/utils/request.js'
-import defaultData from './menuData.json'
+// import defaultData from './menuData.json'
 export default {
   data() {
     return {
@@ -63,7 +63,7 @@ export default {
     },
     // 菜单树数据查询事件
     getTreeMenu() {
-      this.menuData = defaultData
+      // this.menuData = defaultData
       // if (this.menuData[0]) {
       //   this.$refs['myPage'].menuClick(this.menuData[0])
       //   return false
