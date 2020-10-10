@@ -6,7 +6,6 @@
         <el-form-item label="请求方式">
           <el-select v-model="form.options"
                      size="small"
-                     
                      placeholder="接口名称">
             <el-option label="POST"
                        value="POST"></el-option>
@@ -43,7 +42,7 @@
                        :label="option.aaaRequestUrl"
                        :value="option.aaaRequestUrl"></el-option>
           </el-select> -->
-           <el-input v-model="form.url"
+          <el-input v-model="form.url"
                     size="small"
                     @change="urlChange"
                     placeholder="接口路径"></el-input>
@@ -53,7 +52,7 @@
         <el-button size="small"
                    style="margin-top:2px"
                    @click="getKeysData">字段获取</el-button>
-      </el-col> -->
+      </el-col>  -->
     </el-row>
   </div>
 
