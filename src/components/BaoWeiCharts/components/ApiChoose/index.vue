@@ -43,6 +43,10 @@
                        :label="option.aaaRequestUrl"
                        :value="option.aaaRequestUrl"></el-option>
           </el-select>
+          <!-- <el-input v-model="form.url"
+                    size="small"
+                    @change="urlChange"
+                    placeholder="接口路径"></el-input> -->
         </el-form-item>
       </el-col>
       <!-- <el-col :span="3" v-if="!form.submodule">

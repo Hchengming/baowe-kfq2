@@ -1,5 +1,5 @@
  <template>
-  <el-dialog class="settingForm menuForm"
+  <el-dialog class="settingForm menu-form-setting"
              title="菜单编辑信息"
              :append-to-body="true"
              :visible.sync="menuFormAll.isShow">
@@ -7,16 +7,17 @@
              :model="menuFormAll.menuForm"
              :rules="rules"
              label-width="130px">
-      <el-form-item label="菜单编码"
-                    prop="menuCode">
-        <el-input size="small"
-                  v-model="menuFormAll.menuForm.menuCode"></el-input>
-      </el-form-item>
       <el-form-item label="菜单名称"
                     prop="menuName">
         <el-input size="small"
                   v-model="menuFormAll.menuForm.menuName"></el-input>
       </el-form-item>
+      <el-form-item label="菜单编码"
+                    prop="menuCode">
+        <el-input size="small"
+                  v-model="menuFormAll.menuForm.menuCode"></el-input>
+      </el-form-item>
+
       <el-form-item label="菜单图标"
                     prop="menuIcon">
         <el-input size="small"
@@ -60,6 +61,7 @@ export default {
         if (valid) {
           this.$emit("menuFormSubmit", this.menuFormAll.menuForm, () => {
             this.resetForm()
+            this.menuFormAll.isShow = false
           });
         } else {
           this.$message({
@@ -78,8 +80,3 @@ export default {
   }
 };
 </script>
-<style  scoped>
-.settingForm.menuForm .el-form-item {
-  margin-bottom: 20px;
-}
-</style>

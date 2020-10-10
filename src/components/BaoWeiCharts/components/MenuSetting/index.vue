@@ -12,9 +12,9 @@
 </template>
 <script>
 import MenuFormModel from "./MenuFormModel";
-import axios from "axios";
+import serviceAxios from '@/utils/request.js'
 // import "@/../static/js/config.js";
-import defaultMenuData from './menuData.json'
+// import defaultMenuData from './menuData.json'
 export default {
   components: { MenuFormModel },
   props: {
@@ -26,8 +26,8 @@ export default {
   },
   data () {
     return {
-      commonUrl: 'http://localhost:3000',
-      nowMenuid: "", //点击项当前id
+      commonUrl: 'http://localhost:4000',
+      nowMenuId: "", //点击项当前id
       //菜单配置项
       menuFormAll: {
         menuForm: {
@@ -48,7 +48,7 @@ export default {
         {
           menuName: "所有菜单",
           menuCode: "000",
-          menuid: "000",
+          menuId: "000",
           children: []
         }
       ]
@@ -60,19 +60,15 @@ export default {
   methods: {
     //菜单树数据查询事件
     getTreeMenu () {
-
-      this.$set((this.treeData[0].children = defaultMenuData));
-      this.$emit("getMenuData", defaultMenuData)
-      return;
-      // axios.post(this.commonUrl + "/menu/insertMenu").then(res => {
-      //   let status = res.data.status;
-      //   let reqData = res.data.data;
-
-      //   if (status == 0) {
-      //     this.$set((this.treeData[0].children = reqData));
-      //     this.$emit("getMenuData", reqData)
-      //   }
-      // });
+      serviceAxios.post(this.commonUrl + "/menu/insertMenu").then(res => {
+        // console.log(res)
+        let code = res.code;
+        let reqData = res.data;
+        if (code === 20000) {
+          this.$set((this.treeData[0].children = reqData));
+          this.$emit("getMenuData", reqData)
+        }
+      });
     },
     //树形单行配置
     renderContent (h, { node, data }) {
@@ -125,33 +121,20 @@ export default {
     },
     //菜单新增事件
     append (data) {
-      this.nowMenuid = data.menuid;
+      this.nowMenuId = data.menuId;
       this.menuFormAll.type = "add";
       this.menuFormAll.isShow = true;
     },
     //菜单修改事件
     update (data) {
       this.menuFormAll.type = "update";
-      this.nowMenuid = data.menuid;
-      this.getMenuItem()
-      //  console.log(data)
-    },
-    //当前菜单详情数据获取
-    getMenuItem () {
-      axios
-        .post(this.commonUrl + "/menu/destailMenu", { menuid: this.nowMenuid })
-        .then(res => {
-          let status = res.data.status;
-          let reqData = res.data.data;
+      this.nowMenuId = data.menuId;
 
-          if (status == 0) {
-
-            this.menuFormAll.menuForm.menuCode = reqData.menuCode;
-            this.menuFormAll.menuForm.menuName = reqData.menuName;
-            this.menuFormAll.menuForm.menuIcon = reqData.menuIcon
-            this.menuFormAll.isShow = true;
-          }
-        });
+      this.menuFormAll.menuForm.menuCode = data.menuCode
+      this.menuFormAll.menuForm.menuName = data.menuName
+      this.menuFormAll.menuForm.menuIcon = data.menuIcon
+      this.menuFormAll.isShow = true
+      console.log(this.menuFormAll)
     },
     //新增、修改菜单保存事件
     menuFormSubmit (form, fn) {
@@ -159,7 +142,7 @@ export default {
         menuName: form.menuName,
         menuCode: form.menuCode,
         menuIcon: form.menuIcon,
-        menuid: this.nowMenuid
+        menuId: this.nowMenuId
       };
       let url = "";
       if (this.menuFormAll.type == "add") {
@@ -167,11 +150,9 @@ export default {
       } else {
         url = "/menu/updateMenu";
       }
-      axios.post(this.commonUrl + url, reqData).then(res => {
-        let status = res.data.status;
-        // let resData = res.data.data;
-
-        if (status == 0) {
+      serviceAxios.post(this.commonUrl + url, reqData).then(res => {
+        let code = res.code;
+        if (code === 20000) {
           this.$message({
             message: "菜单编辑成功",
             type: "success"
@@ -186,13 +167,10 @@ export default {
 
     //菜单删除事件
     remove (node, data) {
-      axios
-        .post(this.commonUrl + "/menu/removeMenu", { menuid: data.menuid })
+      serviceAxios
+        .post(this.commonUrl + "/menu/deleteMenu", { menuId: data.menuId })
         .then(res => {
-          let status = res.data.status;
-          // let reqData = res.data.data;
-
-          if (status == 0) {
+          if (res.code === 20000) {
             this.$message({
               message: "菜单删除成功",
               type: "success"
