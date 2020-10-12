@@ -108,15 +108,21 @@ body {
   padding: 0;
   margin-bottom: 0;
 }
-.KFQ_wrap .el-aside .el-menu-item {
+.KFQ_wrap .el-aside .el-menu {
+  background: transparent;
+}
+.KFQ_wrap .el-aside .el-menu-item,
+.KFQ_wrap .el-aside .el-submenu__title {
   color: white;
+  background: transparent;
 }
 .KFQ_wrap .el-aside .el-menu-item.is-active {
   color: white;
   background-color: #1890ff;
 }
 .KFQ_wrap .el-aside .el-menu-item:hover,
-.KFQ_wrap .el-aside .el-menu-item:focus {
+.KFQ_wrap .el-aside .el-menu-item:focus,
+.KFQ_wrap .el-aside .el-submenu__title:hover {
   outline: none;
   color: white;
   background-color: #1890ff;
@@ -135,6 +141,7 @@ body {
 .KFQ_wrap .el-aside .el-menu-vertical-demo .el-submenu__title {
   height: 40px;
   line-height: 40px;
+  color: white;
 }
 .KFQ_wrap .el-aside .el-menu-vertical-demo .el-menu-item .iconfont,
 .KFQ_wrap .el-aside .el-menu-vertical-demo .el-submenu__title .iconfont {
@@ -1286,4 +1293,12 @@ body {
 }
 .iframe-statistics-wrap:hover .statistics_title {
   display: block;
+}
+/*菜单编码弹窗*/
+.menu-form-setting .el-dialog {
+  width: 600px;
+  margin-top: 150px;
+}
+.menu-form-setting .el-dialog .el-form-item {
+  margin-bottom: 20px;
 }

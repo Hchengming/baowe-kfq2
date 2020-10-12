@@ -68,23 +68,42 @@ export default {
       //   this.$refs['myPage'].menuClick(this.menuData[0])
       //   return false
       // }
-      serviceAxios.get(this.settingConfig.getMenuUrl, {}).then(res => {
-        let code = res.code
-        let resData = res.data
-        if (code === 20000) {
-          this.recursion(resData, 'children', item => {
-            item.menuCode = item.apeCode
-            item.menuName = item.apeName
-            item.children = item.children ? item.children : []
-            item.menuId = item.apeKey
+      if (this.settingConfig.isCustomMenu) {
+        //自定义配置菜单数据获取
+        serviceAxios
+          .post(this.settingConfig.systomMenuApi + '/menu/insertMenu')
+          .then(res => {
+            // console.log(res)
+            let code = res.code
+            let resData = res.data
+            if (code === 20000) {
+              this.menuData = resData
+              if (this.menuData[0]) {
+                this.$refs['myPage'].menuClick(this.menuData[0])
+                this.leftMenu = this.menuData[0].children
+              }
+            }
           })
-          this.menuData = resData
-          if (this.menuData[0]) {
-            this.$refs['myPage'].menuClick(this.menuData[0])
-            this.leftMenu = this.menuData[0].children
+      } else {
+        //规划局项目-直接菜单数据获取
+        serviceAxios.get(this.settingConfig.getMenuUrl, {}).then(res => {
+          let code = res.code
+          let resData = res.data
+          if (code === 20000) {
+            this.recursion(resData, 'children', item => {
+              item.menuCode = item.apeCode
+              item.menuName = item.apeName
+              item.children = item.children ? item.children : []
+              item.menuId = item.apeKey
+            })
+            this.menuData = resData
+            if (this.menuData[0]) {
+              this.$refs['myPage'].menuClick(this.menuData[0])
+              this.leftMenu = this.menuData[0].children
+            }
           }
-        }
-      })
+        })
+      }
     },
     //最外层--通过menuCode触发菜单跳转事件
     menuJump(menuCode) {
