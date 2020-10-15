@@ -105,13 +105,13 @@ export const dataMixins = {
           var event = event || window.event
           var moveX = event.clientX - diffX
           var moveY = event.clientY - diffY
-          if (moveX <=0) {
+          if (moveX <= 0) {
             moveX = 0
           } else if (moveX > element.scrollWidth - drag.offsetWidth) {
             moveX = element.scrollWidth - drag.offsetWidth
           }
 
-          if (moveY <=0) {
+          if (moveY <= 0) {
             moveY = 0
           } else if (moveY > element.scrollHeight - drag.offsetHeight) {
             moveY = element.scrollHeight - drag.offsetHeight
@@ -268,9 +268,13 @@ export const childMixins = {
         // 点击弹出详情
         if (this.settingForm.isDestail === '1') {
           if (this.statisticsAll.detailsAreaConfig) {
-            if (this.statisticsAll.detailsAreaConfig.detailType === '1') {
+            if (!this.nowDetailsAreaConfig.detailType) {
+              this.nowDetailsAreaConfig = this.statisticsAll.detailsAreaConfig
+            }
+            if (this.nowDetailsAreaConfig.detailType === '1') {
               window.open(
-                this.statisticsAll.detailsAreaConfig.detailsUrl,
+                this.nowDetailsAreaConfig.commonApi +
+                  rowData[this.nowDetailsAreaConfig.destailsUrlKey],
                 '_blank'
               )
             } else {
@@ -552,6 +556,11 @@ export const screenMixins = {
 
 // 详情配置、显示模块配置
 export const destailMixins = {
+  data() {
+    return {
+      nowDetailsAreaConfig: {} //当前详情配置数据
+    }
+  },
   methods: {
     // 详情配置组件显示事件
     destailSettingShow() {
@@ -563,6 +572,7 @@ export const destailMixins = {
     },
     // 详情配置保存事件
     destailSettingSubmit(detailsAreaConfig, fn) {
+      this.nowDetailsAreaConfig = detailsAreaConfig
       this.$emit(
         'detailsAreaConfigEmit',
         this.statisticsAll.moduleId,

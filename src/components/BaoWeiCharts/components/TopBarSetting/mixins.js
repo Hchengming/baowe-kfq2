@@ -105,6 +105,21 @@ export default {
     //字段获取
     getKeysData() {
       this.topBarSettingData = []
+      let offon = false
+      this.itemApiData.forEach(items => {
+        if (items.aaaRequestUrl === this.form.url && items.returnField) {
+          items.returnField.forEach(item => {
+            this.topBarSettingData.push({
+              key: item.key,
+              label: item.label,
+              dw: '',
+              isShow: true
+            })
+          })
+          offon = true
+        }
+      })
+      if (offon) return false
       this.getKeys(resData => {
         if (resData.constructor !== Array) {
           this.$message({

@@ -13,19 +13,21 @@
              :class="['cell',cellCursorClass(col.key)]"
              @click="cellClick(item,col.key)"
              :style="{'width':col.width+'px'}">
-          <el-tooltip v-if="col.key!=='operationButton'" :content="NumStrTransformation(item[col.key],col.dw)"
+          <el-tooltip v-if="col.key!=='operationButton'"
+                      :content="NumStrTransformation(item[col.key],col.dw)"
                       :placement="setPlacement(num,colums)">
             <span :class="colClass(col)">
               {{item[col.key]}}
               <span class="txt3 theme-color">{{col.dw?col.dw:""}}</span>
             </span>
           </el-tooltip>
-          <div v-else class="right-operate-button">
-             <el-button v-for="val in settingForm.operateButton"
-                 :key="val.name"
-                 :type="val.type"
-                 @click.native="operateButtonClick(val,item)"
-                 size="mini">{{val.name}}</el-button>
+          <div v-else
+               class="right-operate-button">
+            <el-button v-for="val in settingForm.operateButton"
+                       :key="val.name"
+                       :type="val.type"
+                       @click.native="operateButtonClick(val,item)"
+                       size="mini">{{val.name}}</el-button>
           </div>
         </div>
       </li>
@@ -44,25 +46,25 @@
 <script>
 import listTableCommonJs from '../Table2/commonMixins'
 export default {
-   mixins:[listTableCommonJs],
+  mixins: [listTableCommonJs],
   // props: ['data', 'colums', 'height', 'paginationAll', 'statisticsAll'],
-  props:{
-    data:{
+  props: {
+    data: {
       type: Array
     },
-    colums:{
+    colums: {
       type: Array
     },
-    height:{
-       type: Number
+    height: {
+      type: Number
     },
-    settingForm:{
+    settingForm: {
       type: Object
     },
-    paginationAll:{
-       type: Object
+    paginationAll: {
+      type: Object
     },
-    statisticsAll:{
+    statisticsAll: {
       type: Object
     }
   },
@@ -76,7 +78,7 @@ export default {
     }
   },
   methods: {
-    
+
     // 数字转字符串
     NumStrTransformation (val, dw) {
       let str = ''

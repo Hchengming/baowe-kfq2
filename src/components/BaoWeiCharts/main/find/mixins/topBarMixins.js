@@ -13,14 +13,13 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getItemApi()
-  },
   methods: {
     // 项目所有接口获取
     getItemApi() {
       // Authorization: this.Authorization
-      serviceAxios.get(this.settingConfig.getInterfaceUrl, {}).then(res => {
+      let method = this.settingConfig.isCustomMenu ? 'post' : 'get'
+
+      serviceAxios[method](this.settingConfig.getInterfaceUrl, {}).then(res => {
         if (res.code === 20000) {
           this.itemApiData = res.data
         }
@@ -41,7 +40,9 @@ export default {
             this.topBarAll.data = []
             if (resData.length > 0) {
               this.nowElementId = resData[0].elementId
+              // console.log(resData)
               const elementConfig = JSON.parse(resData[0].elementConfigs)
+              // console.log(elementConfig)
               this.topBarAll.configData = elementConfig.topBarSettingData
               this.topBarAll.form = elementConfig.form
               this.getTopBarData(elementConfig.form)

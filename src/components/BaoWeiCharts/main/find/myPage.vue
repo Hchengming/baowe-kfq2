@@ -31,7 +31,8 @@
              class="iconfont iconkuangjiashezhi"></i>
         </div>
         <ul class="theme-box-shadow">
-          <li @click="rightDrawerShow('menu')">菜单</li>
+          <li @click="rightDrawerShow('menu')"
+              v-if="settingConfig.isCustomMenu">菜单</li>
           <li @click="rightDrawerShow('assembly')"
               :class="{ 'theme-color': chooseType == 1 }"
               @mouseout="chooseType = null"
@@ -65,7 +66,6 @@ import TopBar from '../../components/TopBar'
 import TopBarSetting from '../../components/TopBarSetting'
 import topBarMixins from './mixins/topBarMixins.js'
 /* ====end==== */
-let _this
 // import myMap from '../../components/maps/map'
 export default {
   mixins: [topBarMixins],
@@ -94,15 +94,14 @@ export default {
     // myMap
   },
   mounted () {
-    _this = this
+    let _this = this
     window.onresize = function () {
       _this.$refs['middleware'].resize()
-      // _this.$refs['myMaps'].resize()
     }
   },
   methods: {
     setPageLoding (offon) {
-      console.log(offon)
+      // console.log(offon)
       this.pageLoading = offon
     },
     // 组件事件暴露

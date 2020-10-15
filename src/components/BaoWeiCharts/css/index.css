@@ -1160,7 +1160,7 @@ body {
 /*顶部栏样式配置*/
 .top-bar-wrap {
   position: relative;
-  z-index: 9;
+  z-index: 5;
 }
 .top-bar-wrap .operation {
   position: absolute;

@@ -34,7 +34,7 @@ export default {
     // 展示数据配置事件
     setDestailSetting() {
       const tableItem = this.tableData
-      // console.log(this.detailsTableAll)
+      // console.log(tableItem)
       const detailsAreaConfig = JSON.parse(JSON.stringify(this.detailsTableAll))
       detailsAreaConfig.forEach(item => {
         for (let key in tableItem) {

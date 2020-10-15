@@ -83,6 +83,10 @@ export const ChartsMixins = {
     return {}
   },
   methods: {
+    //多表头配置按钮点击事件
+    tableHeaderSetting(){
+      
+    },
     //操作按钮配置 按钮点击事件
     operateButtonSetting() {
       this.$refs['operateButtonSetting'].show(this.form.operateButton)
@@ -212,6 +216,40 @@ export const ChartsMixins = {
     },
     //字段获取事件
     getKeysData() {
+      //判断应用接口是否已经返回字段信息
+      let offon = false
+      this.itemApiData.forEach(items => {
+        if (items.aaaRequestUrl === this.form.url && items.returnField) {
+          this.form.keyArr = []
+          this.form.detailsTableAll=[]
+          items.returnField.forEach(item=>{
+            if (this.form.moduleType === '0') {
+              this.form.keyArr.push({
+                key: item.key,
+                explain: item.label,
+                dw: '',
+                width: 120,
+                isShow: true,
+                isCruxKey: false,
+                isMapKey: false
+              })
+            }else if (this.form.moduleType === '2'){
+              this.form.detailsTableAll.push({
+                key:item.key,
+                title:item.label,
+                sort: this.form.detailsTableAll.length + 1,
+                proportion: 12,
+                isShow: true
+              })
+            }
+           
+          })
+          offon = true
+        }
+      })
+      if (offon) return false
+
+      //没返回情况字段获取
       if (this.form.moduleType === '0') {
         //图表字段获取
         this.form.keyArr = []

@@ -111,44 +111,47 @@ export default {
         },
         'yAxis.0.axisLabel.fontSize': 10,
         'yAxis.0.axisLabel.interval': 0,
-        tooltip: {
-          trigger: "item",
-          // position: function(pt) {
-          //   return  pt
-          // },
-          // formatter: "{a} {b}: {c} ({d}%)" // 这里是鼠标移上去的显示数据
-        }
+
       },
       extend: {},
       chartSettings: {},
-     
+
     }
   },
   mounted () {
-    if (!this.titleShow) {
-      this.$set(this.options, 'grid', {
-        top: 15,
-        left: 5,
-        bottom: 0,
-        right: 5
-      })
-    } else {
-      this.$set(this.options, 'grid', {
-        top: 45,
-        left: 5,
-        bottom: 0,
-        right: 5
-      })
-    }
-    if(this.chartType=='histogram'){
-      this.options.series=(v)=>{
-          v.forEach(i=>{
-             i.barMaxWidth = 50;
+    this.$set(this.options, 'grid', {
+      top: 15,
+      left: 5,
+      bottom: 0,
+      right: 5
+    })
+    // if (!this.titleShow) {
+    //   this.$set(this.options, 'grid', {
+    //     top: 15,
+    //     left: 5,
+    //     bottom: 0,
+    //     right: 5
+    //   })
+    // } else {
+    //   this.$set(this.options, 'grid', {
+    //     top: 45,
+    //     left: 5,
+    //     bottom: 0,
+    //     right: 5
+    //   })
+    // }
+    if (this.chartType == 'histogram') {
+      this.options.series = (v) => {
+        if (v && v.length > 0) {
+          v.forEach(i => {
+            i.barMaxWidth = 50;
           })
-          return v
+        }
+
+        return v
       }
       //  this.$set(this.options, 'series', obj.series(v){
-          
+
       //   })
     }
   },
@@ -157,6 +160,7 @@ export default {
       let _this = this;
       return {
         click (e) {
+          // console.log(e)
           _this.$emit('eventClick', e)
         }
       }
@@ -167,21 +171,21 @@ export default {
       // console.log(123)
       chartData.columns = []
       this.chartColumns.forEach(item => {
-        let dw = item.dw ? item.dw : ''
-        chartData.columns.push(item.explain + `(${dw})`)
+        let dw = item.dw ? `(${item.dw})` : ''
+        chartData.columns.push(item.explain + dw)
       })
       chartData.rows = []
       this.data.forEach((items, index) => {
         let obj = {}
         this.chartColumns.forEach(item => {
-          let dw = item.dw ? item.dw : ''
-          obj[item.explain + `(${dw})`] = items[item.key] ? items[item.key] : index
+          let dw = item.dw ? `(${item.dw})` : ''
+          obj[item.explain + dw] = items[item.key] ? items[item.key] : index
         })
         chartData.rows.push(obj)
       })
 
 
-
+      console.log(chartData)
       return chartData
     },
     // 饼图、环图数据获取
@@ -215,7 +219,7 @@ export default {
         let obj = {}
         this.chartColumns.forEach(item => {
           obj[item.explain] = items[item.key] ? items[item.key] : index
-          obj.itemStyle={color:"black"}
+          obj.itemStyle = { color: "black" }
         })
         chartData.rows.push(obj)
       })
@@ -233,10 +237,10 @@ export default {
       return arr
     },
     //柱状图配置
-    histogramSettings(){
-        let obj={};
-       
-        return obj
+    histogramSettings () {
+      let obj = {};
+
+      return obj
     },
     // 饼图配置
     nowPieSetting () {

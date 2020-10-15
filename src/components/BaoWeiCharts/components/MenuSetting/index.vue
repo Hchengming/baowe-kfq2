@@ -48,13 +48,14 @@ export default {
         {
           menuName: "所有菜单",
           menuCode: "000",
-          menuId: "000",
+          menuId: "",
           children: []
         }
       ]
     };
   },
   mounted () {
+    this.commonUrl = this.settingConfig.systomMenuApi;
     this.getTreeMenu();
   },
   methods: {

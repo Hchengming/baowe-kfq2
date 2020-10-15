@@ -1,6 +1,5 @@
 <template>
-  <div class="middleware"
-      >
+  <div class="middleware">
 
     <!-- @firstAddKeep   一级新增(克隆)
          @deleteMoule    模块删除
@@ -13,7 +12,7 @@
          @screenKeep      筛选模块配置数据保存
          @tablePageSort    表格/列表分页点击事件
          @whereSubmit      筛选确认事件
-         @destailsAreaConfigEmit  详情配置保存事件
+         @detailsAreaConfigEmit  详情配置保存事件
          @whereOtherBtnClick   查询模块其他按钮点击事件
          @statisticsMore  头部右侧更多按钮点击事件
          @operateButtonClick  表格、列表右侧其他按钮点击事件
@@ -164,7 +163,7 @@ export default {
         methodsName: 'statisticsMore'
       })
     },
-    // 左侧菜单点击事件
+    // 菜单点击事件
     menuClick (menuItem) {
       this.menuId = menuItem.menuId
       this.getData()
@@ -226,7 +225,6 @@ export default {
           menuCodeKey: ''//菜单编码字段
         }
       }
-
       // 筛选配置数据格式转换
       if (item.conditionAreaConfig && item.conditionAreaConfig.replace(/\s*/g, '')) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
@@ -261,8 +259,8 @@ export default {
       }
     },
     //页面加载状态变化
-    pageLoding(offon){
-      this.$emit('pageLoading',offon)
+    pageLoding (offon) {
+      this.$emit('pageLoading', offon)
     },
     // 模块图表配置数据获取
     getData () {
@@ -275,7 +273,7 @@ export default {
           let code = res.code
           let resData = res.data
           if (code === 20000) {
-           
+
             resData.forEach((item, index) => {
               this.itemGSH(item)
               // 配置数据字段集获取
@@ -291,12 +289,7 @@ export default {
               }
 
               if (item.contentAreaConfig.isPage === '1') {
-                // if (moduleId === item.moduleId) {
-                //   obj.currentPage = currentPage
-                // } else {
                 obj.currentPage = 1
-                // }
-
                 obj.pageSize = item.contentAreaConfig.pageSize
               }
               this.pageData = resData
@@ -315,9 +308,10 @@ export default {
               }
             })
           }
-           this.pageLoding(false)
+          this.pageLoding(false)
         })
         .catch(msg => {
+
           this.$message({
             message: '请求失败' + msg,
             type: 'error'
@@ -338,24 +332,30 @@ export default {
         Object.assign(reqData, whereReqData)
       }
       let resDataFn = (resData) => {
-        if (reqData.currentPage && reqData.pageSize) {
-          this.$set(this.pageData[obj.index], 'data', resData.list)
-          this.$set(
-            this.pageData[obj.index],
-            'paginationAll',
-            {
-              currentPage: obj.currentPage,
-              pageSize: obj.pageSize,
-              total: resData.total
+        // console.log(JSON.stringify(resData) )
+        if (!config.contentAreaConfig.moduleType || config.contentAreaConfig.moduleType === '0') {
+          if (config.contentAreaConfig.isPage === '1') {
+            this.$set(this.pageData[obj.index], 'data', resData.list)
+            this.$set(
+              this.pageData[obj.index],
+              'paginationAll',
+              {
+                currentPage: obj.currentPage,
+                pageSize: obj.pageSize,
+                total: resData.total
+              }
+            )
+          } else {
+            if (resData.constructor === Object) {
+              resData = []
             }
-          )
-        } else {
-          if (resData.constructor === Object) {
-            resData = []
+            this.$set(this.pageData[obj.index], 'data', resData)
+            this.$set(this.pageData[obj.index], 'paginationAll', undefined)
           }
+        } else if (config.contentAreaConfig.moduleType === '2') {
           this.$set(this.pageData[obj.index], 'data', resData)
-          this.$set(this.pageData[obj.index], 'paginationAll', undefined)
         }
+
       }
       let reqObj = JSON.parse(JSON.stringify(reqData))
       reqObj.methodsName = "getchartsList"
@@ -395,25 +395,52 @@ export default {
         } else {
           nowUrl = this.settingConfig.dataUrl + obj.url
         }
-        console.log(options,nowUrl,reqData)
+        //当未确认接口时可直接获取测试数据
+        if (this.settingConfig.isProducrTestData && !obj.url.replace(/\s*/g, '')) {
+          resDataFn(this.setCSdata(config.contentAreaConfig))
+          return false
+        }
+        //数据请求
         serviceAxios[options](nowUrl, reqData)
           .then(res => {
-            if (res.code === 20000||res.code === 200) {
+            if (res.code === 20000 || res.code === 200) {
               let resData = res.data
               resDataFn(resData)
             }
           })
           .catch(msg => {
+            // console.log(this.settingConfig.isProducrTestData, msg)
+
             this.$message({
               message: '请求失败' + msg,
               type: 'error'
             })
+
             return false
           })
       }
+    },
+    //测试数据生产
+    setCSdata (settingForm) {
+      let arr = []
+      for (let i = 0; i < 10; i++) {
+        let obj = {}
+        settingForm.keyArr.forEach(item => {
+          obj[item.key] = item.explain + Math.floor(Math.random() * 10000)
+        })
+        arr.push(obj)
+      }
+      // console.log(arr)
+      if (settingForm.isPage === '1') {
+        return {
+          list: arr,
+          total: 20
+        }
+      } else {
+        return arr
+      }
 
-
-    }
+    },
   }
 }
 </script>

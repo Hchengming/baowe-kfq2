@@ -138,7 +138,7 @@ export default {
         })
     },
     // statistics组件--模块删除事件
-    deleteMoule(moduleId, menuId) {
+    deleteMoule(moduleId, menuId, parentModuleId) {
       let reqUrl
       if (menuId) {
         reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
@@ -146,7 +146,11 @@ export default {
         reqUrl = '/busSecondmasterpageconfig/deleteDrillDownData'
       }
       serviceAxios
-        .post(this.settingConfig.commonUrl + reqUrl, { moduleId })
+        .post(this.settingConfig.commonUrl + reqUrl, {
+          moduleId,
+          menuId,
+          parentModuleId
+        })
         .then(res => {
           let code = res.code
           if (code === 20000) {
@@ -168,7 +172,8 @@ export default {
           {
             contentAreaConfig: obj.contentAreaConfig,
             parentModuleId: obj.moduleId,
-            drillDownKeyCurrent: obj.key
+            drillDownKeyCurrent: obj.key,
+            menuId: this.menuId
           }
         )
         .then(res => {
@@ -220,7 +225,6 @@ export default {
         .then(res => {
           let code = res.code
           let reqData = res.data
-
           if (code === 20000) {
             for (let i = this.pageData.length - 1; i >= 0; i--) {
               if (
@@ -259,6 +263,7 @@ export default {
               })
               if (offon) {
                 this.pageData.push(items)
+                console.log(this.pageData)
                 reqObj.index = this.pageData.length - 1
               }
               // 默认请求参数解析
@@ -295,7 +300,7 @@ export default {
     },
     // 新增确认事件
     addKeep(contentAreaConfig) {
-      console.log(this.menuId)
+      // console.log(this.menuId)
       const reqData = {
         secondMasterPageConfigPOS: [
           {

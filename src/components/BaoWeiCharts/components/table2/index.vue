@@ -12,7 +12,7 @@
                        :key="index"
                        :class-name="item.className+' '+cellCursorClass(item.key)"
                        :prop="item.key"
-                       :sortable="item.key!=='operationButton'"
+                       :sortable="false"
                        :label="colLabel(item)"
                        :width="colWidth(item,index)">
         <template slot-scope="scope">
@@ -39,7 +39,7 @@
                    :current-page="paginationAll.currentPage"
                    :page-size="paginationAll.pageSize"
                    :page-sizes="[10,50, 100, 500, 1000]"
-                   layout="total, prev, pager, next"
+                   layout="total, sizes, prev, pager, next, jumper"
                    :total="paginationAll.total"
                    v-if="paginationAll"></el-pagination>
     <!--    <el-pagination-->
@@ -56,7 +56,7 @@
 <script>
 import listTableCommonJs from './commonMixins'
 export default {
-  mixins:[listTableCommonJs],
+  mixins: [listTableCommonJs],
   data () {
     return {
       cellCursor: ''
@@ -76,7 +76,7 @@ export default {
     width: {
       type: Number
     },
-    settingForm:{
+    settingForm: {
       type: Object
     },
     paginationAll: {
@@ -139,7 +139,7 @@ export default {
     cellClick (row, column) {
       this.$emit('cellClick', row, column.property)
     },
-   
+
   }
 }
 </script>

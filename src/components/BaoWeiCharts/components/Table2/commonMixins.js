@@ -17,6 +17,17 @@ export default {
       ) {
         colClass = 'theme-color cursor-pointer'
       }
+      //判断是否已配置详情功能
+      if (this.settingForm.isDestail === '1') {
+        colClass = 'cursor-pointer'
+      }
+      //判断是否为行下钻
+      if (
+        this.settingForm.submodule === '1' &&
+        this.settingForm.clickToShow === 'row'
+      ) {
+        colClass = 'cursor-pointer'
+      }
       return colClass
     },
     //右侧其他按钮点击事件

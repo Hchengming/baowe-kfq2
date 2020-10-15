@@ -314,7 +314,7 @@ export default {
       contentAreaConfigCopy.zindex = (parseFloat(contentAreaConfigCopy.zindex) + 1).toString()
       // console.log(contentAreaConfigCopy)
       // 判断当前克隆模块为子级还是一级页面模块
-      if (this.statisticsAll.menuId) {
+      if (!this.statisticsAll.parentModuleId) {
         // 一级克隆 --调用一级新增方法
         this.$emit('firstAddKeep', contentAreaConfigCopy)
       } else {
@@ -336,10 +336,9 @@ export default {
     statisticsClose () {
       this.$emit('statisticsClose', this.statisticsAll.moduleId, this.statisticsAll.parentModuleId)
     },
-
     // 模块删除按钮点击事件
     deleteTemplate () {
-      this.$emit('deleteMoule', this.statisticsAll.moduleId, this.statisticsAll.menuId)
+      this.$emit('deleteMoule', this.statisticsAll.moduleId, this.statisticsAll.menuId, this.statisticsAll.parentModuleId)
     },
     // 模块设置表单保存事件
     settingKeep (contentAreaConfig) {

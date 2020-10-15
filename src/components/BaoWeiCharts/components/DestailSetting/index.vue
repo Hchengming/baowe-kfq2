@@ -3,31 +3,47 @@
   <el-dialog class="destail-setting dialog-common"
              :append-to-body="true"
              ref="destailSettingDialog"
-
              :visible.sync="dialogVisible">
-              <div class="headerTitle" slot="title" @mousedown="dragElement">
-                     详情配置信息
-               </div>
+    <div class="headerTitle"
+         slot="title"
+         @mousedown="dragElement">
+      详情配置信息
+    </div>
     <div>
-       <el-form ref="settingForm"
+      <el-form ref="settingForm"
                :model="destailSetObj"
                label-width="130px">
-               
-             <el-form-item label="详情内容展示"
-                          prop="detailType">
-              <el-radio-group v-model="destailSetObj.detailType">
-                <el-radio label="0">自定义配置</el-radio>
-                <el-radio label="1">跳转新页面</el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="跳转页路径"
-            v-if="destailSetObj.detailType==='1'"
-                          prop="detailsUrl">
-             <el-input size="mini"
+
+        <el-form-item label="详情内容展示"
+                      prop="detailType">
+          <el-radio-group v-model="destailSetObj.detailType">
+            <el-radio label="0">自定义配置</el-radio>
+            <el-radio label="1">跳转新页面</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="跳转页公共API"
+                      v-if="destailSetObj.detailType==='1'"
+                      prop="commonApi">
+          <el-input size="mini"
+                    placeholder="跳转页面公共API"
+                    v-model="destailSetObj.commonApi"></el-input>
+        </el-form-item>
+        <el-form-item label="跳转页字段"
+                      v-if="destailSetObj.detailType==='1'"
+                      prop="destailsUrlKey">
+          <el-select v-model="destailSetObj.destailsUrlKey"
+                     size="small"
+                     placeholder="触发跳转字段">
+            <el-option v-for="item in dataKeyArr"
+                       :key="item"
+                       :label="item"
+                       :value="item"></el-option>
+          </el-select>
+          <!-- <el-input size="mini"
                         placeholder="跳转页路径"
-                        v-model="destailSetObj.detailsUrl"></el-input>
-            </el-form-item>
-        </el-form>
+                        v-model="destailSetObj.detailsUrl"></el-input> -->
+        </el-form-item>
+      </el-form>
       <fieldset v-if="destailSetObj.detailType==='0'">
         <legend class="theme-color">全局配置</legend>
         <el-row>
@@ -49,7 +65,8 @@
           </el-col>
         </el-row>
       </fieldset>
-      <fieldset class="zdpz-ul" v-if="destailSetObj.detailType==='0'">
+      <fieldset class="zdpz-ul"
+                v-if="destailSetObj.detailType==='0'">
         <legend class="theme-color">显示内容配置</legend>
         <ul class="zdpz_list">
           <li class="zdpz_list_header">
@@ -135,8 +152,9 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      dialogRef:"destailSettingDialog",
+      dialogRef: "destailSettingDialog",
       settingData: [], // 详情配置数据
+      dataKeyArr: [],//当前数据字段合集
       proportionAll: [{
         label: '1',
         value: 24
@@ -153,8 +171,9 @@ export default {
       chooseKey: '', // 当前选中key
       errorKey: [], // 为填写完整字段
       destailSetObj: {
-        detailType:'0',//详情内容展示 0:自定义配置  1：跳转新页面
-        detailsUrl:'',//跳转新页面路径
+        detailType: '0',//详情内容展示 0:自定义配置  1：跳转新页面
+        commonApi: '',//页面跳转公共API
+        destailsUrlKey: '',//跳转新页面路径字段
         width: 600,
         titleWidth: 100
       }
@@ -194,6 +213,7 @@ export default {
       if (tableData && tableData.length > 0) {
         let num = 1
         for (let key in tableData[0]) {
+          this.dataKeyArr.push(key)
           let obj = {
             sort: num,
             key: key,
@@ -214,19 +234,32 @@ export default {
           num++
           this.settingData.push(obj)
         }
+        //判断字段集中是否存在特殊字段detailsUrl
+        if (this.dataKeyArr.indexOf('detailsUrl') > -1) {
+          this.destailSetObj.destailsUrlKey = 'detailsUrl'
+        }
       }
     },
     // 弹窗显示事件
     show (tableData, keyArr, detailsAreaConfig) {
       this.dialogVisible = true
+      this.dataKeyArr = []
       if (detailsAreaConfig) {
         this.settingData = detailsAreaConfig.settingData
-        this.destailSetObj.width = detailsAreaConfig.width
-        this.destailSetObj.titleWidth = detailsAreaConfig.titleWidth
-         this.destailSetObj.detailType = detailsAreaConfig.detailType
-          this.destailSetObj.detailsUrl = detailsAreaConfig.detailsUrl
+        // this.destailSetObj.width = detailsAreaConfig.width
+        // this.destailSetObj.titleWidth = detailsAreaConfig.titleWidth
+        // this.destailSetObj.detailType = detailsAreaConfig.detailType
+        // this.destailSetObj.destailsUrlKey = detailsAreaConfig.destailsUrlKey
+        for (let key in detailsAreaConfig) {
+          if (key !== 'settingData') {
+            this.destailSetObj[key] = detailsAreaConfig[key] ? detailsAreaConfig[key] : ''
+          }
+        }
         if (tableData && tableData.length > 0) {
+
           for (let key in tableData[0]) {
+            this.dataKeyArr.push(key)
+
             let offon = false
             this.settingData.forEach(item => {
               if (key === item.key) {
@@ -247,27 +280,42 @@ export default {
       } else {
         this.setSettingData(tableData, keyArr)
       }
+
+
     },
     // 配置确认事件
     onSubmit () {
-      let offon = false
+      let offons = true;//报错开关
       this.chooseKey = ''
-      this.errorKey = []
-      this.settingData.forEach(item => {
-        if (!item.title.replace(/\s*/g, '') && item.isShow) {
-          offon = true
-          this.errorKey.push(item.key)
-        }
-      })
-      if (offon) {
-        this.$message({
-          type: 'error',
-          message: this.errorKey.toString() + '字段标题未填写'
+      if (this.destailSetObj.detailType === '0') {
+        let offon = false
+        this.errorKey = []
+        this.settingData.forEach(item => {
+          if (!item.title.replace(/\s*/g, '') && item.isShow) {
+            offon = true
+            this.errorKey.push(item.key)
+          }
         })
+        if (offon) {
+          offons = false;
+          this.$message({
+            type: 'error',
+            message: this.errorKey.toString() + '字段标题未填写'
+          })
+        }
       } else {
+        if (!this.destailSetObj.destailsUrlKey || !this.destailSetObj.commonApi) {
+          offons = false
+          this.$message({
+            type: 'error',
+            message: '请选择详情跳转字段'
+          })
+        }
+      }
+
+      if (offons) {
         let detailsAreaConfig = {
           settingData: this.settingData
-
         }
         Object.assign(detailsAreaConfig, this.destailSetObj)
         this.$emit('submit', detailsAreaConfig, () => {
@@ -275,12 +323,6 @@ export default {
         })
       }
     }
-    // sortPrev () {
-
-    // },
-    // sortNext () {
-
-    // }
   }
 }
 </script>

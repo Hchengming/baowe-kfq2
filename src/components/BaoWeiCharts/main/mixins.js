@@ -13,10 +13,13 @@ export default {
       leftMenu: []
     }
   },
-  mounted() {
-    this.getTreeMenu()
-  },
   methods: {
+    //工具启动，开始加载数据渲染事件
+    startRender() {
+      //开始加载菜单数据
+      this.getTreeMenu()
+      this.$refs['myPage'].getItemApi()
+    },
     //表格、列表单元格点击菜单跳转事件执行
     cellClickMenuTap(obj) {
       if (obj.methodsName === 'cellClick') {
