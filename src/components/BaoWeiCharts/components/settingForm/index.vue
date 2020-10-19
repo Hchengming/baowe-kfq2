@@ -192,8 +192,8 @@
               <el-button size="small"
                          v-if="['table','list'].indexOf(form.displayMode)>-1"
                          @click="operateButtonSetting">右侧操作按钮配置</el-button>
-              <!-- <el-button size="small"
-                         @click="tableHeaderSetting">多表头配置</el-button> -->
+              <el-button size="small"
+                         @click="tableHeaderSetting">多表头配置</el-button>
               <p class="tips"><span v-if="!isWidth">*第一个字段必须为图表标题字段</span></p>
               <ul class="zdpz_list keys-config-list">
                 <li class="zdpz_list_header">
@@ -534,6 +534,9 @@
     <operate-button-setting ref="operateButtonSetting"
                             @submit="operateButtonSubmit"
                             :form='form'></operate-button-setting>
+    <!-- 多表头配置                     -->
+    <table-header-setting ref="tableHeaderSetting"
+                          :form="form"></table-header-setting>
   </div>
 </template>
 <script>
@@ -544,6 +547,7 @@ import { DetailsTable, ChartsMixins, iframeMixins } from './mixins.js'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index.vue'
 import OperateButtonSetting from './OperateButtonSetting/index.vue'
+import TableHeaderSetting from './tableHeaderSetting/index.vue'
 export default {
   mixins: [DetailsTable, dragDialog, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
@@ -564,7 +568,7 @@ export default {
       type: Object
     }
   },
-  components: { JudgePop, ApiChoose, ParamKeyConfig, OperateButtonSetting },
+  components: { JudgePop, ApiChoose, ParamKeyConfig, OperateButtonSetting, TableHeaderSetting },
   data () {
     return {
       dialogRef: 'settingFormDialog', // 弹出框refs名

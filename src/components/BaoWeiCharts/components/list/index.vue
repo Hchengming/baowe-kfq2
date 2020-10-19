@@ -15,7 +15,7 @@
              :style="{'width':col.width+'px'}">
           <el-tooltip v-if="col.key!=='operationButton'"
                       :content="NumStrTransformation(item[col.key],col.dw)"
-                      :placement="setPlacement(num,colums)">
+                      :placement="setPlacement(item)">
             <span :class="colClass(col)">
               {{item[col.key]}}
               <span class="txt3 theme-color">{{col.dw?col.dw:""}}</span>

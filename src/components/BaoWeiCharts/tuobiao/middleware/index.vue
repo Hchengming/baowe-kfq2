@@ -89,6 +89,7 @@ export default {
         urlName: '',//接口名称
         options: 'GET',//请求方式  GET/POST
         keyArr: [],//图表字段配置数据
+        tableHeaderConfig:{},//表格多表头配置数据
         operateButton: [],//列表、表格右侧操作按钮配置数据
         paramConfig: [],//请求参数配置
         destailsTableLabelWidth: 100,//详情列表左侧标题宽度

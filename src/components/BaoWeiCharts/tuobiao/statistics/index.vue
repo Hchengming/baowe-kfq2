@@ -139,7 +139,7 @@
           <bw-line v-if="bwLineType.indexOf(settingForm.displayMode) > -1&&isCharts()"
                    :data="statisticsAll.data"
                    :chartColumns="nowClums()"
-                   :titleShow="false"
+                   :titleShow="true"
                    :chartType="settingForm.displayMode"
                    :height="boxHeight()"
                    @eventClick="eventClick"></bw-line>

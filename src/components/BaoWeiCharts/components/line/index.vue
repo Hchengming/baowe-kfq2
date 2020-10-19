@@ -119,27 +119,21 @@ export default {
     }
   },
   mounted () {
-    this.$set(this.options, 'grid', {
-      top: 15,
-      left: 5,
-      bottom: 0,
-      right: 5
-    })
-    // if (!this.titleShow) {
-    //   this.$set(this.options, 'grid', {
-    //     top: 15,
-    //     left: 5,
-    //     bottom: 0,
-    //     right: 5
-    //   })
-    // } else {
-    //   this.$set(this.options, 'grid', {
-    //     top: 45,
-    //     left: 5,
-    //     bottom: 0,
-    //     right: 5
-    //   })
-    // }
+    if (!this.titleShow) {
+      this.$set(this.options, 'grid', {
+        top: 15,
+        left: 5,
+        bottom: 0,
+        right: 5
+      })
+    } else {
+      this.$set(this.options, 'grid', {
+        top: 45,
+        left: 5,
+        bottom: 0,
+        right: 5
+      })
+    }
     if (this.chartType == 'histogram') {
       this.options.series = (v) => {
         if (v && v.length > 0) {

@@ -8,7 +8,7 @@
               stripe
               :height="nowHieght()"
               :style="{width: '100%'}">
-      <el-table-column v-for="(item,index) in colums"
+      <!-- <el-table-column v-for="(item,index) in colums"
                        :key="index"
                        :class-name="item.className+' '+cellCursorClass(item.key)"
                        :prop="item.key"
@@ -29,10 +29,17 @@
                        @click="operateButtonClick(val,scope.row)"
                        size="mini">{{val.name}}</el-button>
           </div>
-          <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
+        
         </template>
 
-      </el-table-column>
+      </el-table-column> -->
+      <table-column v-for="(item,index) in tableColums()"
+                    :key="index"
+                    :item="item"
+                    :statisticsAll="statisticsAll"
+                    :settingForm="settingForm"
+                    :colums="colums">
+      </table-column>
     </el-table>
     <el-pagination @current-change="handleCurrentChange"
                    @size-change="handleSizeChange"
@@ -42,21 +49,14 @@
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="paginationAll.total"
                    v-if="paginationAll"></el-pagination>
-    <!--    <el-pagination-->
-    <!--      @size-change="handleSizeChange"-->
-    <!--      @current-change="handleCurrentChange"-->
-    <!--      :current-page="currentPage4"-->
-    <!--      :page-sizes="[10,50, 100, 500, 1000]"-->
-    <!--      :page-size="10"-->
-    <!--      layout="total, sizes, prev, pager, next, jumper"-->
-    <!--      :total="400">-->
-    <!--    </el-pagination>-->
   </div>
 </template>
 <script>
 import listTableCommonJs from './commonMixins'
+import TableColumn from './tableColumn/tableColumn.vue'
 export default {
   mixins: [listTableCommonJs],
+  components: { TableColumn },
   data () {
     return {
       cellCursor: ''
@@ -91,6 +91,36 @@ export default {
   },
   computed: {},
   methods: {
+    //递归遍历树形数据
+    reduiction (data, fn) {
+      data.forEach((item, index) => {
+        fn(item, index)
+        if (item.children && item.children.length > 0) {
+          this.reduiction(item.children, fn)
+        }
+      })
+    },
+    //表格表头配置
+    tableColums () {
+      let tableColums = []
+      //判断是否为多表头表格
+      if (this.settingForm.tableHeaderConfig && this.settingForm.tableHeaderConfig.hierarchy > 1) {
+        //01 多表头表格
+        tableColums = this.settingForm.tableHeaderConfig.headerSetting[0].children
+        this.reduiction(tableColums, items => {
+          this.colums.forEach(item => {
+            if (items.key === item.key) {
+              Object.assign(items, item)
+            }
+          })
+        })
+
+      } else {
+        //02 普通表格
+        tableColums = this.colums
+      }
+      return tableColums
+    },
     // 获取行索引
     tableRowClassName ({ row, rowIndex }) {
       // 把每一行的索引放进row

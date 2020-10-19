@@ -745,7 +745,7 @@ body {
   justify-content: space-between;
 }
 .v_chart_pie .choose .btn {
-  width: 150px;
+  min-width: 150px;
 }
 .v_chart_pie .choose button {
   padding: 2px 8px;
@@ -1301,4 +1301,35 @@ body {
 }
 .menu-form-setting .el-dialog .el-form-item {
   margin-bottom: 20px;
+}
+/*多表头配置页面*/
+.table-header-setting-dialog .el-dialog {
+  width: 600px;
+  margin-top: 150px;
+}
+.table-header-setting-dialog .el-dialog .el-tree {
+  margin: 10px 0;
+}
+.table-header-setting-dialog .el-dialog .el-tree .custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
+.table-header-setting-dialog .el-dialog .header-name-setting {
+  display: flex;
+}
+.table-header-setting-dialog .el-dialog .header-name-setting > span {
+  width: 100px;
+  line-height: 32px;
+  display: block;
+}
+.table-header-setting-dialog .el-dialog .header-name-setting .el-checkbox-group {
+  width: calc(100% - 100px);
+}
+.table-header-setting-dialog .el-dialog .header-name-setting .el-checkbox,
+.table-header-setting-dialog .el-dialog .header-name-setting .el-radio {
+  line-height: 32px;
 }

@@ -871,7 +871,7 @@ body {
     justify-content: space-between;
 
     .btn {
-      width: 150px;
+      min-width: 150px;
     }
 
     button {
@@ -1515,6 +1515,43 @@ body {
     margin-top: 150px;
     .el-form-item {
       margin-bottom: 20px;
+    }
+  }
+}
+
+/*多表头配置页面*/
+.table-header-setting-dialog {
+  .el-dialog {
+    width: 600px;
+    margin-top: 150px;
+    .el-tree {
+      margin: 10px 0;
+      .custom-tree-node {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        padding-right: 8px;
+      }
+    }
+    // .tree-right-btn {
+    //   margin-left: 50px;
+    // }
+    .header-name-setting {
+      display: flex;
+      & > span {
+        width: 100px;
+        line-height: 32px;
+        display: block;
+      }
+      .el-checkbox-group {
+        width: ~'calc(100% - 100px)';
+      }
+      .el-checkbox,
+      .el-radio {
+        line-height: 32px;
+      }
     }
   }
 }

@@ -44,8 +44,14 @@ export default {
       this.$emit('operateButtonClick', buttonSetting, rowItem)
     },
     // topTitle显示位置控制
-    setPlacement(index, column) {
-      let length = column.length
+    setPlacement(data) {
+      let index = 0
+      let length = this.colums.length
+      this.colums.forEach((item, num) => {
+        if (item.key === data.key) {
+          index = num
+        }
+      })
       if (index + 1 <= length / 2) {
         return 'top-start'
       } else {

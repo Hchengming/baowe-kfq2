@@ -85,7 +85,7 @@ export const ChartsMixins = {
   methods: {
     //多表头配置按钮点击事件
     tableHeaderSetting(){
-      
+      this.$refs['tableHeaderSetting'].show()
     },
     //操作按钮配置 按钮点击事件
     operateButtonSetting() {

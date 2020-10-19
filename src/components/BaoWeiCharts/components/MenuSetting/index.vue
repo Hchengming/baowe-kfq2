@@ -100,7 +100,7 @@ export default {
             </el-button>
             <el-popconfirm
               on-onConfirm={() => this.remove(node, data)}
-              title="这是一段内容确定删除吗？"
+              title="确认删除当前菜单？"
             >
               <el-button
                 size="mini"
