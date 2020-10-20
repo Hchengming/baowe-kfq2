@@ -57,7 +57,12 @@ export default {
       this.menuActiveIndex = index
       this.leftMenu = item.children
       this.$refs['myPage'].mainStyleChange()
-      this.$refs['myPage'].menuClick(item)
+      this.$refs['myPage'].menuClick(item, 'top', offon => {
+        // console.log(offon, 'offon')
+        if (offon && item.children && item.children.length > 0) {
+          this.menuJump(item.children[0].menuCode)
+        }
+      })
       this.$emit('elementMethods', {
         name: '顶部菜单点击事件',
         methodsName: 'menuClick',

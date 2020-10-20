@@ -110,9 +110,13 @@ export default {
       // this.chartsMethods(reqObj)
     },
     // 菜单点击事件
-    menuClick (menuItem) {
+    menuClick (menuItem, types, fn) {
       this.nowMenuItem = menuItem
-      this.$refs['middleware'].menuClick(menuItem)
+      /**
+       * 获取当前页面配置模块，若当前为顶部模块，判断一级菜单是否已配置内容，
+       * 没有则直接跳转下面子级第一个菜单
+      */
+      this.$refs['middleware'].menuClick(menuItem, types, fn)
       this.getTopBarConfig()
       this.elementMethods({
         name: '菜单点击事件',

@@ -64,8 +64,9 @@ export default {
     },
     // headername 获取
     colLabel (item) {
-
-      return item.dw ? item.label + `(${item.dw})` : item.label
+      let title = item.label ? item.label : item.explain
+      // console.log(item, item.dw ? item.explain + `(${item.dw})` : item.explain)
+      return item.dw ? title + `(${item.dw})` : title
     },
     // 动态获取宽度
     colWidth (item) {
