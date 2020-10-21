@@ -1,46 +1,58 @@
 <template>
   <div id="bao-wei-charts">
     <el-container class="KFQ_wrap">
-      <el-header >
+      <el-header>
         <div class="logo">
-          <img :src="settingConfig.logoUrl" />
-          <span>{{settingConfig.itemTitle}}</span>
-          <i @click="leftMenuControl"
-             v-if="leftMenu.length > 0"
-             :class="['menu_icon theme-color', menu_i]"></i>
+          <img :src="settingConfig.logoUrl">
+          <span>{{ settingConfig.itemTitle }}</span>
+          <i
+            v-if="leftMenu.length > 0"
+            :class="['menu_icon theme-color', menu_i]"
+            @click="leftMenuControl"
+          />
         </div>
         <ul class="header_menu">
-          <li v-for="(item, index) in menuData"
-              @click="topMenuClick(item, index)"
-              :class="{
-            'active': menuActiveIndex == index
-          }"
-              :key="index">
-            <i :class="['iconfont', item.menuIcon, 'theme-color']"></i>
+          <li
+            v-for="(item, index) in menuData"
+            :key="index"
+            :class="{
+              'active': menuActiveIndex == index
+            }"
+            @click="topMenuClick(item, index)"
+          >
+            <i :class="['iconfont', item.menuIcon, 'theme-color']" />
             {{ item.menuName }}
           </li>
         </ul>
       </el-header>
       <el-container>
         <!-- 左侧导航栏 -->
-        <el-aside :width="leftMenuWidth"
-                  v-if="leftMenu.length > 0">
-          <el-menu :default-active="defaultActive"
-                   class="el-menu-vertical-demo menu-bg-color"
-                   :collapse="isCollapse">
-            <my-menu v-for="menuItem in leftMenu"
-                     :key="menuItem.menuCode"
-                     :menuItem="menuItem"
-                     @leftMenuClick="leftMenuClick"></my-menu>
+        <el-aside
+          v-if="leftMenu.length > 0"
+          :width="leftMenuWidth"
+        >
+          <el-menu
+            :default-active="defaultActive"
+            class="el-menu-vertical-demo menu-bg-color"
+            :collapse="isCollapse"
+          >
+            <my-menu
+              v-for="menuItem in leftMenu"
+              :key="menuItem.menuCode"
+              :menu-item="menuItem"
+              @leftMenuClick="leftMenuClick"
+            />
           </el-menu>
         </el-aside>
         <!-- 内容区域 -->
         <el-main class="theme-bg">
-          <my-page ref="myPage"
-                   @getMenuData="getMenuChange"
-                   @elementMethods="elementMethods"
-                   :settingConfig="settingConfig"></my-page>
-          <slot name="content"></slot>
+          <my-page
+            ref="myPage"
+            :setting-config="settingConfig"
+            @getMenuData="getMenuChange"
+            @elementMethods="elementMethods"
+          />
+          <slot name="content" />
         </el-main>
       </el-container>
     </el-container>
@@ -55,21 +67,20 @@ import MyPage from './find/myPage'
 import defaultData from './menuData.json'
 
 import { commonMethods } from '../utils/mixins.js'
-import JSMixins from './mixins.js'
+import JSMixins from './mainMixins.js'
 export default {
-  name: 'wrap',
-  mixins: [commonMethods,JSMixins],
+  name: 'Wrap',
+  components: { MyMenu, MyPage },
+  mixins: [commonMethods, JSMixins],
   props: {
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
     }
-  },
-  components: { MyMenu, MyPage }
+  }
 
 }
-
 
 </script>
 

@@ -19,11 +19,12 @@
     -->
     <section v-for="(item, index) in pageData"
              :key="index">
-      <statistics :statisticsAll="item"
-                  :browserXY="browserXY"
-                  :dataUrl="settingConfig.dataUrl"
-                  :addSettingForm='addSettingForm'
-                  :itemApiData="itemApiData"
+      <statistics :statistics-all="item"
+                  :browser-x-y="browserXY"
+                  :data-url="settingConfig.dataUrl"
+                  :add-setting-form="addSettingForm"
+                  :item-api-data="itemApiData"
+                  :system-permissions="settingConfig.systemPermissions"
                   @firstAddKeep="addKeep"
                   @deleteMoule="deleteMoule"
                   @rowClick="rowClick"
@@ -37,23 +38,22 @@
                   @whereSubmit="whereSubmit"
                   @detailsAreaConfigEmit="detailsAreaConfigEmit"
                   @whereOtherBtnClick="whereOtherBtnClick"
-                  @operateButtonClick='operateButtonClick'
+                  @operateButtonClick="operateButtonClick"
                   @statisticsMore="statisticsMore"
-                  @settingClick="settingClick"
-                  :systemPermissions="settingConfig.systemPermissions"></statistics>
+                  @settingClick="settingClick" />
     </section>
 
     <!-- 新增弹窗模块 -->
     <settingForm ref="settingForm"
                  :form="addSettingForm"
-                 :dataUrl="settingConfig.dataUrl"
-                 :itemApiData="itemApiData"
-                 @submit="addKeep"></settingForm>
+                 :data-url="settingConfig.dataUrl"
+                 :item-api-data="itemApiData"
+                 @submit="addKeep" />
 
   </div>
 </template>
 <script>
-import dataMixins from './mixins'
+import middlewareMixins from './middlewareMixins'
 import Statistics from '../statistics'
 import serviceAxios from '@/utils/request.js'
 import SettingForm from '../../components/SettingForm'
@@ -61,18 +61,18 @@ import SettingForm from '../../components/SettingForm'
 // eslint-disable-next-line no-unused-vars
 // import defaultData from './KFQTJData.json'
 export default {
-  mixins: [dataMixins],
+  components: { Statistics, SettingForm },
+  mixins: [middlewareMixins],
   props: {
     settingConfig: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: null
     },
     itemApiData: {
-      type: Array
+      type: Array,
+      default: null
     }
   },
-  components: { Statistics, SettingForm },
   data () {
     return {
       // systemPermissions: 'admin', // 系统权限控制
@@ -82,20 +82,22 @@ export default {
         title: '', // 标题
         subtitle1: '', // 副标题1
         subtitle2: '', // 副标题2
-        isAddMoreIcon: '0',//是否添加更多按钮 0：否 1：是
-        moreUrl: '',//更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
-        moduleType: '0',//模块内容  0:图表 1:iframe地图 2:详情表格展示
+        isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
+        moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
+        moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示
+        apiType: '',//接口类型
         url: '', // 接口
-        urlName: '',//接口名称
-        options: 'GET',//请求方式  GET/POST
-        keyArr: [],//图表字段配置数据
-        operateButton: [],//列表、表格右侧操作按钮配置数据
-        paramConfig: [],//请求参数配置
-        destailsTableLabelWidth: 100,//详情列表左侧标题宽度
-        detailsTableAll: [],//详情列表配置数据
+        urlName: '', // 接口名称
+        options: 'GET', // 请求方式  GET/POST
+        keyArr: [], // 图表字段配置数据
+        tableHeaderConfig: {}, // 表格多表头配置数据
+        operateButton: [], // 列表、表格右侧操作按钮配置数据
+        paramConfig: [], // 请求参数配置
+        destailsTableLabelWidth: 100, // 详情列表左侧标题宽度
+        detailsTableAll: [], // 详情列表配置数据
         iframeAll: {
-          iframeType: '0',// 0-map地图  1-其他类型
-          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129',//iframe嵌入路径,
+          iframeType: '0', // 0-map地图  1-其他类型
+          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129' // iframe嵌入路径,
         },
         height: 300,
         width: 27.69,
@@ -106,13 +108,13 @@ export default {
         displayMode: 'table', // 数据展现方式
         submodule: '0', // 是否含有子页面
         menuTapAll: {
-          isMenuTap: '0',//是否执行菜单页面跳转   0:否 1:是
-          menuTapKey: '',//点击触发跳转字段
-          menuCodeKey: ''//菜单编码字段
+          isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
+          menuTapKey: '', // 点击触发跳转字段
+          menuCodeKey: ''// 菜单编码字段
         },
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
-        isLinkMap: '0',//是否链接iframe地图  0:不链接 1:链接 
-        mapPosition: '0',//地图定位   0-定位到重庆 1-定位到区县  2-定位到开发区
+        isLinkMap: '0', // 是否链接iframe地图  0:不链接 1:链接
+        mapPosition: '0', // 地图定位   0-定位到重庆 1-定位到区县  2-定位到开发区
         isPage: '0', // 数据是否添加分页
         mask: '0', // 是否添加遮罩层
         pageSize: 10, // 每页显示数据条数
@@ -155,7 +157,7 @@ export default {
         rowItem
       })
     },
-    //头部右侧更多按钮点击事件
+    // 头部右侧更多按钮点击事件
     statisticsMore (statisticsAll) {
       this.chartsMethods({
         moduleId: statisticsAll.moduleId,
@@ -164,13 +166,13 @@ export default {
       })
     },
     // 菜单点击事件
-    menuClick (menuItem) {
+    menuClick (menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
-      this.getData()
+      this.getData(menuTypes, fn)
     },
     // 子级弹窗关闭事件--同级子弹窗全部关闭
     statisticsClose (moduleId, parentModuleId) {
-      let datas = []
+      const datas = []
       this.pageData.forEach((item) => {
         if (item.parentModuleId !== parentModuleId) {
           // this.pageData.splice(index, 1)
@@ -183,7 +185,7 @@ export default {
     tablePageSort (moduleId, paginationAll, whereForm) {
       let offon = true
       // eslint-disable-next-line no-unused-vars
-      let obj = {}
+      const obj = {}
       // let currentPage=pageAll.currentPage?
       let nowItem = {}
       this.pageData.forEach((item, index) => {
@@ -217,12 +219,12 @@ export default {
 
       // 模块配置数据格式转换
       item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
-      //菜单跳转字段旧版本未添加处理
+      // 菜单跳转字段旧版本未添加处理
       if (!item.contentAreaConfig.menuTapAll) {
         item.contentAreaConfig.menuTapAll = {
-          isMenuTap: '0',//是否执行菜单页面跳转   0:否 1:是
-          menuTapKey: '',//点击触发跳转字段
-          menuCodeKey: ''//菜单编码字段
+          isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
+          menuTapKey: '', // 点击触发跳转字段
+          menuCodeKey: ''// 菜单编码字段
         }
       }
       // 筛选配置数据格式转换
@@ -243,7 +245,7 @@ export default {
             !item.conditionAreaConfig || !item.conditionAreaConfig.screenData ||
             item.conditionAreaConfig.screenData.length === 0
           ) {
-            for (let key in obj) {
+            for (const key in obj) {
               item.conditionAreaConfig.screenData.push({
                 key: key,
                 defaultValue: obj[key],
@@ -258,31 +260,33 @@ export default {
         }
       }
     },
-    //页面加载状态变化
+    // 页面加载状态变化
     pageLoding (offon) {
       this.$emit('pageLoading', offon)
     },
     // 模块图表配置数据获取
-    getData () {
+    getData (menuTypes, fn) {
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](this.settingConfig.commonUrl + '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin', {
         menuId: this.menuId
       })
         .then(res => {
-          let code = res.code
-          let resData = res.data
+          const code = res.code
+          const resData = res.data
           if (code === 20000) {
-
+            if ((!resData || resData.length === 0) && menuTypes === 'top') {
+              fn(true)
+            }
             resData.forEach((item, index) => {
               this.itemGSH(item)
               // 配置数据字段集获取
-              let keys = []
+              const keys = []
               item.contentAreaConfig.keyArr.forEach(obj => {
                 keys.push(obj.key)
               })
               // 数据请求参数
-              let obj = {
+              const obj = {
                 url: item.contentAreaConfig.url,
                 keys: keys,
                 index: index
@@ -294,7 +298,7 @@ export default {
               }
               this.pageData = resData
               // 默认请求参数解析
-              let defaultReqData = {}
+              const defaultReqData = {}
               if (item.conditionAreaConfig.screenData) {
                 item.conditionAreaConfig.screenData.forEach(conditionObj => {
                   if (conditionObj.defaultValue) {
@@ -311,7 +315,6 @@ export default {
           this.pageLoding(false)
         })
         .catch(msg => {
-
           this.$message({
             message: '请求失败' + msg,
             type: 'error'
@@ -324,14 +327,14 @@ export default {
     getTableData (obj, whereReqData, config) {
       let reqData = {
         currentPage: obj.currentPage,
-        pageSize: obj.pageSize,
+        pageSize: obj.pageSize
         // keys: obj.keys,
       }
       // 查询其他-参数接入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
-      let resDataFn = (resData) => {
+      const resDataFn = (resData) => {
         // console.log(JSON.stringify(resData) )
         if (!config.contentAreaConfig.moduleType || config.contentAreaConfig.moduleType === '0') {
           if (config.contentAreaConfig.isPage === '1') {
@@ -355,27 +358,29 @@ export default {
         } else if (config.contentAreaConfig.moduleType === '2') {
           this.$set(this.pageData[obj.index], 'data', resData)
         }
-
+        // console.log(this.pageData[obj.index])
       }
-      let reqObj = JSON.parse(JSON.stringify(reqData))
-      reqObj.methodsName = "getchartsList"
-      reqObj.name = "图表数据请求事件"
-      reqObj.config = config;
-      reqObj.url = obj.url;
-      //特殊情况处理 (获取数据格式特殊，默认情况无法处理)
-      let sftsqk = false;//当前是否未特殊情况
-      reqObj.sftsqk = (offon) => {//是否未特殊情况返回
-        sftsqk = offon ? true : false
+      const reqObj = JSON.parse(JSON.stringify(reqData))
+      reqObj.methodsName = 'getchartsList'
+      reqObj.name = '图表数据请求事件'
+      reqObj.config = config
+      reqObj.url = obj.url
+      // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
+      let sftsqk = false// 当前是否未特殊情况
+      reqObj.sftsqk = (offon) => { // 是否未特殊情况返回
+        // console.log(offon)
+        sftsqk = !!offon
       }
-      reqObj.tsqkData = (data) => {//特殊情况数据处理后返回
+      reqObj.tsqkData = (data) => { // 特殊情况数据处理后返回
         resDataFn(data)
       }
       // console.log(reqObj, '===')
       this.$emit('chartsMethods', reqObj)
+      //  console.log(sftsqk)
       if (!sftsqk) {
-        //根据请求方式的不同进行调整
-        let options = config.contentAreaConfig.options === 'POST' ? 'post' : 'get'
-        //参数写入
+        // 根据请求方式的不同进行调整
+        const options = config.contentAreaConfig.options === 'POST' ? 'post' : 'get'
+        // 参数写入
         if (config.contentAreaConfig.paramConfig) {
           config.contentAreaConfig.paramConfig.forEach(item => {
             if (!reqData[item.paramKey] && item.isUse) {
@@ -388,23 +393,23 @@ export default {
             params: reqData
           }
         }
-        //判断当前接口是完全接口还是测试接口
+        // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
         if (obj.url.indexOf('http') > -1) {
           nowUrl = obj.url
         } else {
           nowUrl = this.settingConfig.dataUrl + obj.url
         }
-        //当未确认接口时可直接获取测试数据
+        // 当未确认接口时可直接获取测试数据
         if (this.settingConfig.isProducrTestData && !obj.url.replace(/\s*/g, '')) {
           resDataFn(this.setCSdata(config.contentAreaConfig))
           return false
         }
-        //数据请求
+        // 数据请求
         serviceAxios[options](nowUrl, reqData)
           .then(res => {
             if (res.code === 20000 || res.code === 200) {
-              let resData = res.data
+              const resData = res.data
               resDataFn(resData)
             }
           })
@@ -420,11 +425,11 @@ export default {
           })
       }
     },
-    //测试数据生产
+    // 测试数据生产
     setCSdata (settingForm) {
-      let arr = []
+      const arr = []
       for (let i = 0; i < 10; i++) {
-        let obj = {}
+        const obj = {}
         settingForm.keyArr.forEach(item => {
           obj[item.key] = item.explain + Math.floor(Math.random() * 10000)
         })
@@ -439,8 +444,7 @@ export default {
       } else {
         return arr
       }
-
-    },
+    }
   }
 }
 </script>

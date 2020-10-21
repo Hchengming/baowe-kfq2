@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-extend-native
-Date.prototype.Format = function (fmt) {
+Date.prototype.Format = function(fmt) {
   let s = this.getMilliseconds()
   if (s < 10) {
     s = '00' + s

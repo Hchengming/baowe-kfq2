@@ -37,7 +37,7 @@ export default {
       // console.log(tableItem)
       const detailsAreaConfig = JSON.parse(JSON.stringify(this.detailsTableAll))
       detailsAreaConfig.forEach(item => {
-        for (let key in tableItem) {
+        for (const key in tableItem) {
           if (item.key === key) {
             item.val = tableItem[key]
           }
@@ -47,10 +47,10 @@ export default {
       let num = 0
       let RowData = []
       this.destailSetting = []
-      let lastBQ = index => {
+      const lastBQ = index => {
         if (index === detailsAreaConfig.length - 1) {
           if (num < 24) {
-            let RowDataLength = RowData.length
+            const RowDataLength = RowData.length
             let colSpan = 0
             RowData.forEach((obj, objIndex) => {
               if (objIndex !== RowDataLength - 1) {
@@ -64,7 +64,7 @@ export default {
       }
       detailsAreaConfig.forEach((item, index) => {
         if (item.isShow === true) {
-          let proportion = item.proportion ? item.proportion : 24
+          const proportion = item.proportion ? item.proportion : 24
           if (num + proportion === 24) {
             RowData.push(item)
             this.destailSetting.push({ row: RowData })

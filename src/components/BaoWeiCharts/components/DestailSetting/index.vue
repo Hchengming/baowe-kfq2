@@ -1,43 +1,61 @@
 <template>
   <!-- 详情配置组件 -->
-  <el-dialog class="destail-setting dialog-common"
-             :append-to-body="true"
-             ref="destailSettingDialog"
-             :visible.sync="dialogVisible">
-    <div class="headerTitle"
-         slot="title"
-         @mousedown="dragElement">
+  <el-dialog
+    ref="destailSettingDialog"
+    class="destail-setting dialog-common"
+    :append-to-body="true"
+    :visible.sync="dialogVisible"
+  >
+    <div
+      slot="title"
+      class="headerTitle"
+      @mousedown="dragElement"
+    >
       详情配置信息
     </div>
     <div>
-      <el-form ref="settingForm"
-               :model="destailSetObj"
-               label-width="130px">
+      <el-form
+        ref="settingForm"
+        :model="destailSetObj"
+        label-width="130px"
+      >
 
-        <el-form-item label="详情内容展示"
-                      prop="detailType">
+        <el-form-item
+          label="详情内容展示"
+          prop="detailType"
+        >
           <el-radio-group v-model="destailSetObj.detailType">
             <el-radio label="0">自定义配置</el-radio>
             <el-radio label="1">跳转新页面</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="跳转页公共API"
-                      v-if="destailSetObj.detailType==='1'"
-                      prop="commonApi">
-          <el-input size="mini"
-                    placeholder="跳转页面公共API"
-                    v-model="destailSetObj.commonApi"></el-input>
+        <el-form-item
+          v-if="destailSetObj.detailType==='1'"
+          label="跳转页公共API"
+          prop="commonApi"
+        >
+          <el-input
+            v-model="destailSetObj.commonApi"
+            size="mini"
+            placeholder="跳转页面公共API"
+          />
         </el-form-item>
-        <el-form-item label="跳转页字段"
-                      v-if="destailSetObj.detailType==='1'"
-                      prop="destailsUrlKey">
-          <el-select v-model="destailSetObj.destailsUrlKey"
-                     size="small"
-                     placeholder="触发跳转字段">
-            <el-option v-for="item in dataKeyArr"
-                       :key="item"
-                       :label="item"
-                       :value="item"></el-option>
+        <el-form-item
+          v-if="destailSetObj.detailType==='1'"
+          label="跳转页字段"
+          prop="destailsUrlKey"
+        >
+          <el-select
+            v-model="destailSetObj.destailsUrlKey"
+            size="small"
+            placeholder="触发跳转字段"
+          >
+            <el-option
+              v-for="item in dataKeyArr"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
           </el-select>
           <!-- <el-input size="mini"
                         placeholder="跳转页路径"
@@ -49,24 +67,30 @@
         <el-row>
           <el-col :span="12">
             弹窗宽度：
-            <el-input-number v-model="destailSetObj.width"
-                             controls-position="right"
-                             size="small"
-                             :min="300"
-                             :max="1920"></el-input-number>
+            <el-input-number
+              v-model="destailSetObj.width"
+              controls-position="right"
+              size="small"
+              :min="300"
+              :max="1920"
+            />
           </el-col>
           <el-col :span="12">
             标题宽度：
-            <el-input-number v-model="destailSetObj.titleWidth"
-                             controls-position="right"
-                             size="small"
-                             :min="1"
-                             :max="300"></el-input-number>
+            <el-input-number
+              v-model="destailSetObj.titleWidth"
+              controls-position="right"
+              size="small"
+              :min="1"
+              :max="300"
+            />
           </el-col>
         </el-row>
       </fieldset>
-      <fieldset class="zdpz-ul"
-                v-if="destailSetObj.detailType==='0'">
+      <fieldset
+        v-if="destailSetObj.detailType==='0'"
+        class="zdpz-ul"
+      >
         <legend class="theme-color">显示内容配置</legend>
         <ul class="zdpz_list">
           <li class="zdpz_list_header">
@@ -77,45 +101,57 @@
             <span class="hTxt5 hTxt">是否显示</span>
             <!-- <span class="hTxt6 hTxt icons">操作</span> -->
           </li>
-          <li v-for="(item, index) in settingData"
-              :key="index"
-              :class="['zdpz',{'theme-box-shadow':chooseKey===item.key},{'box-shadow-error':errorKey.indexOf(item.key)>-1}]"
-              @click="chooseKey=item.key">
+          <li
+            v-for="(item, index) in settingData"
+            :key="index"
+            :class="['zdpz',{'theme-box-shadow':chooseKey===item.key},{'box-shadow-error':errorKey.indexOf(item.key)>-1}]"
+            @click="chooseKey=item.key"
+          >
 
             <span class="hTxt1 hTxt">
-              <el-input-number v-model="item.sort"
-                               placeholder="序号"
-                               controls-position="right"
-                               :precision="0"
-                               @change="sortChange(item.sort,index)"
-                               size="small"
-                               :min="1"
-                               :max="50"></el-input-number>
+              <el-input-number
+                v-model="item.sort"
+                placeholder="序号"
+                controls-position="right"
+                :precision="0"
+                size="small"
+                :min="1"
+                :max="50"
+                @change="sortChange(item.sort,index)"
+              />
 
             </span>
             <label class="hTxt2 hTxt">
-              <el-input size="mini"
-                        placeholder="字段名"
-                        disabled="disabled"
-                        v-model="item.key"></el-input>
+              <el-input
+                v-model="item.key"
+                size="mini"
+                placeholder="字段名"
+                disabled="disabled"
+              />
             </label>
             <label class="hTxt3 hTxt">
-              <el-input size="mini"
-                        placeholder="标题"
-                        v-model="item.title"></el-input>
+              <el-input
+                v-model="item.title"
+                size="mini"
+                placeholder="标题"
+              />
             </label>
             <label class="hTxt4 hTxt">
-              <el-select v-model="item.proportion"
-                         size="small"
-                         placeholder="请选择">
-                <el-option v-for="option in proportionAll"
-                           :key="option.value"
-                           :label="option.label"
-                           :value="option.value"></el-option>
+              <el-select
+                v-model="item.proportion"
+                size="small"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="option in proportionAll"
+                  :key="option.value"
+                  :label="option.label"
+                  :value="option.value"
+                />
               </el-select>
             </label>
             <label class="hTxt5 hTxt">
-              <el-checkbox v-model="item.isShow"></el-checkbox>
+              <el-checkbox v-model="item.isShow" />
             </label>
             <!-- <div class="icons hTxt6 hTxt">
             <i @click="sortPrev(item, index, index == 0)"
@@ -134,13 +170,19 @@
       </fieldset>
 
     </div>
-    <span slot="footer"
-          class="dialog-footer">
-      <el-button @click="close"
-                 size="small">取 消</el-button>
-      <el-button type="primary"
-                 @click="onSubmit"
-                 size="small">确 定</el-button>
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
+      <el-button
+        size="small"
+        @click="close"
+      >取 消</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        @click="onSubmit"
+      >确 定</el-button>
     </span>
   </el-dialog>
 
@@ -149,12 +191,12 @@
 import { dragDialog } from '../../utils/mixins.js'
 export default {
   mixins: [dragDialog],
-  data () {
+  data() {
     return {
       dialogVisible: false,
-      dialogRef: "destailSettingDialog",
+      dialogRef: 'destailSettingDialog',
       settingData: [], // 详情配置数据
-      dataKeyArr: [],//当前数据字段合集
+      dataKeyArr: [], // 当前数据字段合集
       proportionAll: [{
         label: '1',
         value: 24
@@ -171,9 +213,9 @@ export default {
       chooseKey: '', // 当前选中key
       errorKey: [], // 为填写完整字段
       destailSetObj: {
-        detailType: '0',//详情内容展示 0:自定义配置  1：跳转新页面
-        commonApi: '',//页面跳转公共API
-        destailsUrlKey: '',//跳转新页面路径字段
+        detailType: '0', // 详情内容展示 0:自定义配置  1：跳转新页面
+        commonApi: '', // 页面跳转公共API
+        destailsUrlKey: '', // 跳转新页面路径字段
         width: 600,
         titleWidth: 100
       }
@@ -184,13 +226,13 @@ export default {
   },
   methods: {
     // 序号变化事件
-    sortChange (sort, index) {
+    sortChange(sort, index) {
       if (sort >= this.settingData.length) {
         sort = this.settingData.length
       }
 
-      let settingDataClone = JSON.parse(JSON.stringify(this.settingData))
-      let chooseItem = this.settingData[index]
+      const settingDataClone = JSON.parse(JSON.stringify(this.settingData))
+      const chooseItem = this.settingData[index]
       settingDataClone.splice(index, 1)
       settingDataClone.splice(sort - 1, 0, chooseItem)
       settingDataClone.forEach((item, index) => {
@@ -203,18 +245,18 @@ export default {
     },
 
     // 取消关闭事件
-    close () {
+    close() {
       this.dialogVisible = false
     },
     // 配置数据-筛选
-    setSettingData (tableData, keyArr) {
+    setSettingData(tableData, keyArr) {
       this.settingData = []
 
       if (tableData && tableData.length > 0) {
         let num = 1
-        for (let key in tableData[0]) {
+        for (const key in tableData[0]) {
           this.dataKeyArr.push(key)
-          let obj = {
+          const obj = {
             sort: num,
             key: key,
             title: '',
@@ -234,14 +276,14 @@ export default {
           num++
           this.settingData.push(obj)
         }
-        //判断字段集中是否存在特殊字段detailsUrl
+        // 判断字段集中是否存在特殊字段detailsUrl
         if (this.dataKeyArr.indexOf('detailsUrl') > -1) {
           this.destailSetObj.destailsUrlKey = 'detailsUrl'
         }
       }
     },
     // 弹窗显示事件
-    show (tableData, keyArr, detailsAreaConfig) {
+    show(tableData, keyArr, detailsAreaConfig) {
       this.dialogVisible = true
       this.dataKeyArr = []
       if (detailsAreaConfig) {
@@ -250,14 +292,13 @@ export default {
         // this.destailSetObj.titleWidth = detailsAreaConfig.titleWidth
         // this.destailSetObj.detailType = detailsAreaConfig.detailType
         // this.destailSetObj.destailsUrlKey = detailsAreaConfig.destailsUrlKey
-        for (let key in detailsAreaConfig) {
+        for (const key in detailsAreaConfig) {
           if (key !== 'settingData') {
             this.destailSetObj[key] = detailsAreaConfig[key] ? detailsAreaConfig[key] : ''
           }
         }
         if (tableData && tableData.length > 0) {
-
-          for (let key in tableData[0]) {
+          for (const key in tableData[0]) {
             this.dataKeyArr.push(key)
 
             let offon = false
@@ -280,12 +321,10 @@ export default {
       } else {
         this.setSettingData(tableData, keyArr)
       }
-
-
     },
     // 配置确认事件
-    onSubmit () {
-      let offons = true;//报错开关
+    onSubmit() {
+      let offons = true// 报错开关
       this.chooseKey = ''
       if (this.destailSetObj.detailType === '0') {
         let offon = false
@@ -297,7 +336,7 @@ export default {
           }
         })
         if (offon) {
-          offons = false;
+          offons = false
           this.$message({
             type: 'error',
             message: this.errorKey.toString() + '字段标题未填写'
@@ -314,7 +353,7 @@ export default {
       }
 
       if (offons) {
-        let detailsAreaConfig = {
+        const detailsAreaConfig = {
           settingData: this.settingData
         }
         Object.assign(detailsAreaConfig, this.destailSetObj)

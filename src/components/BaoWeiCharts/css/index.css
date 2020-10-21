@@ -1,16 +1,3 @@
-* {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  text-decoration: none;
-  outline: none;
-  box-sizing: content-box;
-}
-body {
-  font-size: 14px;
-  color: #333333;
-  min-width: 1200px;
-}
 /*鼠标移入样式*/
 .cursor-default {
   cursor: default;
@@ -30,6 +17,13 @@ body {
 /*框架布局*/
 #bao-wei-charts {
   height: 100%;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-decoration: none;
+  outline: none;
+  box-sizing: content-box;
 }
 .KFQ_wrap {
   height: 100%;
@@ -71,11 +65,15 @@ body {
 .KFQ_wrap .el-header .header_menu {
   display: flex;
   height: 38px;
+  padding: 0;
+  margin: 0;
 }
 .KFQ_wrap .el-header .header_menu li {
   width: 130px;
   height: 38px;
+  list-style: none;
   font-size: 15px;
+  box-sizing: content-box;
   text-align: center;
   line-height: 38px;
   color: white;
@@ -182,6 +180,8 @@ body {
 }
 .hoverMenu .box ul {
   padding-top: 50px;
+  padding-left: 0;
+  margin: 0;
   background: white;
   border-radius: 25px;
   height: 0;
@@ -193,6 +193,9 @@ body {
   text-align: center;
   line-height: 30px;
   cursor: pointer;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 .hoverMenu:hover .box ul {
   height: auto;
@@ -206,6 +209,7 @@ body {
   margin-left: 20px;
   display: flex;
   justify-content: flex-start;
+  padding: 0;
 }
 #bao-wei-charts .pageSetting .assembly_wrap li {
   width: 100px;
@@ -217,6 +221,7 @@ body {
   position: relative;
   background: white;
   margin: 5px;
+  list-style: none;
 }
 #bao-wei-charts .pageSetting .assembly_wrap li i {
   font-size: 40px;
@@ -225,6 +230,8 @@ body {
 #bao-wei-charts .pageSetting .assembly_wrap li p {
   font-size: 16px;
   line-height: 30px;
+  padding: 0;
+  margin: 0;
 }
 #bao-wei-charts .pageSetting .assembly_wrap li .mengban {
   position: absolute;
@@ -369,11 +376,13 @@ body {
   background: white;
   border-radius: 5px;
   padding: 5px 0;
+  margin: 0;
 }
 .statistics_title .box .pic .t_list ul li {
   line-height: 24px;
   text-align: center;
   cursor: pointer;
+  list-style: none;
 }
 .statistics_title .box .pic .t_list ul li.active {
   color: white;
@@ -516,6 +525,8 @@ body {
   display: inline-block;
   border-right: 1px solid #c1c1c1;
   border-bottom: 1px solid #c1c1c1;
+  padding: 0;
+  margin: 0;
 }
 .zdpz_list li {
   display: flex;
@@ -523,6 +534,7 @@ body {
   padding: 0;
   line-height: 32px;
   height: 32px;
+  list-style: none;
 }
 .zdpz_list li > span {
   display: block;
@@ -599,11 +611,14 @@ body {
   display: block;
   border-right: 1px solid #c1c1c1;
   border-bottom: 1px solid #c1c1c1;
+  padding: 0;
+  margin: 0;
 }
 .settingForm .details-table-list li,
 .settingForm .top-bar-setting-list li {
   display: flex;
   justify-items: center;
+  list-style: none;
 }
 .settingForm .details-table-list li .hTxt,
 .settingForm .top-bar-setting-list li .hTxt {
@@ -690,6 +705,8 @@ body {
   height: 12px;
   width: 100%;
   font-size: 12px;
+  padding: 0;
+  margin: 0;
   color: #e6a23c;
 }
 .keys-config-setting .zdhq-btn {
@@ -1160,7 +1177,7 @@ body {
 /*顶部栏样式配置*/
 .top-bar-wrap {
   position: relative;
-  z-index: 5;
+  z-index: 4;
 }
 .top-bar-wrap .operation {
   position: absolute;
@@ -1185,6 +1202,8 @@ body {
 .top-bar-wrap .top-bar-box {
   display: flex;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 .top-bar-wrap .top-bar-box li {
   flex: 1;
@@ -1196,11 +1215,16 @@ body {
   background-size: 100% 100%;
   color: white;
   text-align: center;
+  list-style: none;
 }
 .top-bar-wrap .top-bar-box li > .list-box {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+}
+.top-bar-wrap .top-bar-box li > .list-box p {
+  padding: 0;
+  margin: 0;
 }
 .top-bar-wrap .top-bar-box li .test {
   display: flex;

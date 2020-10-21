@@ -8,44 +8,34 @@
                      size="small"
                      placeholder="接口名称">
             <el-option label="POST"
-                       value="POST"></el-option>
+                       value="POST" />
             <el-option label="GET"
-                       value="GET"></el-option>
+                       value="GET" />
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="接口名称:"
+        <el-form-item :label="form.apiType==='0'?'视图名称':'服务名称'"
                       label-width="65px">
           <el-select v-model="form.urlName"
                      size="small"
                      filterable
-                     @change="urlNameChange"
-                     placeholder="接口名称">
-            <el-option v-for="option in  itemApiData"
+                     :placeholder="form.apiType==='0'?'视图名称':'服务名称'"
+                     @change="urlNameChange">
+            <el-option v-for="option in itemApiData"
                        :key="option.aaaRequestUrl"
                        :label="option.apeName"
-                       :value="option.apeName"></el-option>
+                       :value="option.apeName" />
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="接口路径:"
                       label-width="65px">
-          <!-- <el-select v-model="form.url"
-                     size="small"
-                     filterable
-                     @change="urlChange"
-                     placeholder="接口路径">
-            <el-option v-for="option in  itemApiData"
-                       :key="option.aaaRequestUrl"
-                       :label="option.aaaRequestUrl"
-                       :value="option.aaaRequestUrl"></el-option>
-          </el-select> -->
           <el-input v-model="form.url"
                     size="small"
-                    @change="urlChange"
-                    placeholder="接口路径"></el-input>
+                    placeholder="接口路径"
+                    @change="urlChange" />
         </el-form-item>
       </el-col>
       <!-- <el-col :span="3" v-if="!form.submodule">
@@ -63,10 +53,12 @@ export default {
   mixins: [JSMixins],
   props: {
     itemApiData: {
-      type: Array
+      type: Array,
+      default: null
     },
     form: {
-      type: Object
+      type: Object,
+      default: null
     }
   }
 }

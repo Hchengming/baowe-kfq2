@@ -111,7 +111,10 @@ $--color-primary: #1890ff;
 .menu-bg-color {
   background: #10294b !important;
 }
-
+body {
+  padding: 0;
+  margin: 0;
+}
 /*??*/
 // body{
 //   min-height:800px !important;

@@ -24,7 +24,7 @@ export const DetailsTable = {
     }
   },
   methods: {
-    //字段新增事件
+    // 字段新增事件
     detailsTableKeyAdd() {
       // console.log(this.form.detailsTableAll)
       if (!this.form.detailsTableAll) {
@@ -40,7 +40,7 @@ export const DetailsTable = {
         isShow: true
       })
     },
-    //字段删除功能
+    // 字段删除功能
     detailsTableKeyDelete(index) {
       this.form.detailsTableAll.splice(index, 1)
       this.form.detailsTableAll.forEach((item, index) => {
@@ -59,10 +59,10 @@ export const DetailsTable = {
         sort = this.form.detailsTableAll.length
       }
 
-      let settingDataClone = JSON.parse(
+      const settingDataClone = JSON.parse(
         JSON.stringify(this.form.detailsTableAll)
       )
-      let chooseItem = this.form.detailsTableAll[index]
+      const chooseItem = this.form.detailsTableAll[index]
       settingDataClone.splice(index, 1)
       settingDataClone.splice(sort - 1, 0, chooseItem)
       settingDataClone.forEach((item, index) => {
@@ -85,14 +85,21 @@ export const ChartsMixins = {
     }
   },
   methods: {
-    
-    //多表头配置按钮点击事件
-    tableHeaderSetting() {},
-    //操作按钮配置 按钮点击事件
+    //接口类型切换事件
+    apiTypeChange(val) {
+      this.isPageDisabled = false
+      console.log(1)
+      if (val === '0') {
+        this.form.isPage = '1'
+        this.isPageDisabled = true
+        this.$refs['apiChoose'].getDataIview()
+      }
+    },
+    // 操作按钮配置 按钮点击事件
     operateButtonSetting() {
       this.$refs['operateButtonSetting'].show(this.form.operateButton)
     },
-    //操作按钮配置数据确认事件
+    // 操作按钮配置数据确认事件
     operateButtonSubmit(data) {
       this.form.operateButton = data
       let offon = false
@@ -121,7 +128,7 @@ export const ChartsMixins = {
         }
       }
     },
-    //是否下钻切换事件
+    // 是否下钻切换事件
     submoduleChange(val) {
       if (val === '1') return false
       let html = ''
@@ -169,7 +176,7 @@ export const ChartsMixins = {
     handleClose2() {
       this.form.submodule = '1'
     },
-    //字段列表数据获取事件
+    // 字段列表数据获取事件
     getKeys(fn) {
       let params = {}
       this.form.paramConfig.forEach(item => {
@@ -196,28 +203,28 @@ export const ChartsMixins = {
         }
       })
       // console.log(params)
-      let options = this.form.options === 'POST' ? 'post' : 'get'
+      const options = this.form.options === 'POST' ? 'post' : 'get'
       if (options === 'get') {
         params = {
           params: params
         }
       }
-      let url =
+      const url =
         this.form.url.indexOf('http') > -1
           ? this.form.url
           : this.dataUrl + this.form.url
       // console.log(url.replace(/\s*/g, ''))
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {
-          let resData = res.data
+          const resData = res.data
           // console.log(resData)
           fn(resData)
         }
       })
     },
-    //字段获取事件
+    // 字段获取事件
     getKeysData() {
-      //判断应用接口是否已经返回字段信息
+      // 判断应用接口是否已经返回字段信息
       let offon = false
       this.itemApiData.forEach(items => {
         if (items.aaaRequestUrl === this.form.url && items.returnField) {
@@ -249,9 +256,9 @@ export const ChartsMixins = {
       })
       if (offon) return false
 
-      //没返回情况字段获取
+      // 没返回情况字段获取
       if (this.form.moduleType === '0') {
-        //图表字段获取
+        // 图表字段获取
         this.form.keyArr = []
         this.getKeys(resData => {
           let keysItem = {}
@@ -275,7 +282,7 @@ export const ChartsMixins = {
             keysItem = resData[0]
           }
 
-          for (let key in keysItem) {
+          for (const key in keysItem) {
             this.form.keyArr.push({
               key: key,
               explain: '',
@@ -289,10 +296,10 @@ export const ChartsMixins = {
           this.setDefaultKey(this.form.keyArr, '0')
         })
       } else if (this.form.moduleType === '2') {
-        //详情列表字段获取
+        // 详情列表字段获取
         this.form.detailsTableAll = []
         this.getKeys(resData => {
-          for (let key in resData) {
+          for (const key in resData) {
             this.form.detailsTableAll.push({
               key: key,
               title: '',
@@ -305,7 +312,7 @@ export const ChartsMixins = {
         })
       }
     },
-    //字段配置数据初始化--参数含有字段直接配置label
+    // 字段配置数据初始化--参数含有字段直接配置label
     setDefaultKey(data, moduleType) {
       data.forEach(items => {
         this.form.paramConfig.forEach(item => {
@@ -345,7 +352,7 @@ export const ChartsMixins = {
     // 字段删除事件
     keyRemove(index) {
       // this.form.keyArr.splice(index, 1)
-      let nowKey = this.form.keyArr[index].key
+      const nowKey = this.form.keyArr[index].key
       // 判断当前删除字段是否已经挂载子级，若挂载，则弹出提示信息
       if (
         this.form.submodule === '1' &&
@@ -353,7 +360,7 @@ export const ChartsMixins = {
         this.statisticsAll &&
         this.statisticsAll.drillDownKeyAll.indexOf(nowKey) > -1
       ) {
-        let html =
+        const html =
           '当前字段已配置子级模块，是否<span class="txt1">强制删除</span>？'
         this.$refs['judgePop'].show(html)
         this.deleteKeyIndex = index
@@ -365,11 +372,11 @@ export const ChartsMixins = {
     judgePopConfirm() {
       this.form.keyArr.splice(this.deleteKeyIndex, 1)
     },
-    //地图链接字段选择变化事件
+    // 地图链接字段选择变化事件
     isMapKeyChange(item) {
       if (item.isMapKey) {
         this.form.keyArr.forEach(obj => {
-          if (obj.key != item.key) {
+          if (obj.key !== item.key) {
             obj.isMapKey = false
           }
         })
@@ -383,9 +390,9 @@ export const iframeMixins = {
     // iframe选择类型变化事件
     iframeTypeChange(type) {
       if (type === '1') {
-        let menuItem = JSON.parse(sessionStorage.getItem('menuItem'))
+        const menuItem = JSON.parse(sessionStorage.getItem('menuItem'))
         this.form.paramConfig = []
-        for (let key in menuItem) {
+        for (const key in menuItem) {
           if (key !== 'children') {
             this.form.paramConfig.push({
               paramKey: key,
@@ -399,16 +406,16 @@ export const iframeMixins = {
       }
       this.$refs.paramKeyConfig.getCommonParams()
     },
-    //iframe参数选择变化事件
+    // iframe参数选择变化事件
     iframeUseChange() {
-      let obj = {}
+      const obj = {}
       this.form.paramConfig.forEach(item => {
         if (item.isUse) {
           obj[item.paramKey] = item.paramValue
         }
       })
-      let paramsStr = this.setParamsUrl(obj)
-      let num = this.form.iframeAll.iframeUrl.indexOf('html')
+      const paramsStr = this.setParamsUrl(obj)
+      const num = this.form.iframeAll.iframeUrl.indexOf('html')
       if (num > -1) {
         this.form.iframeAll.iframeUrl =
           this.form.iframeAll.iframeUrl.substring(0, num + 4) + paramsStr
@@ -416,7 +423,7 @@ export const iframeMixins = {
         this.form.iframeAll.iframeUrl = paramsStr
       }
     },
-    //参数配置事件
+    // 参数配置事件
     setParamsUrl(obj) {
       let result = ''
       let item

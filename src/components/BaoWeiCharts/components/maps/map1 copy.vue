@@ -1,13 +1,17 @@
 <template>
-  <el-amap vid="amapDemo"
-           :zoom="zoom"
-           :center="center"
-           class="amap-demo">
-    <el-amap-marker v-for="(marker, index) in markers"
-                    :key="index"
-                    :title="marker.title"
-                    :position="marker.position"
-                    :vid="index"></el-amap-marker>
+  <el-amap
+    vid="amapDemo"
+    :zoom="zoom"
+    :center="center"
+    class="amap-demo"
+  >
+    <el-amap-marker
+      v-for="(marker, index) in markers"
+      :key="index"
+      :title="marker.title"
+      :position="marker.position"
+      :vid="index"
+    />
   </el-amap>
 </template>
 
@@ -19,7 +23,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       zoom: 12,
       center: [106.564313, 29.642688],

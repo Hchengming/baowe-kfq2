@@ -1,18 +1,22 @@
 <template>
   <ul class="assembly_wrap">
-    <li @click="addAssembly('tableChart')"
-        :class="['theme-bg',{'theme-box-shadow':choosetype==0}]"
-        @mouseout="choosetype=null"
-        @mousemove="choosetype=0">
-      <i class="iconfont icontubiao theme-color"></i>
+    <li
+      :class="['theme-bg',{'theme-box-shadow':choosetype==0}]"
+      @click="addAssembly('tableChart')"
+      @mouseout="choosetype=null"
+      @mousemove="choosetype=0"
+    >
+      <i class="iconfont icontubiao theme-color" />
       <p>图表组件集</p>
       <div class="mengban">+</div>
     </li>
-    <li @click="addAssembly('topBar')"
-        :class="['theme-bg',{'theme-box-shadow':choosetype==1}]"
-        @mouseout="choosetype=null"
-        @mousemove="choosetype=1">
-      <i class="iconfont icondingbulan theme-color"></i>
+    <li
+      :class="['theme-bg',{'theme-box-shadow':choosetype==1}]"
+      @click="addAssembly('topBar')"
+      @mouseout="choosetype=null"
+      @mousemove="choosetype=1"
+    >
+      <i class="iconfont icondingbulan theme-color" />
       <p>顶部栏组件</p>
       <div class="mengban">+</div>
     </li>
@@ -26,13 +30,13 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       choosetype: ''
     }
   },
   methods: {
-    addAssembly (type) {
+    addAssembly(type) {
       this.$emit('addAssembly', type)
     }
   }

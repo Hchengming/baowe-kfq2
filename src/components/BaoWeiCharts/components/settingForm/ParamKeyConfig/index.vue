@@ -3,8 +3,11 @@
     <fieldset class="param-config-setting">
       <!-- paramConfig -->
       <legend class="theme-color">请求参数配置</legend>
-      <el-button size="small"
-                 @click="getparamConfig" v-if="componentType!=='iframe'">参数获取</el-button><br />
+      <el-button
+        v-if="componentType!=='iframe'"
+        size="small"
+        @click="getparamConfig"
+      >参数获取</el-button><br>
       <ul class="zdpz_list param-config-list">
         <li class="zdpz_list_header">
           <span>参数名</span>
@@ -13,80 +16,99 @@
           <span>数据类型</span>
           <span>是否使用</span>
         </li>
-        <li class="zdpz_list_content"
-            v-for="(item,index) in form.paramConfig"
-            :key="index">
+        <li
+          v-for="(item,index) in form.paramConfig"
+          :key="index"
+          class="zdpz_list_content"
+        >
           <span>
-            <el-input size="mini"
-                      placeholder="参数名"
-                      v-model="item.paramKey"></el-input>
+            <el-input
+              v-model="item.paramKey"
+              size="mini"
+              placeholder="参数名"
+            />
           </span>
           <span>
-            <el-input size="mini"
-                      placeholder="释义"
-                      v-model="item.description"></el-input>
+            <el-input
+              v-model="item.description"
+              size="mini"
+              placeholder="释义"
+            />
           </span>
           <span>
-            <el-input placeholder="请选择"
-                      size="small"
-                      v-model="item.paramValue"
-                      class="input-with-select">
-              <el-button slot="append"
-                         @click.native="treeShow(item,index)"
-                         icon="el-icon-search"></el-button>
+            <el-input
+              v-model="item.paramValue"
+              placeholder="请选择"
+              size="small"
+              class="input-with-select"
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click.native="treeShow(item,index)"
+              />
             </el-input>
             <!-- <el-input size="mini"
                             placeholder="值"
                             v-model="item.paramValue"></el-input> -->
           </span>
           <span>
-            <el-input size="mini"
-                      placeholder="数据类型"
-                      v-model="item.dataType"></el-input>
+            <el-input
+              v-model="item.dataType"
+              size="mini"
+              placeholder="数据类型"
+            />
           </span>
           <span>
-            <el-checkbox @change="useChange" v-model="item.isUse"></el-checkbox>
+            <el-checkbox v-model="item.isUse" @change="useChange" />
           </span>
         </li>
       </ul>
     </fieldset>
 
-   <fieldset class="keys-config-setting" v-if="componentType!=='iframe'">
-       <legend class="theme-color">字段配置</legend>
-       <slot name="keys"></slot>
-   </fieldset>
-
+    <fieldset v-if="componentType!=='iframe'" class="keys-config-setting">
+      <legend class="theme-color">字段配置</legend>
+      <slot name="keys" />
+    </fieldset>
 
     <!-- 树形弹窗 -->
-    <tree-model ref="treeModel"
-                @elTreeSubmit="elTreeSubmit"
-                :treeData="treeData"></tree-model>
+    <tree-model
+      ref="treeModel"
+      :tree-data="treeData"
+      @elTreeSubmit="elTreeSubmit"
+    />
   </div>
 </template>
 <script>
-import JSMixins from './mixins.js'
-import TreeModel from '../TreeModel/index.vue'
+import ParamKeyConfigMixins from './ParamKeyConfigMixins.js'
+import TreeModel from '../TreeModel/index'
 export default {
-  mixins: [JSMixins],
   components: { TreeModel },
+  mixins: [ParamKeyConfigMixins],
   props: {
     itemApiData: {
-      type: Array
+      type: Array,
+      default: null
     },
     form: {
-      type: Object
+      type: Object,
+      default: null
     },
     statisticsAll: {
-      type: Object
+      type: Object,
+      default: null
     },
     whereForm: {
-      type: Object
+      type: Object,
+      default: null
     },
-    parentParamsAll:{
-      type: Object
+    parentParamsAll: {
+      type: Object,
+      default: null
     },
-    componentType:{
-      type: String
+    componentType: {
+      type: String,
+      default: null
     }
   }
 }

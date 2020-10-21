@@ -15,12 +15,12 @@ export default {
     }
   },
   methods: {
-    //js脚本配置弹出界面
+    // js脚本配置弹出界面
     jsMethodsSettingShow(item, index) {
       this.nowIndex = index
       this.$refs['jsMethodsSetting'].show(item)
     },
-    //脚本配置确认事件
+    // 脚本配置确认事件
     changeJsMethods(jsMethods) {
       this.$set(this.operateButton[this.nowIndex], 'jsMethods', jsMethods)
       // this.operateButton[this.nowIndex].jsMethods = jsMethods
@@ -43,7 +43,7 @@ export default {
       this.operateButton.splice(index, 1)
       this.operateButton.splice(index + num, 0, item)
     },
-    //按钮配置确认事件
+    // 按钮配置确认事件
     onSubmit() {
       this.isShow = false
       this.$emit('submit', this.operateButton)

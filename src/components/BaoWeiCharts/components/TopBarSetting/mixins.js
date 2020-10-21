@@ -14,11 +14,11 @@ export default {
     }
   },
   methods: {
-    //字段删除事件
+    // 字段删除事件
     keyDelete(index) {
       this.topBarSettingData.splice(index, 1)
     },
-    //上下点击排序事件
+    // 上下点击排序事件
     sortChange(newIndex, nowIndex, item) {
       if (newIndex < 0 || newIndex > this.topBarSettingData.length - 1) {
         return false
@@ -26,7 +26,7 @@ export default {
       this.topBarSettingData.splice(nowIndex, 1)
       this.topBarSettingData.splice(newIndex, 0, item)
     },
-    //字段新增事件
+    // 字段新增事件
     keyAdd() {
       this.topBarSettingData.push({
         key: '',
@@ -64,7 +64,7 @@ export default {
         }
       )
     },
-    //字段列表数据获取事件
+    // 字段列表数据获取事件
     getKeys(fn) {
       let params = {}
       this.form.paramConfig.forEach(item => {
@@ -89,7 +89,7 @@ export default {
         }
       })
       // console.log(params)
-      let options = this.form.options === 'POST' ? 'post' : 'get'
+      const options = this.form.options === 'POST' ? 'post' : 'get'
       if (options === 'get') {
         params = {
           params: params
@@ -97,12 +97,12 @@ export default {
       }
       serviceAxios[options](this.form.url, params).then(res => {
         if (res.code === 20000) {
-          let resData = res.data
+          const resData = res.data
           fn(resData)
         }
       })
     },
-    //字段获取
+    // 字段获取
     getKeysData() {
       this.topBarSettingData = []
       let offon = false
@@ -129,7 +129,7 @@ export default {
           return false
         }
 
-        for (let key in resData[0]) {
+        for (const key in resData[0]) {
           this.topBarSettingData.push({
             key: key,
             label: '',

@@ -1,31 +1,43 @@
 <template>
   <div>
-    <div id="map_wrap"
-         :style="{'height':modelStyle.height+'px','width':modelStyle.width+'px','left':modelStyle.left+'px','top':modelStyle.top+'px','z-index':settingForm.zindex}"
-         ref="statisticsWrap"
-         v-if="mapIsShow">
+    <div
+      v-if="mapIsShow"
+      id="map_wrap"
+      ref="statisticsWrap"
+      :style="{'height':modelStyle.height+'px','width':modelStyle.width+'px','left':modelStyle.left+'px','top':modelStyle.top+'px','z-index':settingForm.zindex}"
+    >
       <div class="map_content">
         <!-- 国家简易行政区图组件 -->
-        <map1 v-if="settingForm.myType=='XZQMap'"
-              ref="XZQ_map"></map1>
+        <map1
+          v-if="settingForm.myType=='XZQMap'"
+          ref="XZQ_map"
+        />
         <span class="map_setting">
-          <i @click="settingClick"
-             title="设置"
-             class="el-icon-setting"></i>
-          <i title="拖拽"
-             @mousedown="mousedown_tz"
-             class="icontuozhuai iconfont"></i>
-          <i title="缩放"
-             @mousedown="mousedown_ls"
-             class="iconfont iconkuozhan"></i>
+          <i
+            title="设置"
+            class="el-icon-setting"
+            @click="settingClick"
+          />
+          <i
+            title="拖拽"
+            class="icontuozhuai iconfont"
+            @mousedown="mousedown_tz"
+          />
+          <i
+            title="缩放"
+            class="iconfont iconkuozhan"
+            @mousedown="mousedown_ls"
+          />
         </span>
       </div>
     </div>
     <!-- 编辑模块 -->
-    <edmit ref="edmit"
-           :mapAll="mapAll"
-           @submit="submit"
-           :form="settingForm"></edmit>
+    <edmit
+      ref="edmit"
+      :map-all="mapAll"
+      :form="settingForm"
+      @submit="submit"
+    />
   </div>
 </template>
 <script>
@@ -36,7 +48,7 @@ import { dragAndZoom } from '../../utils/mixins.js'
 export default {
   components: { Map1, Edmit },
   mixins: [dragAndZoom],
-  data () {
+  data() {
     return {
       mapIsShow: false,
       menuid: '',
@@ -54,45 +66,48 @@ export default {
       }
     }
   },
+  mounted() {
+    // this.settingForm = this.mapAll.form;
+  },
   methods: {
     // 菜单点击事件
-    menuClick (menuItem) {
+    menuClick(menuItem) {
       this.menuid = menuItem.menuid
       this.mapIsShow = false
-      let mapsArr = sessionStorage.getItem('mapsArr')
+      const mapsArr = sessionStorage.getItem('mapsArr')
       if (mapsArr && mapsArr.search(this.menuid) > -1) {
         this.mapIsShow = true
       }
     },
     // 初始菜单查询
-    getMapsData () { },
+    getMapsData() { },
     // 监听屏幕变化事件
-    resize () {
+    resize() {
       this.getMainStyle()
       this.setDemos()
     },
     // 设置图标点击事件
-    settingClick () {
+    settingClick() {
       this.mapAll.isShow = true
     },
     // 锚点新增
-    addMarker (marker) {
+    addMarker(marker) {
       this.$refs['XZQ_map'].addMarker(marker)
     },
     // 地图模块新增事件
-    addTemplate () {
+    addTemplate() {
       this.mapAll.isShow = true
     },
 
     // 地图配置数据保存事件
-    submit () {
+    submit() {
       this.mapIsShow = true
-      let mapsArr = sessionStorage.getItem('mapsArr')
+      const mapsArr = sessionStorage.getItem('mapsArr')
 
       if (!mapsArr) {
         sessionStorage.setItem('mapsArr', `[${this.menuid}]`)
       } else {
-        let arr = JSON.parse(mapsArr)
+        const arr = JSON.parse(mapsArr)
         let offon = true
         arr.forEach((ids) => {
           if (ids === this.menuid) {
@@ -106,12 +121,9 @@ export default {
       }
     },
     // 拖拽、缩放后保存事件
-    TZLSKeep () {
+    TZLSKeep() {
       // console.log(this.modelStyle)
     }
-  },
-  mounted () {
-    // this.settingForm = this.mapAll.form;
   }
 }
 </script>

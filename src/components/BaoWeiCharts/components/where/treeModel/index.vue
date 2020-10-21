@@ -1,21 +1,29 @@
 <template>
   <div>
-    <el-dialog title="树形选择弹窗"
-               :append-to-body="true"
-               :visible.sync="isShow">
-      <el-tree ref="elTree"
-               :data="data"
-               show-checkbox
-               node-key="id"
-               :default-expanded-keys="[1,2, 3]"
-               :default-checked-keys="[]"
-               :props="defaultProps"></el-tree>
-      <span slot="footer"
-            class="dialog-footer">
+    <el-dialog
+      title="树形选择弹窗"
+      :append-to-body="true"
+      :visible.sync="isShow"
+    >
+      <el-tree
+        ref="elTree"
+        :data="data"
+        show-checkbox
+        node-key="id"
+        :default-expanded-keys="[1,2, 3]"
+        :default-checked-keys="[]"
+        :props="defaultProps"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
         <div class="right">
           <el-button @click="isShow=false">取 消</el-button>
-          <el-button type="primary"
-                     @click="onSubmit">确 定</el-button>
+          <el-button
+            type="primary"
+            @click="onSubmit"
+          >确 定</el-button>
         </div>
       </span>
     </el-dialog>
@@ -23,7 +31,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       isShow: false,
       fatherItem: {},
@@ -85,13 +93,13 @@ export default {
   },
   methods: {
     // 页面显示事件
-    show (item) {
+    show(item) {
       this.fatherItem = item
       this.isShow = true
     },
     // 树形选中保存事件
-    onSubmit () {
-      let data = this.$refs.elTree.getCheckedNodes()
+    onSubmit() {
+      const data = this.$refs.elTree.getCheckedNodes()
       let str
       data.forEach(item => {
         if (!item.children || item.children.length === 0) {
@@ -102,7 +110,7 @@ export default {
       this.isShow = false
       //  console.log(this.$refs.elTree.getCheckedNodes())
     },
-    getCheckedNodes () {
+    getCheckedNodes() {
       // console.log(data)
     }
   }

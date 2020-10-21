@@ -6,14 +6,14 @@ export const dragDialog = {
   methods: {
     // 弹出框拖拽事件
     dragElement(e) {
-      let eventF = e || window.event // 兼容IE浏览器
+      const eventF = e || window.event // 兼容IE浏览器
       var diffX = eventF.clientX
       var diffY = eventF.clientY
       const settingFormStyle = this.$refs[this.dialogRef].$el.style
       const settingFormStyleCopy = JSON.parse(JSON.stringify(settingFormStyle))
       const top = this.numberStr(settingFormStyleCopy.top)
       const left = this.numberStr(settingFormStyleCopy.left)
-      let timer
+      let timer = null
       clearTimeout(timer)
       settingFormStyle.cursor = 'default'
       timer = setTimeout(() => {
@@ -54,7 +54,7 @@ export const commonMethods = {
         item.hierarchy = Hierarchy
         if (
           item &&
-          item[childName] != undefined &&
+          item[childName] !== undefined &&
           item[childName].length > 0
         ) {
           this.recursion(item[childName], childName, fn, Hierarchy)
