@@ -1,3 +1,4 @@
+import serviceAxios from '@/utils/request.js'
 export default {
   data() {
     return {
@@ -6,46 +7,89 @@ export default {
     }
   },
   methods: {
+    // 视图参数获取事件
+    getViewParams() {
+      if (this.form.apiType === '0') {
+        serviceAxios
+          .get(`http://23.36.123.128/api/.DataView/param/v1/list`, {
+            params: {
+              viewId: this.form.viewId
+            }
+          })
+          .then(res => {
+            console.log('2', res)
+            const code = res.code
+            const resData = res.data
+            if (code === 20000) {
+              // console.log(resData)
+              resData.forEach(item => {
+                console.log('item.paramCode', item.paramCode)
+                this.form.paramConfig.push({
+                  paramKey: item.paramCode,
+                  description: item.paramName,
+                  paramValue: '',
+                  dataType: item.dataType === 'number' ? 'number' : 'string',
+                  isUse: true
+                })
+              })
+              // this.form.paramConfig.push({
+              //   par 'id'y:"id",
+              //   desc'视图id'n: "视图id",
+              //   paramValue: '',
+              //   dataType: item.dataType === 'number' ? 'number' : 'string',
+              //   isUse: true
+              // })
+            }
+          })
+      }
+    },
     // 当前接口所有参数获取事件
     getparamConfig() {
       // 项目常用参数变量获取
       this.getCommonParams()
       this.$set(this.form, 'paramConfig', [])
+
       // 获取当前接口参数
-      const arrKey = []
-      this.itemApiData.forEach(items => {
-        if (items.aaaRequestUrl === this.form.url && items.param) {
-          items.param.forEach(item => {
-            if (arrKey.indexOf(item.name) === -1) {
-              arrKey.push(item.name)
-              this.form.paramConfig.push({
-                paramKey: item.name,
-                description: item.description,
-                paramValue: '',
-                dataType: item.dataType === 'string' ? 'string' : 'number',
-                isUse: true
-              })
-            }
+      if (this.form.apiType === '0') {
+        // 视图参数获取
+        this.getViewParams()
+      } else {
+        const arrKey = []
+        this.itemApiData.forEach(items => {
+          if (items.aaaRequestUrl === this.form.url && items.param) {
+            items.param.forEach(item => {
+              if (arrKey.indexOf(item.name) === -1) {
+                arrKey.push(item.name)
+                this.form.paramConfig.push({
+                  paramKey: item.name,
+                  description: item.description,
+                  paramValue: '',
+                  dataType: item.dataType === 'string' ? 'string' : 'number',
+                  isUse: true
+                })
+              }
+            })
+          }
+        })
+        // 分页参数配置
+        if (this.form.isPage === '1') {
+          this.form.paramConfig.push({
+            paramKey: 'pageSize',
+            description: '每页显示条数',
+            paramValue: this.form.pageSize,
+            dataType: 'number',
+            isUse: true
+          })
+          this.form.paramConfig.push({
+            paramKey: 'currentPage',
+            description: '当前页码',
+            paramValue: 1,
+            dataType: 'number',
+            isUse: true
           })
         }
-      })
-      // 分页参数配置
-      if (this.form.isPage === '1') {
-        this.form.paramConfig.push({
-          paramKey: 'pageSize',
-          description: '每页显示条数',
-          paramValue: this.form.pageSize,
-          dataType: 'number',
-          isUse: true
-        })
-        this.form.paramConfig.push({
-          paramKey: 'currentPage',
-          description: '当前页码',
-          paramValue: 1,
-          dataType: 'number',
-          isUse: true
-        })
       }
+
       // 自定义配置筛选项参数写入
       if (
         this.statisticsAll &&

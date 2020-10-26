@@ -14,11 +14,24 @@ export default {
     }
   },
   methods: {
+    //组题选则类名
+    themeClass() {
+      let themeClass = ''
+      switch (this.settingConfig.theme) {
+        case '1':
+          themeClass = 'charts-theme1'
+          break
+        default:
+          themeClass = ''
+      }
+      return themeClass
+    },
     // 工具启动，开始加载数据渲染事件
     startRender() {
       // 开始加载菜单数据
       this.getTreeMenu()
       this.$refs['myPage'].getItemApi()
+      this.$refs['myPage'].getDataIview()
     },
     // 表格、列表单元格点击菜单跳转事件执行
     cellClickMenuTap(obj) {
@@ -57,7 +70,7 @@ export default {
       this.menuActiveIndex = index
       this.leftMenu = item.children
       this.$refs['myPage'].mainStyleChange()
-      this.$refs['myPage'].menuClick(item, 'top', (offon) => {
+      this.$refs['myPage'].menuClick(item, 'top', offon => {
         console.log(offon, 'offon')
         if (offon && item.children && item.children.length > 0) {
           this.menuJump(item.children[0].menuCode)

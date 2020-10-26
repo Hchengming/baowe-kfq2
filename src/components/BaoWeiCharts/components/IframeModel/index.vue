@@ -1,8 +1,8 @@
 <template>
   <div>
     <iframe
-      :id="iframeAll.iframeType==='0'?'ifrmmap':'iframe'+statisticsAll.moduleId"
-      :src="iframeAll.iframeUrl"
+      :id="iframeId()"
+      :src="iframeFormat()"
       :style="{'height':height+'px'}"
       :class="['static-iframe','ifrmmap-'+statisticsAll.moduleId]"
     />

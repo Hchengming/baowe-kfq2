@@ -1,6 +1,5 @@
 <template>
   <div class="middleware">
-
     <!-- @firstAddKeep   一级新增(克隆)
          @deleteMoule    模块删除
          @rowClick       行点击事件
@@ -22,8 +21,10 @@
       <statistics :statistics-all="item"
                   :browser-x-y="browserXY"
                   :data-url="settingConfig.dataUrl"
+                  :settingConfig="settingConfig"
                   :add-setting-form="addSettingForm"
                   :item-api-data="itemApiData"
+                  :data-view-list="dataViewList"
                   :system-permissions="settingConfig.systemPermissions"
                   @firstAddKeep="addKeep"
                   @deleteMoule="deleteMoule"
@@ -45,11 +46,11 @@
 
     <!-- 新增弹窗模块 -->
     <settingForm ref="settingForm"
+                 :data-view-list="dataViewList"
                  :form="addSettingForm"
                  :data-url="settingConfig.dataUrl"
                  :item-api-data="itemApiData"
                  @submit="addKeep" />
-
   </div>
 </template>
 <script>
@@ -66,6 +67,10 @@ export default {
   props: {
     settingConfig: {
       type: Object,
+      default: null
+    },
+    dataViewList: {
+      type: Array,
       default: null
     },
     itemApiData: {
@@ -85,7 +90,7 @@ export default {
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
         moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示
-        apiType: '',//接口类型
+        apiType: '0',// 0：数据视图 1：应用接口
         url: '', // 接口
         urlName: '', // 接口名称
         options: 'GET', // 请求方式  GET/POST
@@ -97,6 +102,7 @@ export default {
         detailsTableAll: [], // 详情列表配置数据
         iframeAll: {
           iframeType: '0', // 0-map地图  1-其他类型
+          iframeId: '',//自定义iframe框id名
           iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129' // iframe嵌入路径,
         },
         height: 300,
@@ -275,7 +281,7 @@ export default {
           const code = res.code
           const resData = res.data
           if (code === 20000) {
-            if ((!resData || resData.length === 0) && menuTypes === 'top') {
+            if (menuTypes === 'top' && resData.length === 0) {
               fn(true)
             }
             resData.forEach((item, index) => {
@@ -368,9 +374,9 @@ export default {
       // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
       let sftsqk = false// 当前是否未特殊情况
       reqObj.sftsqk = (offon) => { // 是否未特殊情况返回
-        // console.log(offon)
-        sftsqk = !!offon
+        sftsqk = offon
       }
+
       reqObj.tsqkData = (data) => { // 特殊情况数据处理后返回
         resDataFn(data)
       }
@@ -388,6 +394,25 @@ export default {
             }
           })
         }
+        // 判断当前接口是否为数据视图
+        // console.log(reqData)
+        if (config.contentAreaConfig.apiType === '0') {
+          const queryParamList = []
+          for (const key in reqData) {
+            if (key !== 'pageSize' && key !== 'currentPage' && key !== 'viewId') {
+              queryParamList.push({
+                [key]: reqData[key]
+              })
+            }
+          }
+          reqData = {
+            viewId: config.contentAreaConfig.viewId,
+            pageSize: reqData.pageSize,
+            pageNumber: 1,
+            queryParamList: queryParamList
+          }
+        }
+        // console.log(reqData)
         if (options === 'get') {
           reqData = {
             params: reqData
@@ -408,8 +433,10 @@ export default {
         // 数据请求
         serviceAxios[options](nowUrl, reqData)
           .then(res => {
+            console.log(res)
             if (res.code === 20000 || res.code === 200) {
               const resData = res.data
+              console.log(resData)
               resDataFn(resData)
             }
           })

@@ -1,0 +1,61 @@
+#charts-system-0a1a33 {
+  #bao-wei-charts {
+    .el-loading-mask {
+      background: rgba(255, 255, 255, 0.5) !important;
+    }
+    .KFQ_wrap {
+      .el-header {
+        background: #0a1a33;
+      }
+      .el-main {
+        background: #11193c;
+        .statisticsWrap {
+          border-radius: 0;
+          .statisticsBox {
+            background: #0b1127;
+          }
+          //
+          .statistics_title {
+            // height: 100px;
+            background: #162d50;
+            border-bottom-color: #59595c;
+            .box {
+              border-color: #64757d !important;
+              .top {
+                border: 1px solid #64757d;
+              }
+              .right {
+                color: #c3a9a9;
+                .el-icon-delete {
+                  color: #c3a9a9;
+                }
+              }
+            }
+          }
+          .bw_list1 {
+            color: white;
+          }
+          #bw_table {
+            .el-table {
+              background: #0b1127;
+              th,
+              td {
+                background: #0b1127;
+                color: white;
+              }
+              .cell {
+                padding: 3px 0;
+              }
+              // .right-operate-button{
+              //   padding: 3px 0;
+              // }
+            }
+          }
+        }
+        .hoverMenu {
+        }
+      }
+    }
+  }
+}
+// rgba(255, 255, 255, 0.2)

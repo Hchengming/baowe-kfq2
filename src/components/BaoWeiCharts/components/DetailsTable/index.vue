@@ -37,16 +37,20 @@ export default {
   mixins: [dataMixins],
   props: {
     tableData: {
-      type: Object
+      type: Object,
+      default: null
     },
     detailsTableAll: {
-      type: Array
+      type: Array, default: null
+
     },
     labelWidth: {
-      type: Number
+      type: Number, default: null
+
     },
     height: {
-      type: Number
+      type: Number, default: null
+
     }
   }
 }

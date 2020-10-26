@@ -38,30 +38,48 @@ export const dataMixins = {
     },
     // 图表宽高设置
     setDemos() {
-      this.modelStyle.height = this.settingForm.height
-      // this.modelStyle.height = parseFloat(
-      //   (this.settingForm.height * this.mainStyle.height) / 100
-      // )
+      // this.modelStyle.height = this.settingForm.height
+      if (this.settingForm.height <= 100) {
+        this.modelStyle.height = parseFloat(
+          (this.settingForm.height * this.mainStyle.height) / 100
+        )
+      } else {
+        this.modelStyle.height = this.settingForm.height
+      }
+
       this.modelStyle.width = parseFloat(
         (this.settingForm.width * this.mainStyle.width) / 100
       )
-      this.modelStyle.top = this.settingForm.top
-      // this.modelStyle.top = parseFloat(
-      //   (this.settingForm.top * this.mainStyle.height) / 100
-      // )
+      if (this.settingForm.height <= 100) {
+        this.modelStyle.top = parseFloat(
+          (this.settingForm.top * this.mainStyle.height) / 100
+        )
+      } else {
+        this.modelStyle.top = this.settingForm.top
+      }
+
       this.modelStyle.left = parseFloat(
         (this.settingForm.left * this.mainStyle.width) / 100
       )
     },
     // 获取模块初始位置和宽高
     getDemos() {
-      this.settingForm.height = this.modelStyle.height
-      // this.settingForm.height =
-      //   (this.modelStyle.height / this.mainStyle.height) * 100
+      if (this.modelStyle.height / this.mainStyle.height <= 100) {
+        this.settingForm.height =
+          (this.modelStyle.height / this.mainStyle.height) * 100
+      } else {
+        this.settingForm.height = this.modelStyle.height
+      }
       this.settingForm.width =
         (this.modelStyle.width / this.mainStyle.width) * 100
-      this.settingForm.top = this.modelStyle.top
-      // this.settingForm.top = (this.modelStyle.top / this.mainStyle.height) * 100
+
+      if (this.modelStyle.height / this.mainStyle.height <= 100) {
+        this.settingForm.top =
+          (this.modelStyle.top / this.mainStyle.height) * 100
+      } else {
+        this.settingForm.top = this.modelStyle.top
+      }
+      console.log(this.modelStyle.height, this.settingForm.top)
       this.settingForm.left =
         (this.modelStyle.left / this.mainStyle.width) * 100
     },

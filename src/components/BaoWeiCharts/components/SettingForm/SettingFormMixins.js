@@ -3,6 +3,7 @@ export const DetailsTable = {
   data() {
     return {
       chooseKey: '', // 当前选中key
+
       proportionAll: [
         {
           label: '1',
@@ -81,14 +82,61 @@ import serviceAxios from '@/utils/request.js'
 export const ChartsMixins = {
   data() {
     return {
-      isPageDisabled: false
+      isPageDisabled: false,
+      listKeyAll: false, //列表全选
+      chartsKeyAll: false //图表全选
     }
   },
   methods: {
-    //接口类型切换事件
+    //图表、列表全选按钮控制
+    keyChooseAllShow() {
+      this.listKeyAll = true
+      this.chartsKeyAll = true
+      if (this.form.moduleType === '0') {
+        this.form.keyArr.forEach(item => {
+          if (item.isShow === false) {
+            this.listKeyAll = false
+          }
+          if (item.ischartsShow === false) {
+            this.chartsKeyAll = false
+          }
+        })
+      }
+    },
+    //列表字段全选功能
+    ListkeyChooseChange(offon) {
+      this.keyChooseChange('list', offon)
+    },
+    //图表字段全选功能
+    ChartskeyChooseChange(offon) {
+      this.keyChooseChange('charts', offon)
+    },
+    keyChooseChange(val, offon) {
+      this.form.keyArr.forEach(item => {
+        if (val === 'list') {
+          item.isShow = offon
+        } else if (val === 'charts') {
+          item.ischartsShow = offon
+        }
+      })
+    },
+    //图表标题选中切换事件
+    chartsTitleChange(key) {
+      this.$nextTick(() => {
+        this.form.keyArr.forEach(item => {
+          this.$set(item, 'ischartsTitle', false)
+          // item.ischartsTitle = false
+          if (item.key === key) {
+            console.log(item.key)
+            this.$set(item, 'ischartsTitle', true)
+            // item.ischartsTitle = offon
+          }
+        })
+      })
+    },
+    // 接口类型切换事件
     apiTypeChange(val) {
       this.isPageDisabled = false
-      console.log(1)
       if (val === '0') {
         this.form.isPage = '1'
         this.isPageDisabled = true
@@ -119,7 +167,9 @@ export const ChartsMixins = {
             width: 100,
             isShow: true,
             isCruxKey: false,
-            isMapKey: false
+            isMapKey: false,
+            ischartsTitle:false,
+            ischartsShow:false
           })
         }
       } else {
@@ -222,8 +272,49 @@ export const ChartsMixins = {
         }
       })
     },
+    getViewKeysData() {
+      console.log('item', this.form)
+      const queryParamList = []
+      this.form.paramConfig.forEach(item => {
+        queryParamList.push({
+          [item.paramKey]: item.paramValue
+        })
+      })
+      serviceAxios
+        .post(this.form.url, {
+          viewId: this.form.viewId,
+          pageSize: 1,
+          pageNumber: 1,
+          queryParamList: queryParamList
+        })
+        .then(res => {
+          const code = res.code
+          const resData = res.data
+          if (code === 20000) {
+            // console.log(resData)
+            this.form.keyArr = []
+            for (const key in resData.list[0]) {
+              this.form.keyArr.push({
+                key: key,
+                explain: key,
+                dw: '',
+                width: 100,
+                isShow: true,
+                isCruxKey: false,
+                isMapKey: false,
+                ischartsTitle:false,
+                ischartsShow:false
+              })
+            }
+          }
+        })
+    },
     // 字段获取事件
     getKeysData() {
+      if (this.form.apiType === '0') {
+        this.getViewKeysData()
+        return false
+      }
       // 判断应用接口是否已经返回字段信息
       let offon = false
       this.itemApiData.forEach(items => {
@@ -239,7 +330,9 @@ export const ChartsMixins = {
                 width: 120,
                 isShow: true,
                 isCruxKey: false,
-                isMapKey: false
+                isMapKey: false,
+                ischartsTitle:false,
+                ischartsShow:false
               })
             } else if (this.form.moduleType === '2') {
               this.form.detailsTableAll.push({
@@ -290,7 +383,9 @@ export const ChartsMixins = {
               width: 100,
               isShow: true,
               isCruxKey: false,
-              isMapKey: false
+              isMapKey: false,
+              ischartsTitle:false,
+              ischartsShow:false
             })
           }
           this.setDefaultKey(this.form.keyArr, '0')

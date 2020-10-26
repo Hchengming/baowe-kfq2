@@ -1,7 +1,7 @@
 <template>
   <div id="bw_table">
     <el-table
-      :border="false"
+      :border="true"
       :data="tabledata"
       :row-class-name="tableRowClassName"
       stripe

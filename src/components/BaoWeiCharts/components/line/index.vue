@@ -1,74 +1,58 @@
 <template>
   <!-- 折线图 -->
-  <div
-    class="v_chart_line"
-    :style="{'height':height+'px'}"
-  >
+  <div class="v_chart_line"
+       :style="{'height':height+'px'}">
     <div class="pie_box">
       <!-- 条形图展示 -->
-      <ve-bar
-        v-if="chartType=='bar'"
-        :legend-visible="titleShow"
-        :data="chartData"
-        :settings="chartSettings"
-        :height="height+'px'"
-        :extend="options"
-        :events="chartEvents"
-      />
+      <ve-bar v-if="chartType=='bar'"
+              :legend-visible="titleShow"
+              :data="chartData"
+              :settings="chartSettings"
+              :height="height+'px'"
+              :extend="options"
+              :events="chartEvents" />
       <!-- 折线图展示 -->
-      <ve-line
-        v-if="chartType=='line'"
-        :legend-visible="titleShow"
-        :extend="options"
-        :data="chartData"
-        :settings="chartSettings"
-        :height="height+'px'"
-        :events="chartEvents"
-      />
+      <ve-line v-if="chartType=='line'"
+               :legend-visible="titleShow"
+               :extend="options"
+               :data="chartData"
+               :settings="chartSettings"
+               :height="height+'px'"
+               :events="chartEvents" />
       <!-- 柱状图展示 -->
-      <ve-histogram
-        v-if="chartType=='histogram'"
-        :legend-visible="titleShow"
-        :data="chartData"
-        :settings="histogramSettings"
-        :height="height+'px'"
-        :extend="options"
-        :events="chartEvents"
-      />
-      <div
-        v-if="chartType=='pie'||chartType=='ring'"
-        class="v_chart_pie"
-      >
+      <ve-histogram v-if="chartType=='histogram'"
+                    :legend-visible="titleShow"
+                    :data="chartData"
+                    :settings="histogramSettings"
+                    :height="height+'px'"
+                    :extend="options"
+                    :events="chartEvents" />
+      <div v-if="chartType=='pie'||chartType=='ring'"
+           class="v_chart_pie">
         <div class="choose">
           <div class="btn">
-            <button
-              v-for="(item,index) in picRingBtnArr"
-              :key="index"
-              :class="{'theme-bg-color':pieType==item.explain}"
-              @click="pieChange(item.explain)"
-            >{{ item.explain }}</button>
+            <button v-for="(item,index) in picRingBtnArr"
+                    :key="index"
+                    :class="{'theme-bg-color':pieType==item.explain}"
+                    @click="pieChange(item.explain)">{{ item.explain }}</button>
           </div>
           <span class="txt">单位({{ pieDW }})</span>
         </div>
         <div class="pie_box">
-          <ve-pie
-            v-if="chartType=='pie'"
-            :data="chartData2"
-            class="pie"
-            :height="chartColumns.length>2?height-25+'px':height+'px'"
-            :legend-visible="false"
-            :settings="nowPieSetting"
-            :events="chartEvents"
-          />
+          <ve-pie v-if="chartType=='pie'"
+                  :data="chartData2"
+                  class="pie"
+                  :height="chartColumns.length>2?height-25+'px':height+'px'"
+                  :legend-visible="false"
+                  :settings="nowPieSetting"
+                  :events="chartEvents" />
           <!-- 环图 -->
-          <ve-ring
-            v-if="chartType=='ring'"
-            :data="chartData2"
-            :height="chartColumns.length>2?height-25+'px':height+'px'"
-            :legend-visible="false"
-            :settings="nowRingSetting"
-            :events="chartEvents"
-          />
+          <ve-ring v-if="chartType=='ring'"
+                   :data="chartData2"
+                   :height="chartColumns.length>2?height-25+'px':height+'px'"
+                   :legend-visible="false"
+                   :settings="nowRingSetting"
+                   :events="chartEvents" />
         </div>
       </div>
     </div>
@@ -93,7 +77,7 @@ export default {
       type: Array,
       default: null
     },
-    chartColumns: {
+    chartColumn: {
       type: Array,
       default: null
     },
@@ -116,9 +100,14 @@ export default {
     ringSettings: {
       type: Object,
       default: null
-    }
+    },
+    settingConfig: {
+      type: Object,
+      default: null
+    },
   },
-  data() {
+
+  data () {
     return {
       pieDW: '',
       pieType: '',
@@ -134,53 +123,77 @@ export default {
         },
         'yAxis.0.axisLabel.fontSize': 10,
         'yAxis.0.axisLabel.interval': 0
-
       },
       extend: {},
       chartSettings: {}
-
     }
   },
   computed: {
-    chartEvents() {
+    chartColumns () {
+      const offon = this.chartColumn[0].ischartsShow !== undefined
+      const arr = []
+      let nums = 0
+      this.chartColumn.forEach((item) => {
+        if (offon && item.ischartsShow) {
+          arr.push(item)
+        } else if (!offon && item.isShow) {
+          arr.push(item)
+        }
+      })
+      arr.forEach((item, index) => {
+        if (item.ischartsTitle) {
+          nums = index
+        }
+      })
+      // console.log(nums)
+      if (nums) {
+        const obj = arr[nums]
+        arr.splice(nums, 1)
+        arr.splice(0, 0, obj)
+      }
+      // console.log(arr)
+      return arr
+    },
+    chartEvents () {
       const _this = this
       return {
-        click(e) {
+        click (e) {
           // console.log(e)
           _this.$emit('eventClick', e)
         }
       }
     },
-    chartData() {
+    chartData () {
       const chartData = {}
       if (!this.data || this.data.length === 0) return {}
       // console.log(123)
       chartData.columns = []
-      this.chartColumns.forEach(item => {
+      this.chartColumns.forEach((item) => {
         const dw = item.dw ? `(${item.dw})` : ''
         chartData.columns.push(item.explain + dw)
       })
       chartData.rows = []
       this.data.forEach((items, index) => {
         const obj = {}
-        this.chartColumns.forEach(item => {
+        this.chartColumns.forEach((item) => {
           const dw = item.dw ? `(${item.dw})` : ''
           obj[item.explain + dw] = items[item.key] ? items[item.key] : index
         })
         chartData.rows.push(obj)
       })
 
-      console.log(chartData)
+      // console.log(chartData)
       return chartData
     },
     // 饼图、环图数据获取
-    chartData2() {
+    chartData2 () {
       const chartData = {}
 
       if (!this.data || this.data.length === 0) return {}
       //  return chartData;
-      chartData.columns = [this.chartColumns[0].explain]
 
+      // if(!offon) titles=this.chartColumns[0].explain
+      chartData.columns = [this.chartColumns[0].explain]
       if (this.chartColumns.length > 2) {
         if (this.pieType) {
           chartData.columns.push(this.pieType)
@@ -194,6 +207,7 @@ export default {
       } else {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.pieType = this.chartColumns[1].explain
+        // console.log(this.chartColumns[1])
         chartData.columns.push(this.chartColumns[1].explain)
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.pieDW = this.chartColumns[1].dw
@@ -202,7 +216,7 @@ export default {
       chartData.rows = []
       this.data.forEach((items, index) => {
         const obj = {}
-        this.chartColumns.forEach(item => {
+        this.chartColumns.forEach((item) => {
           obj[item.explain] = items[item.key] ? items[item.key] : index
           obj.itemStyle = { color: 'black' }
         })
@@ -212,7 +226,7 @@ export default {
       return chartData
     },
     // 获取饼图、环图切换配置数据
-    picRingBtnArr() {
+    picRingBtnArr () {
       const arr = []
       this.chartColumns.forEach((item, index) => {
         if (index > 0) {
@@ -222,13 +236,13 @@ export default {
       return arr
     },
     // 柱状图配置
-    histogramSettings() {
+    histogramSettings () {
       const obj = {}
 
       return obj
     },
     // 饼图配置
-    nowPieSetting() {
+    nowPieSetting () {
       const obj = this.pieSettings ? this.pieSettings : {}
       obj.radius = this.height / 4
       obj.offsetY = this.height / 2
@@ -239,7 +253,7 @@ export default {
       return obj
     },
     // 环图配置
-    nowRingSetting() {
+    nowRingSetting () {
       const obj = this.ringSettings ? this.ringSettings : {}
       const nRadius =
         this.height / 4 > 80 ? this.height / 4 - 15 : this.height / 4 - 10
@@ -266,7 +280,7 @@ export default {
       return obj
     }
   },
-  mounted() {
+  mounted () {
     this.$set(this.options, 'grid', {
       top: 15,
       left: 5,
@@ -291,7 +305,7 @@ export default {
     if (this.chartType === 'histogram') {
       this.options.series = (v) => {
         if (v && v.length > 0) {
-          v.forEach(i => {
+          v.forEach((i) => {
             i.barMaxWidth = 50
           })
         }
@@ -302,12 +316,22 @@ export default {
 
       //   })
     }
+    this.themeConfig()
   },
   methods: {
+    //主题颜色配置
+    themeConfig () {
+      switch (this.settingConfig.theme) {
+        case '1':
+          this.options.xAxis.axisLabel.color = 'white';
+          this.options['yAxis.0.axisLabel.color'] = 'white';
+          break
+      }
+    },
     // 饼图、环图选中数据切换
-    pieChange(change) {
+    pieChange (change) {
       this.pieType = change
-      this.chartColumns.forEach(item => {
+      this.chartColumns.forEach((item) => {
         if (item.explain === change) {
           this.pieDW = item.dw
         }

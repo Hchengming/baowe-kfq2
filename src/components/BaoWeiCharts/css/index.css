@@ -31,10 +31,6 @@
 .KFQ_wrap .el-header {
   width: 100%;
   height: 38px !important;
-  background: url(../images/顶部.png) no-repeat center;
-  background-size: cover;
-  background-color: #ffffff;
-  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.34901961);
   display: flex;
   justify-content: space-between;
 }
@@ -148,7 +144,7 @@
 .KFQ_wrap .el-main {
   height: 100%;
   position: relative;
-  padding: 8px;
+  padding: 0;
   overflow: auto;
 }
 .KFQ_wrap .el-main .my_main_content {
@@ -213,7 +209,6 @@
 }
 #bao-wei-charts .pageSetting .assembly_wrap li {
   width: 100px;
-  height: 80px;
   padding: 10px 0;
   text-align: center;
   border: 1px solid #c1c1c1;
@@ -295,17 +290,17 @@
   margin-bottom: 0;
 }
 .statistics_title {
-  height: 28px;
+  height: 36px;
   border-bottom: 1px solid #d8d8d8;
   padding: 10px 20px 0;
-  background: #f5f7fa;
+  color: white;
 }
 .statistics_title .el-icon-close {
   position: absolute;
   font-size: 20px;
   right: 0;
   top: 0;
-  color: #a5a3a3;
+  color: white;
   cursor: pointer;
 }
 .statistics_title .more {
@@ -313,12 +308,12 @@
   display: inline-block;
   width: 28px;
   cursor: pointer;
-  color: #a5a3a3;
+  color: white;
 }
 .statistics_title .box {
   height: 20px;
   width: 100%;
-  border-left: 3px solid;
+  border-left: 3px solid white;
   display: flex;
   line-height: 20px;
   justify-content: space-between;
@@ -355,7 +350,7 @@
   cursor: pointer;
 }
 .statistics_title .box .right .el-icon-delete {
-  color: red;
+  color: white;
 }
 .statistics_title .box .pic {
   position: relative;
@@ -383,6 +378,7 @@
   text-align: center;
   cursor: pointer;
   list-style: none;
+  color: #333333;
 }
 .statistics_title .box .pic .t_list ul li.active {
   color: white;
@@ -546,6 +542,11 @@
 }
 .zdpz_list li .hTxt9 {
   width: 100px;
+}
+.zdpz_list li .hTxt82,
+.zdpz_list li .hTxt8,
+.zdpz_list li .hTxt81 {
+  width: 90px;
 }
 .zdpz_list .zdpz_list_header .icons {
   font-size: 24px;
@@ -1303,14 +1304,15 @@
   border-radius: 0;
 }
 .iframe-statistics-wrap .statistics_title {
+  box-sizing: border-box;
   display: none;
   position: absolute;
   padding: 5px 10px 0;
-  width: calc(100% - 22px);
+  width: 100%;
   top: 2px;
   left: 2px;
   z-index: 8;
-  background: #f5f8fb;
+  color: white;
 }
 .iframe-statistics-wrap .statisticsBox .statistics-content {
   padding: 0;

@@ -3,6 +3,7 @@ export default {
   data() {
     return {
       itemApiData: [], // 项目所有接口数据
+      dataViewList: [], //数据视图列表获取
       // Authorization:
       //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc1NhZG1pbiI6MCwiaXNBZG1pbiI6MSwiZXhwIjoxNjAwMzIyMTMxLCJ1c2VyIjoie1wiYWNjb3VudFwiOlwiY2hlbmN1aVwiLFwiZW1haWxcIjpcIlwiLFwiaWRcIjo0MTMsXCJvZmZpY2VQaG9uZU51bWJlclwiOlwiNTMxNTg5NDBcIixcIm9yZ0Z1bGxOYW1lXCI6XCLnu4Tnu4fmnLrmnoQt5biC6KeE5YiS6Ieq54S26LWE5rqQ5L-h5oGv5Lit5b-DLeeglOWPkee7hC3nu4TlkZhcIixcIm9yZ0Z1bGxOYW1lSURcIjpcIi0xLTI4LTQ1LTEwMjUwXCIsXCJwYXNzd29yZFwiOlwiXCIsXCJwaG9uZVwiOlwiMTM3NTI5MzYxNTZcIixcInFRTnVtYmVyXCI6XCJcIixcInJlbWFya1wiOlwi5bmz5Y-w57u05oqkXCIsXCJzZXhcIjpcIueUt1wiLFwic3RhdGVcIjoxLFwidGlja2V0XCI6XCIyMzZiYWRkNC1lYTk4LTQ3ZWUtYmY5OS1lNWZiMWEzNGZiYzNcIixcInVzZXJOYW1lXCI6XCLpmYjokINcIixcInVzZXJrZXlcIjpcIkE5MUE2NzJBLTY0NEUtNDZFRi05RkRFLUU4QUZGMEUyODA5NFwifSIsImlhdCI6MTU5OTcxNzMzMX0.u17BKpJ8XP_d3yaJ0Ld0-dO0wavfq3tHUlQAB9z4rQdaC5XBLjJ_rzkuyTsdMeX-vXnt2hESEmyQa4pMJQTkAA',
       nowElementId: '', // 当前组件id
@@ -14,16 +15,34 @@ export default {
     }
   },
   methods: {
-    // 项目所有接口获取
+    // 项目所有接口获取--应用接口列表获取
     getItemApi() {
       // Authorization: this.Authorization
       const method = this.settingConfig.isCustomMenu ? 'post' : 'get'
-
       serviceAxios[method](this.settingConfig.getInterfaceUrl, {}).then(res => {
         if (res.code === 20000) {
           this.itemApiData = res.data
         }
       })
+    },
+    // 数据视图列表获取
+    getDataIview() {
+      serviceAxios
+        .get(
+          'http://23.36.123.128/api/.DataView/view/v1/list?datasourceId=&parentViewId=&viewType=VIEW&viewCodeOrComment=&viewStatus=PUBLISHED&pageNumber=1&pageSize=100000',
+          {
+            params: {
+              appCode: '51017107-15bf-488f-adb3-c59b8ef3fdf0'
+            }
+          }
+        )
+        .then(res => {
+          const code = res.code
+          const resData = res.data
+          if (code === 20000) {
+            this.dataViewList = resData.records
+          }
+        })
     },
     // 顶部栏查询事件
     getTopBarConfig() {

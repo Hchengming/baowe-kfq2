@@ -10,6 +10,7 @@
     <middleware
       ref="middleware"
       :item-api-data="itemApiData"
+      :data-view-list="dataViewList"
       :setting-config="settingConfig"
       @pageLoading="setPageLoding"
       @chartsMethods="elementMethods"
