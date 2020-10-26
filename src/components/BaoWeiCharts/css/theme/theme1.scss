@@ -23,6 +23,9 @@
             .top {
               border: 1px solid #64757d;
             }
+            .left .txt2 {
+              color: #a9dbfb !important ;
+            }
             .right {
               color: #c3a9a9;
               .el-icon-delete {
@@ -42,16 +45,40 @@
               background: #0b1127;
               color: white;
             }
-            .cell {
-              padding: 3px 0;
-            }
-            // .right-operate-button{
-            //   padding: 3px 0;
-            // }
           }
         }
-      }
-      .hoverMenu {
+        .bw_list1,
+        #bw_table {
+          .el-pagination {
+            .el-pagination__total,
+            .el-pagination__jump {
+              color: white;
+            }
+            .el-input__inner {
+              background: #162d50;
+              color: white;
+            }
+            .btn-prev,
+            .btn-next,
+            .el-pager li {
+              background: #162d50;
+              color: white;
+              &:hover,
+              &.active {
+                color: #409eff;
+              }
+            }
+          }
+        }
+
+        .stataic_destail_table {
+          .detail_box .detail_row .detail_col {
+            color: white;
+            .key {
+              background: #1a2344;
+            }
+          }
+        }
       }
     }
   }

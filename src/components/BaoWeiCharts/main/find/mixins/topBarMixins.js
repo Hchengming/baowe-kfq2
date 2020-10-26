@@ -59,9 +59,9 @@ export default {
             this.topBarAll.data = []
             if (resData.length > 0) {
               this.nowElementId = resData[0].elementId
-              console.log(resData)
+              // console.log(resData)
               const elementConfig = JSON.parse(resData[0].elementConfigs)
-              console.log(elementConfig)
+              // console.log(elementConfig)
               this.topBarAll.configData = elementConfig.topBarSettingData
               this.topBarAll.form = elementConfig.form
               this.getTopBarData(elementConfig.form)

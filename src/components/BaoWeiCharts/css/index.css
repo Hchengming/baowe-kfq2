@@ -387,7 +387,7 @@
   display: block;
 }
 #bw_table td {
-  padding: 3px 0;
+  padding: 2px 3px;
 }
 #bw_table th {
   padding: 0;
@@ -402,6 +402,7 @@
   bottom: 2px;
 }
 #bw_table .el-table__row .cell {
+  padding: 0;
   height: 26px;
   line-height: 26px;
   overflow: hidden;
@@ -1179,6 +1180,7 @@
 .top-bar-wrap {
   position: relative;
   z-index: 4;
+  padding: 5px 5px 0;
 }
 .top-bar-wrap .operation {
   position: absolute;
@@ -1211,7 +1213,6 @@
   margin-left: 5px;
   padding: 5px;
   border-radius: 5px;
-  min-height: 80px;
   background: url(../images/u771.png);
   background-size: 100% 100%;
   color: white;

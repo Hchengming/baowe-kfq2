@@ -45,6 +45,7 @@ export default {
         this.form = {
           url: '',
           urlName: '',
+          height: 16,
           options: 'GET'
         }
         this.topBarSettingData = []

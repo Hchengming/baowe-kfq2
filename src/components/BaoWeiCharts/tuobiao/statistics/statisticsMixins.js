@@ -278,68 +278,79 @@ export const childMixins = {
     this.childSettingForm = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
-    // 表格行点击事件
-    rowClick(rowData, index) {
-      this.$emit('rowClick', rowData, this.statisticsAll)
-      if (this.settingForm.submodule !== '1') {
-        // this.$emit('rowClick', rowData, this.statisticsAll)
-        // 点击弹出详情
-        if (this.settingForm.isDestail === '1') {
-          if (this.statisticsAll.detailsAreaConfig) {
-            if (!this.nowDetailsAreaConfig.detailType) {
-              this.nowDetailsAreaConfig = this.statisticsAll.detailsAreaConfig
-            }
-            if (this.nowDetailsAreaConfig.detailType === '1') {
-              window.open(
-                this.nowDetailsAreaConfig.commonApi +
-                  rowData[this.nowDetailsAreaConfig.destailsUrlKey],
-                '_blank'
-              )
-            } else {
-              this.destailShow(index)
-            }
-          } else {
-            this.destailSettingShow()
-          }
-        }
-      } else {
-        if (this.settingForm.clickToShow !== 'row') return
+    //详情自定义配置页面点击弹出事件
+    destailDialogShow(rowData, key, index) {
+      //操作模块点击排除
+      if (key === 'operationButton') return
 
-        // 行下钻
-        this.nowCellKey = ''
-        if (rowData.url) {
-          window.open(rowData.url, '_blank')
-        } else {
-          const subtitle1 = rowData[this.settingForm.keyArr[0].key]
-          // 下钻代入参数-值获取
-          const childKV = this.getChildKeyValue(
-            this.settingForm.keyArr,
-            rowData
-          )
-          if (this.statisticsAll.isRowDrillDown === '1') {
-            this.$emit(
-              'childInsertData',
-              this.statisticsAll.moduleId,
-              childKV,
-              subtitle1
+      if (
+        this.settingForm.submodule === '0' &&
+        this.settingForm.isDestail === '1'
+      ) {
+        // 点击弹出详情
+
+        if (this.statisticsAll.detailsAreaConfig) {
+          if (!this.nowDetailsAreaConfig.detailType) {
+            this.nowDetailsAreaConfig = this.statisticsAll.detailsAreaConfig
+          }
+          if (this.nowDetailsAreaConfig.detailType === '1') {
+            window.open(
+              this.nowDetailsAreaConfig.commonApi +
+                rowData[this.nowDetailsAreaConfig.destailsUrlKey],
+              '_blank'
             )
           } else {
-            if (this.isAdmin) {
-              this.getParentWhereFormUse()
-              this.$refs['childSettingForm'].show({
-                rowData,
-                keyArr: this.settingForm.keyArr,
-                parentParamsData: this.getParentWhereFormUse()
-              })
-              this.childAddType = '1'
-            }
+            this.destailShow(index)
+          }
+        } else {
+          this.destailSettingShow()
+        }
+      }
+    },
+    // 表格行点击事件
+    rowClick(rowData) {
+      this.$emit('rowClick', rowData, this.statisticsAll)
+
+      if (
+        this.settingForm.clickToShow !== 'row' ||
+        this.settingForm.submodule === '0'
+      )
+        return
+
+      // 行下钻
+      this.nowCellKey = ''
+      if (rowData.url) {
+        window.open(rowData.url, '_blank')
+      } else {
+        const subtitle1 = rowData[this.settingForm.keyArr[0].key]
+        // 下钻代入参数-值获取
+        const childKV = this.getChildKeyValue(this.settingForm.keyArr, rowData)
+        if (this.statisticsAll.isRowDrillDown === '1') {
+          this.$emit(
+            'childInsertData',
+            this.statisticsAll.moduleId,
+            childKV,
+            subtitle1
+          )
+        } else {
+          if (this.isAdmin) {
+            this.getParentWhereFormUse()
+            this.$refs['childSettingForm'].show({
+              rowData,
+              keyArr: this.settingForm.keyArr,
+              parentParamsData: this.getParentWhereFormUse()
+            })
+            this.childAddType = '1'
           }
         }
       }
+
       // this.nowRowId = rowData.id
     },
     // 表格/列表单元格点击事件
-    cellClick(rowData, key) {
+    cellClick(rowData, key, rowIndex) {
+      //详情页面点击弹出事件
+      this.destailDialogShow(rowData, key, rowIndex)
       this.$emit('cellClick', rowData, this.statisticsAll, key)
       if (
         this.settingForm.submodule !== '1' ||
@@ -347,6 +358,7 @@ export const childMixins = {
       ) {
         return
       }
+
       this.nowRowId = rowData.id
       this.nowCellKey = key
 
