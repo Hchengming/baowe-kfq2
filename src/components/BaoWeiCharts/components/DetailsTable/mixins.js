@@ -17,12 +17,12 @@ export default {
     }
   },
   mounted() {
-    if (this.detailsTableAll) {
+    if (this.settingForm.detailsTableAll) {
       this.setDestailSetting()
     }
   },
   watch: {
-    detailsTableAll: {
+    'settingForm.detailsTableAll': {
       handler() {
         this.setDestailSetting()
       },
@@ -35,7 +35,9 @@ export default {
     setDestailSetting() {
       const tableItem = this.tableData
       // console.log(tableItem)
-      const detailsAreaConfig = JSON.parse(JSON.stringify(this.detailsTableAll))
+      const detailsAreaConfig = JSON.parse(
+        JSON.stringify(this.settingForm.detailsTableAll)
+      )
       detailsAreaConfig.forEach(item => {
         for (const key in tableItem) {
           if (item.key === key) {

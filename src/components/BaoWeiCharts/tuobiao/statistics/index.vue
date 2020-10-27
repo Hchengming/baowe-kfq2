@@ -146,7 +146,7 @@
           <!-- 详情列表模块组件 -->
           <details-table v-if="settingForm.moduleType==='2'"
                          :label-width="settingForm.destailsTableLabelWidth"
-                         :details-table-all="settingForm.detailsTableAll"
+                         :settingForm="settingForm"
                          :table-data="statisticsAll.data"
                          :height="boxHeight()" />
           <!-- iframe嵌入组件 -->

@@ -58,13 +58,23 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="模块内容"
                           prop="moduleType">
               <el-radio-group v-model="form.moduleType">
                 <el-radio label="0">图表</el-radio>
                 <el-radio label="1">iframe嵌入</el-radio>
                 <el-radio label="2">详情表格展示</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12"
+                  v-if="form.moduleType==='2'">
+            <el-form-item label="详情表格主题"
+                          prop="destailTypeTheme">
+              <el-radio-group v-model="form.destailTypeTheme">
+                <el-radio label="0">默认</el-radio>
+                <el-radio label="1">主题一</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>

@@ -90,6 +90,7 @@ export default {
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
         moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示
+        destailTypeTheme: '0',//详情表格展示组题样式选则 0：默认表格  1：主题一
         apiType: '0',// 0：数据视图 1：应用接口
         url: '', // 接口
         urlName: '', // 接口名称

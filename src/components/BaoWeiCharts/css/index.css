@@ -1329,3 +1329,28 @@
 .menu-form-setting .el-dialog .el-form-item {
   margin-bottom: 20px;
 }
+/*详情列表展示样式配置  主题2*/
+.destail-theme-1 {
+  border: none;
+}
+.destail-theme-1 .detail_row .detail_col {
+  display: block;
+  margin: 3px 0;
+}
+.destail-theme-1 .detail_row .detail_col .theme-2-list {
+  border: 1px solid #4d84b6;
+  border-radius: 3px;
+  width: calc(100% - 10px);
+  text-align: center;
+  margin-left: 5px;
+}
+.destail-theme-1 .detail_row .detail_col .theme-2-list .title {
+  background: #1890ff;
+  width: 100%;
+  color: white;
+  line-height: 25px;
+}
+.destail-theme-1 .detail_row .detail_col .theme-2-list .val {
+  width: 100%;
+  line-height: 25px;
+}

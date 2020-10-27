@@ -50,7 +50,7 @@ export default {
         //获取项目所有接口的接口路径
         getInterfaceUrl: "http://localhost:4000/application/insert",
         itemTitle: "测试系统",//项目标题
-        theme: "1",//当前已配置主题 0：白色背景 1：深色背景
+        theme: "0",//当前已配置主题选择 0：白色背景 1：深色背景
         //logo图标路径
         logoUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAIAAAAnX375AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2M0RCRUZGMzIyMzYxMUVBODE5RkJCQjNDMjBCMDBDNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2M0RCRUZGNDIyMzYxMUVBODE5RkJCQjNDMjBCMDBDNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjYzREJFRkYxMjIzNjExRUE4MTlGQkJCM0MyMEIwMEM3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjYzREJFRkYyMjIzNjExRUE4MTlGQkJCM0MyMEIwMEM3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+7IVG9gAAAzlJREFUeNpiFC16wUBfwMRAd0COlewsjEWu3FcaRIEkkE2qdkaSApaDlTHMmCPUhNNckRUicuLer9Vnf6w88+PXn/9EGsJCvH0e2uyhJhy+ehzIghZKbEBkp8oGtHjXtZ9U86WRHGso2HN8HDiD8cP3f6vP/ABafOHxb4qslBFkDjPhCDHiUBEjKjxuvvwDtvj784//yLESGIYNvjyyQsyYUj///F9//kegIQfW5HP/zd/ajZ9xhTN2K3WkWZr9ea2V2bDqWXP2R8vWL88+/pXiZ67x5gkx5sCq7NCtXzUbP9948YeAlQaykGjjEODEkn+2Xf656ux3IIks6KXLHmbMCSQx1b/58m8VOJyvPvuD08rbLWL8nFjCCugnoM+A/sMVC0C/An0M9Dem1O1Xf6w73+LMJJj2PXj7d/WZ78CkCGTgSThA15x58BuSsBWEUSwW42UmNl9+/fkfaBAwJE8/+E1McgW6qXvX1wO3fgHDGehpbnZGkgu8d1//la79hGkfCxNDvBXn2WoRIMmCYQBQPVAXUC8VSh8ICDDgAOZUF01QYukO5nPXYgcmkA0XfhBvAglWApNGvS8PMC8iCwLtBiJPHfbK9Z/x+IzMmkRflgXNPjgAisML+uFSX45aSV0rgfUDZhkNAUDxK8/+UD+TAM0NmPYe0hDRlYZqvPwUWEF+X3X2B5E5hOSiAGjujEPflp/+XujCk2zDOffI9/49Xz5+/0+SISxkRAbQjobNn9u3f/n55z9dkw959tEpxX76/g+flYkLPqBV+siVMLAcF+JG1yLGy9QXxoerwNt44UfVhs/44nLr5Z9ABDS90oMHo85iBNZWAYYcwCQz69C3P/9AzfZ0O65cJ25gxb4Wo8EAzFTAhsTmSz+ISj7AmnnzxZ+h2NpRQNMbfHnjLbkWHv8GJBVFmLGaAKyrgU1ArPHNgid1LDn5HTWhIqIEaBPQYmRZPtQWzIrT34dmgffq8z8gwiV159VfIs1h5rYsIVIpsM2/5/qvTz/+A9vvfBxQtz798Hfe0e/1m74AW4406ezBIxLYZAV2H4CpEZgmgSmThv1LZAD06+N3f+la+pBn38CkWIAAAwAdjXcayMgp/QAAAABJRU5ErkJggg=="
       }
@@ -99,7 +99,7 @@ body {
 }
 // @import '@/styles/element-variables.scss';
 // @import "./system.scss";
-$--color-primary: #0b5b8f;
+$--color-primary: #0091ff;
 .theme-color {
   color: $--color-primary !important;
 }
@@ -113,7 +113,7 @@ $--color-primary: #0b5b8f;
   border-color: $--color-primary !important;
 }
 .menu-bg-color {
-  background: #172e53 !important;
+  background: $--color-primary !important;
 }
 
 .system-cs {
