@@ -4,6 +4,14 @@ export default {
   data() {
     return {
       leftMenuWidth: '200px', // 左侧区域宽度
+      nowMenuId: '', //当前menuid
+      menuSetting: {
+        isShow: false,
+        menuId: '',
+        jsjbxx: '',
+        menuMap: '',
+        type: '新增' //配置类型 新增/修改
+      },
       menu_i: 'el-icon-s-fold', // 点击图标控制
       isCollapse: false, // 左侧菜单展示控制
       defaultActive: '',
@@ -14,6 +22,64 @@ export default {
     }
   },
   methods: {
+    //菜单配置按钮点击事件
+    menuSettingClick(menuItem) {
+      this.menuSetting.menuId = menuItem.menuId
+      this.queryMenuSetting(menuItem.menuId)
+    },
+    //菜单配置数据查询事件
+    queryMenuSetting(menuId, fn) {
+      serviceAxios
+        .post(
+          this.settingConfig.commonUrl + '/busMenuSetting/queryMenuSettingData',
+          { menuId }
+        )
+        .then(res => {
+          const code = res.code
+          const resData = res.data
+          if (code === 20000) {
+            if (fn) {
+              fn(resData)
+            } else {
+              if (resData.length !== 0) {
+                this.menuSetting.jsjbxx = resData[0].jsjbxx
+                this.menuSetting.type = '修改'
+              } else {
+                this.menuSetting.type = '新增'
+                this.menuSetting.jsjbxx = ''
+              }
+              this.menuSetting.isShow = true
+            }
+          }
+        })
+    },
+    //菜单配置提交事件
+    menuSettingSubmit() {
+      let url = ''
+      if (this.menuSetting.type === '新增') {
+        url = '/busMenuSetting/insertMenuSettingData'
+      } else {
+        url = '/busMenuSetting/updateMenuSettingData'
+      }
+      const reqData = {
+        menuId: this.menuSetting.menuId,
+        jsjbxx: this.menuSetting.jsjbxx,
+        menuMap: ''
+      }
+      serviceAxios
+        .post(this.settingConfig.commonUrl + url, reqData)
+        .then(res => {
+          const code = res.code
+          // const resData = res.data
+          if (code === 20000) {
+            this.$message({
+              message: '菜单配置' + this.menuSetting.type + '成功',
+              type: 'success'
+            })
+            this.menuSetting.isShow = false
+          }
+        })
+    },
     //组题选则类名
     themeClass() {
       let themeClass = ''
@@ -56,8 +122,22 @@ export default {
       this.cellClickMenuTap(obj)
       this.$emit('elementMethods', obj)
     },
+    //菜单点击后js脚本执行
+    menuJS(menuId) {
+      this.queryMenuSetting(menuId, data => {
+        if (data.length !== 0) {
+          if (data[0].jsjbxx && data[0].jsjbxx.replace(/\s*/g, '') !== '') {
+            const funcStr = data[0].jsjbxx
+            const test = eval('(false || ' + funcStr + ')')
+            test()
+          }
+        }
+      })
+    },
     // 左侧菜单点击事件
     leftMenuClick(menuItem) {
+      this.menuJS(menuItem.menuId)
+
       this.$refs['myPage'].menuClick(menuItem)
       this.$emit('elementMethods', {
         name: '左侧菜单点击事件',
@@ -67,11 +147,12 @@ export default {
     },
     // 顶部菜单点击事件
     topMenuClick(item, index) {
+      this.menuJS(item.menuId)
       this.menuActiveIndex = index
       this.leftMenu = item.children
       this.$refs['myPage'].mainStyleChange()
       this.$refs['myPage'].menuClick(item, 'top', offon => {
-        console.log(offon, 'offon')
+        // console.log(offon, 'offon')
         if (offon && item.children && item.children.length > 0) {
           this.menuJump(item.children[0].menuCode)
         }

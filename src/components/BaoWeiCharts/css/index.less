@@ -79,10 +79,28 @@
         font-size: 15px;
         box-sizing: content-box;
         text-align: center;
-        line-height: @headerHeight;
+
         color: white;
         border-left: 1px solid white;
         cursor: pointer;
+        position: relative;
+        > span {
+          display: block;
+          width: 100%;
+          line-height: @headerHeight;
+        }
+        .el-icon-setting {
+          position: absolute;
+          right: 5px;
+          top: 11px;
+          font-size: 16px;
+          display: none;
+        }
+        &:hover {
+          .el-icon-setting {
+            display: block;
+          }
+        }
       }
       li:first-child {
         border-left: none;
@@ -118,6 +136,27 @@
     .el-submenu__title {
       color: white;
       background: transparent;
+      position: relative;
+      .el-submenu__icon-arrow {
+        color: white;
+      }
+      > .txt {
+        display: block;
+        line-height: 40px;
+      }
+      .el-icon-setting {
+        position: absolute;
+        right: 5px;
+        top: 12px;
+        font-size: 16px;
+        color: white;
+        display: none;
+      }
+      &:hover {
+        .el-icon-setting {
+          display: block;
+        }
+      }
     }
     .el-menu-item.is-active {
       color: white;

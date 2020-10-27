@@ -15,10 +15,12 @@
               :key="index"
               :class="{
               'active': menuActiveIndex == index
-            }"
-              @click="topMenuClick(item, index)">
-            <i :class="['iconfont', item.menuIcon, 'theme-color']" />
-            {{ item.menuName }}
+            }">
+
+            <span @click="topMenuClick(item, index)"> <i :class="['iconfont', item.menuIcon, 'theme-color']" />{{ item.menuName }}</span>
+            <i title="菜单设置"
+               class="el-icon-setting"
+               @click="menuSettingClick(item)" />
           </li>
         </ul>
       </el-header>
@@ -32,6 +34,7 @@
             <my-menu v-for="menuItem in leftMenu"
                      :key="menuItem.menuCode"
                      :menu-item="menuItem"
+                     @menuSettingClick="menuSettingClick"
                      @leftMenuClick="leftMenuClick" />
           </el-menu>
         </el-aside>
@@ -45,6 +48,8 @@
         </el-main>
       </el-container>
     </el-container>
+    <menu-setting @submit="menuSettingSubmit"
+                  :menuSetting="menuSetting"></menu-setting>
   </div>
 </template>
 <script>
@@ -54,12 +59,12 @@ import MyMenu from './find/my-menu'
 import MyPage from './find/myPage'
 // eslint-disable-next-line no-unused-vars
 import defaultData from './menuData.json'
-
+import menuSetting from './find/menuSetting'
 import { commonMethods } from '../utils/mixins.js'
 import JSMixins from './mainMixins.js'
 export default {
   name: 'Wrap',
-  components: { MyMenu, MyPage },
+  components: { MyMenu, MyPage, menuSetting },
   mixins: [commonMethods, JSMixins],
   props: {
     settingConfig: {
