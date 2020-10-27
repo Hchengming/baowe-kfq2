@@ -27,7 +27,6 @@ export const DetailsTable = {
   methods: {
     // 字段新增事件
     detailsTableKeyAdd() {
-      // console.log(this.form.detailsTableAll)
       if (!this.form.detailsTableAll) {
         // this.form.detailsTableAll = []
         this.$set(this.form, 'detailsTableAll', [])
@@ -55,7 +54,7 @@ export const DetailsTable = {
       } else if (sort >= this.form.detailsTableAll.length) {
         sort = this.form.detailsTableAll.length
       }
-      // console.log(sort, index)
+
       if (sort >= this.form.detailsTableAll.length) {
         sort = this.form.detailsTableAll.length
       }
@@ -127,7 +126,6 @@ export const ChartsMixins = {
           this.$set(item, 'ischartsTitle', false)
           // item.ischartsTitle = false
           if (item.key === key) {
-            console.log(item.key)
             this.$set(item, 'ischartsTitle', true)
             // item.ischartsTitle = offon
           }
@@ -168,8 +166,8 @@ export const ChartsMixins = {
             isShow: true,
             isCruxKey: false,
             isMapKey: false,
-            ischartsTitle:false,
-            ischartsShow:false
+            ischartsTitle: false,
+            ischartsShow: false
           })
         }
       } else {
@@ -230,29 +228,28 @@ export const ChartsMixins = {
     getKeys(fn) {
       let params = {}
       this.form.paramConfig.forEach(item => {
+        let paramValue = this.getParamValue(item.paramValue)
         if (item.isUse) {
           switch (item.dataType) {
             case 'number':
-              if (Number(item.paramValue)) {
-                this.$set(params, item.paramKey, Number(item.paramValue))
-                // params[item.paramKey] = Number(item.paramValue)
-                // console.log(params[item.paramKey])
+              if (Number(paramValue)) {
+                this.$set(params, item.paramKey, Number(paramValue))
               } else {
                 params[item.paramKey] = null
               }
               break
             case 'object':
               params[item.paramKey] = null
-              if (JSON.parse(item.paramValue)) {
-                params[item.paramKey] = JSON.parse(item.paramValue)
+              if (JSON.parse(paramValue)) {
+                params[item.paramKey] = JSON.parse(paramValue)
               }
               break
             default:
-              params[item.paramKey] = item.paramValue
+              params[item.paramKey] = paramValue
           }
         }
       })
-      // console.log(params)
+
       const options = this.form.options === 'POST' ? 'post' : 'get'
       if (options === 'get') {
         params = {
@@ -263,23 +260,58 @@ export const ChartsMixins = {
         this.form.url.indexOf('http') > -1
           ? this.form.url
           : this.dataUrl + this.form.url
-      // console.log(url.replace(/\s*/g, ''))
+
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {
           const resData = res.data
-          // console.log(resData)
+
           fn(resData)
         }
       })
     },
+    //自定义参数-值获取
+    getParamValue(val) {
+      let paramValue = ''
+      if (val && typeof val === 'string' && val.indexOf('${') === 0) {
+        const num = val.length - 1
+        const key = val.substring(2, num)
+        paramValue = localStorage.getItem(key)
+      } else {
+        paramValue = val
+      }
+      return paramValue
+    },
+    //数据视图配置字段获取事件
     getViewKeysData() {
-      console.log('item', this.form)
       const queryParamList = []
       this.form.paramConfig.forEach(item => {
-        queryParamList.push({
-          [item.paramKey]: item.paramValue
-        })
+        let paramValue = this.getParamValue(item.paramValue)
+        let params = {
+          [item.paramKey]: paramValue
+        }
+        if (item.isUse) {
+          switch (item.dataType) {
+            case 'number':
+              if (Number(paramValue)) {
+                params[item.paramKey] = Number(paramValue)
+              } else {
+                params[item.paramKey] = null
+              }
+              break
+            case 'object':
+              params[item.paramKey] = JSON.parse(paramValue)
+              break
+            default:
+              params[item.paramKey] = paramValue
+          }
+          queryParamList.push(params)
+        }
       })
+      // this.form.paramConfig.forEach(item => {
+      //   queryParamList.push({
+      //     [item.paramKey]:this.getParamValue(item.paramValue)
+      //   })
+      // })
       serviceAxios
         .post(this.form.url, {
           viewId: this.form.viewId,
@@ -291,7 +323,6 @@ export const ChartsMixins = {
           const code = res.code
           const resData = res.data
           if (code === 20000) {
-            // console.log(resData)
             this.form.keyArr = []
             for (const key in resData.list[0]) {
               this.form.keyArr.push({
@@ -302,8 +333,8 @@ export const ChartsMixins = {
                 isShow: true,
                 isCruxKey: false,
                 isMapKey: false,
-                ischartsTitle:false,
-                ischartsShow:false
+                ischartsTitle: false,
+                ischartsShow: false
               })
             }
           }
@@ -331,8 +362,8 @@ export const ChartsMixins = {
                 isShow: true,
                 isCruxKey: false,
                 isMapKey: false,
-                ischartsTitle:false,
-                ischartsShow:false
+                ischartsTitle: false,
+                ischartsShow: false
               })
             } else if (this.form.moduleType === '2') {
               this.form.detailsTableAll.push({
@@ -384,8 +415,8 @@ export const ChartsMixins = {
               isShow: true,
               isCruxKey: false,
               isMapKey: false,
-              ischartsTitle:false,
-              ischartsShow:false
+              ischartsTitle: false,
+              ischartsShow: false
             })
           }
           this.setDefaultKey(this.form.keyArr, '0')

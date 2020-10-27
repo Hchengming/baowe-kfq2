@@ -27,7 +27,6 @@
             </div>
             <div :class="['val']">{{ item.val }}</div>
           </div>
-
         </el-col>
       </el-row>
     </div>

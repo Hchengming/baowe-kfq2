@@ -17,13 +17,10 @@ export default {
             }
           })
           .then(res => {
-            console.log('2', res)
             const code = res.code
             const resData = res.data
             if (code === 20000) {
-              // console.log(resData)
               resData.forEach(item => {
-                console.log('item.paramCode', item.paramCode)
                 this.form.paramConfig.push({
                   paramKey: item.paramCode,
                   description: item.paramName,
@@ -46,7 +43,7 @@ export default {
     // 当前接口所有参数获取事件
     getparamConfig() {
       // 项目常用参数变量获取
-      this.getCommonParams()
+      // this.getCommonParams()
       this.$set(this.form, 'paramConfig', [])
 
       // 获取当前接口参数
@@ -168,76 +165,108 @@ export default {
       })
     },
     // 筛选数据树形弹窗配置
-    setTreeShow() {
-      if (
-        this.statisticsAll &&
-        this.statisticsAll.conditionAreaConfig &&
-        this.statisticsAll.conditionAreaConfig.screenData.length > 0
-      ) {
-        this.statisticsAll.conditionAreaConfig.screenData.forEach(items => {
-          if (this.whereForm[items.key]) {
-            let nowDataType = ''
-            switch (items.type) {
-              case 'number':
-                nowDataType = 'number'
-                break
-              case 'checkbox':
-                nowDataType = 'object'
-                break
-              default:
-                nowDataType = 'string'
-            }
-            this.treeData.push({
-              id: this.treeData.length,
-              paramKey: items.key,
-              dataType: nowDataType,
-              paramValue:
-                nowDataType === 'object'
-                  ? JSON.stringify(this.whereForm[items.key])
-                  : this.whereForm[items.key]
-            })
-          }
-        })
-      }
-    },
+    // setTreeShow() {
+    //   if (
+    //     this.statisticsAll &&
+    //     this.statisticsAll.conditionAreaConfig &&
+    //     this.statisticsAll.conditionAreaConfig.screenData.length > 0
+    //   ) {
+    //     this.statisticsAll.conditionAreaConfig.screenData.forEach(items => {
+    //       if (this.whereForm[items.key]) {
+    //         let nowDataType = ''
+    //         switch (items.type) {
+    //           case 'number':
+    //             nowDataType = 'number'
+    //             break
+    //           case 'checkbox':
+    //             nowDataType = 'object'
+    //             break
+    //           default:
+    //             nowDataType = 'string'
+    //         }
+    //         this.treeData.push({
+    //           id: this.treeData.length,
+    //           paramKey: items.key,
+    //           dataType: nowDataType,
+    //           paramValue:
+    //             nowDataType === 'object'
+    //               ? JSON.stringify(this.whereForm[items.key])
+    //               : this.whereForm[items.key]
+    //         })
+    //       }
+    //     })
+    //   }
+    // },
     // 项目常用公共参数-值获取
     getCommonParams() {
       this.treeData = []
-      this.setTreeShow()
+      // this.setTreeShow()
       // 下钻参数写入
-      if (
-        this.parentParamsAll &&
-        this.parentParamsAll.keyArr &&
-        this.parentParamsAll.rowData
-      ) {
-        this.parentParamsAll.keyArr.forEach(item => {
-          if (item.isCruxKey && this.parentParamsAll.rowData[item.key]) {
-            this.treeData.push({
-              id: this.treeData.length,
-              paramKey: item.key,
-              dataType: 'string',
-              paramValue: this.parentParamsAll.rowData[item.key]
-            })
-          }
-        })
-      }
+      // if (
+      //   this.parentParamsAll &&
+      //   this.parentParamsAll.keyArr &&
+      //   this.parentParamsAll.rowData
+      // ) {
+      //   this.parentParamsAll.keyArr.forEach(item => {
+      //     if (item.isCruxKey && this.parentParamsAll.rowData[item.key]) {
+      //       this.treeData.push({
+      //         id: this.treeData.length,
+      //         paramKey: item.key,
+      //         dataType: 'string',
+      //         paramValue: this.parentParamsAll.rowData[item.key]
+      //       })
+      //     }
+      //   })
+      // }
       // 用户信息解析
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
-      for (const key in userInfo) {
-        const nowDataType = typeof userInfo[key]
+      // const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+      // for (const key in userInfo) {
+      //   const nowDataType = typeof userInfo[key]
+      //   this.treeData.push({
+      //     id: this.treeData.length,
+      //     paramKey: key,
+      //     dataType: nowDataType,
+      //     paramValue:
+      //       nowDataType === 'object'
+      //         ? JSON.stringify(userInfo[key])
+      //         : userInfo[key]
+      //   })
+      // }
+      // localStorage 存储数据解析
+      const len = localStorage.length
+      for (let i = 0; i < len; i++) {
+        // 获取key 索引从0开始
+        var getKey = localStorage.key(i)
+        // 获取key对应的值
+        var getVal = localStorage.getItem(getKey)
+        let nowDataType = typeof getVal
+        if (this.isObject(getVal) === 'true') {
+          nowDataType = 'object'
+        }
+
         this.treeData.push({
           id: this.treeData.length,
-          paramKey: key,
+          paramKey: getKey,
           dataType: nowDataType,
-          paramValue:
-            nowDataType === 'object'
-              ? JSON.stringify(userInfo[key])
-              : userInfo[key]
+          paramValue: getVal
+          // paramValue: nowDataType === 'object' ? JSON.stringify(getVal) : getVal
         })
+      }
+      // console(this.treeData)
+    },
+    //判断字符串是否可转换为对象
+    isObject(str) {
+      try {
+        if (JSON.parse(str) !== undefined) {
+          return 'true'
+        }
+      } catch (e) {
+        return e
       }
     },
     // 参数值点击弹出树形弹窗选择事件
     treeShow(datas, index) {
+      this.getCommonParams()
       this.nowIndex = index
       this.$refs.treeModel.show(datas)
       // console.log(this.treeData)
@@ -245,7 +274,7 @@ export default {
     // 树形弹窗确认事件
     elTreeSubmit(data) {
       const item = this.form.paramConfig[this.nowIndex]
-      item.paramValue = data.paramValue
+      item.paramValue = '${' + data.paramKey + '}'
       item.dataType = data.dataType
     },
     // 参数是否使用选择变化事件

@@ -26,6 +26,7 @@
               placeholder="请选择"
               size="small"
               class="input-with-select"
+              :title="item.paramValue"
             >
               <el-button slot="append" icon="el-icon-search" @click.native="treeShow(item,index)" />
             </el-input>

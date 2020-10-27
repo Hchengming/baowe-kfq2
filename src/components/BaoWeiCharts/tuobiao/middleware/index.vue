@@ -330,6 +330,31 @@ export default {
           return false
         })
     },
+      //自定义参数-值获取
+    getParamValue(val,item) {
+      let paramValue = ''
+      if (val && typeof val === 'string' && val.indexOf('${') === 0) {
+        const num = val.length - 1
+        const key = val.substring(2, num)
+        paramValue = localStorage.getItem(key)
+      } else {
+        paramValue = val
+      }
+       switch (item.dataType) {
+            case 'number':
+              if (Number(paramValue)) {
+               paramValue = Number(paramValue)
+              } else {
+                paramValue = null
+              }
+              break
+            case 'object':
+             paramValue = JSON.parse(paramValue)
+              break
+           
+          }
+      return paramValue
+    },
     // 图表数据获取
     getTableData (obj, whereReqData, config) {
       let reqData = {
@@ -391,7 +416,7 @@ export default {
         if (config.contentAreaConfig.paramConfig) {
           config.contentAreaConfig.paramConfig.forEach(item => {
             if (!reqData[item.paramKey] && item.isUse) {
-              reqData[item.paramKey] = item.paramValue
+              reqData[item.paramKey] =this.getParamValue(item.paramValue,item) 
             }
           })
         }
@@ -434,10 +459,10 @@ export default {
         // 数据请求
         serviceAxios[options](nowUrl, reqData)
           .then(res => {
-            console.log(res)
+            // console.log(res)
             if (res.code === 20000 || res.code === 200) {
               const resData = res.data
-              console.log(resData)
+              // console.log(resData)
               resDataFn(resData)
             }
           })
