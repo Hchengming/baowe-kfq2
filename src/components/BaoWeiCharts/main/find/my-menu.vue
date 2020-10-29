@@ -15,6 +15,7 @@
     <my-menu v-for="item in menuItem.children"
              :key="item.menuCode"
              :menu-item="item"
+             :settingConfig="settingConfig"
              @menuSettingClick="menuSettingClick"
              @leftMenuClick="leftMenuClick" />
   </el-submenu>
@@ -29,6 +30,7 @@
             slot="title">{{ menuItem.menuName }}</span>
     </span>
     <i title="菜单设置"
+       v-if="settingConfig.systemPermissions==='admin'"
        class="el-icon-setting"
        @click="menuSettingClick" />
     <a v-if="menuItem.url"
@@ -44,6 +46,11 @@ export default {
     menuItem: {
       type: Object,
       default: null
+    },
+    settingConfig: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {}
     }
   },
   data () {

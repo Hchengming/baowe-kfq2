@@ -22,6 +22,10 @@ export default {
     }
   },
   methods: {
+    //图表渲染数据改变事件
+    changeChartsData(obj){
+      this.$refs['myPage'].changeChartsData(obj)
+    },
     //菜单配置按钮点击事件
     menuSettingClick(menuItem) {
       this.menuSetting.menuId = menuItem.menuId
@@ -31,7 +35,8 @@ export default {
     queryMenuSetting(menuId, fn) {
       serviceAxios
         .post(
-          this.settingConfig.commonUrl + '/busMenuSetting/queryMenuSettingData',
+          this.settingConfig.commonUrl +
+            '/busMenuSetting/getMenuSettingDataByModuleId',
           { menuId }
         )
         .then(res => {
@@ -41,8 +46,8 @@ export default {
             if (fn) {
               fn(resData)
             } else {
-              if (resData.length !== 0) {
-                this.menuSetting.jsjbxx = resData[0].jsjbxx
+              if (resData) {
+                this.menuSetting.jsjbxx = resData.jsjbxx
                 this.menuSetting.type = '修改'
               } else {
                 this.menuSetting.type = '新增'
@@ -64,7 +69,7 @@ export default {
       const reqData = {
         menuId: this.menuSetting.menuId,
         jsjbxx: this.menuSetting.jsjbxx,
-        menuMap: ''
+        menuMap: {}
       }
       serviceAxios
         .post(this.settingConfig.commonUrl + url, reqData)
@@ -126,8 +131,8 @@ export default {
     menuJS(menuId) {
       this.queryMenuSetting(menuId, data => {
         if (data.length !== 0) {
-          if (data[0].jsjbxx && data[0].jsjbxx.replace(/\s*/g, '') !== '') {
-            const funcStr = data[0].jsjbxx
+          if (data.jsjbxx && data.jsjbxx.replace(/\s*/g, '') !== '') {
+            const funcStr = data.jsjbxx
             const test = eval('(false || ' + funcStr + ')')
             test()
           }
@@ -152,7 +157,6 @@ export default {
       this.leftMenu = item.children
       this.$refs['myPage'].mainStyleChange()
       this.$refs['myPage'].menuClick(item, 'top', offon => {
-        // console.log(offon, 'offon')
         if (offon && item.children && item.children.length > 0) {
           this.menuJump(item.children[0].menuCode)
         }
@@ -184,6 +188,11 @@ export default {
                 this.$refs['myPage'].menuClick(this.menuData[0])
                 this.leftMenu = this.menuData[0].children
               }
+              this.$emit('elementMethods', {
+                name: '菜单数据获取事件',
+                methodsName: 'getMenuData',
+                menuData: this.menuData
+              })
             }
           })
       } else {
@@ -199,6 +208,11 @@ export default {
               item.menuId = item.apeKey
             })
             this.menuData = resData
+            this.$emit('elementMethods', {
+              name: '菜单数据获取事件',
+              methodsName: 'getMenuData',
+              menuData: this.menuData
+            })
             if (this.menuData[0]) {
               this.$refs['myPage'].menuClick(this.menuData[0])
               this.leftMenu = this.menuData[0].children

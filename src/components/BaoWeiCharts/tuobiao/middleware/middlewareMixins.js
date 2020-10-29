@@ -19,6 +19,20 @@ export default {
     _this = this
   },
   methods: {
+    //图表渲染数据改变事件
+    changeChartsData(obj) {
+      // console.log(obj)
+      this.pageData.forEach(item => {
+        if (item.moduleId === obj.moduleId) {
+          if (obj.data) {
+            item.data = obj.data
+          }
+          if (obj.paginationAll) {
+            item.paginationAll = obj.paginationAll
+          }
+        }
+      })
+    },
     // 监听屏幕变化事件
     resize() {
       _this.browserXY.width = window.innerWidth

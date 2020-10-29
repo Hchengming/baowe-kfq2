@@ -19,6 +19,7 @@
 
             <span @click="topMenuClick(item, index)"> <i :class="['iconfont', item.menuIcon, 'theme-color']" />{{ item.menuName }}</span>
             <i title="菜单设置"
+               v-if="settingConfig.systemPermissions==='admin'"
                class="el-icon-setting"
                @click="menuSettingClick(item)" />
           </li>
@@ -34,6 +35,7 @@
             <my-menu v-for="menuItem in leftMenu"
                      :key="menuItem.menuCode"
                      :menu-item="menuItem"
+                     :settingConfig="settingConfig"
                      @menuSettingClick="menuSettingClick"
                      @leftMenuClick="leftMenuClick" />
           </el-menu>

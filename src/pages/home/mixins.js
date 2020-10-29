@@ -31,8 +31,23 @@ export const elementMethodsMixins = {
     }
   },
   methods: {
+    //改变图表渲染数据
+    changeChartsData() {
+      let obj = {
+        moduleId: '12345',
+        data: [], //渲染数据
+        paginationAll: {
+          currentPage: 1,
+          pageSize: 10,
+          total: 120
+        }
+      }
+      this.$refs['baoweiCharts'].changeChartsData(obj)
+    },
     //菜单点击事件
-    menuClick() {},
+    menuClick() {
+      this.changeChartsData()
+    },
     //图表组件行点击事件
     rowClick() {
       // if (obj.moduleId === 'c0b9411a32474571a5bf14cc1337a4bc') {

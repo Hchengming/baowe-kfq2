@@ -157,7 +157,7 @@
 
           <el-row>
             <el-col :span="8">
-              <el-form-item label="数据是否添加分页"
+              <el-form-item label="接口类型"
                             prop="apiType">
                 <el-radio-group v-model="form.apiType"
                                 @change="apiTypeChange">
@@ -406,6 +406,17 @@
              class="content-dy-box">
           <el-row type="flex"
                   class="row-bg">
+            
+             <el-col :span="8">
+              <el-form-item label="接口类型"
+                            prop="apiType">
+                <el-radio-group v-model="form.apiType"
+                                @change="apiTypeChange">
+                  <el-radio label="0">数据视图</el-radio>
+                  <el-radio label="1">服务接口</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
             <el-col :span="8">
               <el-form-item label="左侧标题宽度"
                             prop="destailsTableLabelWidth">
