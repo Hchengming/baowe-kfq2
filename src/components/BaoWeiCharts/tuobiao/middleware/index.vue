@@ -113,6 +113,7 @@ export default {
         defaultParameters: '', // 接口默认参数
         zindex: '8', // 模块z-index
         displayMode: 'table', // 数据展现方式
+        titleShow: '0',//图表头部切换模块是否显示 0:不显示 1:显示
         submodule: '0', // 是否含有子页面
         menuTapAll: {
           isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是

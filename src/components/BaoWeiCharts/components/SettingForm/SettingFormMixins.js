@@ -25,6 +25,7 @@ export const DetailsTable = {
     }
   },
   methods: {
+    
     // 字段新增事件
     detailsTableKeyAdd() {
       if (!this.form.detailsTableAll) {
@@ -87,6 +88,10 @@ export const ChartsMixins = {
     }
   },
   methods: {
+     //多表头配置按钮点击事件
+     tableHeaderSetting(){
+      this.$refs['tableHeaderSetting'].show()
+    },
     //图表、列表全选按钮控制
     keyChooseAllShow() {
       this.listKeyAll = true

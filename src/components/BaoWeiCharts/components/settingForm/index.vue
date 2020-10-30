@@ -96,6 +96,17 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="8"
+                    v-if="['pie', 'ring', 'histogram', 'bar', 'line'].indexOf(form.displayMode)>-1">
+              <el-form-item label="图表头部切换显示"
+                            prop="titleShow">
+                <el-radio-group v-model="form.titleShow"
+                                @change="submoduleChange">
+                  <el-radio label="1">是</el-radio>
+                  <el-radio label="0">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row type="flex"
                   class="row-bg">
@@ -212,9 +223,12 @@
               <el-button v-if="['table','list'].indexOf(form.displayMode)>-1"
                          size="small"
                          @click="operateButtonSetting">右侧操作按钮配置</el-button>
-              <p class="tips">
+              <el-button size="small"
+                         @click="tableHeaderSetting">多表头配置</el-button>
+              <br />
+              <!-- <p class="tips">
                 <span v-if="!isWidth">*第一个字段必须为图表标题字段</span>
-              </p>
+              </p> -->
               <ul class="zdpz_list keys-config-list">
                 <li class="zdpz_list_header">
                   <span class="hTxt1 hTxt">字段名</span>
@@ -406,8 +420,8 @@
              class="content-dy-box">
           <el-row type="flex"
                   class="row-bg">
-            
-             <el-col :span="8">
+
+            <el-col :span="8">
               <el-form-item label="接口类型"
                             prop="apiType">
                 <el-radio-group v-model="form.apiType"
@@ -600,6 +614,9 @@
     <operate-button-setting ref="operateButtonSetting"
                             :form="form"
                             @submit="operateButtonSubmit" />
+    <!-- 多表头配置                     -->
+    <table-header-setting ref="tableHeaderSetting"
+                          :form="form"></table-header-setting>
   </div>
 </template>
 <script>
@@ -613,9 +630,10 @@ import {
 } from './SettingFormMixins.js'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
+import TableHeaderSetting from './tableHeaderSetting/index.vue'
 import OperateButtonSetting from './OperateButtonSetting/index.vue'
 export default {
-  components: { JudgePop, ApiChoose, ParamKeyConfig, OperateButtonSetting },
+  components: { JudgePop, ApiChoose, TableHeaderSetting, ParamKeyConfig, OperateButtonSetting },
   mixins: [DetailsTable, dragDialog, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
   props: {

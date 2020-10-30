@@ -20,18 +20,18 @@ export default {
   },
   methods: {
     //图表渲染数据改变事件
-    changeChartsData(obj) {
-      // console.log(obj)
-      this.pageData.forEach(item => {
-        if (item.moduleId === obj.moduleId) {
-          if (obj.data) {
-            item.data = obj.data
-          }
-          if (obj.paginationAll) {
-            item.paginationAll = obj.paginationAll
-          }
-        }
-      })
+    changeChartsData(fn) {
+      fn(this.pageData)
+      // this.pageData.forEach(item => {
+      //   if (item.moduleId === obj.moduleId) {
+      //     if (obj.data) {
+      //       item.data = obj.data
+      //     }
+      //     if (obj.paginationAll) {
+      //       item.paginationAll = obj.paginationAll
+      //     }
+      //   }
+      // })
     },
     // 监听屏幕变化事件
     resize() {

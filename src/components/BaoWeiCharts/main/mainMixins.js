@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     //图表渲染数据改变事件
-    changeChartsData(obj){
-      this.$refs['myPage'].changeChartsData(obj)
+    changeChartsData(fn) {
+      this.$refs['myPage'].changeChartsData(fn)
     },
     //菜单配置按钮点击事件
     menuSettingClick(menuItem) {

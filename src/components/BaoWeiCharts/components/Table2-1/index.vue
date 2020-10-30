@@ -1,126 +1,104 @@
 <template>
   <div id="bw_table">
-    <el-table :border="false"
+    <el-table :border="true"
               :data="tabledata"
-              @cell-click="cellClick"
-              @row-click="rowClick"
               :row-class-name="tableRowClassName"
               stripe
               :height="nowHieght()"
-              :style="{width: '100%'}">
-      <!-- <el-table-column v-for="(item,index) in colums"
+              :style="{width: '100%'}"
+              @cell-click="cellClick"
+              @row-click="rowClick">
+      <el-table-column v-for="(item,index) in colums"
                        :key="index"
                        :class-name="item.className+' '+cellCursorClass(item.key)"
                        :prop="item.key"
-                       :sortable="false"
+                       :sortable="item.key!=='operationButton'"
                        :label="colLabel(item)"
                        :width="colWidth(item,index)">
         <template slot-scope="scope">
           <el-tooltip v-if="item.key!=='operationButton'"
                       :content="NumStrTransformation(scope.row[item.key])"
                       :placement="setPlacement(index,colums)">
-            <span :class="colClass(item)">{{scope.row[item.key]}}</span>
+            <span :class="colClass(item)">{{ scope.row[item.key] }}</span>
           </el-tooltip>
           <div v-else
                class="right-operate-button">
             <el-button v-for="val in settingForm.operateButton"
                        :key="val.name"
                        :type="val.type"
-                       @click="operateButtonClick(val,scope.row)"
-                       size="mini">{{val.name}}</el-button>
+                       size="mini"
+                       @click="operateButtonClick(val,scope.row)">{{ val.name }}</el-button>
           </div>
-        
+          <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
         </template>
 
-      </el-table-column> -->
-      <table-column v-for="(item,index) in tableColums()"
-                    :key="index"
-                    :item="item"
-                    :statisticsAll="statisticsAll"
-                    :settingForm="settingForm"
-                    :colums="colums">
-      </table-column>
+      </el-table-column>
     </el-table>
-    <el-pagination @current-change="handleCurrentChange"
-                   @size-change="handleSizeChange"
+    <el-pagination v-if="paginationAll"
                    :current-page="paginationAll.currentPage"
                    :page-size="paginationAll.pageSize"
                    :page-sizes="[10,50, 100, 500, 1000]"
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="paginationAll.total"
-                   v-if="paginationAll"></el-pagination>
+                   @current-change="handleCurrentChange"
+                   @size-change="handleSizeChange" />
+    <!--    <el-pagination-->
+    <!--      @size-change="handleSizeChange"-->
+    <!--      @current-change="handleCurrentChange"-->
+    <!--      :current-page="currentPage4"-->
+    <!--      :page-sizes="[10,50, 100, 500, 1000]"-->
+    <!--      :page-size="10"-->
+    <!--      layout="total, sizes, prev, pager, next, jumper"-->
+    <!--      :total="400">-->
+    <!--    </el-pagination>-->
   </div>
 </template>
 <script>
-import listTableCommonJs from './TableMixins'
-import TableColumn from './tableColumn/tableColumn.vue'
+import TableMixins from './TableMixins'
 export default {
-  mixins: [listTableCommonJs],
-  components: { TableColumn },
+  mixins: [TableMixins],
+  // props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
+  props: {
+    tabledata: {
+      type: Array,
+      default: null
+    },
+    colums: {
+      type: Array,
+      default: null
+    },
+    height: {
+      type: Number,
+      default: null
+    },
+    width: {
+      type: Number,
+      default: null
+    },
+    settingForm: {
+      type: Object,
+      default: null
+    },
+    paginationAll: {
+      type: Object,
+      default: null
+    },
+    statisticsAll: {
+      type: Object,
+      default: null
+    },
+    border: {
+      type: Boolean,
+      default: null
+    }
+  },
   data () {
     return {
       cellCursor: ''
     }
   },
-  // props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
-  props: {
-    tabledata: {
-      type: Array
-    },
-    colums: {
-      type: Array
-    },
-    height: {
-      type: Number
-    },
-    width: {
-      type: Number
-    },
-    settingForm: {
-      type: Object
-    },
-    paginationAll: {
-      type: Object
-    },
-    statisticsAll: {
-      type: Object
-    },
-    border: {
-      type: Boolean
-    }
-  },
   computed: {},
   methods: {
-    //递归遍历树形数据
-    reduiction (data, fn) {
-      data.forEach((item, index) => {
-        fn(item, index)
-        if (item.children && item.children.length > 0) {
-          this.reduiction(item.children, fn)
-        }
-      })
-    },
-    //表格表头配置
-    tableColums () {
-      let tableColums = []
-      //判断是否为多表头表格
-      if (this.settingForm.tableHeaderConfig && this.settingForm.tableHeaderConfig.hierarchy > 1) {
-        //01 多表头表格
-        tableColums = this.settingForm.tableHeaderConfig.headerSetting[0].children
-        this.reduiction(tableColums, items => {
-          this.colums.forEach(item => {
-            if (items.key === item.key) {
-              Object.assign(items, item)
-            }
-          })
-        })
-
-      } else {
-        //02 普通表格
-        tableColums = this.colums
-      }
-      return tableColums
-    },
     // 获取行索引
     tableRowClassName ({ row, rowIndex }) {
       // 把每一行的索引放进row
@@ -167,8 +145,8 @@ export default {
     },
     // 表格单元格点击事件
     cellClick (row, column) {
-      this.$emit('cellClick', row, column.property)
-    },
+      this.$emit('cellClick', row, column.property, row.rowIndex)
+    }
 
   }
 }

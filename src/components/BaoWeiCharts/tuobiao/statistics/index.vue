@@ -137,7 +137,7 @@
           <bw-line v-if="bwLineType.indexOf(settingForm.displayMode) > -1&&isCharts()"
                    :data="statisticsAll.data"
                    :chart-column="settingForm.keyArr"
-                   :title-show="false"
+                   :title-show="settingForm.titleShow==='1'?true:false"
                    :settingConfig="settingConfig"
                    :chart-type="settingForm.displayMode"
                    :height="boxHeight()"

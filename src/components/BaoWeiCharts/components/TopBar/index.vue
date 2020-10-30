@@ -17,12 +17,13 @@
       <li v-for="(data,indexs) in topBarData"
           :style="{height:liHeight()}"
           :key="indexs"
-          @click="topBarClick(data)">
+          >
         <div class="list-box">
-          <p class="txt1">{{ nowlabel(data[0]) }}{{ data[0].value }}<span>{{ nowDW(data[0]) }}</span></p>
+          <p class="txt1" @click="topBarClick(data,data[0].key)">{{ nowlabel(data[0]) }}{{ data[0].value }}<span>{{ nowDW(data[0]) }}</span></p>
           <div class="test">
             <p v-for="(item,index) in nowData(data)"
                :key="index"
+               @click="topBarClick(data,item.key)"
                :class="[data.length>2?'txt3':'txt2']"><span class="t1"
                     v-html="nowlabel(item)" />{{ item.value }}<span class="t2">{{ nowDW(item) }}</span></p>
           </div>
@@ -131,8 +132,8 @@ export default {
       this.$emit('update', topBarSettingData, fn)
     },
     // 顶部菜单点击事件
-    topBarClick (item) {
-      this.$emit('topBarClick', item)
+    topBarClick (item,key) {
+      this.$emit('topBarClick', item,key)
     }
   }
 }
