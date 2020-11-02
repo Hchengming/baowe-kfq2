@@ -105,7 +105,8 @@
             v-if="item.type==='date'"
             v-model="whereAll.form[item.key]"
             :style="{width:item.rightWidth+'px'}"
-            type="date"
+            :type="item.styleType?item.styleType:'date'"
+            size="small"
             :placeholder="datePlaceholder(item,index)"
             @change="onSubmit(item.isInsert=='1')"
           />

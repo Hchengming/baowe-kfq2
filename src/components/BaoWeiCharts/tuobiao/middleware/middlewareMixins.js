@@ -21,7 +21,10 @@ export default {
   methods: {
     //图表渲染数据改变事件
     changeChartsData(fn) {
-      fn(this.pageData)
+      if(fn){
+        fn(this.pageData)
+      }
+     
       // this.pageData.forEach(item => {
       //   if (item.moduleId === obj.moduleId) {
       //     if (obj.data) {

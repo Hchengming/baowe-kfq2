@@ -1,16 +1,22 @@
 <template>
   <div class="top-bar-wrap">
     <div class="operation">
-      <i class="iconfont iconxiugai theme-color"
-         @click="emit" />
-      <el-popconfirm icon="el-icon-info"
-                     class="delete-template-popconfirm"
-                     icon-color="red"
-                     title="确认删除顶部栏？"
-                     @onConfirm="deleteTemplate">
-        <i slot="reference"
-           title="删除"
-           class="el-icon-delete" />
+      <i
+        class="iconfont iconxiugai theme-color"
+        @click="emit"
+      />
+      <el-popconfirm
+        icon="el-icon-info"
+        class="delete-template-popconfirm"
+        icon-color="red"
+        title="确认删除顶部栏？"
+        @onConfirm="deleteTemplate"
+      >
+        <i
+          slot="reference"
+          title="删除"
+          class="el-icon-delete"
+        />
       </el-popconfirm>
     </div>
     <ul class="top-bar-box">
@@ -30,9 +36,11 @@
         </div>
       </li>
     </ul>
-    <top-bar-setting ref="topBarSetting"
-                     :item-api-data="itemApiData"
-                     @submit="settingSubmit" />
+    <top-bar-setting
+      ref="topBarSetting"
+      :item-api-data="itemApiData"
+      @submit="settingSubmit"
+    />
   </div>
 
 </template>
@@ -50,13 +58,13 @@ export default {
       default: null
     }
   },
-  data () {
+  data() {
     return {
 
     }
   },
   computed: {
-    topBarData () {
+    topBarData() {
       const data = []
       if (this.topBarAll.data.length > 0 && this.topBarAll.configData.length > 0) {
         this.topBarAll.data.forEach(items => {
@@ -83,24 +91,23 @@ export default {
     }
   },
   methods: {
-    //列高度计算
-    liHeight () {
-      let liHeight = "90px"
+    // 列高度计算
+    liHeight() {
+      let liHeight = '90px'
       if (this.topBarAll.form.height) {
-        const OHeight = window.innerHeight;
+        const OHeight = window.innerHeight
         liHeight = (OHeight * this.topBarAll.form.height / 100) - 5 + 'px'
       }
       return liHeight
-
     },
     // 数据整理，减去第一条数据
-    nowData (data) {
+    nowData(data) {
       const datas = JSON.parse(JSON.stringify(data))
       datas.splice(0, 1)
       return datas
     },
     // 单位
-    nowDW (item) {
+    nowDW(item) {
       if (item.dw) {
         return `(${item.dw})`
       } else {
@@ -108,7 +115,7 @@ export default {
       }
     },
     // 标签
-    nowlabel (item) {
+    nowlabel(item) {
       if (item.label) {
         return item.label + '<br/>'
       } else {
@@ -120,15 +127,15 @@ export default {
     //    if(index==)
     // },
     // 顶部栏删除事件
-    deleteTemplate () {
+    deleteTemplate() {
       this.$emit('delete')
     },
     // 编辑按钮点击事件
-    emit () {
+    emit() {
       this.$refs['topBarSetting'].show(this.topBarAll)
     },
     // 编辑提交事件
-    settingSubmit (topBarSettingData, fn) {
+    settingSubmit(topBarSettingData, fn) {
       this.$emit('update', topBarSettingData, fn)
     },
     // 顶部菜单点击事件

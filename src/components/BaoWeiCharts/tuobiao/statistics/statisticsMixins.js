@@ -278,9 +278,9 @@ export const childMixins = {
     this.childSettingForm = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
-    //详情自定义配置页面点击弹出事件
+    // 详情自定义配置页面点击弹出事件
     destailDialogShow(rowData, key, index) {
-      //操作模块点击排除
+      // 操作模块点击排除
       if (key === 'operationButton') return
 
       if (
@@ -314,8 +314,7 @@ export const childMixins = {
       if (
         this.settingForm.clickToShow !== 'row' ||
         this.settingForm.submodule === '0'
-      )
-        return
+      ) { return }
 
       // 行下钻
       this.nowCellKey = ''
@@ -349,7 +348,7 @@ export const childMixins = {
     },
     // 表格/列表单元格点击事件
     cellClick(rowData, key, rowIndex) {
-      //详情页面点击弹出事件
+      // 详情页面点击弹出事件
       this.destailDialogShow(rowData, key, rowIndex)
       this.$emit('cellClick', rowData, this.statisticsAll, key)
       if (

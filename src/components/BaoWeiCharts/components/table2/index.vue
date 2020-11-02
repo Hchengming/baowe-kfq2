@@ -1,6 +1,6 @@
 <template>
   <div id="bw_table">
-    <el-table :border="false"
+    <el-table :border="true"
               :data="tabledata"
               @cell-click="cellClick"
               @row-click="rowClick"
@@ -122,19 +122,19 @@ export default {
       return tableColums
     },
     // 获取行索引
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName({ row, rowIndex }) {
       // 把每一行的索引放进row
       row.rowIndex = rowIndex
     },
     // 数字转字符串
-    NumStrTransformation (val) {
+    NumStrTransformation(val) {
       if (typeof val === 'number') {
         val = val.toString()
       }
       return val
     },
 
-    nowHieght () {
+    nowHieght() {
       if (this.paginationAll) {
         return this.height - 35
       } else {
@@ -142,11 +142,11 @@ export default {
       }
     },
     // headername 获取
-    colLabel (item) {
+    colLabel(item) {
       return item.dw ? item.explain + `(${item.dw})` : item.explain
     },
     // 动态获取宽度
-    colWidth (item, index) {
+    colWidth(item, index) {
       let widths = item.width
       if (index === 0) {
         let maxWidth = 0
@@ -162,7 +162,7 @@ export default {
       return widths
     },
     // 行点击事件
-    rowClick (row) {
+    rowClick(row) {
       this.$emit('rowClick', row, row.rowIndex)
     },
     // 表格单元格点击事件

@@ -1,27 +1,39 @@
 <template>
-  <div class="stataic_destail_table"
-       :style="{'height':height+'px','overflow':'auto'}">
+  <div
+    class="stataic_destail_table"
+    :style="{'height':height+'px','overflow':'auto'}"
+  >
     <div :class="['detail_box', 'model_box' ,'info_table',{'destail-theme-1':settingForm.destailTypeTheme==='1'}]">
-      <el-row v-for="(items,indexs) in destailSetting"
-              :key="indexs"
-              class="detail_row">
-        <el-col v-for="(item,index) in items.row"
-                v-show="item.isHide!=true"
-                :key="index"
-                :span="item.proportion?item.proportion:24"
-                class="detail_col">
+      <el-row
+        v-for="(items,indexs) in destailSetting"
+        :key="indexs"
+        class="detail_row"
+      >
+        <el-col
+          v-for="(item,index) in items.row"
+          v-show="item.isHide!=true"
+          :key="index"
+          :span="item.proportion?item.proportion:24"
+          class="detail_col"
+        >
           <!--主题 默认展示 -->
-          <div class="key"
-               v-if="settingForm.destailTypeTheme==='0'||!settingForm.destailTypeTheme"
-               :style="{width:skyWidth}">
+          <div
+            v-if="settingForm.destailTypeTheme==='0'||!settingForm.destailTypeTheme"
+            class="key"
+            :style="{width:skyWidth}"
+          >
             <span>{{ item.title }}</span>
           </div>
-          <div v-if="settingForm.destailTypeTheme==='0'||!settingForm.destailTypeTheme"
-               :class="['value',{'bg':item.val==0?false:!item.val?true:false}]"
-               :style="{width:valWidth}">{{ item.val }}</div>
+          <div
+            v-if="settingForm.destailTypeTheme==='0'||!settingForm.destailTypeTheme"
+            :class="['value',{'bg':item.val==0?false:!item.val?true:false}]"
+            :style="{width:valWidth}"
+          >{{ item.val }}</div>
           <!--主题一 -->
-          <div class="theme-2-list"
-               v-if="settingForm.destailTypeTheme==='1'">
+          <div
+            v-if="settingForm.destailTypeTheme==='1'"
+            class="theme-2-list"
+          >
             <div class="title">
               {{ item.title }}
             </div>

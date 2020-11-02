@@ -8,6 +8,7 @@
          @childSettingAdd  子页面新增事件
          @childInsertData   子页面数据查询事件
          @statisticsClose    子级弹窗关闭事件
+         @blankTemplateClose  空白模板关闭事件
          @screenKeep      筛选模块配置数据保存
          @tablePageSort    表格/列表分页点击事件
          @whereSubmit      筛选确认事件
@@ -21,7 +22,7 @@
       <statistics :statistics-all="item"
                   :browser-x-y="browserXY"
                   :data-url="settingConfig.dataUrl"
-                  :settingConfig="settingConfig"
+                  :setting-config="settingConfig"
                   :add-setting-form="addSettingForm"
                   :item-api-data="itemApiData"
                   :data-view-list="dataViewList"
@@ -34,6 +35,7 @@
                   @childSettingAdd="childSettingAdd"
                   @childInsertData="childInsertData"
                   @statisticsClose="statisticsClose"
+                  @blankTemplateClose="blankTemplateClose"
                   @screenKeep="screenKeep"
                   @tablePageSort="tablePageSort"
                   @whereSubmit="whereSubmit"
@@ -41,7 +43,18 @@
                   @whereOtherBtnClick="whereOtherBtnClick"
                   @operateButtonClick="operateButtonClick"
                   @statisticsMore="statisticsMore"
-                  @settingClick="settingClick" />
+                  @settingClick="settingClick">
+
+        <div v-if="item.contentAreaConfig.blankTemplateConfig"
+             style="width:100%;height:100%"
+             :slot="item.contentAreaConfig.blankTemplateConfig.slot">
+
+          <slot :name="item.contentAreaConfig.blankTemplateConfig.slot">
+
+          </slot>
+        </div>
+
+      </statistics>
     </section>
 
     <!-- 新增弹窗模块 -->
@@ -89,9 +102,14 @@ export default {
         subtitle2: '', // 副标题2
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
-        moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示
-        destailTypeTheme: '0',//详情表格展示组题样式选则 0：默认表格  1：主题一
-        apiType: '0',// 0：数据视图 1：应用接口
+        moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示 3：空白模板
+        moduleCode: "",//模板编码  当前模板唯一编码
+        blankTemplateConfig: {//空白模板配置项
+          slot: "",//slot嵌入字段
+          isCloseBtn: false,//是否显示关闭按钮
+        },
+        destailTypeTheme: '0', // 详情表格展示组题样式选则 0：默认表格  1：主题一
+        apiType: '0', // 0：数据视图 1：应用接口
         url: '', // 接口
         urlName: '', // 接口名称
         options: 'GET', // 请求方式  GET/POST
@@ -103,7 +121,7 @@ export default {
         detailsTableAll: [], // 详情列表配置数据
         iframeAll: {
           iframeType: '0', // 0-map地图  1-其他类型
-          iframeId: '',//自定义iframe框id名
+          iframeId: '', // 自定义iframe框id名
           iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129' // iframe嵌入路径,
         },
         height: 300,
@@ -188,6 +206,14 @@ export default {
         }
       })
       this.pageData = datas
+    },
+    //自定义空白模板关闭事件
+    blankTemplateClose (moduleId) {
+      this.pageData.forEach((item, index) => {
+        if (item.moduleId === moduleId) {
+          this.pageData.splice(index, 1)
+        }
+      })
     },
     // 表格分页点击事件
     tablePageSort (moduleId, paginationAll, whereForm) {
@@ -331,8 +357,8 @@ export default {
           return false
         })
     },
-      //自定义参数-值获取
-    getParamValue(val,item) {
+    // 自定义参数-值获取
+    getParamValue (val, item) {
       let paramValue = ''
       if (val && typeof val === 'string' && val.indexOf('${') === 0) {
         const num = val.length - 1
@@ -341,19 +367,18 @@ export default {
       } else {
         paramValue = val
       }
-       switch (item.dataType) {
-            case 'number':
-              if (Number(paramValue)) {
-               paramValue = Number(paramValue)
-              } else {
-                paramValue = null
-              }
-              break
-            case 'object':
-             paramValue = JSON.parse(paramValue)
-              break
-           
+      switch (item.dataType) {
+        case 'number':
+          if (Number(paramValue)) {
+            paramValue = Number(paramValue)
+          } else {
+            paramValue = null
           }
+          break
+        case 'object':
+          paramValue = JSON.parse(paramValue)
+          break
+      }
       return paramValue
     },
     // 图表数据获取
@@ -417,7 +442,7 @@ export default {
         if (config.contentAreaConfig.paramConfig) {
           config.contentAreaConfig.paramConfig.forEach(item => {
             if (!reqData[item.paramKey] && item.isUse) {
-              reqData[item.paramKey] =this.getParamValue(item.paramValue,item) 
+              reqData[item.paramKey] = this.getParamValue(item.paramValue, item)
             }
           })
         }

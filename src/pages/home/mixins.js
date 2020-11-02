@@ -33,16 +33,9 @@ export const elementMethodsMixins = {
   methods: {
     //改变图表渲染数据
     changeChartsData() {
-      let obj = {
-        moduleId: '12345',
-        data: [], //渲染数据
-        paginationAll: {
-          currentPage: 1,
-          pageSize: 10,
-          total: 120
-        }
-      }
-      this.$refs['baoweiCharts'].changeChartsData(obj)
+      // this.$refs['baoweiCharts'].changeChartsData((data)=>{
+
+      // })
     },
     //菜单点击事件
     menuClick() {

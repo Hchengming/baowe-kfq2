@@ -254,7 +254,7 @@ export default {
       }
       // console(this.treeData)
     },
-    //判断字符串是否可转换为对象
+    // 判断字符串是否可转换为对象
     isObject(str) {
       try {
         if (JSON.parse(str) !== undefined) {

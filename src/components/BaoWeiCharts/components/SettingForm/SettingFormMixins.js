@@ -83,8 +83,8 @@ export const ChartsMixins = {
   data() {
     return {
       isPageDisabled: false,
-      listKeyAll: false, //列表全选
-      chartsKeyAll: false //图表全选
+      listKeyAll: false, // 列表全选
+      chartsKeyAll: false // 图表全选
     }
   },
   methods: {
@@ -107,11 +107,11 @@ export const ChartsMixins = {
         })
       }
     },
-    //列表字段全选功能
+    // 列表字段全选功能
     ListkeyChooseChange(offon) {
       this.keyChooseChange('list', offon)
     },
-    //图表字段全选功能
+    // 图表字段全选功能
     ChartskeyChooseChange(offon) {
       this.keyChooseChange('charts', offon)
     },
@@ -124,7 +124,7 @@ export const ChartsMixins = {
         }
       })
     },
-    //图表标题选中切换事件
+    // 图表标题选中切换事件
     chartsTitleChange(key) {
       this.$nextTick(() => {
         this.form.keyArr.forEach(item => {
@@ -233,7 +233,7 @@ export const ChartsMixins = {
     getKeys(fn) {
       let params = {}
       this.form.paramConfig.forEach(item => {
-        let paramValue = this.getParamValue(item.paramValue)
+        const paramValue = this.getParamValue(item.paramValue)
         if (item.isUse) {
           switch (item.dataType) {
             case 'number':
@@ -274,7 +274,7 @@ export const ChartsMixins = {
         }
       })
     },
-    //自定义参数-值获取
+    // 自定义参数-值获取
     getParamValue(val) {
       let paramValue = ''
       if (val && typeof val === 'string' && val.indexOf('${') === 0) {
@@ -286,12 +286,12 @@ export const ChartsMixins = {
       }
       return paramValue
     },
-    //数据视图配置字段获取事件
+    // 数据视图配置字段获取事件
     getViewKeysData() {
       const queryParamList = []
       this.form.paramConfig.forEach(item => {
-        let paramValue = this.getParamValue(item.paramValue)
-        let params = {
+        const paramValue = this.getParamValue(item.paramValue)
+        const params = {
           [item.paramKey]: paramValue
         }
         if (item.isUse) {

@@ -65,11 +65,12 @@
                 <el-radio label="0">图表</el-radio>
                 <el-radio label="1">iframe嵌入</el-radio>
                 <el-radio label="2">详情表格展示</el-radio>
+                <el-radio label="3">空白模板</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="12"
-                  v-if="form.moduleType==='2'">
+          <el-col v-if="form.moduleType==='2'"
+                  :span="12">
             <el-form-item label="详情表格主题"
                           prop="destailTypeTheme">
               <el-radio-group v-model="form.destailTypeTheme">
@@ -523,6 +524,32 @@
           </param-key-config>
         </div>
 
+        <!-- 空白模板 -->
+        <div v-if="form.moduleType==='3'"
+             class="content-dy-box blank-template-box">
+          <el-row type="flex"
+                  class="row-bg">
+            <el-col :span="12">
+              <el-form-item label="slot"
+                            prop="title">
+                <el-input v-model="form.blankTemplateConfig.slot"
+                          placeholder="slot嵌入字段"
+                          size="small" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="关闭按钮"
+                            prop="title">
+                <el-switch v-model="form.blankTemplateConfig.isCloseBtn"
+                           active-text="显示"
+                           inactive-text="不显示">
+                </el-switch>
+
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+
         <el-row type="flex"
                 class="row-bg">
           <el-col :span="12">
@@ -533,8 +560,8 @@
                                :min="0"
                                :max="100"
                                :precision="2" />
-              <el-button @click="widthMax"
-                         size="small">一键100%</el-button>
+              <el-button size="small"
+                         @click="widthMax">一键100%</el-button>
             </el-form-item>
 
           </el-col>
@@ -546,8 +573,8 @@
                                :min="0"
                                :max="100"
                                :precision="2" />
-              <el-button @click="heightMax"
-                         size="small">一键100%</el-button>
+              <el-button size="small"
+                         @click="heightMax">一键100%</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -704,12 +731,12 @@ export default {
     })
   },
   methods: {
-    //高度一键铺满
+    // 高度一键铺满
     heightMax () {
       this.form.height = 100
       this.form.top = 0
     },
-    //宽度一键铺满
+    // 宽度一键铺满
     widthMax () {
       this.form.width = 100
       this.form.left = 0
@@ -721,6 +748,9 @@ export default {
     },
     // 弹窗显示事件
     show (obj) {
+      if (!this.form.blankTemplateConfig) {
+        this.form.blankTemplateConfig = {}
+      }
       this.dialogVisible = true
       if (obj) {
         this.parentParamsAll = obj

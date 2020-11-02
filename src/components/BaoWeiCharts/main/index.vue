@@ -45,7 +45,15 @@
           <my-page ref="myPage"
                    :setting-config="settingConfig"
                    @getMenuData="getMenuChange"
-                   @elementMethods="elementMethods" />
+                   :slot-name="slotName"
+                   @elementMethods="elementMethods">
+            <div v-for="item in slotName"
+                 :key="item"
+                 style="width:100%;height:100%"
+                 :slot="item">
+              <slot :name="item" />
+            </div>
+          </my-page>
           <slot name="content" />
         </el-main>
       </el-container>
@@ -73,6 +81,10 @@ export default {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
+    },
+    slotName: {
+      type: Array,
+      default: null
     }
   }
 

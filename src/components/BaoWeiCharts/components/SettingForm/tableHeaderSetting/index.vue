@@ -28,7 +28,9 @@
                  :default-expand-all="true"
                  @node-click="handleCheckChange"
                  :expand-on-click-node="false"
-                 :render-content="renderContent"></el-tree>
+                 :render-content="renderContent"
+                 :props="defaultProps"
+                 ></el-tree>
       </fieldset>
 
       <span slot="footer"

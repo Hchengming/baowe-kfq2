@@ -18,7 +18,7 @@
         <div v-if="isAdmin||settingForm.moduleType!=='1'"
              class="statistics_title theme-bg-color"
              @mousedown="mousedown_tz">
-          <i v-if="statisticsAll.parentModuleId"
+          <i v-if="statisticsAll.parentModuleId||(settingForm.blankTemplateConfig&&settingForm.blankTemplateConfig.isCloseBtn===true)"
              class="el-icon-close"
              @click="statisticsClose" />
           <div class="box">
@@ -97,7 +97,7 @@
         </div>
         <!-- <div class="statistics-Box"></div> -->
 
-        <div v-loading="!statisticsAll.data&&settingForm.moduleType!=='1'"
+        <div v-loading="!statisticsAll.data&&(settingForm.moduleType==='0'||settingForm.moduleType==='1')"
              class="statistics-content"
              element-loading-text="数据加载中"
              element-loading-spinner="el-icon-loading"
@@ -107,6 +107,11 @@
                  :condition-area-config="statisticsAll.conditionAreaConfig"
                  @whereOtherBtnClick="whereOtherBtnClick"
                  @whereSubmit="whereSubmit" />
+          <!-- 空白模板嵌入 -->
+          <div v-if="settingForm.moduleType==='3'"
+               :style="{'width':'100%','height':boxHeight()+'px'}">
+            <slot :name="settingForm.blankTemplateConfig.slot" />
+          </div>
           <!-- 列表展示 -->
           <list v-if="settingForm.displayMode == 'list'&&isCharts()"
                 :height="boxHeight()"
@@ -146,7 +151,7 @@
           <!-- 详情列表模块组件 -->
           <details-table v-if="settingForm.moduleType==='2'"
                          :label-width="settingForm.destailsTableLabelWidth"
-                         :settingForm="settingForm"
+                         :setting-form="settingForm"
                          :table-data="statisticsAll.data"
                          :height="boxHeight()" />
           <!-- iframe嵌入组件 -->
@@ -331,9 +336,9 @@ export default {
         this.statisticsAll.conditionAreaConfig &&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
-        return this.modelStyle.height - 46 - 42
+        return this.modelStyle.height - 46 - 42 - 10
       } else {
-        return this.modelStyle.height - 46
+        return this.modelStyle.height - 46 - 10
       }
     },
     // 更多按钮点击事件
@@ -373,11 +378,20 @@ export default {
     },
     // 弹窗关闭事件
     statisticsClose () {
-      this.$emit(
-        'statisticsClose',
-        this.statisticsAll.moduleId,
-        this.statisticsAll.parentModuleId
-      )
+      if (this.settingForm.moduleType === '3') {
+        this.$emit(
+          'blankTemplateClose',
+          this.statisticsAll.moduleId
+
+        )
+      } else {
+        this.$emit(
+          'statisticsClose',
+          this.statisticsAll.moduleId,
+          this.statisticsAll.parentModuleId
+        )
+      }
+
     },
     // 模块删除按钮点击事件
     deleteTemplate () {

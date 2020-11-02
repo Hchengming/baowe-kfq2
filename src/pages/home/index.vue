@@ -1,10 +1,15 @@
 <template>
   <div style="height:100%"
        id="charts-system-0a1a33">
+    <!-- slot-name   嵌入模块slot字段名集合 -->
     <bao-wei-charts :setting-config="settingConfig"
+                    :slot-name="['slot']"
                     ref="baoweiCharts"
                     @elementMethods="elementMethods">
-
+      <div slot="slot"
+           style="width:100%;height:100%">
+        哈哈哈哈
+      </div>
     </bao-wei-charts>
 
     <!-- ???? ?? -->

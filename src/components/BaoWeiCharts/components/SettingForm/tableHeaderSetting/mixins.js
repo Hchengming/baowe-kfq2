@@ -1,10 +1,10 @@
 export default {
   data() {
     return {
-      // defaultProps: {
-      //   children: 'children',
-      //   label: 'label'
-      // },
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      },
       tableHeaderConfig: {
         hierarchy: 1,
         headerSetting: [
@@ -24,7 +24,7 @@ export default {
     // 页面显示事件
     show() {
       this.isShow = true
-      if (this.form.tableHeaderConfig) {
+      if (this.form.tableHeaderConfig&&this.form.tableHeaderConfig.headerSetting) {
         this.tableHeaderConfig.hierarchy = this.form.tableHeaderConfig.hierarchy
         this.tableHeaderConfig.headerSetting = this.form.tableHeaderConfig.headerSetting
       }
