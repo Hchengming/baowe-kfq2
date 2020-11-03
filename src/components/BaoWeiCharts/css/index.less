@@ -899,6 +899,42 @@
     }
   }
 }
+.setting-json-show {
+  position: absolute;
+  width: 20px;
+  line-height: 20px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 15px;
+  z-index: 9;
+  cursor: pointer;
+}
+.setting-json-show.setting-json-false {
+  right: 510px;
+  color: red !important;
+}
+/*模块配置json数据展示*/
+.setting-json {
+  height: 100%;
+  width: 500px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #333333;
+  .el-textarea {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    textarea {
+      min-height: 100% !important;
+      background: #1e1e1e;
+      color: #b3ba6e;
+    }
+  }
+}
 
 /*模块配置--参数配置*/
 .param-config-setting {
@@ -1537,7 +1573,7 @@
       .warning {
         color: #e6a23c;
         margin: 0;
-        padding:0
+        padding: 0;
       }
     }
     .top-bar-setting-list {

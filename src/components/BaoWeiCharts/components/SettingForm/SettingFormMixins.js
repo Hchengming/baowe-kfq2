@@ -579,6 +579,7 @@ export const otherMixins = {
       rules: [],
       csData: [],
       deleteKeyIndex: null,
+      settingJsonIsShow: false,
       parentParamsAll: {}, // 父级下钻参数
       defaultData: [
         {
@@ -613,6 +614,18 @@ export const otherMixins = {
     })
   },
   methods: {
+    //配置数据 json展示模块显示事件
+    settingJsonShow() {
+      this.settingJsonIsShow = !this.settingJsonIsShow
+      this.$refs['settingJson'].show(this.settingJsonIsShow)
+    },
+    //通过配置json数据 修改配置数据事件
+    setForm(settingForm) {
+      for(let key in settingForm){
+        this.form[key]=settingForm[key]
+      }
+    
+    },
     //模板类型选择变化事件
     moduleTypeChange() {
       this.form.keyArr = []

@@ -624,6 +624,11 @@
           </el-col>
         </el-row>
       </el-form>
+      <p :class="['setting-json-show','theme-color',{'setting-json-false':settingJsonIsShow}]"
+         @click="settingJsonShow">{{settingJsonIsShow?'配置数据收起':'配置数据展示'}}</p>
+      <setting-json ref='settingJson'
+      @setForm="setForm"
+                    :form="form"></setting-json>
       <span slot="footer"
             class="dialog-footer">
         <el-button size="small"
@@ -647,7 +652,7 @@
   </div>
 </template>
 <script>
-
+import settingJson from './settingJson'
 import JudgePop from '../JudgePop/index.vue'
 import { dragDialog } from '../../utils/mixins.js'
 import {
@@ -661,7 +666,7 @@ import ParamKeyConfig from './ParamKeyConfig/index'
 import TableHeaderSetting from './tableHeaderSetting/index.vue'
 import OperateButtonSetting from './OperateButtonSetting/index.vue'
 export default {
-  components: { JudgePop, ApiChoose, TableHeaderSetting, ParamKeyConfig, OperateButtonSetting },
+  components: { settingJson, JudgePop, ApiChoose, TableHeaderSetting, ParamKeyConfig, OperateButtonSetting },
   mixins: [DetailsTable, dragDialog, otherMixins, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
   props: {

@@ -17,6 +17,7 @@ export default {
         'yAxis.0.axisLabel.fontSize': 10,
         'yAxis.0.axisLabel.interval': 0
       },
+      histogramOptions: {}, //柱状图配置数据
       extend: {},
       chartSettings: {}
     }
@@ -176,6 +177,9 @@ export default {
   mounted() {
     this.setGrid(this.options)
     this.themeConfig()
+
+    //柱状图配置
+    this.setHistogramOptions()
   },
   methods: {
     //图表边距位置设置
@@ -197,8 +201,9 @@ export default {
       }
     },
     //柱状图配置数据
-    histogramOptions() {
-      let options = {
+    setHistogramOptions() {
+      // let options = this.histogramOptions
+      this.histogramOptions = {
         grid: {},
         xAxis: {
           axisLabel: {
@@ -211,10 +216,40 @@ export default {
         'yAxis.0.axisLabel.fontSize': 10,
         'yAxis.0.axisLabel.interval': 0
       }
-      this.setGrid(options)
+      this.setGrid(this.histogramOptions)
+      //悬浮框数据调整
+      //01 获取数值总和
+      this.$nextTick(() => {
+        let total = {}
+        if (!this.chartData.rows) return false
+        this.chartData.rows.forEach(item => {
+          for (let key in item) {
+            let num = Number(item[key])
+            if (num) {
+              total[key] ? (total[key] += num) : (total[key] = num)
+            }
+          }
+        })
+        this.histogramOptions.tooltip = {
+          formatter: function(params) {
+            let res = ''
+
+            params.forEach((item, index) => {
+              let bfb =
+                Math.floor((item.data / total[item.seriesName]) * 10000) / 100
+              if (index === 0) {
+                res = `${item.seriesName}:${item.data}--${bfb}%`
+              } else {
+                res += `<br/>${item.seriesName}:${item.data}--${bfb}%`
+              }
+            })
+            return res
+          }
+        }
+      })
 
       //柱最大宽度设置  顶部数据显示
-      options.series = v => {
+      this.histogramOptions.series = v => {
         if (v && v.length > 0) {
           v.forEach(i => {
             i.barMaxWidth = 50 //最大柱宽
@@ -234,46 +269,15 @@ export default {
         return v
       }
 
-      //悬浮框数据调整
-      //01 获取数值总和
-      this.$nextTick(() => {
-        let total = {}
-        this.chartData.rows.forEach(item => {
-          for (let key in item) {
-            let num = Number(item[key])
-            if (num) {
-              total[key] ? (total[key] += num) : (total[key] = num)
-            }
-          }
-        })
-        options.tooltip = {
-          formatter: function(params) {
-            let res = ''
-
-            params.forEach((item, index) => {
-              let bfb =
-                Math.floor((item.data / total[item.seriesName]) * 10000) / 100
-              if (index === 0) {
-                res = `${item.seriesName}:${item.data}--${bfb}%`
-              } else {
-                res += `<br/>${item.seriesName}:${item.data}--${bfb}%`
-              }
-            })
-            return res
-          }
-        }
-      })
-      return options
+      // return options
     },
     //图表点击事件
     chartClick(e) {
       //柱状图出现点击状态事件
       if (this.chartType === 'histogram') {
-        this.options.xAxis.axisLabel.color = (value, index) => {
+        this.histogramOptions.xAxis.axisLabel.color = (value, index) => {
           return e.dataIndex === index ? '#0091FF' : '#333333'
         }
-      } else {
-        this.options.xAxis.axisLabel.color = '#333333'
       }
     },
     //主题颜色配置

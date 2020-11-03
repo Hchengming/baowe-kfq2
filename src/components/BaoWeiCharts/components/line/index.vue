@@ -25,7 +25,7 @@
                     :data="chartData"
                     :settings="histogramSettings"
                     :height="height+'px'"
-                    :extend="histogramOptions()"
+                    :extend="histogramOptions"
                     :events="chartEvents" />
       <div v-if="chartType=='pie'||chartType=='ring'"
            class="v_chart_pie">
