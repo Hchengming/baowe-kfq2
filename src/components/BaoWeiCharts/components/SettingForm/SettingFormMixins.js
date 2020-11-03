@@ -25,7 +25,6 @@ export const DetailsTable = {
     }
   },
   methods: {
-    
     // 字段新增事件
     detailsTableKeyAdd() {
       if (!this.form.detailsTableAll) {
@@ -88,8 +87,8 @@ export const ChartsMixins = {
     }
   },
   methods: {
-     //多表头配置按钮点击事件
-     tableHeaderSetting(){
+    //多表头配置按钮点击事件
+    tableHeaderSetting() {
       this.$refs['tableHeaderSetting'].show()
     },
     //图表、列表全选按钮控制
@@ -567,6 +566,110 @@ export const iframeMixins = {
         result = '?' + result.slice(1)
       }
       return result
+    }
+  }
+}
+import dataPresentation from './dataPresentation.json'
+export const otherMixins = {
+  data() {
+    return {
+      dialogRef: 'settingFormDialog', // 弹出框refs名
+      dialogVisible: false,
+      options: [],
+      rules: [],
+      csData: [],
+      deleteKeyIndex: null,
+      parentParamsAll: {}, // 父级下钻参数
+      defaultData: [
+        {
+          title: '',
+          num: '',
+          area: '',
+          rowid: '001'
+        }
+      ]
+    }
+  },
+  computed: {
+    // 字段配置宽度列是否显示
+    isWidth() {
+      if (
+        this.form.displayMode === 'list' ||
+        this.form.displayMode === 'table'
+      ) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  mounted() {
+    this.options = []
+    dataPresentation.forEach(item => {
+      this.options.push({
+        value: item.type,
+        label: item.title
+      })
+    })
+  },
+  methods: {
+    //模板类型选择变化事件
+    moduleTypeChange() {
+      this.form.keyArr = []
+      this.form.operateButton = []
+      this.form.paramConfig = []
+      this.form.detailsTableAll = []
+      this.form.tableHeaderConfig = {}
+    },
+    // 高度一键铺满
+    heightMax() {
+      this.form.height = 100
+      this.form.top = 0
+    },
+    // 宽度一键铺满
+    widthMax() {
+      this.form.width = 100
+      this.form.left = 0
+    },
+    // 弹窗关闭事件
+    close() {
+      this.dialogVisible = false
+      // this.$refs['settingForm'].resetFields()
+    },
+    // 弹窗显示事件
+    show(obj) {
+      if (!this.form.blankTemplateConfig) {
+        this.form.blankTemplateConfig = {}
+      }
+      this.dialogVisible = true
+      if (obj) {
+        this.parentParamsAll = obj
+      }
+      // 图表、列表全选按钮控制
+      this.keyChooseAllShow()
+    },
+    // 表单确认事件
+    onSubmit() {
+      this.$emit('submit', this.form)
+    },
+    // 接口名称变化事件
+    urlNameChange(val) {
+      //  console.log(val)
+      this.itemApiData.forEach(item => {
+        if (item.apeName === val) {
+          this.form.url = item.aaaRequestUrl
+          this.form.options = item.method
+        }
+      })
+    },
+    // 接口路径变化事件
+    urlChange(val) {
+      this.itemApiData.forEach(item => {
+        if (item.aaaRequestUrl === val) {
+          this.form.options = item.method
+          this.form.urlName = item.apeName
+        }
+      })
     }
   }
 }

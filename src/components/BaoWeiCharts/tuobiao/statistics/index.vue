@@ -97,7 +97,7 @@
         </div>
         <!-- <div class="statistics-Box"></div> -->
 
-        <div v-loading="!statisticsAll.data&&(settingForm.moduleType==='0'||settingForm.moduleType==='1')"
+        <div v-loading="!statisticsAll.data&&(settingForm.moduleType==='0'||settingForm.moduleType==='2')"
              class="statistics-content"
              element-loading-text="数据加载中"
              element-loading-spinner="el-icon-loading"
@@ -156,7 +156,7 @@
                          :height="boxHeight()" />
           <!-- iframe嵌入组件 -->
           <iframe-model v-if="settingForm.moduleType==='1'"
-                        :height="boxHeight()+42"
+                        :height="boxHeight()+55"
                         :statistics-all="statisticsAll"
                         :iframe-position-all="statisticsAll.iframePositionAll"
                         :iframe-all="settingForm.iframeAll" />

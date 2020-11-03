@@ -1337,6 +1337,8 @@
 }
 .top-bar-setting .el-dialog .top-bar-setting-box .warning {
   color: #e6a23c;
+  margin: 0;
+  padding: 0;
 }
 .top-bar-setting .el-dialog .top-bar-setting-list {
   margin-left: 0;

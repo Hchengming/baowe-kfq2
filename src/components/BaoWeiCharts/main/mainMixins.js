@@ -134,7 +134,9 @@ export default {
           if (data.jsjbxx && data.jsjbxx.replace(/\s*/g, '') !== '') {
             const funcStr = data.jsjbxx
             const test = eval('(false || ' + funcStr + ')')
-            test()
+            if (test) {
+              test()
+            }
           }
         }
       })

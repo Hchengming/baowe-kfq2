@@ -174,28 +174,51 @@ export default {
     }
   },
   mounted() {
-    if (!this.titleShow) {
-      this.$set(this.options, 'grid', {
-        top: 15,
-        left: 5,
-        bottom: 0,
-        right: 5
-      })
-    } else {
-      // console.log('===============')
-      this.$set(this.options, 'grid', {
-        top: 35,
-        left: 5,
-        bottom: 0,
-        right: 5
-      })
-    }
-    //柱状图最大宽度设置
-    if (this.chartType === 'histogram') {
-      this.options.series = v => {
+    this.setGrid(this.options)
+    this.themeConfig()
+  },
+  methods: {
+    //图表边距位置设置
+    setGrid(options) {
+      if (!this.titleShow) {
+        this.$set(options, 'grid', {
+          top: 15,
+          left: 5,
+          bottom: 0,
+          right: 5
+        })
+      } else {
+        this.$set(options, 'grid', {
+          top: 35,
+          left: 5,
+          bottom: 0,
+          right: 5
+        })
+      }
+    },
+    //柱状图配置数据
+    histogramOptions() {
+      let options = {
+        grid: {},
+        xAxis: {
+          axisLabel: {
+            interval: 0,
+            rotate: 25,
+            fontSize: 10,
+            color: '#333333'
+          }
+        },
+        'yAxis.0.axisLabel.fontSize': 10,
+        'yAxis.0.axisLabel.interval': 0
+      }
+      this.setGrid(options)
+
+      //柱最大宽度设置  顶部数据显示
+      options.series = v => {
         if (v && v.length > 0) {
           v.forEach(i => {
-            i.barMaxWidth = 50
+            i.barMaxWidth = 50 //最大柱宽
+            i.barCategoryGap = 5 //柱间距
             i.label = {
               show: true, //开启显示
               position: 'top', //在上方显示
@@ -210,10 +233,38 @@ export default {
 
         return v
       }
-    }
-    this.themeConfig()
-  },
-  methods: {
+
+      //悬浮框数据调整
+      //01 获取数值总和
+      this.$nextTick(() => {
+        let total = {}
+        this.chartData.rows.forEach(item => {
+          for (let key in item) {
+            let num = Number(item[key])
+            if (num) {
+              total[key] ? (total[key] += num) : (total[key] = num)
+            }
+          }
+        })
+        options.tooltip = {
+          formatter: function(params) {
+            let res = ''
+
+            params.forEach((item, index) => {
+              let bfb =
+                Math.floor((item.data / total[item.seriesName]) * 10000) / 100
+              if (index === 0) {
+                res = `${item.seriesName}:${item.data}--${bfb}%`
+              } else {
+                res += `<br/>${item.seriesName}:${item.data}--${bfb}%`
+              }
+            })
+            return res
+          }
+        }
+      })
+      return options
+    },
     //图表点击事件
     chartClick(e) {
       //柱状图出现点击状态事件

@@ -12,3 +12,7 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+
+http.proxy=127.0.0.1:8087
+http.sslVerify=false

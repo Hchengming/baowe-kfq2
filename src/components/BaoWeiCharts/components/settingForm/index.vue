@@ -61,7 +61,8 @@
           <el-col :span="12">
             <el-form-item label="模块内容"
                           prop="moduleType">
-              <el-radio-group v-model="form.moduleType">
+              <el-radio-group v-model="form.moduleType"
+                              @change="moduleTypeChange">
                 <el-radio label="0">图表</el-radio>
                 <el-radio label="1">iframe嵌入</el-radio>
                 <el-radio label="2">详情表格展示</el-radio>
@@ -538,11 +539,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="关闭按钮"
+              <el-form-item label="关闭按钮是否显示"
                             prop="title">
-                <el-switch v-model="form.blankTemplateConfig.isCloseBtn"
-                           active-text="显示"
-                           inactive-text="不显示">
+                <el-switch v-model="form.blankTemplateConfig.isCloseBtn">
+
                 </el-switch>
 
               </el-form-item>
@@ -647,13 +647,14 @@
   </div>
 </template>
 <script>
-import dataPresentation from './dataPresentation.json'
+
 import JudgePop from '../JudgePop/index.vue'
 import { dragDialog } from '../../utils/mixins.js'
 import {
   DetailsTable,
   ChartsMixins,
-  iframeMixins
+  iframeMixins,
+  otherMixins
 } from './SettingFormMixins.js'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
@@ -661,7 +662,7 @@ import TableHeaderSetting from './tableHeaderSetting/index.vue'
 import OperateButtonSetting from './OperateButtonSetting/index.vue'
 export default {
   components: { JudgePop, ApiChoose, TableHeaderSetting, ParamKeyConfig, OperateButtonSetting },
-  mixins: [DetailsTable, dragDialog, ChartsMixins, iframeMixins],
+  mixins: [DetailsTable, dragDialog, otherMixins, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
   props: {
     form: {
@@ -688,99 +689,8 @@ export default {
       type: Array,
       default: null
     }
-  },
-  data () {
-    return {
-      dialogRef: 'settingFormDialog', // 弹出框refs名
-      dialogVisible: false,
-      options: [],
-      rules: [],
-      csData: [],
-      deleteKeyIndex: null,
-      parentParamsAll: {}, // 父级下钻参数
-      defaultData: [
-        {
-          title: '',
-          num: '',
-          area: '',
-          rowid: '001'
-        }
-      ]
-    }
-  },
-  computed: {
-    // 字段配置宽度列是否显示
-    isWidth () {
-      if (
-        this.form.displayMode === 'list' ||
-        this.form.displayMode === 'table'
-      ) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-  mounted () {
-    this.options = []
-    dataPresentation.forEach((item) => {
-      this.options.push({
-        value: item.type,
-        label: item.title
-      })
-    })
-  },
-  methods: {
-    // 高度一键铺满
-    heightMax () {
-      this.form.height = 100
-      this.form.top = 0
-    },
-    // 宽度一键铺满
-    widthMax () {
-      this.form.width = 100
-      this.form.left = 0
-    },
-    // 弹窗关闭事件
-    close () {
-      this.dialogVisible = false
-      // this.$refs['settingForm'].resetFields()
-    },
-    // 弹窗显示事件
-    show (obj) {
-      if (!this.form.blankTemplateConfig) {
-        this.form.blankTemplateConfig = {}
-      }
-      this.dialogVisible = true
-      if (obj) {
-        this.parentParamsAll = obj
-      }
-      // 图表、列表全选按钮控制
-      this.keyChooseAllShow()
-    },
-    // 表单确认事件
-    onSubmit () {
-      this.$emit('submit', this.form)
-    },
-    // 接口名称变化事件
-    urlNameChange (val) {
-      //  console.log(val)
-      this.itemApiData.forEach((item) => {
-        if (item.apeName === val) {
-          this.form.url = item.aaaRequestUrl
-          this.form.options = item.method
-        }
-      })
-    },
-    // 接口路径变化事件
-    urlChange (val) {
-      this.itemApiData.forEach((item) => {
-        if (item.aaaRequestUrl === val) {
-          this.form.options = item.method
-          this.form.urlName = item.apeName
-        }
-      })
-    }
   }
+
+
 }
 </script>
