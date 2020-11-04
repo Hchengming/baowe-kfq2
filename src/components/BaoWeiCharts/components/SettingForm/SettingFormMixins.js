@@ -578,6 +578,7 @@ export const otherMixins = {
       options: [],
       rules: [],
       csData: [],
+      scrollTop: 0,
       deleteKeyIndex: null,
       settingJsonIsShow: false,
       parentParamsAll: {}, // 父级下钻参数
@@ -614,17 +615,31 @@ export const otherMixins = {
     })
   },
   methods: {
-    //配置数据 json展示模块显示事件
-    settingJsonShow() {
-      this.settingJsonIsShow = !this.settingJsonIsShow
-      this.$refs['settingJson'].show(this.settingJsonIsShow)
+    //内容部分下拉事件
+    elDialogBodyScroll() {
+      let _this = this
+      this.$nextTick(() => {
+        let dom = document.querySelector(
+          '#' + this.settingFormId() + ' .el-dialog__body'
+        )
+        dom.onscroll = function(e) {
+          _this.scrollTop = e.target.scrollTop
+          // console.log(this.scrollTop)
+        }
+      })
     },
+    //模块id设置
+    settingFormId() {
+      return this.statisticsAll
+        ? 'settingForm' + this.statisticsAll.moduleId
+        : 'settingForm'
+    },
+  
     //通过配置json数据 修改配置数据事件
     setForm(settingForm) {
-      for(let key in settingForm){
-        this.form[key]=settingForm[key]
+      for (let key in settingForm) {
+        this.form[key] = settingForm[key]
       }
-    
     },
     //模板类型选择变化事件
     moduleTypeChange() {
@@ -658,6 +673,8 @@ export const otherMixins = {
       if (obj) {
         this.parentParamsAll = obj
       }
+      //内容部分下拉事件
+      this.elDialogBodyScroll()
       // 图表、列表全选按钮控制
       this.keyChooseAllShow()
     },

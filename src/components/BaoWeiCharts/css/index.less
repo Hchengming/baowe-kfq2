@@ -732,6 +732,7 @@
   .el-dialog__body {
     max-height: 500px;
     overflow-y: auto;
+    position: relative;
   }
 
   .el-form-item__label {
@@ -899,34 +900,40 @@
     }
   }
 }
-.setting-json-show {
-  position: absolute;
-  width: 20px;
-  line-height: 20px;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 15px;
-  z-index: 9;
-  cursor: pointer;
-}
-.setting-json-show.setting-json-false {
-  right: 510px;
-  color: red !important;
-}
+
 /*模块配置json数据展示*/
 .setting-json {
   height: 100%;
-  width: 500px;
+  
   position: absolute;
   top: 0;
   right: 0;
   z-index: 999;
   border-radius: 5px;
   box-shadow: 0 0 5px #333333;
-  .el-textarea {
+  .setting-json-box {
+    position: relative;
     height: 100%;
     width: 100%;
+    .setting-json-show {
+      position: absolute;
+      width: 20px;
+      line-height: 20px;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      left: -30px;
+      z-index: 9;
+      cursor: pointer;
+    }
+    .setting-json-show.setting-json-false {
+      // right: 510px;
+      color: red !important;
+    }
+  }
+  .el-textarea {
+    height: 100%;
+    width: 500px;
     overflow-y: auto;
     textarea {
       min-height: 100% !important;
@@ -1357,7 +1364,7 @@
     margin-top: 3vh !important;
     margin-bottom: 0;
     .el-dialog__body {
-      max-height: 400px;
+      max-height: 450px;
     }
   }
 

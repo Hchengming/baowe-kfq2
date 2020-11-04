@@ -1,11 +1,21 @@
 <template>
   <div class="setting-json"
-       v-if="isShow">
-    <el-input v-model="settingJson"
-              type="textarea"
-              :rows="18"
-              placeholder="js脚本" />
+       :style="{'top':scrollTop+'px'}">
+    <div class="setting-json-box">
+      <p :class="['setting-json-show','theme-color',{'setting-json-false':isShow}]"
+         :style="{top:`50% + ${scrollTop}px`}"
+         @click="settingJsonShow">{{isShow?'配置数据收起':'配置数据展示'}}</p>
+
+      <el-input v-if="isShow"
+                v-model="settingJson"
+                type="textarea"
+                :rows="18"
+                placeholder="js脚本" />
+
+    </div>
+
   </div>
+
 </template>
 <script>
 export default {
@@ -18,6 +28,10 @@ export default {
   props: {
     form: {
       type: Object,
+      default: null
+    },
+    scrollTop: {
+      type: Number,
       default: null
     }
   },
@@ -38,11 +52,10 @@ export default {
     }
   },
   methods: {
-    //组件显示事件
-    show (offon) {
-      this.isShow = offon;
-      if (offon) this.setSettingJson()
-
+    //配置数据 json展示模块显示事件
+    settingJsonShow () {
+      this.isShow = !this.isShow
+      if (this.isShow) this.setSettingJson()
     },
     setSettingJson () {
       this.settingJson = JSON.stringify(this.form, null, "\t")
