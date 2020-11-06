@@ -457,6 +457,10 @@
 #bw_table .el-pagination {
   margin-top: 5px;
 }
+#bw_list thead .cell,
+#bw_table thead .cell {
+  text-align: center;
+}
 /*list 列表*/
 .bw_list1 {
   border-bottom: 1px solid #f1f1f1;
@@ -1179,12 +1183,14 @@
 @media screen and (max-height: 800px) {
   .settingForm .el-dialog,
   .destail-setting .el-dialog {
-    margin-top: 3vh !important;
     margin-bottom: 0;
   }
   .settingForm .el-dialog .el-dialog__body,
   .destail-setting .el-dialog .el-dialog__body {
     max-height: 450px;
+  }
+  .top-bar-setting .el-dialog {
+    margin-top: 200px !important;
   }
   .QXStatistics .statistics_title .box .t_list,
   .YDGCStatistics .statistics_title .box .t_list {
@@ -1290,13 +1296,13 @@
 .top-bar-wrap:hover .operation {
   display: block;
 }
-.top-bar-wrap .top-bar-box {
+.top-bar-wrap #top-bar-box {
   display: flex;
   width: 100%;
   padding: 0;
   margin: 0;
 }
-.top-bar-wrap .top-bar-box li {
+.top-bar-wrap #top-bar-box li {
   flex: 1;
   margin-left: 5px;
   padding: 5px;
@@ -1307,63 +1313,66 @@
   text-align: center;
   list-style: none;
 }
-.top-bar-wrap .top-bar-box li > .list-box {
+.top-bar-wrap #top-bar-box li > .list-box {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
 }
-.top-bar-wrap .top-bar-box li > .list-box p {
-  padding: 0;
-  margin: 0;
+.top-bar-wrap #top-bar-box li > .list-box p {
   cursor: pointer;
 }
-.top-bar-wrap .top-bar-box li .test {
+.top-bar-wrap #top-bar-box li .test {
   display: flex;
   justify-content: center;
 }
-.top-bar-wrap .top-bar-box li .txt1 {
-  font-size: 16px;
-  margin-bottom: 10px;
+.top-bar-wrap #top-bar-box li .txt1 {
+  font-size: 18px;
+  margin-bottom: 10px !important;
+  font-weight: 700;
 }
-.top-bar-wrap .top-bar-box li .txt2 {
+.top-bar-wrap #top-bar-box li .txt2 {
   font-size: 20px;
   font-weight: 700;
 }
-.top-bar-wrap .top-bar-box li .txt2 .t1 {
+.top-bar-wrap #top-bar-box li .txt2 .t1 {
   font-weight: 500;
 }
-.top-bar-wrap .top-bar-box li .txt2 .t2 {
+.top-bar-wrap #top-bar-box li .txt2 .t2 {
   font-size: 14px;
   font-weight: 500;
 }
-.top-bar-wrap .top-bar-box li .txt3 {
-  font-size: 14px;
-  font-weight: 700;
-  flex: 1;
-  margin-left: 5px;
-  border-left: 1px solid #c1c1c1;
+.top-bar-wrap #top-bar-box li .txt3 {
+  font-size: 16px;
+  margin: 0 6px;
 }
-.top-bar-wrap .top-bar-box li .txt3 .t1 {
+.top-bar-wrap #top-bar-box li .txt3 .t1 {
   font-weight: 500;
 }
-.top-bar-wrap .top-bar-box li .txt3 .t2 {
+.top-bar-wrap #top-bar-box li .txt3 .t2 {
   font-size: 12px;
   font-weight: 500;
 }
-.top-bar-wrap .top-bar-box li .txt3:first-child {
+.top-bar-wrap #top-bar-box li .txt3 .t3 {
+  display: block;
+}
+.top-bar-wrap #top-bar-box li .txt3:first-child {
   margin-left: 0;
   border: none;
 }
-.top-bar-wrap .top-bar-box li:nth-child(2n) {
+.top-bar-wrap #top-bar-box li .list-box.list-box-2 .txt1 {
+  text-align: left;
+}
+.top-bar-wrap #top-bar-box li:nth-child(2n) {
   background: url(../images/u772.png);
   background-size: 100% 100%;
 }
-.top-bar-wrap .top-bar-box li:first-child {
+.top-bar-wrap #top-bar-box li:first-child {
   margin-left: 0;
 }
 /*顶部栏编辑弹窗样式*/
 .top-bar-setting .el-dialog {
   width: 1200px;
+  margin-top: 200px;
 }
 .top-bar-setting .el-dialog .el-form {
   display: block;

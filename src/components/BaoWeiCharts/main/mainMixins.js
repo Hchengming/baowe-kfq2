@@ -22,10 +22,6 @@ export default {
     }
   },
   methods: {
-    //图表渲染数据改变事件
-    changeChartsData(fn) {
-      this.$refs['myPage'].changeChartsData(fn)
-    },
     //菜单配置按钮点击事件
     menuSettingClick(menuItem) {
       this.menuSetting.menuId = menuItem.menuId
@@ -130,7 +126,7 @@ export default {
     //菜单点击后js脚本执行
     menuJS(menuId) {
       this.queryMenuSetting(menuId, data => {
-        if (data.length !== 0) {
+        if (data) {
           if (data.jsjbxx && data.jsjbxx.replace(/\s*/g, '') !== '') {
             const funcStr = data.jsjbxx
             const test = eval('(false || ' + funcStr + ')')

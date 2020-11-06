@@ -26,6 +26,7 @@
              ref="topBar"
              :item-api-data="itemApiData"
              :top-bar-all="topBarAll"
+             :setting-config="settingConfig"
              @delete="topBarDelete"
              @update="topBarUpdate"
              @topBarClick="topBarClick" />
@@ -72,7 +73,7 @@ import middleware from '../../tuobiao/middleware/index'
 import assembly from './assembly'
 import MenuSetting from '../../components/MenuSetting'
 /* 顶部栏导入 */
-import TopBar from '../../components/TopBar'
+import TopBar from '../../components/TopBar@2.0'
 import TopBarSetting from '../../components/TopBarSetting'
 import topBarMixins from './mixins/topBarMixins.js'
 /* ====end==== */
@@ -115,10 +116,6 @@ export default {
     }
   },
   methods: {
-    //图表渲染数据改变事件
-    changeChartsData (fn) {
-      this.$refs['middleware'].changeChartsData(fn)
-    },
     setPageLoding (offon) {
       // console.log(offon)
       this.pageLoading = offon

@@ -87,7 +87,7 @@
           <div v-if="!form.moduleType||form.moduleType==='0'"
                class="content-dy-box">
             <el-row>
-              <el-col :span="12">
+              <el-col :span="8">
                 <el-form-item label="图表展现方式"
                               prop="displayMode">
                   <el-select v-model="form.displayMode"
@@ -108,6 +108,16 @@
                                   @change="submoduleChange">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8"
+                      v-if="[ 'histogram', 'bar'].indexOf(form.displayMode)>-1">
+                <el-form-item label="图形显示"
+                              prop="titleShow">
+                  <el-radio-group v-model="form.barHisShowType">
+                    <el-radio label="0">默认</el-radio>
+                    <el-radio label="1">堆叠图</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -605,12 +615,18 @@
           </el-row>
           <el-row type="flex"
                   class="row-bg">
-            <el-col :span="12">
+            <el-col :span="4">
               <el-form-item label="视图层级"
                             prop="zindex">
                 <el-input v-model="form.zindex"
                           size="small"
                           placeholder="若模块重叠,低层级模块会被高层级覆盖" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="是否启用拖拽功能"
+                            prop="isDrafting">
+                <el-switch v-model="form.isDrafting"></el-switch>
               </el-form-item>
             </el-col>
           </el-row>

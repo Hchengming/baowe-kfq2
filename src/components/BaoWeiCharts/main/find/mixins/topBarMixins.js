@@ -180,12 +180,12 @@ export default {
         })
     },
     // 顶部菜单点击事件
-    topBarClick(item, key) {
+    topBarClick(item, obj) {
       this.elementMethods({
         name: '顶部菜单点击事件',
         methodsName: 'topBarClick',
         item,
-        key
+        obj
       })
     }
   }

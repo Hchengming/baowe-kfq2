@@ -673,6 +673,7 @@ export const otherMixins = {
       if (obj) {
         this.parentParamsAll = obj
       }
+      this.form.isDrafting=this.form.isDrafting?true:false
       //内容部分下拉事件
       this.elDialogBodyScroll()
       // 图表、列表全选按钮控制

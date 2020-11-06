@@ -46,7 +46,10 @@
                   v-if="form.bgType==='2'">
             <el-form-item label="背景字段"
                           prop="bgKey">
-              <el-select v-model="form.bgKey"
+                           <el-input v-model="form.bgKey"
+                        size="small"
+                        placeholder="背景颜色字段" />
+              <!-- <el-select v-model="form.bgKey"
                          size="small"
                          placeholder="背景使用字段选择">
                 <el-option v-for="item in topBarSettingData"
@@ -54,7 +57,7 @@
                            :label="item.key"
                            :value="item.key"></el-option>
 
-              </el-select>
+              </el-select> -->
             </el-form-item>
           </el-col>
         </el-row>
@@ -62,7 +65,8 @@
         <api-choose :item-api-data="itemApiData"
                     :form="form" />
         <!-- 接口参数、字段配置             -->
-        <param-key-config :item-api-data="itemApiData"
+        <param-key-config v-show="false"
+                          :item-api-data="itemApiData"
                           :form="form">
           <div slot="keys"
                class="top-bar-setting-box">

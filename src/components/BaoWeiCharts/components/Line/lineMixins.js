@@ -129,10 +129,16 @@ export default {
       })
       return arr
     },
+    //条形图配置
+    barSettings() {
+      const obj = {}
+      this.chartStacking(obj)
+      return obj
+    },
     // 柱状图配置
     histogramSettings() {
       const obj = {}
-
+      this.chartStacking(obj)
       return obj
     },
     // 饼图配置
@@ -177,11 +183,27 @@ export default {
   mounted() {
     this.setGrid(this.options)
     this.themeConfig()
-
     //柱状图配置
     this.setHistogramOptions()
   },
   methods: {
+    //条形图、柱状图堆叠配置
+    chartStacking(obj) {
+      if (
+        this.settingForm.barHisShowType === '1' &&
+        this.chartData &&
+        this.chartData.columns.length > 0
+      ) {
+        obj.stack = {
+          合集: []
+        }
+        this.chartData.columns.forEach((item, index) => {
+          if (index > 0) {
+            obj.stack['合集'].push(item)
+          }
+        })
+      }
+    },
     //图表边距位置设置
     setGrid(options) {
       if (!this.titleShow) {
@@ -249,27 +271,19 @@ export default {
       })
 
       //柱最大宽度设置  顶部数据显示
-      this.histogramOptions.series = v => {
-        if (v && v.length > 0) {
-          v.forEach(i => {
-            i.barMaxWidth = 50 //最大柱宽
-            i.barCategoryGap = 5 //柱间距
-            i.label = {
-              show: true, //开启显示
-              position: 'top', //在上方显示
-              textStyle: {
-                //数值样式
-                color: 'black',
-                fontSize: 12
-              }
-            }
-          })
+      this.histogramOptions.series = {
+        barMaxWidth: 50, //最大柱宽
+        barCategoryGap: 10, //柱间距
+        label: {
+          show: true, //开启显示
+          position: 'top', //在上方显示
+          textStyle: {
+            //数值样式
+            color: 'black',
+            fontSize: 12
+          }
         }
-
-        return v
       }
-
-      // return options
     },
     //图表点击事件
     chartClick(e) {

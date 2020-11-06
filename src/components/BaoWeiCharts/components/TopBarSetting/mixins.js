@@ -8,7 +8,7 @@ export default {
         url: '',
         urlName: '',
         options: 'GET',
-        bgKey: '', //背景使用字段   bgType=2 使用
+        bgKey: 'bgcolor', //背景使用字段   bgType=2 使用
         bgType: '2', //背景类型选择  0：单色调 1：双色调 2：自定义
         bg1: '', //背景一 bgType=0或bgType=1 使用
         bg2: '', //背景二  bgType=1 使用
@@ -50,7 +50,7 @@ export default {
           url: '',
           urlName: '',
           height: 16,
-          bgKey: '',
+          bgKey: 'bgcolor',
           bgType: '2', //背景类型选择  0：单色调 1：双色调 2：自定义
           bg1: '', //背景一
           bg2: '', //背景二

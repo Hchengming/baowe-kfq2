@@ -7,7 +7,7 @@
       <ve-bar v-if="chartType=='bar'"
               :legend-visible="titleShow"
               :data="chartData"
-              :settings="chartSettings"
+              :settings="barSettings"
               :height="height+'px'"
               :extend="options"
               :events="chartEvents" />
@@ -103,6 +103,10 @@ export default {
       default: null
     },
     settingConfig: {
+      type: Object,
+      default: null
+    },
+    settingForm: {
       type: Object,
       default: null
     }

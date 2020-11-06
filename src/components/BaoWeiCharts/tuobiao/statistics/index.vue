@@ -4,7 +4,8 @@
          class="statisticsMask"
          :style="{ 'z-index': settingForm.zindex }"
          @click="statisticsClose" />
-    <article :ref="'statisticsWrap'"
+    <article v-show="statisticsAll.isShow!==false"
+             :ref="'statisticsWrap'"
              :style="{
         height: modelStyle.height + 'px',
         width: modelStyle.width + 'px',
@@ -145,6 +146,7 @@
                    :title-show="settingForm.titleShow==='1'?true:false"
                    :settingConfig="settingConfig"
                    :chart-type="settingForm.displayMode"
+                   :settingForm="settingForm"
                    :height="boxHeight()"
                    @eventClick="eventClick" />
           <!-- <slot name="otherBox"></slot> -->

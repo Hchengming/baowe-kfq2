@@ -103,6 +103,7 @@ export default {
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
         moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示 3：空白模板
+        barHisShowType: "0",//条形图、柱状图显示类型  0：默认  1：堆叠显示
         moduleCode: "",//模板编码  当前模板唯一编码
         blankTemplateConfig: {//空白模板配置项
           slot: "",//slot嵌入字段
@@ -144,7 +145,8 @@ export default {
         isPage: '0', // 数据是否添加分页
         mask: '0', // 是否添加遮罩层
         pageSize: 10, // 每页显示数据条数
-        isDestail: '0' // 是否添加详情弹窗
+        isDestail: '0', // 是否添加详情弹窗
+        isDrafting: false//是否给用户启用模块拖拽功能
       },
       addSettingFormClone: {}
     }
@@ -209,11 +211,14 @@ export default {
     },
     //自定义空白模板关闭事件
     blankTemplateClose (moduleId) {
-      this.pageData.forEach((item, index) => {
+      // const datas = []
+      this.pageData.forEach((item) => {
         if (item.moduleId === moduleId) {
-          this.pageData.splice(index, 1)
+          this.$set(item, 'isShow', false)
+          // item.isShow=false;
         }
       })
+      //  this.pageData = datas
     },
     // 表格分页点击事件
     tablePageSort (moduleId, paginationAll, whereForm) {
@@ -344,6 +349,12 @@ export default {
               if (item.contentAreaConfig.moduleType !== '1') {
                 this.getTableData(obj, defaultReqData, item)
               }
+            })
+            this.chartsMethods({
+              methodsName: 'getPageData',
+              name: '页面模块渲染数据加载完成事件',
+              data: this.pageData,
+              menuId: this.menuId
             })
           }
           this.pageLoding(false)

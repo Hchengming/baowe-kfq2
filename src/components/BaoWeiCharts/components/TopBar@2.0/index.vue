@@ -2,7 +2,7 @@
   <div class="top-bar-wrap">
     <div class="operation">
       <i class="iconfont iconxiugai theme-color"
-        v-if="settingConfig.systemPermissions==='admin'"
+         v-if="settingConfig.systemPermissions==='admin'"
          @click="emit" />
       <el-popconfirm icon="el-icon-info"
                      class="delete-template-popconfirm"
@@ -11,26 +11,28 @@
                      @onConfirm="deleteTemplate">
         <i slot="reference"
            title="删除"
-            v-if="settingConfig.systemPermissions==='admin'"
+           v-if="settingConfig.systemPermissions==='admin'"
            class="el-icon-delete" />
       </el-popconfirm>
     </div>
     <ul id="top-bar-box">
-      <li v-for="(data,indexs) in topBarData"
-          :style="{height:liHeight(),'background':listBackground(data,indexs)}"
+      <li v-for="(obj,indexs) in topBarAll.data"
+          :style="{height:liHeight(),'background':listBackground(obj,indexs)}"
           :key="indexs">
-        <div :class="['list-box',{'list-box-2':data.length>2}]">
+        <div :class="['list-box',{'list-box-2':obj.data.length>1}]">
           <p class="txt1"
-             @click="topBarClick(data,data[0].key)">{{ nowlabel(data[0]) }}{{ data[0].value }}<span>{{ nowDW(data[0]) }}</span></p>
+             @click="topBarClick(obj,{'title':obj.title})">{{obj.title}}</p>
           <div class="test">
-            <p v-for="(item,index) in nowData(data)"
+            <p v-for="(item,index) in obj.data"
                :key="index"
-               @click="topBarClick(data,item.key)"
-               :class="[data.length>2?'txt3':'txt2']"><span v-show="data.length<=2"
+               @click="topBarClick(item,{[item.key]:item.value})"
+               :class="[obj.data.length>1?'txt3':'txt2']">
+              <!-- <span v-show="obj.data.length<=1"
                     class="t1"
-                    v-html="nowlabel(item)" />{{ item.value }}<span class="t2">{{ nowDW(item) }}</span><span v-show="data.length>2"
+                    v-html="item.label" /> -->
+              {{ item.value }}<span class="t2">{{ item.dw }}</span><span v-show="obj.data.length>1"
                     class="t3"
-                    v-html="nowlabel(item)" /></p>
+                    v-html="item.label" /></p>
           </div>
         </div>
       </li>
@@ -65,36 +67,9 @@ export default {
 
     }
   },
-  computed: {
-    topBarData () {
-      const data = []
-      if (this.topBarAll.data.length > 0 && this.topBarAll.configData.length > 0) {
-        this.topBarAll.data.forEach(items => {
-          const data01 = []
-
-          this.topBarAll.configData.forEach(item => {
-            for (const key in items) {
-              if (key === item.key) {
-                data01.push({
-                  key: key,
-                  value: items[key],
-                  dw: item.dw ? item.dw : '',
-                  label: item.label ? item.label : ''
-                })
-              }
-            }
-          })
-
-          data.push(data01)
-        })
-      }
-      // console.log(this.topBarAll)
-      return data
-    }
-  },
   methods: {
     //背景颜色设置
-    listBackground (data, index) {
+    listBackground (obj, index) {
       let form = this.topBarAll.form;
       let bgColor = '';
       switch (form.bgType) {
@@ -105,11 +80,8 @@ export default {
           bgColor = index % 2 === 0 ? form.bg1 : form.bg2;
           break;
         case '2':
-          data.forEach(item => {
-            if (item.key === form.bgKey) {
-              bgColor = item.value
-            }
-          })
+        bgColor=obj[form.bgKey]
+         
           break;
         default:
           bgColor = undefined
@@ -127,32 +99,6 @@ export default {
       }
       return liHeight
     },
-    // 数据整理，减去第一条数据
-    nowData (data) {
-      const datas = JSON.parse(JSON.stringify(data))
-      datas.splice(0, 1)
-      return datas
-    },
-    // 单位
-    nowDW (item) {
-      if (item.dw) {
-        return `(${item.dw})`
-      } else {
-        return ''
-      }
-    },
-    // 标签
-    nowlabel (item) {
-      if (item.label) {
-        return item.label + '<br/>'
-      } else {
-        return ''
-      }
-    },
-    // 模块占比
-    // nowSpan(index){
-    //    if(index==)
-    // },
     // 顶部栏删除事件
     deleteTemplate () {
       this.$emit('delete')
@@ -166,8 +112,8 @@ export default {
       this.$emit('update', topBarSettingData, fn)
     },
     // 顶部菜单点击事件
-    topBarClick (item, key) {
-      this.$emit('topBarClick', item, key)
+    topBarClick (item, obj) {
+      this.$emit('topBarClick', item, obj)
     }
   }
 }

@@ -513,6 +513,7 @@
     padding: 0;
     height: 26px;
     line-height: 26px;
+    
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -522,6 +523,9 @@
 #bw_table {
   .el-pagination {
     margin-top: 5px;
+  }
+  thead .cell{
+    text-align: center;
   }
 }
 
@@ -904,7 +908,7 @@
 /*模块配置json数据展示*/
 .setting-json {
   height: 100%;
-  
+
   position: absolute;
   top: 0;
   right: 0;
@@ -1358,16 +1362,14 @@
 @media screen and (max-height: 800px) {
   .settingForm .el-dialog,
   .destail-setting .el-dialog {
-    // margin-top: 5vh !important;
-    // top: 50%;
-    // transform: translateY(-50%);
-    margin-top: 3vh !important;
     margin-bottom: 0;
     .el-dialog__body {
       max-height: 450px;
     }
   }
-
+  .top-bar-setting .el-dialog {
+    margin-top: 200px !important;
+  }
   .QXStatistics,
   .YDGCStatistics {
     .statistics_title .box .t_list {
@@ -1487,7 +1489,7 @@
   &:hover .operation {
     display: block;
   }
-  .top-bar-box {
+  #top-bar-box {
     display: flex;
     width: 100%;
     padding: 0;
@@ -1508,8 +1510,8 @@
         top: 50%;
         transform: translateY(-50%);
         p {
-          padding: 0;
-          margin: 0;
+          // padding: 0;
+          // margin: 0;
           cursor: pointer;
         }
       }
@@ -1518,8 +1520,9 @@
         justify-content: center;
       }
       .txt1 {
-        font-size: 16px;
-        margin-bottom: 10px;
+        font-size: 18px;
+        margin-bottom: 10px !important;
+        font-weight: 700;
       }
       .txt2 {
         font-size: 20px;
@@ -1533,11 +1536,12 @@
         }
       }
       .txt3 {
-        font-size: 14px;
-        font-weight: 700;
-        flex: 1;
-        margin-left: 5px;
-        border-left: 1px solid @border;
+        font-size: 16px;
+        // font-weight: 700;
+        // flex: 1;
+        margin: 0 6px;
+
+        // border-left: 1px solid @border;
         .t1 {
           font-weight: 500;
         }
@@ -1545,10 +1549,19 @@
           font-size: 12px;
           font-weight: 500;
         }
+        .t3 {
+          display: block;
+        }
       }
       .txt3:first-child {
         margin-left: 0;
         border: none;
+      }
+      .list-box.list-box-2 {
+        .txt1 {
+          text-align: left;
+          // margin-bottom: 10px !important;
+        }
       }
     }
     li:nth-child(2n) {
@@ -1565,6 +1578,7 @@
 .top-bar-setting {
   .el-dialog {
     width: 1200px;
+    margin-top: 200px;
     .el-form {
       display: block;
       width: 100%;

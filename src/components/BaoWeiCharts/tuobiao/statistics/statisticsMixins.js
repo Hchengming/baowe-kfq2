@@ -79,7 +79,7 @@ export const dataMixins = {
       } else {
         this.settingForm.top = this.modelStyle.top
       }
-      console.log(this.modelStyle.height, this.settingForm.top)
+      // console.log(this.modelStyle.height, this.settingForm.top)
       this.settingForm.left =
         (this.modelStyle.left / this.mainStyle.width) * 100
     },
@@ -100,9 +100,10 @@ export const dataMixins = {
       var mousedownTzZx = null
       this.cursor = ''
       clearTimeout(timer)
+      console.log(this.settingForm.isDrafting)
       timer = setTimeout(() => {
         // 权限控制
-        if (this.isAdmin) {
+        if (this.isAdmin||this.settingForm.isDrafting===true) {
           mousedownTzZx(e)
           this.cursor = 'move'
         }
@@ -146,7 +147,7 @@ export const dataMixins = {
         this.onmouseup = null
         clearTimeout(timer)
         // console.log('onmouseup')
-        if (_this.cursor === 'move') {
+        if (_this.cursor === 'move'&&_this.isAdmin) {
           _this.TZLSKeep()
         }
         _this.cursor = ''
@@ -227,6 +228,7 @@ export const dataMixins = {
     },
     // 模块拖拽拉伸后保存事件
     TZLSKeep() {
+      
       this.$emit(
         'updateMoule',
         this.settingForm,
