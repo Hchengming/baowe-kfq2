@@ -276,7 +276,7 @@ export default {
   data () {
     return {
       statisticsShow: true,
-      bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line'],
+      bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line', 'radar'],
       typeData: dataPresentation,
       chooseHover: null
       // parentWhereFormUse:{}//父级筛选条件可传入子级条件筛选

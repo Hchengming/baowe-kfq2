@@ -19,6 +19,14 @@
                :settings="chartSettings"
                :height="height+'px'"
                :events="chartEvents" />
+      <!-- 雷达图 -->
+      <ve-radar v-if="chartType=='radar'"
+                :legend-visible="titleShow"
+                :extend="options"
+                :data="chartData"
+                :settings="chartSettings"
+                :height="height+'px'"
+                :events="chartEvents" />
       <!-- 柱状图展示 -->
       <ve-histogram v-if="chartType=='histogram'"
                     :legend-visible="titleShow"

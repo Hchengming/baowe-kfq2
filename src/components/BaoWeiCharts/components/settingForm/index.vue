@@ -101,7 +101,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8"
-                      v-if="['pie', 'ring', 'histogram', 'bar', 'line'].indexOf(form.displayMode)>-1">
+                      v-if="['histogram', 'bar', 'line','radar'].indexOf(form.displayMode)>-1">
                 <el-form-item label="图表头部切换显示"
                               prop="titleShow">
                   <el-radio-group v-model="form.titleShow"
