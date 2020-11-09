@@ -9,7 +9,7 @@
               :data="chartData"
               :settings="barSettings"
               :height="height+'px'"
-              :extend="options"
+              :extend="barOptions"
               :events="chartEvents" />
       <!-- 折线图展示 -->
       <ve-line v-if="chartType=='line'"

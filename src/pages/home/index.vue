@@ -134,4 +134,12 @@ $--color-primary: #0091ff;
   top: 0;
   left: 0;
 }
+.el-button--primary{
+ background-color: #{$--color-primary};
+  border-color: #{$--color-primary};
+}
+.el-button--primary:focus,.el-button--primary:hover{
+  background-color: #{$--color-primary}bd;
+  border-color: #{$--color-primary}bd;
+}
 </style>

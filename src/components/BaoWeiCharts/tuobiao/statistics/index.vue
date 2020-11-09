@@ -14,7 +14,8 @@
         cursor:cursor,
         'z-index': settingForm.zindex
       }"
-             :class="['statisticsWrap', 'statisticsWrapCase2',{'iframe-statistics-wrap':settingForm.moduleType==='1'}]">
+             :class="['statisticsWrap', 'statisticsWrapCase2',{'statisticsWrapCase3':settingForm.moduleType==='3'},
+             {'iframe-statistics-wrap':settingForm.moduleType==='1'}]">
       <div class="statisticsBox">
         <div v-if="isAdmin||settingForm.moduleType!=='1'"
              class="statistics_title theme-bg-color"
@@ -338,9 +339,9 @@ export default {
         this.statisticsAll.conditionAreaConfig &&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
-        return this.modelStyle.height - 46 - 42 - 10
+        return this.modelStyle.height - 46 - 42 -10
       } else {
-        return this.modelStyle.height - 46 - 10
+        return this.modelStyle.height - 46
       }
     },
     // 更多按钮点击事件
