@@ -103,7 +103,7 @@ export default {
               修改
             </el-button>
             <el-popconfirm
-              on-onConfirm={() => this.remove(node, data)}
+              on-confirm={() => this.remove(node, data)}
               title='这是一段内容确定删除吗？'
             >
               <el-button

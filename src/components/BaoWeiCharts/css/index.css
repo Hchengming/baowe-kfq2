@@ -155,7 +155,6 @@
 }
 .KFQ_wrap .el-aside .el-menu-item.is-active {
   color: white;
-  background-color: #0083e6;
 }
 .KFQ_wrap .el-aside .el-menu-item:hover,
 .KFQ_wrap .el-aside .el-menu-item:focus {
@@ -1318,12 +1317,12 @@
   background: url(../images/bg.png);
   background-size: 100% 100%;
 }
-.top-bar-wrap #top-bar-box li > .list-box {
+.top-bar-wrap #top-bar-box li .list-box {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
 }
-.top-bar-wrap #top-bar-box li > .list-box p {
+.top-bar-wrap #top-bar-box li .list-box p {
   cursor: pointer;
 }
 .top-bar-wrap #top-bar-box li .test {

@@ -11,7 +11,7 @@
         class="delete-template-popconfirm"
         icon-color="red"
         title="确认删除顶部栏？"
-        @onConfirm="deleteTemplate"
+        @confirm="deleteTemplate"
       >
         <i
           slot="reference"

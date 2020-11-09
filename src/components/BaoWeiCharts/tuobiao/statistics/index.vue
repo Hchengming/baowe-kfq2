@@ -55,7 +55,7 @@
                              class="copy-template-popconfirm"
                              icon-color="#8E9298"
                              title="是否克隆当前模块"
-                             @onConfirm="copyTemplate">
+                             @confirm="copyTemplate">
                 <i slot="reference"
                    title="克隆"
                    class="iconfont iconkelong" />
@@ -65,7 +65,7 @@
                              class="delete-template-popconfirm"
                              icon-color="red"
                              :title="deleteTitle"
-                             @onConfirm="deleteTemplate">
+                             @confirm="deleteTemplate">
                 <i slot="reference"
                    title="删除"
                    class="el-icon-delete" />

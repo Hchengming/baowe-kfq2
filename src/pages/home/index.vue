@@ -104,7 +104,7 @@ body {
 }
 // @import '@/styles/element-variables.scss';
 // @import "./system.scss";
-$--color-primary: #0091ff;
+$--color-primary: #0A1A33;
 .theme-color {
   color: $--color-primary !important;
 }
@@ -141,5 +141,19 @@ $--color-primary: #0091ff;
 .el-button--primary:focus,.el-button--primary:hover{
   background-color: #{$--color-primary}bd;
   border-color: #{$--color-primary}bd;
+}
+.el-radio__input.is-checked .el-radio__inner{
+  border-color: $--color-primary;
+  background: $--color-primary;
+}
+.el-radio__input.is-checked+.el-radio__label{
+  color: $--color-primary;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background-color:$--color-primary;
+    border-color:$--color-primary;
+}
+.el-dropdown .el-dropdown__caret-button.el-button--default::before {
+  background: rgba(220, 223, 230, .5)
 }
 </style>

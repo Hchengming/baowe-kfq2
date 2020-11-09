@@ -209,7 +209,7 @@ export default {
         },
         //图表边距位置设置
         setGrid(options) {
-            console.log(this.titleShow)
+            // console.log(this.titleShow)
             if (!this.titleShow) {
                 this.$set(options, 'grid', {
                     top: 15,
@@ -230,7 +230,6 @@ export default {
         setBarOptions() {
             this.barOptions = {
                 grid: {},
-
                 xAxis: {
                     axisLabel: {
                         interval: 0,
@@ -246,19 +245,22 @@ export default {
                     }
                 }]
             }
-            this.setGrid(this.barOptions)
 
+            this.setGrid(this.barOptions)
+                // this.$nextTick(() => {
+                //     this.barOptions.series = {
+                //         barMaxWidth: 50, //最大柱宽
+                //         barCategoryGap: 5, //柱间距
+                //         barGap: 0,
+                //     }
+                // })
         },
         //柱状图配置数据
         setHistogramOptions() {
             // let options = this.histogramOptions
             this.histogramOptions = {
                 grid: {},
-                series: {
-                    barMaxWidth: 50, //最大柱宽
-                    barCategoryGap: 5, //柱间距
-                    barGap: 0,
-                },
+
                 xAxis: {
                     axisLabel: {
                         interval: 0,
