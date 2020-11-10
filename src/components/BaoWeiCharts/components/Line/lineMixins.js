@@ -208,7 +208,7 @@ export default {
             }
         },
         //图表边距位置设置
-        setGrid(options) {
+        setGridsetGrid(options) {
             // console.log(this.titleShow)
             if (!this.titleShow) {
                 this.$set(options, 'grid', {
@@ -247,13 +247,14 @@ export default {
             }
 
             this.setGrid(this.barOptions)
-                // this.$nextTick(() => {
-                //     this.barOptions.series = {
-                //         barMaxWidth: 50, //最大柱宽
-                //         barCategoryGap: 5, //柱间距
-                //         barGap: 0,
-                //     }
-                // })
+            this.$nextTick(() => {
+                this.barOptions.series = {
+                    type: 'bar', //增加type字段
+                    barMaxWidth: 50, //最大柱宽
+                    barCategoryGap: 5, //柱间距
+                    barGap: 0,
+                }
+            })
         },
         //柱状图配置数据
         setHistogramOptions() {
@@ -312,6 +313,7 @@ export default {
                     barMaxWidth: 50, //最大柱宽
                     barCategoryGap: 5, //柱间距
                     barGap: 0,
+                    type: 'histogram', //增加type字段
                     label: {
                         show: this.settingForm.barHisShowType === '1' ? false : true, //开启显示
                         position: 'top', //在上方显示

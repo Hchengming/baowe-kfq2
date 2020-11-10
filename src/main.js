@@ -14,13 +14,18 @@ Vue.config.productionTip = false
 Vue.use(VCharts)
 
 
+// 引入echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
+
 import elDragDialog from './directive/el-drag-dialog/index'
 // 全局注册可拖动Dialog指令
 Vue.use(elDragDialog)
-/* eslint-disable no-new */
+    /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
 })
