@@ -19,6 +19,16 @@ export default {
         _this = this
     },
     methods: {
+        setOptions(options, chartType, data, moduleId) {
+            this.chartsMethods({
+                methodsName: 'setOptions',
+                name: '图表配置外层定制化事件',
+                options,
+                chartType,
+                data,
+                moduleId
+            })
+        },
         // 监听屏幕变化事件
         resize() {
             _this.browserXY.width = window.innerWidth

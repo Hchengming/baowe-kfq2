@@ -264,6 +264,9 @@
                       <el-checkbox v-model="chartsKeyAll"
                                    @change="ChartskeyChooseChange" />
                     </span>
+                     <span class="hTxt83 hTxt" v-if="form.moduleType==='0'&&['bar','histogram'].indexOf(form.displayMode)>-1">
+                      柱背景颜色  
+                    </span>
                     <span class="hTxt82 hTxt">图表标题字段</span>
                     <!-- <span class="hTxt5 hTxt" v-if="form.clickToShow=='cell'">下钻关联字段</span> -->
                     <span class="hTxt6 hTxt icons">
@@ -322,12 +325,20 @@
                       <el-checkbox v-model="item.ischartsShow"
                                    :disabled="item.key==='operationButton'" />
                     </span>
+                    <!-- 柱背景颜色 -->
+                     <span class="hTxt83 hTxt" v-if="form.moduleType==='0'&&['bar','histogram'].indexOf(form.displayMode)>-1">
+                      <el-input v-model="item.zBgColor"
+                                size="mini"
+                                placeholder="背景颜色"
+                                :disabled="item.key==='operationButton'"  />
+                    </span>
                     <!-- 图表标题字段 -->
                     <span class="hTxt82 hTxt">
                       <el-checkbox v-model="item.ischartsTitle"
                                    :disabled="item.key==='operationButton'"
                                    @change="chartsTitleChange(item.key)" />
                     </span>
+                    
                     <span class="icons hTxt6 hTxt">
                       <i class="el-icon-circle-plus-outline theme-color"
                          @click="keyAdd(index)" />

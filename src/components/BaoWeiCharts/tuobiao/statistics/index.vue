@@ -149,6 +149,7 @@
                    :chart-type="settingForm.displayMode"
                    :settingForm="settingForm"
                    :height="boxHeight()"
+                   @setOptions="setOptions"
                    @eventClick="eventClick" />
           <!-- <slot name="otherBox"></slot> -->
           <!-- 详情列表模块组件 -->
@@ -460,6 +461,10 @@ export default {
           })
         }
       })
+    },
+    //图表配置数据暴露，外层定制化
+    setOptions(options,chartType,data){
+           this.$emit('setOptions',options,chartType,data,this.statisticsAll.moduleId)
     }
   }
 }

@@ -16,6 +16,7 @@
          @whereOtherBtnClick   查询模块其他按钮点击事件
          @statisticsMore  头部右侧更多按钮点击事件
          @operateButtonClick  表格、列表右侧其他按钮点击事件
+         @setOptions    图表配置数据暴露，外层定制化配置事件
     -->
     <section v-for="(item, index) in pageData"
              :key="index">
@@ -27,6 +28,7 @@
                   :item-api-data="itemApiData"
                   :data-view-list="dataViewList"
                   :system-permissions="settingConfig.systemPermissions"
+                  @setOptions="setOptions"
                   @firstAddKeep="addKeep"
                   @deleteMoule="deleteMoule"
                   @rowClick="rowClick"

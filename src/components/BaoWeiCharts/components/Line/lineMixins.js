@@ -46,7 +46,7 @@ export default {
                 arr.splice(nums, 1)
                 arr.splice(0, 0, obj)
             }
-            // console.log(arr)
+            console.log(arr)
             return arr
         },
         chartEvents() {
@@ -67,17 +67,21 @@ export default {
                 const dw = item.dw ? `(${item.dw})` : ''
                 chartData.columns.push(item.explain + dw)
             })
+
             chartData.rows = []
             this.data.forEach((items, index) => {
-                const obj = {}
-                this.chartColumns.forEach(item => {
-                    const dw = item.dw ? `(${item.dw})` : ''
-                    obj[item.explain + dw] = items[item.key] ? items[item.key] : index
+                    const obj = {}
+                    this.chartColumns.forEach(item => {
+                        const dw = item.dw ? `(${item.dw})` : ''
+                        obj[item.explain + dw] = items[item.key] ? items[item.key] : index
+                    })
+                    chartData.rows.push(obj)
                 })
-                chartData.rows.push(obj)
-            })
-
-            // console.log(chartData)
+                //柱状图啊数据倒序
+            if (this.chartType === 'bar') {
+                chartData.rows.reverse()
+            }
+            console.log(chartData)
             return chartData
         },
         // 饼图、环图数据获取
@@ -208,7 +212,7 @@ export default {
             }
         },
         //图表边距位置设置
-        setGridsetGrid(options) {
+        setGrid(options) {
             // console.log(this.titleShow)
             if (!this.titleShow) {
                 this.$set(options, 'grid', {
@@ -248,12 +252,57 @@ export default {
 
             this.setGrid(this.barOptions)
             this.$nextTick(() => {
+                //是否自定义柱颜色
+                let offonColor = true;
+                this.chartColumns.forEach((item, index) => {
+                    if (index > 0 && !item.zBgColor) {
+                        offonColor = false
+                    }
+                })
+                let colors = (params) => {
+                    let bgcolor = ''
+                    this.chartColumns.forEach((item) => {
+                        const dw = item.dw ? `(${item.dw})` : ''
+                        if (item.explain + dw === params.seriesName) {
+                            bgcolor = item.zBgColor
+                        }
+                    })
+                    return bgcolor
+                }
+
                 this.barOptions.series = {
                     type: 'bar', //增加type字段
                     barMaxWidth: 50, //最大柱宽
                     barCategoryGap: 5, //柱间距
                     barGap: 0,
+                    //顶部切换模块背景颜色
+                    color: offonColor ? (params) => {
+                        return colors(params)
+                    } : undefined,
+                    itemStyle: {
+                        //柱体背景颜色
+                        color: offonColor ? (params) => {
+                            return colors(params)
+                        } : undefined
+                    },
+
+                    label: {
+                        show: true, //开启显示
+                        position: 'insideRight', //在上方显示
+                        // rotate: 90,
+                        // distance: 5,
+                        align: 'left',
+
+                        // verticalAlign: 'middle',
+                        fontSize: 12,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
+                    }
                 }
+                this.$emit('setOptions', this.barOptions, this.chartType, this.data)
             })
         },
         //柱状图配置数据
@@ -292,52 +341,70 @@ export default {
                     }
                 })
                 this.histogramOptions.tooltip = {
-                    formatter: function(params) {
-                        let res = ''
+                        formatter: function(params) {
+                            let res = ''
 
-                        params.forEach((item, index) => {
-                            let bfb =
-                                Math.floor((item.data / total[item.seriesName]) * 10000) / 100
-                            if (index === 0) {
-                                res = `${item.seriesName}:${item.data}(${bfb}%)`
-                            } else {
-                                res += `<br/>${item.seriesName}:${item.data}(${bfb}%)`
+                            params.forEach((item, index) => {
+                                let bfb =
+                                    Math.floor((item.data / total[item.seriesName]) * 10000) / 100
+                                if (index === 0) {
+                                    res = `${item.seriesName}:${item.data}(${bfb}%)`
+                                } else {
+                                    res += `<br/>${item.seriesName}:${item.data}(${bfb}%)`
+                                }
+                            })
+                            return res
+                        }
+                    }
+                    //是否自定义柱颜色
+                let offonColor = true;
+                this.chartColumns.forEach((item, index) => {
+                    if (index > 0 && !item.zBgColor) {
+                        offonColor = false
+                    }
+                })
+                let colors = (params) => {
+                        let bgcolor = ''
+                        this.chartColumns.forEach((item) => {
+                            const dw = item.dw ? `(${item.dw})` : ''
+                            if (item.explain + dw === params.seriesName) {
+                                bgcolor = item.zBgColor
                             }
                         })
-                        return res
+                        return bgcolor
                     }
-                }
-
-                //柱最大宽度设置  顶部数据显示
+                    //柱最大宽度设置  顶部数据显示
                 this.histogramOptions.series = {
                     barMaxWidth: 50, //最大柱宽
                     barCategoryGap: 5, //柱间距
                     barGap: 0,
-                    type: 'histogram', //增加type字段
+                    //顶部切换模块背景颜色
+                    color: offonColor ? (params) => {
+                        return colors(params)
+                    } : undefined,
+                    itemStyle: {
+                        //柱体背景颜色
+                        color: offonColor ? (params) => {
+                            return colors(params)
+                        } : undefined
+                    },
+                    // type: 'histogram', //增加type字段
                     label: {
-                        show: this.settingForm.barHisShowType === '1' ? false : true, //开启显示
-                        position: 'top', //在上方显示
-                        textStyle: {
-                            //数值样式
-                            color: 'black',
-                            fontSize: 12
-                        },
-                        // show: true,
-                        // position: 'insideBottom',
-                        // distance: 5,
-                        // align: 'left',
-                        // verticalAlign: 'middle',
-                        // rotate: 90,
-                        // formatter: '{c}  {name|{a}}',
-                        // fontSize: 10,
-                        // rich: {
-                        //     name: {
-                        //         textBorderColor: '#fff'
-                        //     }
-                        // }
+                        show: true, //开启显示
+                        position: 'insideBottom', //在上方显示
+                        rotate: 90,
+                        distance: 5,
+                        align: 'left',
+                        verticalAlign: 'middle',
+                        fontSize: 12,
+                        rich: {
+                            name: {
+                                textBorderColor: '#fff'
+                            }
+                        }
                     }
                 }
-
+                this.$emit('setOptions', this.histogramOptions, this.chartType, this.data)
             })
 
 

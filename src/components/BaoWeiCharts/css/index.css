@@ -596,6 +596,9 @@
 .zdpz_list li .hTxt81 {
   width: 90px;
 }
+.zdpz_list li .hTxt83 {
+  width: 78px;
+}
 .zdpz_list .zdpz_list_header .icons {
   font-size: 24px;
   cursor: pointer;
@@ -853,9 +856,6 @@
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
-}
-.v_chart_pie .choose .btn {
-  width: 150px;
 }
 .v_chart_pie .choose button {
   padding: 2px 8px;
