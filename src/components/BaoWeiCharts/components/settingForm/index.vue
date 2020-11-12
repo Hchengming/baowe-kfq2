@@ -328,8 +328,10 @@
                     <!-- 柱背景颜色 -->
                      <span class="hTxt83 hTxt" v-if="form.moduleType==='0'&&['bar','histogram'].indexOf(form.displayMode)>-1">
                       <el-input v-model="item.zBgColor"
+                      v-if="item.ischartsShow"
                                 size="mini"
                                 placeholder="背景颜色"
+                                type="color"
                                 :disabled="item.key==='operationButton'"  />
                     </span>
                     <!-- 图表标题字段 -->

@@ -212,7 +212,7 @@
 import WhereSetting from '../../components/WhereSetting'
 import Where from '../../components/Where2.0'
 import List from '../../components/List'
-import BwLine from '../../components/Line/index.vue'
+import BwLine from '../../components/Line@2.0/index.vue'
 import BwTable from '../../components/Table2/index.vue'
 import SettingForm from '../../components/SettingForm'
 import {

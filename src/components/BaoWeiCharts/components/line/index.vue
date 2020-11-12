@@ -2,7 +2,7 @@
   <!-- 折线图 -->
   <div class="v_chart_line"
        :style="{'height':height+'px'}">
-    <div class="pie_box">
+    <div class="line_box">
       <!-- 条形图展示 -->
       <ve-bar v-if="chartType=='bar'"
               :legend-visible="titleShow"
@@ -37,7 +37,7 @@
                     :events="chartEvents" />
       <div v-if="chartType=='pie'||chartType=='ring'"
            class="v_chart_pie">
-        <div class="choose">
+        <div class="v_chart_pie_choose">
           <div class="btn">
             <button v-for="(item,index) in picRingBtnArr"
                     :key="index"

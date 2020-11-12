@@ -12,12 +12,6 @@
       </div>
     </bao-wei-charts>
 
-    <!-- ???? ?? -->
-    <!-- <el-radio-group class="system-cs"
-                    v-model="settingConfig.systemPermissions">
-      <el-radio-button @click.native="dtcs" label="admin">admin</el-radio-button>
-      <el-radio-button label="user">user</el-radio-button>
-    </el-radio-group> -->
   </div>
 </template>
 <script>

@@ -852,12 +852,16 @@
   width: 130px;
 }
 /*饼图、环图模块配置*/
-.v_chart_pie .choose {
+.v_chart_pie .pie_box {
+  position: relative;
+  width: 100%;
+}
+.v_chart_pie_choose {
   margin-top: 5px;
   display: flex;
   justify-content: space-between;
 }
-.v_chart_pie .choose button {
+.v_chart_pie_choose button {
   padding: 2px 8px;
   border: none;
   border-radius: 5px;
@@ -865,13 +869,9 @@
   color: white;
   margin-right: 5px;
 }
-.v_chart_pie .choose .txt {
+.v_chart_pie_choose .txt {
   display: block;
   color: #7f7f7f;
-}
-.v_chart_pie .pie_box {
-  position: relative;
-  width: 100%;
 }
 .statisticsMask {
   position: absolute;

@@ -1,8 +1,22 @@
 <template>
   <div class="v_chart_line" :style="{ height: height + 'px' }">
+    <div class="v_chart_pie_choose" v-if="chartColumns.length>1&&['pie', 'ring'].indexOf(this.chartType) > -1">
+      <div class="btn">
+        <button
+          v-for="(item, index) in chartColumns"
+          :key="index"
+          :class="{ 'theme-bg-color': item.key == chooseItem.key }"
+          @click="pieChange(item)"
+        >
+          {{ item.explain }}
+        </button>
+      </div>
+      <span class="txt">单位({{ chooseItem.dw }})</span>
+    </div>
     <div
       id="chart-main"
-      :style="{ width: '100%', height: height + 'px' }"
+      ref="myCharts"
+      :style="{ width: '100%', height: chartsHeight() + 'px' }"
     ></div>
   </div>
 </template>
@@ -21,7 +35,7 @@ export default {
     hisrogarmMixins,
     lineMixins,
     pieMixins,
-    radarMixins
+    radarMixins,
   ],
   props: {
     data: {
