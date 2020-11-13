@@ -9,6 +9,7 @@
               :data="chartData"
               :settings="barSettings"
               :height="height+'px'"
+               :scale="[false,false]"
               :extend="barOptions"
               :events="chartEvents" />
       <!-- 折线图展示 -->
@@ -18,6 +19,7 @@
                :data="chartData"
                :settings="chartSettings"
                :height="height+'px'"
+               :scale="[false,false]"
                :events="chartEvents" />
       <!-- 雷达图 -->
       <ve-radar v-if="chartType=='radar'"
@@ -33,6 +35,7 @@
                     :data="chartData"
                     :settings="histogramSettings"
                     :height="height+'px'"
+                     :scale="[false,false]"
                     :extend="histogramOptions"
                     :events="chartEvents" />
       <div v-if="chartType=='pie'||chartType=='ring'"

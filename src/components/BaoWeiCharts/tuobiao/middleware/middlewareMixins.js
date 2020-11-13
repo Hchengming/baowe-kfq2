@@ -134,7 +134,7 @@ export default {
                             obj.pageSize = contentAreaConfig.pageSize
                             obj.currentPage = 1
                         }
-                        if (contentAreaConfig.moduleType !== '1') {
+                        if (contentAreaConfig.moduleType !== '1' && contentAreaConfig.moduleType !== '3') {
                             this.getTableData(obj, whereForm, newItem)
                         }
                     } else {
@@ -147,7 +147,7 @@ export default {
         },
         // statistics组件--模块删除事件
         deleteMoule(moduleId, menuId, parentModuleId) {
-            console.log('删除')
+            // console.log('删除')
             let reqUrl
             if (menuId) {
                 reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
@@ -285,7 +285,7 @@ export default {
                             }
 
                             // 判断下钻子级是否是iframe嵌入类型
-                            if (items.contentAreaConfig.moduleType !== '1') {
+                            if (items.contentAreaConfig.moduleType !== '1' && items.contentAreaConfig.moduleType !== '3') {
                                 this.getTableData(reqObj, defaultReqData, items)
                             }
                         })

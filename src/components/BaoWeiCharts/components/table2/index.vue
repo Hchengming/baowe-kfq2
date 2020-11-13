@@ -45,7 +45,7 @@
                    @size-change="handleSizeChange"
                    :current-page="paginationAll.currentPage"
                    :page-size="paginationAll.pageSize"
-                   :page-sizes="[10,50, 100, 500, 1000]"
+                   :page-sizes="pageSizes"
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="paginationAll.total"
                    v-if="paginationAll"></el-pagination>
@@ -65,28 +65,29 @@ export default {
   // props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
   props: {
     tabledata: {
-      type: Array
+      type: Array,
+      default:null
     },
     colums: {
-      type: Array
+      type: Array, default:null
     },
     height: {
-      type: Number
+      type: Number, default:null
     },
     width: {
-      type: Number
+      type: Number, default:null
     },
     settingForm: {
-      type: Object
+      type: Object, default:null
     },
     paginationAll: {
-      type: Object
+      type: Object, default:null
     },
     statisticsAll: {
-      type: Object
+      type: Object, default:null
     },
     border: {
-      type: Boolean
+      type: Boolean, default:null
     }
   },
   computed: {},

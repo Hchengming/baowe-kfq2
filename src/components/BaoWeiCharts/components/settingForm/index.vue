@@ -50,7 +50,7 @@
               </el-form-item>
             </el-col>
             <el-col v-if="form.isAddMoreIcon==='1'"
-                    :span="16">
+                    :span="8">
               <el-form-item label="按钮跳转路径"
                             prop="moreUrl">
                 <el-input v-model="form.moreUrl"
@@ -222,6 +222,7 @@
           </el-form-item>-->
             <!-- 数据接口处理部分 -->
             <api-choose ref="apiChoose"
+            :settingConfig="settingConfig"
                         :item-api-data="itemApiData"
                         :data-view-list="dataViewList"
                         :form="form" />
@@ -471,6 +472,7 @@
             </el-row>
             <!-- 数据接口处理部分 -->
             <api-choose :item-api-data="itemApiData"
+             :settingConfig="settingConfig"
                         :data-view-list="dataViewList"
                         :form="form" />
             <!-- 接口参数、字段配置             -->
@@ -726,7 +728,12 @@ export default {
     dataViewList: {
       type: Array,
       default: null
-    }
+    },
+     settingConfig: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {}
+    },
   }
 
 

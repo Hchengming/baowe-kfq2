@@ -61,14 +61,30 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+           <el-col :span="8">
+                <el-form-item label="接口类型"
+                              prop="apiType">
+                  <el-radio-group v-model="form.apiType"
+                                  @change="apiTypeChange">
+                    <el-radio label="0">数据视图</el-radio>
+                    <el-radio label="1">服务接口</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+        </el-row>
         <!-- 数据接口处理部分 -->
         <api-choose :item-api-data="itemApiData"
+        :setting-config="settingConfig"
+        :data-view-list="dataViewList"
+        ref="apiChoose"
                     :form="form" />
         <!-- 接口参数、字段配置             -->
-        <param-key-config v-show="false"
+        <param-key-config 
                           :item-api-data="itemApiData"
                           :form="form">
           <div slot="keys"
+         
                class="top-bar-setting-box">
             <el-button size="small"
                        @click="getKeysData">字段获取</el-button>
@@ -159,6 +175,14 @@ export default {
   props: {
     itemApiData: {
       type: Array,
+      default: null
+    },
+    dataViewList: {
+      type: Array,
+      default: null
+    },
+    settingConfig: {
+      type: Object,
       default: null
     }
   }

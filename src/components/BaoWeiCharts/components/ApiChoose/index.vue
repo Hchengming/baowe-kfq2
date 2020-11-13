@@ -67,7 +67,11 @@ export default {
     form: {
       type: Object,
       default: null
-    }
+    },
+     settingConfig: {
+      type: Object,
+      default: null
+    },
   }
 }
 </script>

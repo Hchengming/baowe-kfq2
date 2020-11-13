@@ -27,12 +27,15 @@
              :item-api-data="itemApiData"
              :top-bar-all="topBarAll"
              :setting-config="settingConfig"
+             :data-view-list="dataViewList"
              @delete="topBarDelete"
              @update="topBarUpdate"
              @topBarClick="topBarClick" />
     <top-bar-setting ref="topBarSetting"
+                     :data-view-list="dataViewList"
                      :item-api-data="itemApiData"
-                     @submit="topBarAdd" />
+                     :setting-config="settingConfig"
+                     @submit="topBarAdd" ></top-bar-setting>
     <!-- 页面配置 -->
     <div v-if="settingConfig.systemPermissions==='admin'"
          class="hoverMenu">
@@ -116,6 +119,10 @@ export default {
     }
   },
   methods: {
+     //图表模块显示隐藏控制事件
+        modeuleShow(obj) {
+            this.$refs['middleware'].modeuleShow(obj)
+        },
     setPageLoding (offon) {
       // console.log(offon)
       this.pageLoading = offon

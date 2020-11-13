@@ -28,6 +28,7 @@
                   :item-api-data="itemApiData"
                   :data-view-list="dataViewList"
                   :system-permissions="settingConfig.systemPermissions"
+                  :settingConfig="settingConfig"
                   @setOptions="setOptions"
                   @firstAddKeep="addKeep"
                   @deleteMoule="deleteMoule"
@@ -65,6 +66,7 @@
                  :form="addSettingForm"
                  :data-url="settingConfig.dataUrl"
                  :item-api-data="itemApiData"
+                  :settingConfig="settingConfig"
                  @submit="addKeep" />
   </div>
 </template>
@@ -157,6 +159,16 @@ export default {
     this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
+     //图表模块显示隐藏控制事件
+        modeuleShow(obj) {
+          let data=JSON.parse(JSON.stringify(this.pageData)) 
+         data.forEach(item=>{
+            if(item.moduleId===obj.moduleId){
+              item.isShow=obj.isShow
+            }
+          })
+          this.pageData=data
+        },
     // 图表方法暴露
     chartsMethods (reqObj) {
       // console.log(reqObj)
@@ -323,6 +335,7 @@ export default {
               this.itemGSH(item)
               // 配置数据字段集获取
               const keys = []
+              item.isShow=true;
               item.contentAreaConfig.keyArr.forEach(obj => {
                 keys.push(obj.key)
               })
@@ -348,10 +361,10 @@ export default {
                 })
               }
 
-              if (item.contentAreaConfig.moduleType !== '1') {
-                this.getTableData(obj, defaultReqData, item)
-              }
-            })
+            if (item.contentAreaConfig.moduleType !== '1'&&item.contentAreaConfig.moduleType !== '3') {
+                                this.getTableData(obj, defaultReqData, item)
+                            }
+            })     
             this.chartsMethods({
               methodsName: 'getPageData',
               name: '页面模块渲染数据加载完成事件',
@@ -405,6 +418,7 @@ export default {
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
+      //  
       const resDataFn = (resData) => {
         // console.log(JSON.stringify(resData) )
         if (!config.contentAreaConfig.moduleType || config.contentAreaConfig.moduleType === '0') {
@@ -496,6 +510,11 @@ export default {
           return false
         }
         // 数据请求
+        if(!obj.url){
+          this.$set(this.pageData[obj.index], 'data', [])
+          return
+        } 
+        // console.log()
         serviceAxios[options](nowUrl, reqData)
           .then(res => {
             // console.log(res)
@@ -506,7 +525,7 @@ export default {
             }
           })
           .catch(msg => {
-            // console.log(this.settingConfig.isProducrTestData, msg)
+            console.log('请求失败',reqObj)
 
             this.$message({
               message: '请求失败' + msg,

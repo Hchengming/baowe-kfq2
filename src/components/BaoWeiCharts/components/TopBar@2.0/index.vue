@@ -27,17 +27,17 @@
         class="theme-bg-color"
         :style="{ height: liHeight(), background: listBackground(obj, indexs) }"
         :key="indexs"
+        @click="topBarClick(obj)"
       >
         <div class="top-bar-boxs">
           <div :class="['list-box', { 'list-box-2': obj.data.length > 1 }]">
-            <p class="txt1" @click="topBarClick(obj, { title: obj.title })">
+            <p class="txt1" >
               {{ obj.title }}
             </p>
             <div class="test">
               <p
                 v-for="(item, index) in obj.data"
                 :key="index"
-                @click="topBarClick(item, { [item.key]: item.value })"
                 :class="[obj.data.length > 1 ? 'txt3' : 'txt2']"
               >
                 <!-- <span v-show="obj.data.length<=1"
@@ -57,7 +57,10 @@
     </ul>
     <top-bar-setting
       ref="topBarSetting"
-      :item-api-data="itemApiData"
+       :data-view-list="dataViewList"
+                     :item-api-data="itemApiData"
+                     :setting-config="settingConfig"
+      
       @submit="settingSubmit"
     />
   </div>
@@ -80,6 +83,10 @@ export default {
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {},
     },
+    dataViewList:{
+       type: Array,
+      default: null
+    }
   },
   data() {
     return {}
@@ -129,8 +136,8 @@ export default {
       this.$emit('update', topBarSettingData, fn)
     },
     // 顶部菜单点击事件
-    topBarClick(item, obj) {
-      this.$emit('topBarClick', item, obj)
+    topBarClick(obj) {
+      this.$emit('topBarClick',obj)
     },
   },
 }

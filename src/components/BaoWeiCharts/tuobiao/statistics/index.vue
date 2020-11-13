@@ -187,11 +187,13 @@
                      :item-api-data="itemApiData"
                      :data-view-list="dataViewList"
                      :where-form="whereForm"
+                      :settingConfig="settingConfig"
                      @submit="settingKeep" />
         <!-- 子模块新增表单 -->
         <settingForm ref="childSettingForm"
                      :form="childSettingForm"
                      :data-url="dataUrl"
+                      :settingConfig="settingConfig"
                      :item-api-data="itemApiData"
                      :data-view-list="dataViewList"
                      @submit="childSettingKeep" />
@@ -212,7 +214,7 @@
 import WhereSetting from '../../components/WhereSetting'
 import Where from '../../components/Where2.0'
 import List from '../../components/List'
-import BwLine from '../../components/Line@2.0/index.vue'
+import BwLine from '../../components/Line/index.vue'
 import BwTable from '../../components/Table2/index.vue'
 import SettingForm from '../../components/SettingForm'
 import {
@@ -452,7 +454,13 @@ export default {
     // 图表点击事件
     eventClick (e) {
       this.statisticsAll.data.forEach((items, index) => {
-        if (e.dataIndex === index) {
+        let offon=false;
+        if(this.settingForm.displayMode ==='bar'){
+          offon=this.statisticsAll.data.length-1-e.dataIndex === index
+        }else{
+          offon=e.dataIndex === index
+        }
+        if (offon) {
           this.rowClick(items, index)
           this.settingForm.keyArr.forEach((item, num) => {
             if (num > 0 && items[item.key] === e.value) {

@@ -141,7 +141,10 @@ export const ChartsMixins = {
             if (val === '0') {
                 this.form.isPage = '1'
                 this.isPageDisabled = true
+                this.form.options = 'POST'
                 this.$refs['apiChoose'].getDataIview()
+            } else {
+                this.form.options = 'GET'
             }
         },
         // 操作按钮配置 按钮点击事件
@@ -289,33 +292,29 @@ export const ChartsMixins = {
         getViewKeysData() {
             const queryParamList = []
             this.form.paramConfig.forEach(item => {
-                    const paramValue = this.getParamValue(item.paramValue)
-                    const params = {
-                        [item.paramKey]: paramValue
+                const paramValue = this.getParamValue(item.paramValue)
+                const params = {
+                    [item.paramKey]: paramValue
+                }
+                if (item.isUse) {
+                    switch (item.dataType) {
+                        case 'number':
+                            if (Number(paramValue)) {
+                                params[item.paramKey] = Number(paramValue)
+                            } else {
+                                params[item.paramKey] = null
+                            }
+                            break
+                        case 'object':
+                            params[item.paramKey] = JSON.parse(paramValue)
+                            break
+                        default:
+                            params[item.paramKey] = paramValue
                     }
-                    if (item.isUse) {
-                        switch (item.dataType) {
-                            case 'number':
-                                if (Number(paramValue)) {
-                                    params[item.paramKey] = Number(paramValue)
-                                } else {
-                                    params[item.paramKey] = null
-                                }
-                                break
-                            case 'object':
-                                params[item.paramKey] = JSON.parse(paramValue)
-                                break
-                            default:
-                                params[item.paramKey] = paramValue
-                        }
-                        queryParamList.push(params)
-                    }
-                })
-                // this.form.paramConfig.forEach(item => {
-                //   queryParamList.push({
-                //     [item.paramKey]:this.getParamValue(item.paramValue)
-                //   })
-                // })
+                    queryParamList.push(params)
+                }
+            })
+            if (!this.form.url) return false;
             serviceAxios
                 .post(this.form.url, {
                     viewId: this.form.viewId,

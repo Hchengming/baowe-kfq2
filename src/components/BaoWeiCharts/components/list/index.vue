@@ -48,7 +48,7 @@
       v-if="paginationAll"
       :current-page="paginationAll.currentPage"
       :page-size="paginationAll.pageSize"
-      :page-sizes="[10,50, 100, 500, 1000]"
+      :page-sizes="pageSizes"
       layout="total, sizes, prev, pager, next, jumper"
       :total="paginationAll.total"
       @current-change="handleCurrentChange"

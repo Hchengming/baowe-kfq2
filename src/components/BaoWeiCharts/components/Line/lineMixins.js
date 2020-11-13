@@ -46,7 +46,7 @@ export default {
                 arr.splice(nums, 1)
                 arr.splice(0, 0, obj)
             }
-            console.log(arr)
+            // console.log(arr)
             return arr
         },
         chartEvents() {
@@ -81,7 +81,7 @@ export default {
             if (this.chartType === 'bar') {
                 chartData.rows.reverse()
             }
-            console.log(chartData)
+            // console.log(chartData)
             return chartData
         },
         // 饼图、环图数据获取
@@ -245,7 +245,8 @@ export default {
                 yAxis: [{
                     axisLabel: {
                         fontSize: 10,
-                        interval: 0
+                        interval: 0,
+                        color: '#333333'
                     }
                 }]
             }
@@ -288,18 +289,18 @@ export default {
 
                     label: {
                         show: true, //开启显示
-                        position: 'insideRight', //在上方显示
+                        position: 'right', //在上方显示
                         // rotate: 90,
-                        // distance: 5,
-                        align: 'left',
-
+                        // distance: 25,
+                        // align: 'right',
+                        // offset: [10, 0],
                         // verticalAlign: 'middle',
-                        fontSize: 12,
-                        rich: {
-                            name: {
-                                textBorderColor: '#fff'
-                            }
-                        }
+                        fontSize: 10,
+                        // rich: {
+                        //     name: {
+                        //         textBorderColor: '#fff'
+                        //     }
+                        // }
                     }
                 }
                 this.$emit('setOptions', this.barOptions, this.chartType, this.data)
@@ -391,17 +392,27 @@ export default {
                     // type: 'histogram', //增加type字段
                     label: {
                         show: true, //开启显示
-                        position: 'insideBottom', //在上方显示
-                        rotate: 90,
-                        distance: 5,
-                        align: 'left',
+                        position: 'top', //在上方显示
+                        // rotate: 90,
+                        // distance: 5,
+                        // align: 'left',
                         verticalAlign: 'middle',
-                        fontSize: 12,
-                        rich: {
-                            name: {
-                                textBorderColor: '#fff'
-                            }
-                        }
+                        fontSize: 10,
+                        // formatter: function(params) {
+                        //     if (params.value !== 0.01) {
+                        //         return params.value;
+                        //     } else {
+                        //         return '';
+                        //     }
+                        // },
+                        // normal: {
+
+                        // },
+                        // rich: {
+                        //     name: {
+                        //         textBorderColor: '#fff'
+                        //     }
+                        // }
                     }
                 }
                 this.$emit('setOptions', this.histogramOptions, this.chartType, this.data)
@@ -412,10 +423,17 @@ export default {
         //图表点击事件
         chartClick(e) {
             //柱状图出现点击状态事件
+
             if (this.chartType === 'histogram') {
                 this.histogramOptions.xAxis.axisLabel.color = (value, index) => {
                     return e.dataIndex === index ? '#0091FF' : '#333333'
                 }
+            } else if (this.chartType === 'bar') {
+
+                this.$set(this.barOptions, 'yAxis.0.axisLabel.color', (value, index) => {
+                    return e.dataIndex === index ? '#0091FF' : '#333333'
+                })
+
             }
         },
         //主题颜色配置
