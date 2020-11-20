@@ -23,7 +23,6 @@
 
 <script>
 import barMixins from "./mixins/barMixins";
-import hisrogarmMixins from "./mixins/hisrogarmMixins";
 import lineMixins from "./mixins/lineMixins";
 import pieMixins from "./mixins/pieMixins";
 import radarMixins from "./mixins/radarMixins";
@@ -32,7 +31,6 @@ export default {
   mixins: [
     commonMixins,
     barMixins,
-    hisrogarmMixins,
     lineMixins,
     pieMixins,
     radarMixins,

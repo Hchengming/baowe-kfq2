@@ -11,6 +11,10 @@
 .warning-color {
   color: #f69e37;
 }
+body{
+  margin: 0;
+  padding: 0;
+}
 @bg: #ebeef5;
 @border: #c1c1c1;
 .theme-bg {
@@ -532,6 +536,8 @@
 /*list 列表*/
 .bw_list1 {
   border-bottom: 1px solid #f1f1f1;
+  padding: 0;
+  margin: 0;
   li {
     display: flex;
     line-height: 32px;
@@ -669,6 +675,7 @@
   border-bottom: 1px solid @border;
   padding: 0;
   margin: 0;
+  
   li {
     display: flex;
     justify-items: center;
@@ -684,9 +691,13 @@
       height: auto;
       text-align: center;
     }
-
     .hTxt9 {
       width: 100px;
+    }
+    .hTxt91{
+      .el-button--mini.is-circle{
+        padding: 5px;
+      }
     }
     .hTxt82,
     .hTxt8,
@@ -965,7 +976,7 @@
       width: 100px;
     }
     & > span:nth-child(3) {
-      width: 130px;
+      width: 80px;
     }
   }
 }
@@ -979,7 +990,7 @@
   }
 }
 .v_chart_pie_choose {
-  margin-top: 5px;
+  // margin-top: 5px;
   display: flex;
   justify-content: space-between;
 
@@ -1000,7 +1011,12 @@
     color: #7f7f7f;
   }
 }
-
+.e-charts-tooltip-list{
+  display: inline-block;
+  width: 10px;
+  height:10px;
+   border-radius: 50%;
+}
 .statisticsMask {
   position: absolute;
   width: 100%;
@@ -1144,7 +1160,10 @@
 /*按钮事件js脚本配置*/
 .js-methods-setting-dialog {
   .el-dialog {
-    width: 500px;
+    width: 800px;
+    .el-dialog__body{
+      padding: 5px 10px;
+    }
   }
 }
 /*staticWhere*/
@@ -1721,6 +1740,28 @@
       .el-checkbox,
       .el-radio {
         line-height: 32px;
+      }
+    }
+  }
+}
+
+/*图表字段配置*/
+.other-key-setting-dialog{
+  .el-dialog{
+    width: 800px;
+    .el-dialog__body{
+      padding: 5px 10px;
+    }
+    .row-textarea{
+      position: relative;
+      .el-icon-full-screen{
+        position: absolute;
+        z-index: 9;
+        right: 20px;
+        top: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        
       }
     }
   }

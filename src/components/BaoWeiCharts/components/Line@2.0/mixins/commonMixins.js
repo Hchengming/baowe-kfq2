@@ -3,19 +3,36 @@ export default {
         return {
             chartColumns: [], //图表配置数据
             titleKey: [], //图表标题字段
+            xAxisLabel: { //x轴label公共配置
+                interval: 0,
+                rotate: 25,
+                fontSize: 10,
+                color: '#333333'
+            },
+            yAxisLabel: {
+                fontSize: 10,
+                interval: 0
+            }
         }
     },
     watch: {
         //显示类型变化监听
-        chartType: {
-            handler() {
-                this.echartsInit()
-            },
-            deep: true
-        },
+        // chartType: {
+        //     handler() {
+        //         console.log('====')
+        //         let myChart = this.$echarts.init(this.$refs['myCharts'])
+        //        
+        //         this.echartsInit()
+
+
+        //     },
+        //     deep: true
+        // },
         //数据变化监听
         data: {
             handler() {
+                let myChart = this.$echarts.init(this.$refs['myCharts'])
+                myChart.resize()
                 this.echartsInit()
             },
             deep: true
@@ -24,6 +41,7 @@ export default {
         settingForm: {
             handler(news, olds) {
                 if (news.height !== olds.height || news.width !== olds.width) {
+
                     let myChart = this.$echarts.init(this.$refs['myCharts'])
                     myChart.resize()
                 }
@@ -39,6 +57,12 @@ export default {
         //echart初始化
         echartsInit() {
             if (!this.data) return;
+            //e-charts图表清空，然后重新加载
+            if (this.$refs['myCharts'].innerHTML) {
+                this.$refs['myCharts'].innerHTML = ''
+                this.$refs['myCharts'].removeAttribute("_echarts_instance_")
+            }
+
 
             // 基于准备好的dom，初始化echarts实例
 
@@ -58,16 +82,19 @@ export default {
 
             //4、图例显示隐藏控制栏内容
             this.setLegend(options)
-
-            //5、悬浮框 tooltip 配置
+                //5、series图表显示配置
+            this.setSeries(options)
+                //6、悬浮框 tooltip 配置
             this.setTooltip(options)
 
-            //6、series图表显示配置
-            this.setSeries(options)
+
 
             // 绘制图表
-            console.log(myChart)
+            // console.log(this.chartType)
+            console.log(options)
             myChart.setOption(options)
+
+
         },
         //后台返回字段配置数据筛选---删除未勾选字段，查找标题字段
         setChartColumns() {
@@ -79,7 +106,7 @@ export default {
                         //01-1 标题、单位字段整合
                         const dw = item.dw ? `(${item.dw})` : ''
                         item.title = item.explain + dw
-
+                            // item.title = item.explain
                         this.chartColumns.push(item)
                     }
                     //02 查找标题字段
@@ -94,6 +121,10 @@ export default {
         },
         // 图例显示隐藏控制栏内容
         setLegend(options) {
+            options.legend = []
+            if (!this.titleShow) {
+                return
+            }
             if (this.titleShow && ['pie', 'ring'].indexOf(this.chartType) === -1) {
                 options.legend = {
                     top: 5,
@@ -106,46 +137,83 @@ export default {
             }
 
         },
-        // 柱状图/条形图/折线图/雷达图 x轴、y轴公共配置
+        // 柱状图/条形图/折线图 x轴、y轴公共配置
         setAxis(options) {
-            options.xAxis.axisLabel = {
-                interval: 0,
-                rotate: 25,
-                fontSize: 10,
-                color: '#333333'
-            }
-            options.yAxis[0].axisLabel = {
-                fontSize: 10,
-                interval: 0
+            // options.xAxis = undefined
+            // options.yAxis = undefined
+            switch (this.chartType) {
+                case 'histogram':
+                    this.setBarAxis(options)
+                    break;
+                case 'bar':
+                    this.setBarAxis(options)
+                    break;
+                case 'line':
+                    this.setLineAxis(options)
+                    break;
             }
         },
         //图表边距位置设置
         setGridsetGrid(options) {
+
+            let gridLeft = 10;
+            // 柱状图/条形图/折线图/雷达图 配置
+            if (['histogram', 'bar', 'line', 'radar'].indexOf(this.chartType) > -1) {
+                let titleMaxlength = 0,
+                    vauleMaxlength = 0;
+                //获取y轴为标题轴，数值轴宽度
+                this.data.forEach(items => {
+                    if (items[this.titleKey] && items[this.titleKey].length > titleMaxlength) {
+                        titleMaxlength = items[this.titleKey].length
+                    }
+                    this.chartColumns.forEach(item => {
+                        if (item.key !== this.titleKey && items[item.key] && items[item.key].toString().length > vauleMaxlength) {
+                            vauleMaxlength = items[item.key].toString().length
+                        }
+                    })
+                })
+                if (['histogram', 'line', 'radar'].indexOf(this.chartType) > -1) {
+                    let num = Math.floor(vauleMaxlength / 3)
+                    gridLeft = vauleMaxlength * 5 + num * 5
+                        // console.log(vauleMaxlength, num, 'bar')
+                } else if (['bar'].indexOf(this.chartType) > -1) {
+                    gridLeft = titleMaxlength * 10 + 20
+                        // console.log(titleMaxlength, 'histogram', gridLeft)
+                }
+            }
             if (!this.titleShow) {
                 this.$set(options, 'grid', {
                     top: 15,
-                    left: 5,
-                    bottom: 0,
+                    left: gridLeft,
+                    bottom: 50,
                     right: 5
                 })
             } else {
                 this.$set(options, 'grid', {
                     top: 35,
-                    left: 5,
-                    bottom: 0,
+                    left: gridLeft,
+                    bottom: 50,
                     right: 5
                 })
             }
         },
-        //5、悬浮框 tooltip 配置
+        //6、悬浮框 tooltip 配置
         setTooltip(options) {
-            options.tooltip = {
-                trigger: 'item',
-                formatter: '{a} <br/>{b}: {c} ({d}%)'
+
+            if (['histogram', 'bar', 'line'].indexOf(this.chartType) > -1) {
+                // 柱状图/条形图/折线图/雷达图 配置
+                this.setBarToopTip(options)
+            } else if (['pie', 'ring'].indexOf(this.chartType) > -1) {
+                //饼图环图配置
+                this.setPieToopTip(options)
+            } else if (this.chartType === 'radar') {
+                //雷达图
+                this.setRadarToopTip(options)
             }
         },
-        // series图表显示配置  
+        // 5、series图表显示配置  
         setSeries(options) {
+            options.series = []
             switch (this.chartType) {
                 case 'pie':
                     this.setPieSeries(options)
@@ -154,12 +222,18 @@ export default {
                     this.setPieSeries(options)
                     break;
                 case 'histogram':
+                    this.setBarSeries(options)
                     break;
                 case 'bar':
+                    this.setBarSeries(options)
                     break;
                 case 'line':
+                    this.setLineSeries(options)
                     break;
                 case 'radar':
+                    this.setRadarSeries(options)
+                        //雷达图雷达背景布局
+                    this.setRadar(options)
                     break;
             }
 

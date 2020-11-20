@@ -103,7 +103,7 @@
 
 </template>
 <script>
-import JsMethodsSetting from './JsMethodsSetting/index.vue'
+import JsMethodsSetting from '../JsMethodsSetting/index.vue'
 import JSMixins from './mixins'
 export default {
   components: { JsMethodsSetting },

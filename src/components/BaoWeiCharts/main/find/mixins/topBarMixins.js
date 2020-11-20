@@ -67,6 +67,11 @@ export default {
                     }
                 })
         },
+        //顶部栏渲染是数据变化事件
+        changTopAll(viewcChange) {
+
+            viewcChange(this.topBarAll)
+        },
         // 具体数据获取
         getTopBarData(form) {
             // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)

@@ -11,6 +11,10 @@
 .warning-color {
   color: #f69e37;
 }
+body {
+  margin: 0;
+  padding: 0;
+}
 .theme-bg {
   background: #ebeef5;
 }
@@ -463,6 +467,8 @@
 /*list 列表*/
 .bw_list1 {
   border-bottom: 1px solid #f1f1f1;
+  padding: 0;
+  margin: 0;
 }
 .bw_list1 li {
   display: flex;
@@ -590,6 +596,9 @@
 }
 .zdpz_list li .hTxt9 {
   width: 100px;
+}
+.zdpz_list li .hTxt91 .el-button--mini.is-circle {
+  padding: 5px;
 }
 .zdpz_list li .hTxt82,
 .zdpz_list li .hTxt8,
@@ -849,7 +858,7 @@
   width: 100px;
 }
 .param-config-setting .param-config-list li > span:nth-child(3) {
-  width: 130px;
+  width: 80px;
 }
 /*饼图、环图模块配置*/
 .v_chart_pie .pie_box {
@@ -857,7 +866,6 @@
   width: 100%;
 }
 .v_chart_pie_choose {
-  margin-top: 5px;
   display: flex;
   justify-content: space-between;
 }
@@ -872,6 +880,12 @@
 .v_chart_pie_choose .txt {
   display: block;
   color: #7f7f7f;
+}
+.e-charts-tooltip-list {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 .statisticsMask {
   position: absolute;
@@ -990,7 +1004,10 @@
 }
 /*按钮事件js脚本配置*/
 .js-methods-setting-dialog .el-dialog {
-  width: 500px;
+  width: 800px;
+}
+.js-methods-setting-dialog .el-dialog .el-dialog__body {
+  padding: 5px 10px;
 }
 /*staticWhere*/
 .staticWhere {
@@ -1491,4 +1508,22 @@
 .table-header-setting-dialog .el-dialog .header-name-setting .el-checkbox,
 .table-header-setting-dialog .el-dialog .header-name-setting .el-radio {
   line-height: 32px;
+}
+/*图表字段配置*/
+.other-key-setting-dialog .el-dialog {
+  width: 800px;
+}
+.other-key-setting-dialog .el-dialog .el-dialog__body {
+  padding: 5px 10px;
+}
+.other-key-setting-dialog .el-dialog .row-textarea {
+  position: relative;
+}
+.other-key-setting-dialog .el-dialog .row-textarea .el-icon-full-screen {
+  position: absolute;
+  z-index: 9;
+  right: 20px;
+  top: 10px;
+  cursor: pointer;
+  font-size: 16px;
 }

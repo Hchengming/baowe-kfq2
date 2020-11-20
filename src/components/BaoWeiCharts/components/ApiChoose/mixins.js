@@ -13,7 +13,6 @@ export default {
         },
         // 数据视图列表获取
         getDataIview() {
-
             serviceAxios
                 .get(
                     'http://23.36.123.128/api/.DataView/view/v1/list?datasourceId=&parentViewId=&viewType=VIEW&viewCodeOrComment=&viewStatus=PUBLISHED&pageNumber=1&pageSize=100000', {

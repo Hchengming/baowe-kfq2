@@ -5,6 +5,28 @@ export default {
         }
     },
     methods: {
+        //单元格显示数据
+        cellHtml(colums, rowData) {
+            return this.jsMethodsFuc(colums, rowData, "cellRenderer");
+        },
+        // 单元格提示信息配置
+        cellTip(colums, rowData) {
+            return this.jsMethodsFuc(colums, rowData, "tipRenderer");
+        },
+        //单元格配置js脚本运行公共方法
+        jsMethodsFuc(colums, rowData, key) {
+            let docHtml = "";
+            if (colums[key]) {
+                const fnc = eval(`(false || ${colums[key]})`);
+                docHtml = fnc(colums, rowData);
+            } else {
+                docHtml = rowData[colums.key];
+            }
+            if (typeof docHtml === "number") {
+                docHtml = docHtml.toString();
+            }
+            return docHtml;
+        },
         //单元格类名设置
         colClass(item) {
             let menuTapAll = this.settingForm.menuTapAll

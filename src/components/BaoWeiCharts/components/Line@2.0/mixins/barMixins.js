@@ -1,3 +1,85 @@
 export default {
+    data() {
+        return {
 
+        }
+    },
+    methods: {
+        //鼠标移入悬浮框显示内容配置
+        setBarToopTip(options) {
+            //01 数值求和
+            let totalArr = []
+            options.series.forEach((item, index) => {
+                    let max = 0;
+                    item.data.forEach(num => {
+                        max += num
+                    })
+                    totalArr[index] = max
+                })
+                //02 显示配置
+            options.tooltip = {
+                trigger: 'axis',
+                formatter(params) {
+                    let str = `${params[0].axisValue}`
+                    params.forEach((item, index) => {
+                        const bfb =
+                            Math.floor((item.data / totalArr[index]) * 10000) / 100
+                        str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb})%`
+                    })
+                    return str
+                }
+            }
+        },
+        // series图表显示配置  
+        setBarSeries(options) {
+
+            this.chartColumns.forEach(items => {
+                let obj = {
+                    name: items.title,
+                    type: 'bar',
+                    barGap: 0,
+                    data: [],
+                    label: {
+                        show: true, //开启显示
+                        position: this.chartType === 'bar' ? 'right' : 'top', //在上方显示
+                        fontSize: 10,
+                    },
+                    itemStyle: {
+                        //柱体背景颜色
+                        color: items.zBgColor ? items.zBgColor : undefined
+                    },
+
+                }
+
+                this.data.forEach(item => {
+                    obj.data.push(Number(item[items.key]))
+                })
+                options.series.push(obj)
+            })
+
+        },
+        // x轴、y轴公共配置
+        setBarAxis(options) {
+            const valueAxis = {
+                type: 'value'
+            }
+            let dataTitle = []
+            this.data.forEach(item => {
+                dataTitle.push(item[this.titleKey])
+            })
+            const dataAxis = {
+                type: 'category',
+                data: dataTitle
+            }
+            if (this.chartType === 'bar') {
+                options.xAxis = valueAxis
+                options.yAxis = dataAxis
+            } else if (this.chartType === 'histogram' || this.chartType === 'line') {
+                options.xAxis = dataAxis
+                options.yAxis = valueAxis
+            }
+            options.xAxis.axisLabel = this.xAxisLabel
+            options.yAxis.axisLabel = this.yAxisLabel
+        }
+    }
 }

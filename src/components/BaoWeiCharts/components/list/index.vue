@@ -21,11 +21,12 @@
         >
           <el-tooltip
             v-if="col.key!=='operationButton'"
-            :content="NumStrTransformation(item[col.key],col.dw)"
+            :content="cellTip(col,item)"
             :placement="setPlacement(num,colums)"
           >
             <span :class="colClass(col)">
-              {{ item[col.key] }}
+              <!-- {{ item[col.key] }} -->
+              <span v-html="cellHtml(col,item)"></span>
               <span class="txt3 theme-color">{{ col.dw?col.dw:"" }}</span>
             </span>
           </el-tooltip>

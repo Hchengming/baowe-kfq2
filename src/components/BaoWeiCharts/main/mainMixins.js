@@ -22,6 +22,14 @@ export default {
         }
     },
     methods: {
+        //顶部栏数据变化事件
+        changTopAll(viewChange) {
+            this.$refs['myPage'].changTopAll(viewChange)
+        },
+        //通过模块id改变模块渲染数据事件
+        changePageData(moduleId, viewchange) {
+            this.$refs['myPage'].changePageData(moduleId, viewchange)
+        },
         //图表模块显示隐藏控制事件
         modeuleShow(obj) {
             this.$refs['myPage'].modeuleShow(obj)
@@ -178,7 +186,7 @@ export default {
             if (this.settingConfig.isCustomMenu) {
                 // 自定义配置菜单数据获取
                 serviceAxios
-                    .post(this.settingConfig.systomMenuApi + '/menu/insertMenu')
+                    .post(this.settingConfig.systomMenuApi + '/menu/insertMenu', { themeCode: this.settingConfig.themeCode })
                     .then(res => {
                         // console.log(res)
                         const code = res.code

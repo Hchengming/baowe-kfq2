@@ -5,6 +5,30 @@ export default {
         }
     },
     methods: {
+        //鼠标移入悬浮框显示内容配置
+        setPieToopTip(options) {
+            //01 数值求和
+            let total = null
+            options.series.forEach((item) => {
+                    let max = 0;
+                    item.data.forEach(num => {
+                        max += num.value
+                    })
+                    total = max
+                })
+                //02 显示配置
+
+            options.tooltip = {
+                trigger: 'item',
+                formatter(params) {
+                    let str = `${params.seriesName}`
+                    const bfb =
+                        Math.floor((params.data.value / total) * 10000) / 100
+                    str += `<br><span class="e-charts-tooltip-list" style="background:${params.color}"></span> ${params.data.name}：${params.data.value} (${bfb})%`
+                    return str
+                }
+            }
+        },
         //饼图顶部选择按钮点击事件
         pieChange(item) {
             this.chooseItem = item
@@ -29,6 +53,7 @@ export default {
             options.series = [{
                     name: this.chooseItem.explain,
                     type: 'pie',
+                    avoidLabelOverlap: false,
                     data: seriesData
                 }]
                 //03 饼图、环图区分配置
@@ -38,6 +63,7 @@ export default {
                 options.series[0].radius = '55%'
                 options.series[0].center = ['50%', '50%']
             }
+
         }
     }
 }

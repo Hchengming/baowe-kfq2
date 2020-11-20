@@ -82,6 +82,8 @@ export default {
                 chartData.rows.reverse()
             }
             // console.log(chartData)
+            this.setHistogramOptions()
+            this.setBarOptions()
             return chartData
         },
         // 饼图、环图数据获取
@@ -192,6 +194,9 @@ export default {
         this.setHistogramOptions()
             //条形图配置
         this.setBarOptions()
+    },
+    watch: {
+
     },
     methods: {
         //条形图、柱状图堆叠配置

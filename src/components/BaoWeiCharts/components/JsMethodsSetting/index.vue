@@ -10,7 +10,7 @@
     <el-input
       v-model="jsMethods"
       type="textarea"
-      :rows="12"
+      :rows="20"
       placeholder="js脚本"
     />
     <span

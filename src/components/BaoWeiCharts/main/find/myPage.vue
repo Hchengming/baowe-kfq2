@@ -119,6 +119,10 @@ export default {
     }
   },
   methods: {
+      //通过模块id改变模块渲染数据事件
+        changePageData(moduleId, viewchange) {
+            this.$refs['middleware'].changePageData(moduleId, viewchange)
+        },
      //图表模块显示隐藏控制事件
         modeuleShow(obj) {
             this.$refs['middleware'].modeuleShow(obj)

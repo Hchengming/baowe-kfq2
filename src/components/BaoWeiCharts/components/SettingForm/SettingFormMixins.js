@@ -82,10 +82,28 @@ export const ChartsMixins = {
         return {
             isPageDisabled: false,
             listKeyAll: false, // 列表全选
-            chartsKeyAll: false // 图表全选
+            chartsKeyAll: false, // 图表全选
+            rowKey: {
+                key: '', //字段名
+                explain: '', //含义
+                dw: '', //单位
+                width: 120, //列宽度
+                isShow: true, //表格列是否显示
+                isCruxKey: false, //是否作为下级查询参数
+                isMapKey: false, //是否为地图使用字段
+                ischartsTitle: false, //是否为图表标题字段
+                ischartsShow: false, //图表是否显示该字段
+                zBgColor: '', //图表当前字段柱状图，条形图柱背景颜色设置
+                cellRenderer: null, //单元格数据自定义js脚本渲染
+                tipRenderer: null, //单元格鼠标移入悬浮框内容自定义js脚本渲染
+            }
         }
     },
     methods: {
+        //图表字段其他配置按钮点击事件
+        otherKeySetting(item, index) {
+            this.$refs.otherKeySetting.show(item, index)
+        },
         //多表头配置按钮点击事件
         tableHeaderSetting() {
             this.$refs['tableHeaderSetting'].show()
@@ -164,18 +182,13 @@ export const ChartsMixins = {
             })
             if (data.length > 0) {
                 if (!offon) {
-                    this.form.keyArr.push({
+                    let objs = {
                         key: 'operationButton',
                         explain: '操作',
-                        dw: '',
-                        width: 100,
-                        isShow: true,
-                        isCruxKey: false,
-                        isMapKey: false,
-                        ischartsTitle: false,
-                        ischartsShow: false,
-                        zBgColor: ''
-                    })
+                        width: 100
+                    }
+                    Object.assign(objs, this.rowKey)
+                    this.form.keyArr.push(objs)
                 }
             } else {
                 if (num !== null) {
@@ -328,18 +341,12 @@ export const ChartsMixins = {
                     if (code === 20000) {
                         this.form.keyArr = []
                         for (const key in resData.list[0]) {
-                            this.form.keyArr.push({
-                                key: key,
-                                explain: key,
-                                dw: '',
-                                width: 100,
-                                isShow: true,
-                                isCruxKey: false,
-                                isMapKey: false,
-                                ischartsTitle: false,
-                                ischartsShow: false,
-                                zBgColor: ''
-                            })
+                            let obj = {
+                                key,
+                                explain: key
+                            }
+                            Object.assign(obj, this.rowKey)
+                            this.form.keyArr.push(obj)
                         }
                     }
                 })
@@ -358,18 +365,13 @@ export const ChartsMixins = {
                     this.form.detailsTableAll = []
                     items.returnField.forEach(item => {
                         if (this.form.moduleType === '0') {
-                            this.form.keyArr.push({
+                            let obj = {
                                 key: item.key,
-                                explain: item.label,
-                                dw: '',
-                                width: 120,
-                                isShow: true,
-                                isCruxKey: false,
-                                isMapKey: false,
-                                ischartsTitle: false,
-                                ischartsShow: false,
-                                zBgColor: ""
-                            })
+                                explain: item.label
+                            }
+                            Object.assign(obj, this.rowKey)
+                            this.form.keyArr.push(obj)
+
                         } else if (this.form.moduleType === '2') {
                             this.form.detailsTableAll.push({
                                 key: item.key,
@@ -412,18 +414,11 @@ export const ChartsMixins = {
                     }
 
                     for (const key in keysItem) {
-                        this.form.keyArr.push({
-                            key: key,
-                            explain: '',
-                            dw: '',
-                            width: 100,
-                            isShow: true,
-                            isCruxKey: false,
-                            isMapKey: false,
-                            ischartsTitle: false,
-                            ischartsShow: false,
-                            zBgColor: ""
-                        })
+                        let obj = {
+                            key: key
+                        }
+                        Object.assign(obj, this.rowKey)
+                        this.form.keyArr.push(obj)
                     }
                     this.setDefaultKey(this.form.keyArr, '0')
                 })
@@ -472,14 +467,7 @@ export const ChartsMixins = {
         },
         // 字段新增事件
         keyAdd(index) {
-            this.form.keyArr.splice(index + 1, 0, {
-                key: '',
-                explain: '',
-                width: 120,
-                dw: '',
-                isCruxKey: false,
-                isShow: true
-            })
+            this.form.keyArr.splice(index + 1, 0, this.rowKey)
         },
         // 字段删除事件
         keyRemove(index) {
