@@ -105,20 +105,45 @@ export const elementMethodsMixins = {
                     })
             }
         },
-        // 开发区特殊图表数据处理
+        // 特殊图表数据处理
         getchartsList(obj) {
-            let moduleId = obj.config.moduleId;
-            if (moduleId === "438a15000dfa11ebb63b176e7a1a6c8c") {
+            let title = obj.config.contentAreaConfig.title;
+            if (title === "树形表格") {
                 obj.sftsqk(true) //确认未特殊情况，拦截默认数据请求处理
+                let data = [{
+                    id: 1,
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    id: 2,
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    id: 3,
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄',
+                    children: [{
+                        id: 31,
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1519 弄'
+                    }, {
+                        id: 32,
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1519 弄'
+                    }]
+                }, {
+                    id: 4,
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }]
+                obj.tsqkData(data)
 
-                this.axiosCommon({}, obj, resData => {
-                    // console.log(resData)
-                    // resData.forEach(item => {
-                    //     item.qxmj = 0
-                    // })
-
-                    obj.tsqkData(resData)
-                })
             }
 
         },

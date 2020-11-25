@@ -1,5 +1,5 @@
 <template>
-  <div class="top-bar-wrap">
+  <div class="top-bar-wrap" :style="{height: liHeight(),background:wrapBg()}">
     <div class="operation">
       <i
         class="iconfont iconxiugai theme-color"
@@ -92,6 +92,16 @@ export default {
     return {}
   },
   methods: {
+    //获取数据失败后背景颜色设置
+    wrapBg(){
+      let bg='';
+      if(!this.topBarAll.data||this.topBarAll.data.length===0){
+        bg="#3c212121"
+      }else{
+        bg=undefined
+      }
+         return bg
+    },
     //背景颜色设置
     listBackground(obj, index) {
       let form = this.topBarAll.form

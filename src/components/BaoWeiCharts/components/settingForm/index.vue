@@ -110,9 +110,7 @@
                 "
               >
                 <el-form-item label="图表头部切换显示" prop="titleShow">
-                  <el-radio-group
-                    v-model="form.titleShow"
-                  >
+                  <el-radio-group v-model="form.titleShow">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                   </el-radio-group>
@@ -428,7 +426,7 @@
                         size="mini"
                         icon="el-icon-edit"
                         circle
-                        @click="otherKeySetting(item,index)"
+                        @click="otherKeySetting(item, index)"
                       ></el-button>
                     </span>
                     <!-- 右侧按钮区域 -->
@@ -507,6 +505,43 @@
                       :value="item.key"
                     />
                   </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 表格类型选择 -->
+            <el-row v-if="form.displayMode==='table'">
+              <el-col :span="8">
+                <el-form-item label="表格类型" label-width="140px">
+                  <el-radio-group v-model="form.tableOtherConfig.tableType"> 
+                    <el-radio label="0">普通表格</el-radio>
+                    <el-radio label="1">树形表格</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+               <el-col v-if="form.tableOtherConfig.tableType=== '1'" :span="8">
+                <el-form-item label="唯一值字段">
+                  <el-select
+                    v-model="form.tableOtherConfig.onlyKey"
+                    size="small"
+                    placeholder="行数据唯一值字段"
+                  >
+                    <el-option
+                      v-for="item in form.keyArr"
+                      :key="item.key"
+                      :label="item.key"
+                      :value="item.key"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="form.tableOtherConfig.tableType=== '1'" :span="8">
+                <el-form-item label="子级字段名">
+                   <el-input
+                    v-model="form.tableOtherConfig.childKey"
+                    size="small"
+                    placeholder="树形表格子级字段名"
+                  />
+                  
                 </el-form-item>
               </el-col>
             </el-row>
@@ -855,7 +890,7 @@ import ApiChoose from "../ApiChoose/index.vue";
 import ParamKeyConfig from "./ParamKeyConfig/index";
 import TableHeaderSetting from "./tableHeaderSetting/index.vue";
 import OperateButtonSetting from "./OperateButtonSetting/index.vue";
-import OtherKeySetting from './OtherKeySetting'
+import OtherKeySetting from "./OtherKeySetting";
 export default {
   components: {
     settingJson,
@@ -864,7 +899,7 @@ export default {
     TableHeaderSetting,
     ParamKeyConfig,
     OperateButtonSetting,
-    OtherKeySetting
+    OtherKeySetting,
   },
   mixins: [DetailsTable, dragDialog, otherMixins, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],

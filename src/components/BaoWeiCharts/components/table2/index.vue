@@ -7,6 +7,8 @@
               :row-class-name="tableRowClassName"
               stripe
               :height="nowHieght()"
+              :row-key="settingForm.tableOtherConfig?settingForm.tableOtherConfig.onlyKey:undefined"
+              :tree-props="{children: settingForm.tableOtherConfig?settingForm.tableOtherConfig.childKey:'children', hasChildren: 'hasChildren'}"
               :style="{width: '100%'}">
       <!-- <el-table-column v-for="(item,index) in colums"
                        :key="index"

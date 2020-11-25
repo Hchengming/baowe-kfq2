@@ -593,8 +593,18 @@ export const otherMixins = {
             }
         }
     },
+    watch: {
+        form: {
+            handler() {
+                this.formInit()
+            }
+        },
+        deep: true
+
+    },
     mounted() {
         this.options = []
+        this.formInit()
         dataPresentation.forEach(item => {
             this.options.push({
                 value: item.type,
@@ -603,6 +613,23 @@ export const otherMixins = {
         })
     },
     methods: {
+        //form数据初始化
+        formInit() {
+            if (!this.form.blankTemplateConfig) {
+                this.form.blankTemplateConfig = {}
+            }
+            //其他表格配置字段初始化 tableOtherConfig
+            if (!this.form.tableOtherConfig) {
+                this.$set(this.form, 'tableOtherConfig', {
+                        tableType: '0',
+                        onlyKey: "",
+                        childKey: "children"
+                    })
+                    // this.form.tableOtherConfig = {
+
+                // }
+            }
+        },
         //内容部分下拉事件
         elDialogBodyScroll() {
             let _this = this
@@ -654,13 +681,12 @@ export const otherMixins = {
         },
         // 弹窗显示事件
         show(obj) {
-            if (!this.form.blankTemplateConfig) {
-                this.form.blankTemplateConfig = {}
-            }
+
             this.dialogVisible = true
             if (obj) {
                 this.parentParamsAll = obj
             }
+
             this.form.isDrafting = this.form.isDrafting ? true : false
                 //内容部分下拉事件
             this.elDialogBodyScroll()

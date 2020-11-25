@@ -22,7 +22,7 @@
     <!-- 地图组件 -->
     <!-- <myMap ref="myMaps"></myMap> -->
     <!-- 顶部栏组件 -->
-    <top-bar v-if="topBarAll.data&&topBarAll.data.length>0"
+    <top-bar v-if="topListShow"
              ref="topBar"
              :item-api-data="itemApiData"
              :top-bar-all="topBarAll"
