@@ -10,6 +10,19 @@ export default {
             }
         }
     },
+    watch: {
+        isShow: {
+            handler(val) {
+                if (!val) {
+                    this.otherKeySetting = {
+                        cellRenderer: null,
+                        tipRenderer: null
+                    }
+                }
+
+            }
+        }
+    },
     methods: {
         //弹窗显示事件
         show(item, index) {
@@ -25,6 +38,10 @@ export default {
         onSubmit() {
             Object.assign(this.form.keyArr[this.keyNowIndex], this.otherKeySetting)
             this.isShow = false
+                // this.otherKeySetting = {
+                //         cellRenderer: null,
+                //         tipRenderer: null
+                //     }
                 // console.log(this.form.keyArr[this.keyNowIndex])
         },
         //textarea放大事件---js脚本

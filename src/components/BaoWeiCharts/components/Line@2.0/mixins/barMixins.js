@@ -30,6 +30,39 @@ export default {
                 }
             }
         },
+        //柱状图、条形图出现点击状态事件
+        barClick(params, options, myChart) {
+            //柱状图
+            if (this.chartType === 'histogram') {
+                myChart.setOption({
+                    xAxis: {
+                        axisLabel: {
+                            textStyle: {
+                                color: function(value, index) {
+                                    return index == params.dataIndex ? '#0091FF' : '#333333'
+                                }
+                            }
+                        }
+
+                    }
+                })
+            } else if (this.chartType === 'bar') {
+                //条形图
+                myChart.setOption({
+                    yAxis: {
+                        axisLabel: {
+                            textStyle: {
+                                color: function(value, index) {
+                                    return index == params.dataIndex ? '#0091FF' : '#333333'
+                                }
+                            }
+                        }
+
+                    }
+                })
+
+            }
+        },
         // series图表显示配置  
         setBarSeries(options) {
 
@@ -54,6 +87,7 @@ export default {
                 this.data.forEach(item => {
                     obj.data.push(Number(item[items.key]))
                 })
+
                 options.series.push(obj)
             })
 
@@ -67,10 +101,14 @@ export default {
             this.data.forEach(item => {
                 dataTitle.push(item[this.titleKey])
             })
+            if (this.chartType === 'bar') {
+                dataTitle.reverse()
+            }
             const dataAxis = {
                 type: 'category',
                 data: dataTitle
             }
+
             if (this.chartType === 'bar') {
                 options.xAxis = valueAxis
                 options.yAxis = dataAxis

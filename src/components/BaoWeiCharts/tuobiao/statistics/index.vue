@@ -27,7 +27,7 @@
             <div class="left">
               <span class="txt1">{{ settingForm.title }}</span>
               <span v-if="settingForm.subtitle1">---</span>
-              <span class="txt2 theme-color">{{ settingForm.subtitle1 }}</span>
+              <span class="txt2">{{ settingForm.subtitle1 }}</span>
             </div>
             <div class="right">
               <span class="txt3">{{ settingForm.subtitle2 }}</span>
@@ -342,9 +342,9 @@ export default {
         this.statisticsAll.conditionAreaConfig &&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
-        return this.modelStyle.height - 56 - 42
+        return this.modelStyle.height - 46 - 42
       } else {
-        return this.modelStyle.height - 56
+        return this.modelStyle.height - 46
       }
     },
     // 更多按钮点击事件

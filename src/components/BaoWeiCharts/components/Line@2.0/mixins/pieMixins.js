@@ -29,6 +29,15 @@ export default {
                 }
             }
         },
+        //饼图、环图显示数据设置
+        pieLabelSetting(options) {
+            if (['ring', 'pie'].indexOf(this.chartType) > -1) {
+                options.label = {
+                    show: true,
+                    formatter: '{b} : {c}'
+                }
+            }
+        },
         //饼图顶部选择按钮点击事件
         pieChange(item) {
             this.chooseItem = item
@@ -36,17 +45,18 @@ export default {
         },
         //饼图、环图 series图表显示配置 
         setPieSeries(options) {
+
             //01 当前数据类选择
             if (!this.chooseItem) {
                 this.chooseItem = this.chartColumns[0]
             }
-            console.log(this.chooseItem)
-                //02 series配置
+            // console.log(this.chooseItem)
+            //02 series配置
             let seriesData = [];
 
             this.data.forEach(item => {
                 seriesData.push({
-                    value: item[this.chooseItem.key],
+                    value: Number(item[this.chooseItem.key]) ? Number(item[this.chooseItem.key]) : item[this.chooseItem.key],
                     name: item[this.titleKey]
                 })
             })

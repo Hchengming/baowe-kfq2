@@ -6,12 +6,16 @@ export default {
             xAxisLabel: { //x轴label公共配置
                 interval: 0,
                 rotate: 25,
-                fontSize: 10,
-                color: '#333333'
+                fontSize: 12,
+                textStyle: {
+                    // color: '#333333'
+                }
+
             },
             yAxisLabel: {
-                fontSize: 10,
-                interval: 0
+                fontSize: 12,
+                interval: 0,
+                // color: '#333333'
             }
         }
     },
@@ -23,8 +27,6 @@ export default {
         //         let myChart = this.$echarts.init(this.$refs['myCharts'])
         //        
         //         this.echartsInit()
-
-
         //     },
         //     deep: true
         // },
@@ -86,15 +88,34 @@ export default {
             this.setSeries(options)
                 //6、悬浮框 tooltip 配置
             this.setTooltip(options)
-
-
+                //7、图表其他设置
+            this.otherSetting(options)
+                // 8、鼠标事件
+            let _this = this;
+            myChart.on('click', function(params) {
+                _this.chartClick(params, options, myChart)
+                _this.$emit('eventClick', params)
+            });
 
             // 绘制图表
             // console.log(this.chartType)
-            console.log(options)
+            // console.log(options)
             myChart.setOption(options)
 
 
+        },
+        //7、图表其他设置
+        otherSetting(options) {
+            //01、饼图、环图显示数据设置
+            this.pieLabelSetting(options)
+        },
+        //图表点击事件
+        chartClick(params, options, myChart) {
+
+            //柱状图、条形图点击状态事件
+            if (this.chartType === 'histogram' || this.chartType === 'bar') {
+                this.barClick(params, options, myChart)
+            }
         },
         //后台返回字段配置数据筛选---删除未勾选字段，查找标题字段
         setChartColumns() {
@@ -174,10 +195,10 @@ export default {
                 })
                 if (['histogram', 'line', 'radar'].indexOf(this.chartType) > -1) {
                     let num = Math.floor(vauleMaxlength / 3)
-                    gridLeft = vauleMaxlength * 5 + num * 5
+                    gridLeft = vauleMaxlength * 5 + num * 5 + 15
                         // console.log(vauleMaxlength, num, 'bar')
                 } else if (['bar'].indexOf(this.chartType) > -1) {
-                    gridLeft = titleMaxlength * 10 + 20
+                    gridLeft = titleMaxlength * 11 + 20
                         // console.log(titleMaxlength, 'histogram', gridLeft)
                 }
             }

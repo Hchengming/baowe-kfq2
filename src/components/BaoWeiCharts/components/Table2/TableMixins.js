@@ -14,17 +14,20 @@ export default {
             return this.jsMethodsFuc(colums, rowData, "tipRenderer");
         },
         //单元格配置js脚本运行公共方法
-        jsMethodsFuc(colums, rowData, key) {
+        jsMethodsFuc(colums, rowData, keys) {
             let docHtml = "";
-            if (colums[key]) {
-                const fnc = eval(`(false || ${colums[key]})`);
+            if (colums[keys]) {
+                // console.log(colums)
+                const fnc = eval(`(false || ${colums[keys]})`);
                 docHtml = fnc(colums, rowData);
+
             } else {
                 docHtml = rowData[colums.key];
             }
             if (typeof docHtml === "number") {
                 docHtml = docHtml.toString();
             }
+
             return docHtml;
         },
         //单元格类名设置

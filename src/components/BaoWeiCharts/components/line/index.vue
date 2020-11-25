@@ -43,11 +43,12 @@
         <div class="v_chart_pie_choose">
           <div class="btn">
             <button v-for="(item,index) in picRingBtnArr"
+            v-show="picRingBtnArr.length>1"
                     :key="index"
                     :class="{'theme-bg-color':pieType==item.explain}"
                     @click="pieChange(item.explain)">{{ item.explain }}</button>
           </div>
-          <span class="txt">单位({{ pieDW }})</span>
+          <span class="txt" v-show="picRingBtnArr.length>1">单位({{ pieDW }})</span>
         </div>
         <div class="pie_box">
           <ve-pie v-if="chartType=='pie'"

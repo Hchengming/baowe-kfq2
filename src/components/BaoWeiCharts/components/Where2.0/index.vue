@@ -1,36 +1,35 @@
 <template>
   <div
-    v-if="conditionAreaConfig.screenData&&conditionAreaConfig.screenData.length>0"
+    v-if="
+      conditionAreaConfig.screenData &&
+      conditionAreaConfig.screenData.length > 0
+    "
     class="static-where-2"
   >
     <div class="where-left">
-      <el-form
-        ref="form"
-        class="where-form"
-        :model="whereAll.form"
-      >
+      <el-form ref="form" class="where-form" :model="whereAll.form">
         <el-form-item
-          v-for="(item,index) in whereAll.data"
+          v-for="(item, index) in whereAll.data"
           :key="index"
           :label="label(item)"
-          :label-width="item.sfjssj === '1'?'10px':item.labelWidth+'px'"
+          :label-width="item.sfjssj === '1' ? '10px' : item.labelWidth + 'px'"
         >
           <!-- 输入框 -->
           <el-input
-            v-if="item.type=='input'"
+            v-if="item.type == 'input'"
             v-model="whereAll.form[item.key]"
-            :style="{width:item.rightWidth+'px'}"
+            :style="{ width: item.rightWidth + 'px' }"
             size="small"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           />
           <!-- 下拉框 -->
           <el-select
-            v-if="item.type=='select'"
+            v-if="item.type == 'select'"
             v-model="whereAll.form[item.key]"
             size="small"
-            :style="{width:item.rightWidth+'px'}"
+            :style="{ width: item.rightWidth + 'px' }"
             placeholder="请选择"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           >
             <el-option
               v-for="option in item.arr"
@@ -41,96 +40,99 @@
           </el-select>
           <!-- 单选框 -->
           <el-radio-group
-            v-if="item.type=='radio'&&item.styleType!=='2'"
+            v-if="item.type == 'radio' && item.styleType !== '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           >
             <el-radio
               v-for="radioItem in item.arr"
               :key="radioItem.value"
-              :border="item.styleType==='1'"
+              :border="item.styleType === '1'"
               :label="radioItem.value"
-            >{{ radioItem.label }}</el-radio>
+              >{{ radioItem.label }}</el-radio
+            >
           </el-radio-group>
           <el-radio-group
-            v-if="item.type=='radio'&&item.styleType==='2'"
+            v-if="item.type == 'radio' && item.styleType === '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           >
             <el-radio-button
               v-for="radioItem in item.arr"
               :key="radioItem.value"
               :label="radioItem.value"
-            >{{ radioItem.label }}</el-radio-button>
+              >{{ radioItem.label }}</el-radio-button
+            >
           </el-radio-group>
           <!-- 多选框 -->
           <!-- <p v-if="item.type=='checkbox'"> {{item.arr[0].value}}</p> -->
           <el-checkbox-group
-            v-if="item.type=='checkbox'&&item.styleType!=='2'"
+            v-if="item.type == 'checkbox' && item.styleType !== '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           >
             <el-checkbox
-              v-for="(obj,iii) in item.arr"
+              v-for="(obj, iii) in item.arr"
               :key="iii"
-              :border="item.styleType==='1'"
+              :border="item.styleType === '1'"
               :label="obj.value"
-            >{{ obj.label }}</el-checkbox>
+              >{{ obj.label }}</el-checkbox
+            >
           </el-checkbox-group>
           <el-checkbox-group
-            v-if="item.type=='checkbox'&&item.styleType==='2'"
+            v-if="item.type == 'checkbox' && item.styleType === '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           >
-
             <el-checkbox-button
               v-for="checkboxItem in item.arr"
               :key="checkboxItem.value"
               :label="checkboxItem.value"
-            >{{ checkboxItem.label }}</el-checkbox-button>
+              >{{ checkboxItem.label }}</el-checkbox-button
+            >
           </el-checkbox-group>
           <!-- 数字输入框 -->
           <el-input-number
-            v-if="item.type=='number'"
+            v-if="item.type == 'number'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert=='1')"
+            @change="onSubmit(item.isInsert == '1')"
           />
           <!-- 日期框  -->
           <el-date-picker
-            v-if="item.type==='date'"
+            v-if="item.type === 'date'"
             v-model="whereAll.form[item.key]"
-            :style="{width:item.rightWidth+'px'}"
-            :type="item.styleType?item.styleType:'date'"
+            :style="{ width: item.rightWidth + 'px' }"
+            :type="item.styleType ? item.styleType : 'date'"
             size="small"
-            :placeholder="datePlaceholder(item,index)"
-            @change="onSubmit(item.isInsert=='1')"
+            :placeholder="datePlaceholder(item, index)"
+            @change="onSubmit(item.isInsert == '1', item)"
           />
 
           <!-- 日期时间框  -->
           <el-date-picker
-            v-if="item.type==='dateTime'"
+            v-if="item.type === 'dateTime'"
             v-model="whereAll.form[item.key]"
-            :style="{width:item.rightWidth+'px'}"
+            :style="{ width: item.rightWidth + 'px' }"
             type="datetime"
-            :placeholder="dateTimePlaceholder(item,index)"
-            @change="onSubmit(item.isInsert=='1')"
+            :placeholder="dateTimePlaceholder(item, index)"
+            @change="onSubmit(item.isInsert == '1', item)"
           />
         </el-form-item>
       </el-form>
       <div class="staticWhereBottom">
         <el-button
-          v-if="conditionAreaConfig.isShowInsertButton!=='0'"
+          v-if="conditionAreaConfig.isShowInsertButton !== '0'"
           type="primary"
           size="small"
           @click="onSubmit(true)"
-        >查 询</el-button>
+          >查 询</el-button
+        >
       </div>
-
     </div>
     <div class="where-right">
       <el-button
@@ -139,32 +141,34 @@
         :type="item.type"
         size="small"
         @click="whereOtherBtnClick(item)"
-      >{{ item.name }}</el-button>
+        >{{ item.name }}</el-button
+      >
     </div>
   </div>
 </template>
 <script>
+import '../../utils/utils.js'
 export default {
   props: {
     conditionAreaConfig: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       isShow: false,
       whereAll: {
         data: [],
-        form: {}
+        form: {},
       },
-      btnSettingData: []
+      btnSettingData: [],
     }
   },
   watch: {
     conditionAreaConfig() {
       this.setWhereAll(this.conditionAreaConfig)
-    }
+    },
   },
   mounted() {
     this.setWhereAll(this.conditionAreaConfig)
@@ -174,7 +178,10 @@ export default {
     datePlaceholder(item, index) {
       if (item.sfjssj === '1') {
         return '结束日期'
-      } else if (index + 1 <= this.whereAll.data.length - 1 && this.whereAll.data[index + 1].sfjssj === '1') {
+      } else if (
+        index + 1 <= this.whereAll.data.length - 1 &&
+        this.whereAll.data[index + 1].sfjssj === '1'
+      ) {
         return '开始日期'
       } else {
         return '日期选择'
@@ -184,7 +191,10 @@ export default {
     dateTimePlaceholder(item, index) {
       if (item.sfjssj === '1') {
         return '结束日期时间'
-      } else if (index + 1 <= this.whereAll.data.length - 1 && this.whereAll.data[index + 1].sfjssj === '1') {
+      } else if (
+        index + 1 <= this.whereAll.data.length - 1 &&
+        this.whereAll.data[index + 1].sfjssj === '1'
+      ) {
         return '开始日期时间'
       } else {
         return '日期时间选择'
@@ -192,7 +202,10 @@ export default {
     },
     // 左侧标签显示数据
     label(item) {
-      if ((item.type === 'date' || item.type === 'dateTime') && item.sfjssj === '1') {
+      if (
+        (item.type === 'date' || item.type === 'dateTime') &&
+        item.sfjssj === '1'
+      ) {
         return '-'
       } else {
         return item.label ? item.label + ':' : ''
@@ -201,23 +214,33 @@ export default {
     // 弹窗显示事件
     setWhereAll(conditionAreaConfig) {
       if (conditionAreaConfig) {
-        if (!conditionAreaConfig.screenData ||
-          typeof conditionAreaConfig.screenData !== 'object') {
+        if (
+          !conditionAreaConfig.screenData ||
+          typeof conditionAreaConfig.screenData !== 'object'
+        ) {
           conditionAreaConfig.screenData = []
         }
-        if (!conditionAreaConfig.btnSettingData ||
-          typeof conditionAreaConfig.btnSettingData !== 'object') {
+        if (
+          !conditionAreaConfig.btnSettingData ||
+          typeof conditionAreaConfig.btnSettingData !== 'object'
+        ) {
           conditionAreaConfig.btnSettingData = []
         }
       }
 
-      const whereData = JSON.parse(JSON.stringify(conditionAreaConfig.screenData))
+      const whereData = JSON.parse(
+        JSON.stringify(conditionAreaConfig.screenData)
+      )
       this.whereAll.form = {}
 
-      whereData.forEach(item => {
+      whereData.forEach((item) => {
         if (item.defaultValue) {
           if (item.type === 'checkbox') {
-            this.$set(this.whereAll.form, item.key, JSON.parse(item.defaultValue))
+            this.$set(
+              this.whereAll.form,
+              item.key,
+              JSON.parse(item.defaultValue)
+            )
           } else {
             this.$set(this.whereAll.form, item.key, item.defaultValue)
           }
@@ -235,10 +258,25 @@ export default {
 
       this.$set(this.whereAll, 'data', whereData)
       // 其他按钮配置
-      this.btnSettingData = JSON.parse(JSON.stringify(conditionAreaConfig.btnSettingData))
+      this.btnSettingData = JSON.parse(
+        JSON.stringify(conditionAreaConfig.btnSettingData)
+      )
     },
     // 查询按钮点击事件
-    onSubmit(offon) {
+    onSubmit(offon, item) {
+      if (item) {
+        // 时间日期格式转换
+        if (item.type === 'date') {
+          this.whereAll.form[item.key] = new Date(
+            this.whereAll.form[item.key]
+          ).Format('yyyy-MM-dd')
+          // console.log(this.whereAll.form[item.key])
+        } else if (item.type === 'dateTime') {
+          this.whereAll.form[item.key] = new Date(
+            this.whereAll.form[item.key]
+          ).Format('yyyy-MM-dd hh:mm:ss')
+        }
+      }
       if (!offon) return
       const form = JSON.parse(JSON.stringify(this.whereAll.form))
       // console.log(form)
@@ -256,7 +294,7 @@ export default {
         test()
       }
       this.$emit('whereOtherBtnClick', buttonSetting)
-    }
-  }
+    },
+  },
 }
 </script>

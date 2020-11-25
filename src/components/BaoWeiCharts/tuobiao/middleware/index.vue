@@ -439,7 +439,6 @@ export default {
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
-      //
       const resDataFn = (resData) => {
         // console.log(JSON.stringify(resData) )
         if (
