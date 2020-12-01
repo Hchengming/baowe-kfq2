@@ -44,7 +44,6 @@ export default {
     },
     settingJson: {
       handler () {
-        console.log('123')
         this.setForm()
       },
       deep: true

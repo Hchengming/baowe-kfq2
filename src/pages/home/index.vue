@@ -98,7 +98,7 @@ body {
 }
 // @import '@/styles/element-variables.scss';
 // @import "./system.scss";
-$--color-primary: #0A1A33;
+$--color-primary: #4e6ef2;
 .theme-color {
   color: $--color-primary !important;
 }

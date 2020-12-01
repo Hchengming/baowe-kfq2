@@ -60,7 +60,6 @@ export default {
                         if (resData.length > 0) {
                             this.topListShow = true
                             this.nowElementId = resData[0].elementId
-                                // console.log(resData)
                             const elementConfig = JSON.parse(resData[0].elementConfigs)
                                 // console.log(elementConfig)
                             this.topBarAll.configData = elementConfig.topBarSettingData
@@ -166,7 +165,7 @@ export default {
         topBarDelete() {
             serviceAxios
                 .post(
-                    this.settingConfig.commonUrl + '/busElementConfig/deleteElemeteById', { elementId: this.nowElementId }
+                    this.settingConfig.commonUrl + '/busElementConfig/deleteElemeteById', { elementId: this.nowElementId, moduleId: this.nowMenuItem.menuId }
                 )
                 .then(res => {
                     const code = res.code

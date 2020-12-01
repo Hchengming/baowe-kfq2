@@ -38,6 +38,15 @@
             </el-col>
           </el-row>
           <el-row type="flex" class="row-bg">
+             <el-col :span="8">
+              <el-form-item label="模块ID" prop="moreUrl">
+                <el-input
+                  v-model="form.elementId"
+                  size="small"
+                  placeholder="当前模块元素外层id"
+                />
+              </el-form-item>
+            </el-col>
             <el-col :span="8">
               <el-form-item label="是否添加更多按钮" prop="isAddMoreIcon">
                 <el-radio-group v-model="form.isAddMoreIcon">
@@ -56,6 +65,13 @@
               </el-form-item>
             </el-col>
           </el-row>
+           <el-row>
+             <el-col :span="8">
+                  <el-form-item label="标题栏是否隐藏" prop="isHeaderHide">
+                <el-switch v-model="form.isHeaderHide"></el-switch>
+              </el-form-item>
+             </el-col>
+           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="模块内容" prop="moduleType">

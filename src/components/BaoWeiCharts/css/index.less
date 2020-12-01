@@ -20,6 +20,7 @@ body{
 .theme-bg {
   background: @bg;
 }
+.clear
 /*框架布局*/
 #bao-wei-charts {
   height: 100%;
@@ -273,6 +274,7 @@ body{
       margin-left: 20px;
       display: flex;
       justify-content: flex-start;
+      flex-wrap: wrap;
       padding: 0;
       li {
         width: @width1;
@@ -869,6 +871,7 @@ body{
 }
 /*字段配置列表*/
 .keys-config-setting {
+  // display: inline-block;
   .tips {
     height: 12px;
     width: 100%;
@@ -1030,7 +1033,7 @@ body{
 /*screenForm*/
 .screenForm {
   .el-dialog {
-    width: 1100px;
+    width: 1200px;
     .screenForm-top {
       margin-bottom: 15px;
     }
@@ -1419,7 +1422,8 @@ body{
     display: flex;
   }
   .where-form {
-    display: flex;
+    // display: flex;
+
     .el-form-item__label {
       padding-right: 0px;
       text-align: left;
@@ -1428,6 +1432,7 @@ body{
     .el-form-item {
       margin-bottom: 0;
       margin-right: 5px;
+      float: left;
     }
     .el-input__inner {
       padding: 0 5px;
@@ -1491,6 +1496,7 @@ body{
   position: relative;
   z-index: 4;
   padding: 5px 5px 0;
+  // box-sizing: content-box;
   .operation {
     position: absolute;
     top: 0;
@@ -1532,6 +1538,7 @@ body{
         position: relative;
         width: 100%;height: 100%;
         padding: 5px;
+        box-sizing: border-box;
         background: url(../images/bg.png);
         background-size: 100% 100%;
       }
@@ -1645,30 +1652,39 @@ body{
   // border-radius: 5px;
   overflow: hidden;
 }
-.iframe-statistics-wrap {
+.iframe-statistics-wrap{
   padding: 0;
   box-shadow: 0px 0px 5px rgba(123, 117, 117, 0.54);
-  // border-radius: 0;
+  .statisticsBox .statistics-content {
+    padding: 0;
+  }
+}
+.iframe-statistics-wrap,.title-hide {
+  
   .statistics_title {
     box-sizing: border-box;
     display: none;
     position: absolute;
-    padding: 5px 10px 0;
-    // padding-top: 5px;
     width: 100%;
     top: 0px;
     left: 0px;
     z-index: 8;
-    // background: #f5f8fb;
     color: white;
   }
-  .statisticsBox .statistics-content {
-    padding: 0;
-  }
+ 
   &:hover .statistics_title {
     display: block;
   }
 }
+// .statisticsWrap.title-hide{
+//   .statistics_title{
+//     display: none;
+//     pos
+//   }
+//  &:hover .statistics_title {
+//   display: block;
+// }
+// } 
 /*菜单编码弹窗*/
 .menu-form-setting {
   .el-dialog {
@@ -1763,6 +1779,17 @@ body{
         font-size: 16px;
         
       }
+    }
+  }
+}
+
+
+/*tabs切换配置模块*/
+.tabs-setting-form-dialog{
+  .el-dialog{
+    width:1000px;
+    .el-form-item{
+      margin-bottom: 12px;
     }
   }
 }

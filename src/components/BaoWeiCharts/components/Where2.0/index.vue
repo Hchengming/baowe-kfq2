@@ -1,9 +1,6 @@
 <template>
   <div
-    v-if="
-      conditionAreaConfig.screenData &&
-      conditionAreaConfig.screenData.length > 0
-    "
+    v-if="conditionAreaConfig && conditionAreaConfig.screenData.length > 0"
     class="static-where-2"
   >
     <div class="where-left">
@@ -122,6 +119,13 @@
             :placeholder="dateTimePlaceholder(item, index)"
             @change="onSubmit(item.isInsert == '1', item)"
           />
+
+          <!-- 其他 通用配置项 -->
+          <div v-if="item.type ==='other'">
+            <common-where></common-where>
+            <h1>{{item.value}}</h1>
+          </div>
+          <br/>
         </el-form-item>
       </el-form>
       <div class="staticWhereBottom">
@@ -147,8 +151,10 @@
   </div>
 </template>
 <script>
-import '../../utils/utils.js'
+import "../../utils/utils.js";
+import CommonWhere from './CommonWhere'
 export default {
+  components:{CommonWhere},
   props: {
     conditionAreaConfig: {
       type: Object,
@@ -163,138 +169,157 @@ export default {
         form: {},
       },
       btnSettingData: [],
-    }
+    };
   },
   watch: {
     conditionAreaConfig() {
-      this.setWhereAll(this.conditionAreaConfig)
+      this.setWhereAll(this.conditionAreaConfig);
     },
   },
   mounted() {
-    this.setWhereAll(this.conditionAreaConfig)
+    this.setWhereAll(this.conditionAreaConfig);
   },
   methods: {
     // 日期 placeholder显示
     datePlaceholder(item, index) {
-      if (item.sfjssj === '1') {
-        return '结束日期'
+      if (item.sfjssj === "1") {
+        return "结束日期";
       } else if (
         index + 1 <= this.whereAll.data.length - 1 &&
-        this.whereAll.data[index + 1].sfjssj === '1'
+        this.whereAll.data[index + 1].sfjssj === "1"
       ) {
-        return '开始日期'
+        return "开始日期";
       } else {
-        return '日期选择'
+        return "日期选择";
       }
     },
     // 日期时间 placeholder显示
     dateTimePlaceholder(item, index) {
-      if (item.sfjssj === '1') {
-        return '结束日期时间'
+      if (item.sfjssj === "1") {
+        return "结束日期时间";
       } else if (
         index + 1 <= this.whereAll.data.length - 1 &&
-        this.whereAll.data[index + 1].sfjssj === '1'
+        this.whereAll.data[index + 1].sfjssj === "1"
       ) {
-        return '开始日期时间'
+        return "开始日期时间";
       } else {
-        return '日期时间选择'
+        return "日期时间选择";
       }
     },
     // 左侧标签显示数据
     label(item) {
       if (
-        (item.type === 'date' || item.type === 'dateTime') &&
-        item.sfjssj === '1'
+        (item.type === "date" || item.type === "dateTime") &&
+        item.sfjssj === "1"
       ) {
-        return '-'
+        return "-";
       } else {
-        return item.label ? item.label + ':' : ''
+        return item.label ? item.label + ":" : "";
       }
     },
     // 弹窗显示事件
     setWhereAll(conditionAreaConfig) {
-      if (conditionAreaConfig) {
-        if (
-          !conditionAreaConfig.screenData ||
-          typeof conditionAreaConfig.screenData !== 'object'
-        ) {
-          conditionAreaConfig.screenData = []
-        }
-        if (
-          !conditionAreaConfig.btnSettingData ||
-          typeof conditionAreaConfig.btnSettingData !== 'object'
-        ) {
-          conditionAreaConfig.btnSettingData = []
-        }
+      if (!conditionAreaConfig) return;
+      // if (conditionAreaConfig) {
+      if (
+        !conditionAreaConfig.screenData ||
+        typeof conditionAreaConfig.screenData !== "object"
+      ) {
+        conditionAreaConfig.screenData = [];
       }
-
+      if (
+        !conditionAreaConfig.btnSettingData ||
+        typeof conditionAreaConfig.btnSettingData !== "object"
+      ) {
+        conditionAreaConfig.btnSettingData = [];
+      }
+      // }
+      // conditionAreaConfig.commonFilterData = conditionAreaConfig.commonFilterData
+      //   ? conditionAreaConfig.commonFilterData
+      //   : [];
       const whereData = JSON.parse(
         JSON.stringify(conditionAreaConfig.screenData)
-      )
-      this.whereAll.form = {}
+      );
+      this.whereAll.form = {};
 
       whereData.forEach((item) => {
         if (item.defaultValue) {
-          if (item.type === 'checkbox') {
+          if (item.type === "checkbox") {
             this.$set(
               this.whereAll.form,
               item.key,
               JSON.parse(item.defaultValue)
-            )
+            );
           } else {
-            this.$set(this.whereAll.form, item.key, item.defaultValue)
+            this.$set(this.whereAll.form, item.key, item.defaultValue);
           }
         } else {
-          if (item.type === 'number') {
-            this.$set(this.whereAll.form, item.key, null)
+          if (item.type === "number") {
+            this.$set(this.whereAll.form, item.key, null);
           }
-          if (item.type === 'checkbox') {
-            this.$set(this.whereAll.form, item.key, [])
+          if (item.type === "checkbox") {
+            this.$set(this.whereAll.form, item.key, []);
           } else {
-            this.$set(this.whereAll.form, item.key, '')
+            this.$set(this.whereAll.form, item.key, "");
           }
         }
-      })
+      });
 
-      this.$set(this.whereAll, 'data', whereData)
+      //  通用筛选项数据导入
+      if (
+        conditionAreaConfig.commonFilterData &&
+        conditionAreaConfig.commonFilterData.length > 0
+      ) {
+         console.log(conditionAreaConfig.commonFilterData)
+        conditionAreaConfig.commonFilterData.forEach((item) => {
+          whereData.splice(item.index, 0, {
+            type: "other",
+            slot: item.filterItem,
+            value: item.filterItem,
+            // label:item.label
+          });
+        });
+      }
+      console.log(whereData)
+      this.$set(this.whereAll, "data", whereData);
       // 其他按钮配置
       this.btnSettingData = JSON.parse(
         JSON.stringify(conditionAreaConfig.btnSettingData)
-      )
+      );
     },
     // 查询按钮点击事件
     onSubmit(offon, item) {
       if (item) {
         // 时间日期格式转换
-        if (item.type === 'date') {
+        if (item.type === "date") {
           this.whereAll.form[item.key] = new Date(
             this.whereAll.form[item.key]
-          ).Format('yyyy-MM-dd')
+          ).Format("yyyy-MM-dd");
           // console.log(this.whereAll.form[item.key])
-        } else if (item.type === 'dateTime') {
+        } else if (item.type === "dateTime") {
           this.whereAll.form[item.key] = new Date(
             this.whereAll.form[item.key]
-          ).Format('yyyy-MM-dd hh:mm:ss')
+          ).Format("yyyy-MM-dd hh:mm:ss");
         }
       }
-      if (!offon) return
-      const form = JSON.parse(JSON.stringify(this.whereAll.form))
+      if (!offon) return;
+      const form = JSON.parse(JSON.stringify(this.whereAll.form));
       // console.log(form)
-      this.$emit('whereSubmit', form)
+      this.$emit("whereSubmit", form);
     },
     // 其他按钮点击事件
     whereOtherBtnClick(buttonSetting) {
       if (
         buttonSetting.jsMethods &&
-        buttonSetting.jsMethods.replace(/\s*/g, '') !== ''
+        buttonSetting.jsMethods.replace(/\s*/g, "") !== ""
       ) {
-        const funcStr = buttonSetting.jsMethods
+        const funcStr = buttonSetting.jsMethods;
         // eslint-disable-next-line no-eval
-        const test = eval('(false || ' + funcStr + ')')
-        test()
+        const test = eval("(false || " + funcStr + ")");
+        test();
       }
-      this.$emit('whereOtherBtnClick', buttonSetting)
+      this.$emit("whereOtherBtnClick", buttonSetting);
     },
   },
-}
+};
 </script>

@@ -101,9 +101,11 @@ export default {
       templateArr: ["baowei_1"],
       menuId: "",
       addSettingForm: {
+        componentType: "charts",//组件类型  
         title: "", // 标题
         subtitle1: "", // 副标题1
         subtitle2: "", // 副标题2
+        elementId:"",//模块元素id
         isAddMoreIcon: "0", // 是否添加更多按钮 0：否 1：是
         moreUrl: "", // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
         moduleType: "0", // 模块内容  0:图表 1:iframe地图 2:详情表格展示 3：空白模板
@@ -158,6 +160,7 @@ export default {
         pageSize: 10, // 每页显示数据条数
         isDestail: "0", // 是否添加详情弹窗
         isDrafting: false, //是否给用户启用模块拖拽功能
+        isHeaderHide:false,//模块头部是否显示
       },
       addSettingFormClone: {},
     };

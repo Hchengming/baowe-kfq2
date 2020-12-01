@@ -53,6 +53,7 @@
               @mouseover="chooseType = 1">
             页面
           </li>
+          
         </ul>
       </div>
     </div>
@@ -68,6 +69,8 @@
       <!-- 页面组件新增 -->
       <assembly v-if="rightDrawerType == 'assembly'"
                 @addAssembly="addAssembly" />
+       <!-- tabs切换组件 -->
+       <tab-setting ref="tabsSetting"  @tabsAdd="tabsAdd" :tabsForm="tabsConfig"></tab-setting>
     </el-drawer>
   </div>
 </template>
@@ -79,6 +82,8 @@ import MenuSetting from '../../components/MenuSetting'
 import TopBar from '../../components/TopBar@2.0'
 import TopBarSetting from '../../components/TopBarSetting'
 import topBarMixins from './mixins/topBarMixins.js'
+import myPageMixins from './mixins/myPageMixins.js'
+import TabSetting from '../../components/TabSetting'
 /* ====end==== */
 // import myMap from '../../components/maps/map'
 export default {
@@ -87,10 +92,10 @@ export default {
     assembly,
     TopBar,
     TopBarSetting,
-    MenuSetting
+    MenuSetting,TabSetting
     // myMap
   },
-  mixins: [topBarMixins],
+  mixins: [topBarMixins,myPageMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -175,9 +180,9 @@ export default {
         case 'topBar': // 顶部栏组件
           this.$refs['topBarSetting'].show()
           break
-        // case 'map': //行政区图
-        //   this.$refs['myMaps'].addTemplate()
-        //   break
+        case 'tabs': //行政区图
+          this.$refs['tabsSetting'].show()
+          break
       }
       this.settingDrawer = false
     }
