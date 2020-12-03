@@ -150,4 +150,8 @@ $--color-primary: #4e6ef2;
 .el-dropdown .el-dropdown__caret-button.el-button--default::before {
   background: rgba(220, 223, 230, .5)
 }
+.el-radio-button__orig-radio:checked+.el-radio-button__inner{
+  background-color:$--color-primary;
+    border-color:$--color-primary;
+}
 </style>

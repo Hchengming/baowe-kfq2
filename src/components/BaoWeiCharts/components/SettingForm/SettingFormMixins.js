@@ -163,6 +163,7 @@ export const ChartsMixins = {
                 this.$refs['apiChoose'].getDataIview()
             } else {
                 this.form.options = 'GET'
+                this.$refs['apiChoose'].getItemApi()
             }
         },
         // 操作按钮配置 按钮点击事件
@@ -187,7 +188,8 @@ export const ChartsMixins = {
                         explain: '操作',
                         width: 100
                     }
-                    Object.assign(objs, this.rowKey)
+                    this.setRowKey(objs)
+
                     this.form.keyArr.push(objs)
                 }
             } else {
@@ -345,11 +347,19 @@ export const ChartsMixins = {
                                 key,
                                 explain: key
                             }
-                            Object.assign(obj, this.rowKey)
+                            this.setRowKey(obj)
                             this.form.keyArr.push(obj)
                         }
                     }
                 })
+        },
+        //字段新增数据格式化
+        setRowKey(obj) {
+            for (let key in this.rowKey) {
+                if (!obj[key]) {
+                    obj[key] = this.rowKey[key]
+                }
+            }
         },
         // 字段获取事件
         getKeysData() {
@@ -369,7 +379,7 @@ export const ChartsMixins = {
                                 key: item.key,
                                 explain: item.label
                             }
-                            Object.assign(obj, this.rowKey)
+                            this.setRowKey(obj)
                             this.form.keyArr.push(obj)
 
                         } else if (this.form.moduleType === '2') {
@@ -417,7 +427,7 @@ export const ChartsMixins = {
                         let obj = {
                             key: key
                         }
-                        Object.assign(obj, this.rowKey)
+                        this.setRowKey(obj)
                         this.form.keyArr.push(obj)
                     }
                     this.setDefaultKey(this.form.keyArr, '0')

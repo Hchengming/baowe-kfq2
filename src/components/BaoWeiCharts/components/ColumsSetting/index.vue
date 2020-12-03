@@ -1,70 +1,70 @@
 <template>
-    <!-- 列配置表格 -->
-    <table class="table-arr-setting">
-      <tr>
-        <td v-for="item in tableCloums" :key="item.key">
-          {{ item.label }}
-        </td>
-        <td>
-          <i
-            class="el-icon-circle-plus-outline theme-color"
-            @click="cloumsAdd"
+  <!-- 列配置表格 -->
+  <table class="table-arr-setting">
+    <tr>
+      <td v-for="item in tableCloums" :key="item.key">
+        {{ item.label }}
+      </td>
+      <td>
+        <i class="el-icon-circle-plus-outline theme-color" @click="cloumsAdd" />
+      </td>
+    </tr>
+    <tr v-for="(items, index) in tableData" :key="index">
+      <td v-for="item in tableCloums" :key="item.key">
+        <el-input
+          v-if="item.formType === 'input'"
+          v-model="items[item.key]"
+          size="mini"
+          :placeholder="item.placehoder"
+          :style="{ width: item.width + 'px' }"
+        />
+        <!-- 下拉框 -->
+        <el-select
+          v-if="item.formType == 'select'"
+          @change="selectChange(items, item, index)"
+          :style="{ width: item.width + 'px' }"
+          :disabled="item.disabled"
+          v-model="items[item.key]"
+          size="small"
+        >
+          <el-option
+            v-for="item in item.selectArr"
+            :key="item.val"
+            :value="item.val"
+            :label="item.lab"
           />
-        </td>
-      </tr>
-      <tr v-for="(items, index) in tableData" :key="index">
-        <td v-for="item in tableCloums" :key="item.key">
-          <el-input
-            v-if="item.formType==='input'"
-            v-model="items[item.key]"
-            size="mini"
-            :placeholder="item.placehoder"
-              :style="{ width: item.width+'px' }"
-          />
-          <!-- 下拉框 -->
-           <el-select v-if="item.formType=='select'"  v-model="items[item.key]" size="small">
-            <el-option
-              v-for="item in item.selectArr"
-              :key="item.value"
-              :value="item.value"
-              :label="item.label"
-              :style="{ width: item.width+'px' }"
-            />
-          </el-select>
-          <!-- 数字框 -->
-           <el-input-number
-           v-if="item.formType=='number'" 
-           v-model="items[item.key]"
-            size="small"
-            :min="0"
-            :max="10000"
-            :precision="0"
-            :style="{ width: item.width+'px' }"
-            controls-position="right"
-          />
-        </td>
-        <td>
-          <i
-            class="el-icon-remove-outline remove"
-            @click="cloumsDelete(index)"
-          />
-          <i
-            :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"
-            @click="sortChange(index, 'prev')"
-          />
-          <i
-            :class="[
-              'iconfont',
-              'iconxiayi',
-              {
-                disabled: tableData.length - 1 == index,
-              },
-            ]"
-            @click="sortChange(index, 'next')"
-          />
-        </td>
-      </tr>
-    </table>
+        </el-select>
+        <!-- 数字框 -->
+        <el-input-number
+          v-if="item.formType == 'number'"
+          v-model="items[item.key]"
+          size="small"
+          :min="0"
+          :max="10000"
+          :precision="0"
+          :style="{ width: item.width + 'px' }"
+          controls-position="right"
+        />
+      </td>
+      <td>
+        <i
+          :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"
+          @click="sortChange(index, 'prev')"
+        />
+        <i
+          :class="[
+            'iconfont',
+            'iconxiayi',
+            {
+              disabled: tableData.length - 1 == index,
+            },
+          ]"
+          @click="sortChange(index, 'next')"
+        />
+        <i class="el-icon-delete remove" @click="cloumsDelete(index)" />
+      </td>
+    </tr>
+  </table>
 </template>
 <script>
 /**
@@ -76,24 +76,31 @@
  * formType 表单类型  input/select/number
  * selectArr  下拉框配置数据[{value:"",label:""}]
  * defaultValue  默认值
-*/
+ * disabled 不可点击的
+ */
 export default {
   props: {
     tableData: {
       type: Array,
-      default: null
-    }, 
+      default: null,
+    },
     tableCloums: {
       type: Array,
-      default: null
+      default: null,
     },
   },
   data() {
-    return {
- 
-    };
+    return {};
   },
   methods: {
+    //下拉框变化事件
+    selectChange(items, item) {
+      if (item.change) {
+        item.change(items, item);
+       
+        // console.log(items)
+      }
+    },
     //获取新增默认列值
     setColums() {
       let obj = {};
@@ -104,7 +111,7 @@ export default {
           obj[item.key] = null;
         }
       });
-      console.log(obj)
+      console.log(obj);
       return obj;
     },
     //列新增事件
@@ -118,13 +125,13 @@ export default {
     //序号变化事件
     sortChange(index, type) {
       let obj = this.tableData[index];
-     
+
       if (type === "prev") {
-          if(index===0)return
+        if (index === 0) return;
         this.tableData.splice(index, 1);
         this.tableData.splice(index - 1, 0, obj);
       } else {
-          if(index===this.tableData.length-1) return
+        if (index === this.tableData.length - 1) return;
         this.tableData.splice(index, 1);
         this.tableData.splice(index + 1, 0, obj);
       }

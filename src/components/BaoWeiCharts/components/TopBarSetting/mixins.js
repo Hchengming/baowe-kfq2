@@ -25,6 +25,8 @@ export default {
                 this.form.isPage = '1'
                 this.isPageDisabled = true
                 this.$refs['apiChoose'].getDataIview()
+            } else {
+                this.$refs['apiChoose'].getItemApi()
             }
         },
         // 字段删除事件

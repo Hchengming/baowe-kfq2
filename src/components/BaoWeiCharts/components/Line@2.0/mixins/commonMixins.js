@@ -21,15 +21,14 @@ export default {
     },
     watch: {
         //显示类型变化监听
-        // chartType: {
-        //     handler() {
-        //         console.log('====')
-        //         let myChart = this.$echarts.init(this.$refs['myCharts'])
-        //        
-        //         this.echartsInit()
-        //     },
-        //     deep: true
-        // },
+        chartType: {
+            handler() {
+                let myChart = this.$echarts.init(this.$refs['myCharts'])
+                myChart.resize()
+                this.echartsInit()
+            },
+            deep: true
+        },
         //数据变化监听
         data: {
             handler() {
@@ -206,14 +205,14 @@ export default {
                 this.$set(options, 'grid', {
                     top: 15,
                     left: gridLeft,
-                    bottom: 50,
+                    bottom: 40,
                     right: 5
                 })
             } else {
                 this.$set(options, 'grid', {
                     top: 35,
                     left: gridLeft,
-                    bottom: 50,
+                    bottom: 40,
                     right: 5
                 })
             }

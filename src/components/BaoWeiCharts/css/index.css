@@ -18,17 +18,18 @@ body {
 .theme-bg {
   background: #ebeef5;
 }
-.clear #bao-wei-charts {
+/*框架布局*/
+#bao-wei-charts {
   height: 100%;
   font-size: 14px;
   box-sizing: content-box;
 }
-.clear #bao-wei-charts h1,
-.clear #bao-wei-charts h2,
-.clear #bao-wei-charts h3,
-.clear #bao-wei-charts h4,
-.clear #bao-wei-charts h5,
-.clear #bao-wei-charts p {
+#bao-wei-charts h1,
+#bao-wei-charts h2,
+#bao-wei-charts h3,
+#bao-wei-charts h4,
+#bao-wei-charts h5,
+#bao-wei-charts p {
   padding: 0;
   margin: 0;
   text-decoration: none;
@@ -643,7 +644,7 @@ body {
   max-width: 99%;
 }
 .settingForm .el-dialog__body {
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: auto;
   position: relative;
 }
@@ -880,6 +881,8 @@ body {
 .v_chart_pie_choose .txt {
   display: block;
   color: #7f7f7f;
+  min-width: 80px;
+  text-align: right;
 }
 .e-charts-tooltip-list {
   display: inline-block;
@@ -1233,7 +1236,6 @@ body {
 .static-where-2 .where-form .el-form-item__label {
   padding-right: 0px;
   text-align: left;
-  color: #999999;
 }
 .static-where-2 .where-form .el-form-item {
   margin-bottom: 0;
@@ -1273,8 +1275,8 @@ body {
   line-height: 20px;
 }
 .static-where-2 .staticWhereBottom {
-  line-height: 36px;
-  margin-left: 10px;
+  line-height: 40px;
+  float: left;
 }
 .static-where-2 .where-right {
   display: flex;

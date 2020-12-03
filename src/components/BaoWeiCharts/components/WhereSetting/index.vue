@@ -141,7 +141,7 @@
                     <el-option label="否" value="0" />
                   </el-select>
                   <!-- 是否换行 -->
-                   <el-select
+                  <el-select
                     v-if="item.key == 'isLineFeed'"
                     v-model="items[item.key]"
                     size="small"
@@ -180,7 +180,7 @@
                       />
                     </section>
                   </div>
-                   
+
                   <!-- 操作区域 -->
                   <div v-if="item.title == '操作'" class="rightIcon">
                     <i
@@ -215,7 +215,7 @@
         </fieldset>
         <fieldset>
           <legend class="theme-color">常用筛选项</legend>
-          <common-filter :table-data='commonFilterData'></common-filter>   
+          <common-filter :table-data="commonFilterData"></common-filter>
         </fieldset>
         <fieldset>
           <legend class="theme-color">右侧其他按钮配置</legend>
@@ -239,9 +239,10 @@
 import settingData from "./settingData";
 import ButtonSetting from "../ButtonSetting/index.vue";
 import { dragDialog } from "../../utils/mixins.js";
-import CommonFilter from './CommonFilter'
+import CommonFilter from "./CommonFilter";
+// import filterDataDefault from "./CommonFilter/commonWhere.json";
 export default {
-  components: { settingData, ButtonSetting ,CommonFilter},
+  components: { settingData, ButtonSetting, CommonFilter },
   mixins: [dragDialog],
   props: {
     screenAll: {
@@ -260,7 +261,7 @@ export default {
           width: 100,
         },
         {
-          title: "字段名",
+          title: "参数名称",
           key: "key",
           width: 80,
         },
@@ -358,7 +359,7 @@ export default {
         //   label: '多行文本框'
         // }
       ],
-      commonFilterData:[],//常用配置项
+      commonFilterData: [], //常用配置项
       btnSettingData: [], // 其他按钮配置数据
       isShowInsertButton: "1", // 是否显示查询按钮  1:是 0：否
       screenData: [
@@ -479,12 +480,13 @@ export default {
           message: err1 + err2,
         });
       } else {
-
+        //  this.commonFilterDataInit(this.commonFilterData)
+        // console.log(this.screenData)
         const datas = JSON.parse(
           JSON.stringify({
             screenData: this.screenData,
             btnSettingData: this.btnSettingData,
-            commonFilterData:this.commonFilterData,
+            commonFilterData: this.commonFilterData,
             isShowInsertButton: this.isShowInsertButton,
           })
         );
@@ -492,6 +494,19 @@ export default {
         this.$emit("screenKeep", datas);
         this.isShow = false;
       }
+    },
+    //通用配置项数据格式化
+    commonFilterDataInit(data) {
+      if (!data || data.length == 0) return;
+      
+      data.forEach((items) => {
+        this.screenData.splice(items.index,0,items)
+        // filterDataDefault.forEach((item) => {
+        //   if (items.filterItem === item.value) {
+        //     Object.assign(items,item)
+        //   }
+        // });
+      });
     },
     // 新增按钮点击事件
     addScreen() {
@@ -501,7 +516,7 @@ export default {
         label: "",
         sfxjcx: "0", // 是否作为下级查询条件
         styleType: "",
-        isLineFeed:"0"
+        isLineFeed: "0",
         // dataUrl: "" //数据接口
       });
     },

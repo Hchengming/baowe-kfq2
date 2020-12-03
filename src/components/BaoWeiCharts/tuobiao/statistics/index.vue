@@ -157,6 +157,7 @@
             :condition-area-config="statisticsAll.conditionAreaConfig"
             @whereOtherBtnClick="whereOtherBtnClick"
             @whereSubmit="whereSubmit"
+            :whereHeight.sync="whereHeight"
           />
           <!-- 空白模板嵌入 -->
           <div
@@ -347,9 +348,13 @@ export default {
       bwLineType: ["pie", "ring", "histogram", "bar", "line", "radar"],
       typeData: dataPresentation,
       chooseHover: null,
+      whereHeight:40,//搜索模块高度
       // parentWhereFormUse:{}//父级筛选条件可传入子级条件筛选
       // deleteTitle: '确定删除删除当前模块？'
     };
+  },
+  mounted(){
+//  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   computed: {
     isAdmin() {
@@ -389,12 +394,14 @@ export default {
     // 表单内容区域高度
     boxHeight() {
       let Height = null;
+     
       //判断是否有查询模块
       if (
         this.statisticsAll.conditionAreaConfig &&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
-        Height = this.modelStyle.height - 56 - 42;
+        console.log(this.whereHeight,'this.whereHeight')
+        Height = this.modelStyle.height - 56 - this.whereHeight;
       } else {
         Height = this.modelStyle.height - 56;
       }

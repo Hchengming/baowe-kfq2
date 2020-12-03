@@ -20,9 +20,16 @@ body{
 .theme-bg {
   background: @bg;
 }
-.clear
+// .clearfix::after{
+//   content: "";
+//   display: block;
+//   height: 0;
+//   clear:both;
+//   visibility: hidden;
+
+// }
 /*框架布局*/
-#bao-wei-charts {
+ #bao-wei-charts {
   height: 100%;
   font-size: 14px;
   box-sizing: content-box;
@@ -750,7 +757,7 @@ body{
     max-width: 99%;
   }
   .el-dialog__body {
-    max-height: 500px;
+    max-height: 600px;
     overflow-y: auto;
     position: relative;
   }
@@ -1012,6 +1019,8 @@ body{
   .txt {
     display: block;
     color: #7f7f7f;
+    min-width:80px;
+    text-align: right;
   }
 }
 .e-charts-tooltip-list{
@@ -1427,7 +1436,7 @@ body{
     .el-form-item__label {
       padding-right: 0px;
       text-align: left;
-      color: #999999;
+      // color: #999999;
     }
     .el-form-item {
       margin-bottom: 0;
@@ -1478,8 +1487,9 @@ body{
   }
 
   .staticWhereBottom {
-    line-height: 36px;
-    margin-left: 10px;
+    line-height: 40px;
+    // margin-left: 10px;
+    float: left;
   }
   .where-right {
     display: flex;

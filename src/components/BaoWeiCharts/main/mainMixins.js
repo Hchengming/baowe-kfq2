@@ -205,8 +205,10 @@ export default {
                         }
                     })
             } else {
-                // 规划局项目-直接菜单数据获取
-                serviceAxios.get(this.settingConfig.getMenuUrl, {}).then(res => {
+                //项目-直接菜单数据获取
+                // const url = `http://23.36.123.128/api/applicationcenter/function/findAll?key=a18f4adc-94aa-4aa4-a9cd-e24ec52e2abe&type=1`
+                const url = `http://23.36.123.128/api/applicationcenter/function/findAll?key=${this.settingConfig.answerId}&type=1`
+                serviceAxios.get(url, {}).then(res => {
                     const code = res.code
                     const resData = res.data
                     if (code === 20000) {

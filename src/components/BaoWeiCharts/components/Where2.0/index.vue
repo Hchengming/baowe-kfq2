@@ -1,15 +1,19 @@
 <template>
-  <div
-    v-if="conditionAreaConfig && conditionAreaConfig.screenData.length > 0"
-    class="static-where-2"
-  >
+  <div v-if="isShowWhere()" class="static-where-2" ref="static-where-2">
     <div class="where-left">
       <el-form ref="form" class="where-form" :model="whereAll.form">
         <el-form-item
           v-for="(item, index) in whereAll.data"
           :key="index"
           :label="label(item)"
-          :label-width="item.sfjssj === '1' ? '10px' : item.labelWidth + 'px'"
+          :style="formItemStyle(item)"
+          :label-width="
+            item.sfjssj === '1'
+              ? '10px'
+              : item.labelWidth
+              ? item.labelWidth + 'px'
+              : '0'
+          "
         >
           <!-- 输入框 -->
           <el-input
@@ -121,22 +125,25 @@
           />
 
           <!-- 其他 通用配置项 -->
-          <div v-if="item.type ==='other'">
-            <common-where></common-where>
-            <h1>{{item.value}}</h1>
+          <div v-if="item.type && item.type.search('other') > -1">
+            <common-where
+              @formSubmit="onSubmit(true)"
+              :form="whereAll.form"
+              :commonItem="item"
+            ></common-where>
           </div>
-          <br/>
         </el-form-item>
+        <div class="staticWhereBottom">
+          <el-button
+            v-if="conditionAreaConfig.isShowInsertButton !== '0'"
+            type="primary"
+            size="small"
+            @click="onSubmit(true)"
+            >查 询</el-button
+          >
+        </div>
+        <p class="clear:both"></p>
       </el-form>
-      <div class="staticWhereBottom">
-        <el-button
-          v-if="conditionAreaConfig.isShowInsertButton !== '0'"
-          type="primary"
-          size="small"
-          @click="onSubmit(true)"
-          >查 询</el-button
-        >
-      </div>
     </div>
     <div class="where-right">
       <el-button
@@ -152,18 +159,23 @@
 </template>
 <script>
 import "../../utils/utils.js";
-import CommonWhere from './CommonWhere'
+import CommonWhere from "./CommonWhere";
 export default {
-  components:{CommonWhere},
+  components: { CommonWhere },
   props: {
     conditionAreaConfig: {
       type: Object,
+      default: null,
+    },
+    whereHeight: {
+      type: Number,
       default: null,
     },
   },
   data() {
     return {
       isShow: false,
+      oldHeight: null,
       whereAll: {
         data: [],
         form: {},
@@ -175,11 +187,49 @@ export default {
     conditionAreaConfig() {
       this.setWhereAll(this.conditionAreaConfig);
     },
+    "whereAll.form": {
+      handler() {
+        this.getWhereHeight();
+      },
+      deep: true,
+    },
   },
   mounted() {
     this.setWhereAll(this.conditionAreaConfig);
+    this.getWhereHeight();
   },
   methods: {
+    //模块是否显示事件
+    isShowWhere() {
+      return (
+        this.conditionAreaConfig &&
+        (this.conditionAreaConfig.screenData.length > 0 ||
+          (this.conditionAreaConfig.commonFilterData &&
+            this.conditionAreaConfig.commonFilterData.length > 0))
+      );
+    },
+    // 查询模块高度变化事件
+    getWhereHeight() {
+      this.$nextTick(() => {
+        if (this.isShowWhere()) {
+          let newHeight = this.$refs["static-where-2"].scrollHeight;
+          if (newHeight !== this.oldHeight) {
+            this.oldHeight = newHeight;
+            this.$emit("update:whereHeight", newHeight);
+          }
+        }
+      });
+    },
+    formItemStyle(item) {
+      let style = {};
+      if (item.isLineFeed === "1") {
+        style.float = "none";
+      } else {
+        style.float = "left";
+      }
+
+      return style;
+    },
     // 日期 placeholder显示
     datePlaceholder(item, index) {
       if (item.sfjssj === "1") {
@@ -208,19 +258,21 @@ export default {
     },
     // 左侧标签显示数据
     label(item) {
+      if (item.type && item.type.indexOf("other") > -1) {
+        return "";
+      }
       if (
         (item.type === "date" || item.type === "dateTime") &&
         item.sfjssj === "1"
       ) {
         return "-";
       } else {
-        return item.label ? item.label + ":" : "";
+        return item.label ? item.label : "";
       }
     },
     // 弹窗显示事件
     setWhereAll(conditionAreaConfig) {
       if (!conditionAreaConfig) return;
-      // if (conditionAreaConfig) {
       if (
         !conditionAreaConfig.screenData ||
         typeof conditionAreaConfig.screenData !== "object"
@@ -233,13 +285,22 @@ export default {
       ) {
         conditionAreaConfig.btnSettingData = [];
       }
-      // }
-      // conditionAreaConfig.commonFilterData = conditionAreaConfig.commonFilterData
-      //   ? conditionAreaConfig.commonFilterData
-      //   : [];
       const whereData = JSON.parse(
         JSON.stringify(conditionAreaConfig.screenData)
       );
+
+      //01 自定义筛选项，通用筛选项数据整合
+      this.whereDataInit(conditionAreaConfig, whereData);
+      //02 form表单数据初始化
+      this.formInit(whereData);
+      this.$set(this.whereAll, "data", whereData);
+      // 其他按钮配置
+      this.btnSettingData = JSON.parse(
+        JSON.stringify(conditionAreaConfig.btnSettingData)
+      );
+    },
+    //form表单数据初始化
+    formInit(whereData) {
       this.whereAll.form = {};
 
       whereData.forEach((item) => {
@@ -264,28 +325,18 @@ export default {
           }
         }
       });
-
+    },
+    // 自定义筛选项，通用筛选项数据整合
+    whereDataInit(conditionAreaConfig, whereData) {
       //  通用筛选项数据导入
       if (
         conditionAreaConfig.commonFilterData &&
         conditionAreaConfig.commonFilterData.length > 0
       ) {
-         console.log(conditionAreaConfig.commonFilterData)
         conditionAreaConfig.commonFilterData.forEach((item) => {
-          whereData.splice(item.index, 0, {
-            type: "other",
-            slot: item.filterItem,
-            value: item.filterItem,
-            // label:item.label
-          });
+          whereData.splice(item.index, 0, item);
         });
       }
-      console.log(whereData)
-      this.$set(this.whereAll, "data", whereData);
-      // 其他按钮配置
-      this.btnSettingData = JSON.parse(
-        JSON.stringify(conditionAreaConfig.btnSettingData)
-      );
     },
     // 查询按钮点击事件
     onSubmit(offon, item) {

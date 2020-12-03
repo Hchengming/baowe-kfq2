@@ -265,38 +265,23 @@ export const screenMixins = {
         // 筛选数据获取
         setWhereForm(conditionAreaConfig) {
             // console.log(conditionAreaConfig)
-            if (conditionAreaConfig && conditionAreaConfig.screenData) {
-                conditionAreaConfig.screenData.forEach(item => {
-                    if (item.defaultValue) {
-                        this.whereForm[item.key] = item.defaultValue
-                    }
-                })
+            //01-自定义筛选项
+            let datas = [];
+            if (conditionAreaConfig.screenData && conditionAreaConfig.screenData.length > 0) {
+                datas = datas.concat(conditionAreaConfig.screenData)
             }
+            //02-通用配置项
+            if (conditionAreaConfig.commonFilterData && conditionAreaConfig.commonFilterData.length > 0) {
+                datas = datas.concat(conditionAreaConfig.commonFilterData)
+            }
+            datas.forEach(item => {
+                if (item.defaultValue) {
+                    this.whereForm[item.key] = item.defaultValue
+                }
+            })
         },
         // 筛选模块配置图标点击事件
         screenSetting() {
-            // const defaultParameters = this.statisticsAll.contentAreaConfig.defaultParameters.replace(
-            //   /\s*/g,
-            //   ''
-            // )
-            // if (defaultParameters) {
-            //   const obj = JSON.parse(defaultParameters)
-            //   if (
-            //     !this.statisticsAll.conditionAreaConfig ||
-            //     !this.statisticsAll.conditionAreaConfig.screenData ||
-            //     this.statisticsAll.conditionAreaConfig.screenData.length === 0
-            //   ) {
-            //     this.statisticsAll.conditionAreaConfig.screenData = []
-            //     for (let key in obj) {
-            //       this.statisticsAll.conditionAreaConfig.screenData.push({
-            //         key: key,
-            //         defaultValue: obj[key],
-            //         sfxjcx: '0',
-            //         type: ''
-            //       })
-            //     }
-            //   }
-            // }
             this.$refs['screenSetting'].show(
                 this.statisticsAll.conditionAreaConfig,
                 true
