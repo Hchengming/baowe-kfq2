@@ -5,7 +5,7 @@
       :form="form"
       :commonItem="commonItem"
       @cuntryChange="cuntryChange"
-      v-if="commonItem.filterItem==='country-radio'"
+      v-if="commonItem.type==='country-radio'"
     ></country>
   </div>
 </template>

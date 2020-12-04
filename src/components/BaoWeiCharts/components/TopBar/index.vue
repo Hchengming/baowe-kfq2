@@ -1,5 +1,5 @@
 <template>
-  <div class="top-bar-wrap">
+  <div class="top-bar-wrap" style="width:60%">
     <div class="operation">
       <i
         class="iconfont iconxiugai theme-color"

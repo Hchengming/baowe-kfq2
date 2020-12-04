@@ -1,16 +1,16 @@
 <template>
   <!-- 区县-单选-通用组件 -->
   <div class="country-radio">
-    <div class="label">区县</div>
+    <!-- <div class="label">区县</div> -->
     <div class="country-box">
-      <el-radio-group v-model="country.father" @change="fatherChange">
+      <el-radio-group class="country-1" v-model="country.father" @change="fatherChange">
         <el-radio-button
           v-for="(item, index) in countryData"
           :key="index"
           :label="item.value"
         ></el-radio-button>
       </el-radio-group>
-      <el-radio-group v-model="country.child" @change="childChange">
+      <el-radio-group class="country-2" v-model="country.child" @change="childChange">
         <el-radio-button
           v-for="(item, index) in countryChild"
           :key="index"
@@ -41,23 +41,7 @@ export default {
     };
   },
   mounted() {
-    countryData.forEach((items) => {
-      if (items.value === this.form[this.commonItem.key]) {
-        this.country.father = items.value;
-        if (items.children) {
-          this.countryChild = items.children;
-          this.country.child = items.children[0];
-        }
-      } else if (items.children) {
-        items.children.forEach((item) => {
-          if (item === this.form[this.commonItem.key]) {
-            this.country.father = items.value;
-            this.countryChild = items.children;
-            this.country.child = item;
-          }
-        });
-      }
-    });
+    this.chooseInit()
     // this.form[this.commonItem.key] = this.country.father;
     // this.$nextTick(() => {
     //   let doc = document.querySelectorAll(".el-radio-button__inner");
@@ -69,6 +53,36 @@ export default {
     // });
   },
   methods: {
+    //默认选中数据初始化
+    chooseInit() {
+      // console.log(this.form[this.commonItem.key])
+      let offon = false;
+      //01-默认选中为区域
+      countryData.forEach((items) => {
+        if (items.value === this.form[this.commonItem.key]) {
+          this.country.father = items.value;
+          offon = true;
+          if (items.children) {
+            this.countryChild = items.children;
+            this.country.child = items.children[0];
+          }
+        }
+      });
+      //02-默认选中为区县
+      if (!offon) {
+        countryData.forEach((items) => {
+          if (items.children) {
+            items.children.forEach((item, index) => {
+              if (index !== 0 && item === this.form[this.commonItem.key]) {
+                this.country.father = items.value;
+                this.countryChild = items.children;
+                this.country.child = item;
+              }
+            });
+          }
+        });
+      }
+    },
     //父级数据变化事件
     fatherChange(val) {
       this.country.child = "";
@@ -98,6 +112,11 @@ export default {
   .country-box {
     .el-radio-group {
       display: block;
+    }
+    /deep/ .el-radio-group.country-2{
+      .el-radio-button .el-radio-button__inner{
+        border: none;
+      }
     }
   }
   .label {

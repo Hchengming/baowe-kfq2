@@ -868,7 +868,11 @@ body {
 }
 .v_chart_pie_choose {
   display: flex;
+  justify-items: center;
   justify-content: space-between;
+}
+.v_chart_pie_choose .btn{
+  display: flex;
 }
 .v_chart_pie_choose button {
   padding: 2px 8px;
@@ -881,7 +885,6 @@ body {
 .v_chart_pie_choose .txt {
   display: block;
   color: #7f7f7f;
-  min-width: 80px;
   text-align: right;
 }
 .e-charts-tooltip-list {

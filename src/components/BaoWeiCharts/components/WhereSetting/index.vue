@@ -213,10 +213,10 @@
             </table>
           </el-form>
         </fieldset>
-        <fieldset>
+        <!-- <fieldset>
           <legend class="theme-color">常用筛选项</legend>
           <common-filter :table-data="commonFilterData"></common-filter>
-        </fieldset>
+        </fieldset> -->
         <fieldset>
           <legend class="theme-color">右侧其他按钮配置</legend>
           <button-setting :operate-button="btnSettingData" setting-type="2" />
@@ -239,10 +239,10 @@
 import settingData from "./settingData";
 import ButtonSetting from "../ButtonSetting/index.vue";
 import { dragDialog } from "../../utils/mixins.js";
-import CommonFilter from "./CommonFilter";
+import filterDataDefault from "./commonWhere.json";
 // import filterDataDefault from "./CommonFilter/commonWhere.json";
 export default {
-  components: { settingData, ButtonSetting, CommonFilter },
+  components: { settingData, ButtonSetting},
   mixins: [dragDialog],
   props: {
     screenAll: {
@@ -350,10 +350,10 @@ export default {
           value: "dateTime",
           label: "时间日期选择框",
         },
-        // {
-        //   value: 'tree',
-        //   label: '树形选择框'
-        // },
+        {
+          value: "country-radio",
+          label: "区县-单选",
+        },
         // {
         //   value: 'textarea',
         //   label: '多行文本框'
@@ -443,7 +443,20 @@ export default {
         case "checkbox":
           item.rightWidth = null;
           break;
+        case "country-radio":
+          this.checkCountryRadio(item);
+          break;
       }
+    },
+    //区县，单选项选中事件
+    checkCountryRadio(item) {
+      filterDataDefault.forEach((obj) => {
+        if (obj.type === item.type) {
+          for (let key in obj) {
+              item[key] = obj[key];            
+          }
+        }
+      });
     },
     // 表单确认事件
     onSubmit() {
@@ -480,33 +493,17 @@ export default {
           message: err1 + err2,
         });
       } else {
-        //  this.commonFilterDataInit(this.commonFilterData)
-        // console.log(this.screenData)
         const datas = JSON.parse(
           JSON.stringify({
             screenData: this.screenData,
             btnSettingData: this.btnSettingData,
-            commonFilterData: this.commonFilterData,
+            // commonFilterData: this.commonFilterData,
             isShowInsertButton: this.isShowInsertButton,
           })
         );
-        // console.log(datas);
         this.$emit("screenKeep", datas);
         this.isShow = false;
       }
-    },
-    //通用配置项数据格式化
-    commonFilterDataInit(data) {
-      if (!data || data.length == 0) return;
-      
-      data.forEach((items) => {
-        this.screenData.splice(items.index,0,items)
-        // filterDataDefault.forEach((item) => {
-        //   if (items.filterItem === item.value) {
-        //     Object.assign(items,item)
-        //   }
-        // });
-      });
     },
     // 新增按钮点击事件
     addScreen() {

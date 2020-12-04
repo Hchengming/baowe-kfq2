@@ -125,7 +125,7 @@
           />
 
           <!-- 其他 通用配置项 -->
-          <div v-if="item.type && item.type.search('other') > -1">
+          <div v-if="['country-radio'].indexOf(item.type)>-1">
             <common-where
               @formSubmit="onSubmit(true)"
               :form="whereAll.form"
@@ -258,9 +258,6 @@ export default {
     },
     // 左侧标签显示数据
     label(item) {
-      if (item.type && item.type.indexOf("other") > -1) {
-        return "";
-      }
       if (
         (item.type === "date" || item.type === "dateTime") &&
         item.sfjssj === "1"
@@ -290,7 +287,7 @@ export default {
       );
 
       //01 自定义筛选项，通用筛选项数据整合
-      this.whereDataInit(conditionAreaConfig, whereData);
+      // this.whereDataInit(conditionAreaConfig, whereData);
       //02 form表单数据初始化
       this.formInit(whereData);
       this.$set(this.whereAll, "data", whereData);
@@ -327,17 +324,17 @@ export default {
       });
     },
     // 自定义筛选项，通用筛选项数据整合
-    whereDataInit(conditionAreaConfig, whereData) {
-      //  通用筛选项数据导入
-      if (
-        conditionAreaConfig.commonFilterData &&
-        conditionAreaConfig.commonFilterData.length > 0
-      ) {
-        conditionAreaConfig.commonFilterData.forEach((item) => {
-          whereData.splice(item.index, 0, item);
-        });
-      }
-    },
+    // whereDataInit(conditionAreaConfig, whereData) {
+    //   //  通用筛选项数据导入
+    //   if (
+    //     conditionAreaConfig.commonFilterData &&
+    //     conditionAreaConfig.commonFilterData.length > 0
+    //   ) {
+    //     conditionAreaConfig.commonFilterData.forEach((item) => {
+    //       whereData.splice(item.index, 0, item);
+    //     });
+    //   }
+    // },
     // 查询按钮点击事件
     onSubmit(offon, item) {
       if (item) {

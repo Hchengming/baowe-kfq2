@@ -1,0 +1,8 @@
+[{
+    "type": "country-radio",
+    "lab": "区县-单选",
+    "key": "country",
+    "label": "区县",
+    "defaultValue": "所有",
+    "isLineFeed": "1"
+}]

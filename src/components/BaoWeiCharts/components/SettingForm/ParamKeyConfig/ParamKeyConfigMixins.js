@@ -89,9 +89,9 @@ export default {
                     datas = datas.concat(config.screenData)
                 }
                 //02-通用配置项
-                if (config.commonFilterData && config.commonFilterData.length > 0) {
-                    datas = datas.concat(config.commonFilterData)
-                }
+                // if (config.commonFilterData && config.commonFilterData.length > 0) {
+                //     datas = datas.concat(config.commonFilterData)
+                // }
 
                 datas.forEach(items => {
                     let offon = true

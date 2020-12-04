@@ -1,5 +1,5 @@
 <template>
-  <div class="top-bar-wrap" :style="{height: liHeight(),background:wrapBg()}">
+  <div class="top-bar-wrap" :style="{height: liHeight(),background:wrapBg(),width:wrapWidth()}">
     <div class="operation">
       <i
         class="iconfont iconxiugai theme-color"
@@ -92,6 +92,9 @@ export default {
     return {}
   },
   methods: {
+    wrapWidth(){
+      return  this.topBarAll.form&&this.topBarAll.form.width?this.topBarAll.form.width+'%':'100%'
+    },
     //获取数据失败后背景颜色设置
     wrapBg(){
       let bg='';
