@@ -65,7 +65,7 @@ export default {
         //获取项目所有接口的接口路径
         getInterfaceUrl: "http://172.1.103.102:4000/application/insert",
         itemTitle: "测试系统",//项目标题
-        theme: "0",//当前已配置主题选择 0：白色背景 1：深色背景
+        theme: "2",//当前已配置主题选择 0:老实蓝色背景 1：大屏展示类背景风格 2：深蓝色主题风格(默认为2)
         themeCode:"001"//项目编码   
       }
     }

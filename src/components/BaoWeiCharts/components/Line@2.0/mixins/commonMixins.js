@@ -16,7 +16,12 @@ export default {
                 fontSize: 12,
                 interval: 0,
                 // color: '#333333'
-            }
+            },
+            colorArr: ['#19D4AE', '#5AB1EF', '#FF7993', '#FFB980', '#0071B6',
+                    '#C4B4E4', '#D87A80', '#9CBBFF', '#D9D0C7', '#D49EA2',
+                    '#19D4AE', '#63C2FF', '#FA7189', '#0071B6', '#D7C6FA',
+                    '#9CBBFF', '#7BA3A8', '#19D4AE', '#FFB980', '#A3BEF8'
+                ] //默认背景颜色集合
         }
     },
     watch: {
@@ -89,7 +94,9 @@ export default {
             this.setTooltip(options)
                 //7、图表其他设置
             this.otherSetting(options)
-                // 8、鼠标事件
+                //8、图形背景颜色设置
+            this.setColor(options)
+                // 9、鼠标事件
             let _this = this;
             myChart.on('click', function(params) {
                 _this.chartClick(params, options, myChart)
@@ -257,6 +264,12 @@ export default {
                     break;
             }
 
+        },
+        //8、图形背景颜色设置
+        setColor(options) {
+            if (['pie', 'ring'].indexOf(this.chartType) > -1) {
+                this.setPieColor(options)
+            }
         },
         //图表高度配置
         chartsHeight() {

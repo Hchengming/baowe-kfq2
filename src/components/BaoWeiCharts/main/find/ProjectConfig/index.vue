@@ -24,22 +24,23 @@ export default {
   data() {
     return {
       projectConfig: {
-        theme: "0",
+        theme: "2",
       },
       // 项目主题风格选择数据
       themeData: [
         {
-          label: "默认主题风格",
-          value: "0",
+          label: "深蓝色主题风格",
+          value: "2",
         },
+        // {
+        //   label: "默认主题风格",
+        //   value: "0",
+        // },
         {
           label: "大屏展示类背景风格",
           value: "1",
         },
-        {
-          label: "矿项目主题风格",
-          value: "2",
-        },
+        
       ],
     };
   },

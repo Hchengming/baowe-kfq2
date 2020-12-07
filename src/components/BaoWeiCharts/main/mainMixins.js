@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             leftMenuWidth: '200px', // 左侧区域宽度
-            themeClass: "charts-theme0", //项目主题类名
+            themeClass: "charts-theme2", //项目主题类名
             nowMenuId: '', //当前menuid
             menuSetting: {
                 isShow: false,
@@ -23,7 +23,9 @@ export default {
         }
     },
     mounted() {
-        this.themeClass = 'charts-theme' + this.settingConfig.theme
+        if (this.settingConfig.theme) {
+            this.themeClass = 'charts-theme' + this.settingConfig.theme
+        }
     },
     methods: {
         //项目主体(主题)配置事件

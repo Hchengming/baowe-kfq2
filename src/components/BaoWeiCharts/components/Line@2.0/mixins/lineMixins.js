@@ -4,12 +4,16 @@ export default {
             this.setBarAxis(options)
         },
         setLineSeries(options) {
-            this.chartColumns.forEach(items => {
+            this.chartColumns.forEach((items, indexs) => {
                 let obj = {
                     name: items.title,
                     type: 'line',
                     barGap: 0,
-                    data: []
+                    data: [],
+                    itemStyle: {
+                        //柱体背景颜色
+                        color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
+                    }
                 }
                 this.data.forEach(item => {
                     obj.data.push(item[items.key])

@@ -65,8 +65,7 @@ export default {
         },
         // series图表显示配置  
         setBarSeries(options) {
-
-            this.chartColumns.forEach(items => {
+            this.chartColumns.forEach((items, indexs) => {
                 let obj = {
                     name: items.title,
                     type: 'bar',
@@ -79,7 +78,7 @@ export default {
                     },
                     itemStyle: {
                         //柱体背景颜色
-                        color: items.zBgColor ? items.zBgColor : undefined
+                        color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
                     },
 
                 }

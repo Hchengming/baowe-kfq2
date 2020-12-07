@@ -74,6 +74,13 @@ export default {
                 options.series[0].center = ['50%', '50%']
             }
 
+        },
+        //饼图、环图 背景颜色设置 
+        setPieColor(options) {
+            if (!options.color) {
+                if (this.data.length > 20) return
+                options.color = this.colorArr
+            }
         }
     }
 }

@@ -6,9 +6,13 @@ export default {
                 type: 'radar',
                 data: []
             }]
-            this.chartColumns.forEach(items => {
+            this.chartColumns.forEach((items, indexs) => {
                 let obj = {
                     name: items.title,
+                    itemStyle: {
+                        //柱体背景颜色
+                        color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
+                    },
                     value: []
                 }
 
