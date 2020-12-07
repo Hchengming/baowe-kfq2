@@ -117,6 +117,10 @@ export default {
       .el-radio-button .el-radio-button__inner{
         border: none;
       }
+      .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+        background: none;
+        box-shadow: -1px 0 0 0 white; 
+      }
     }
   }
   .label {
@@ -125,4 +129,5 @@ export default {
     min-width: 33px;
   }
 }
+
 </style>

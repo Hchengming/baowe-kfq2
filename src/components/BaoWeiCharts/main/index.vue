@@ -1,6 +1,6 @@
 <template>
   <div id="bao-wei-charts"
-       :class="themeClass()">
+       :class="themeClass">
     <el-container class="KFQ_wrap">
       <el-header class="theme-bg-color">
         <div class="logo">
@@ -44,6 +44,7 @@
         <el-main class="theme-bg">
           <my-page ref="myPage"
                    :setting-config="settingConfig"
+                   @projectConfigChange="projectConfigChange"
                    @getMenuData="getMenuChange"
                    :slot-name="slotName"
                    @elementMethods="elementMethods">
@@ -93,7 +94,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../css/theme/theme0.scss";
 @import "../css/theme/theme1.scss";
+@import "../css/theme/theme2.scss";
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;

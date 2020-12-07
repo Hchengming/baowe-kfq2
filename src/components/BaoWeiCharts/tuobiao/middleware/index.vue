@@ -117,7 +117,7 @@ export default {
           isCloseBtn: false, //是否显示关闭按钮
         },
         destailTypeTheme: "0", // 详情表格展示组题样式选则 0：默认表格  1：主题一
-        apiType: "0", // 0：数据视图 1：应用接口
+        apiType: "1", // 0：数据视图 1：应用接口
         url: "", // 接口
         urlName: "", // 接口名称
         options: "GET", // 请求方式  GET/POST
@@ -510,7 +510,7 @@ export default {
         // 判断当前接口是否为数据视图
         // console.log(reqData)
         if (config.contentAreaConfig.apiType === "0") {
-          const queryParamList = [];
+          let queryParamList = [];
           for (const key in reqData) {
             if (
               key !== "pageSize" &&

@@ -20,6 +20,21 @@ import BaoWeiCharts from '@/components/BaoWeiCharts/main'
 Vue.component('BaoWeiCharts', BaoWeiCharts)
 // import './system.scss'
 import { elementMethodsMixins } from "./mixins.js"
+/**
+ * settingConfig
+ * commonUrl String 配置数据接口公共部分
+ * dataUrl String  图表、组件数据公共接口(一般用于未注册应用接口的接口)
+ * systemPermissions String  权限管理 admin/user
+ * answerId String  数据视图获取编码/id
+ * serviceId String  应用接口获取id (getInterfaceUrl、serviceId二选一配置)
+ * getInterfaceUrl String  应用接口获取路径(getInterfaceUrl、serviceId二选一配置)
+ * itemTitle String  项目标题
+ * isProducrTestData Boolean 未开发接口是否直接生成测试数据
+ * themeCode String  项目唯一编码(本地)
+ * systomMenuApi String  菜单配置模块公共路径(本地)
+ * isCustomMenu Boolean 是否启用菜单配置模块(本地)
+ * theme String 当前已配置主题选择 0：白色背景 1：深色背景
+*/
 export default {
   mixins: [elementMethodsMixins],
   data () {
@@ -98,60 +113,63 @@ body {
 }
 // @import '@/styles/element-variables.scss';
 // @import "./system.scss";
-$--color-primary: #4e6ef2;
-.theme-color {
-  color: $--color-primary !important;
-}
-.theme-bg-color {
-  background: $--color-primary !important;
-}
-.theme-box-shadow {
-  box-shadow: 0 0 5px $--color-primary;
-}
-.theme-border-color {
-  border-color: $--color-primary !important;
-}
-.menu-bg-color {
-  background: $--color-primary !important;
-}
+// $--color-primary: #4e6ef2;
+// .theme-color {
+//   color: $--color-primary !important;
+// }
+// .theme-bg-color {
+//   background: $--color-primary !important;
+// }
+// .theme-box-shadow {
+//   box-shadow: 0 0 5px $--color-primary;
+// }
+// .theme-border-color {
+//   border-color: $--color-primary !important;
+// }
+// .menu-bg-color {
+//   background: $--color-primary !important;
+// }
 
-.system-cs {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  z-index: 999;
-}
-.bao-wei-charts-slot {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.el-button--primary{
- background-color: #{$--color-primary};
-  border-color: #{$--color-primary};
-}
-.el-button--primary:focus,.el-button--primary:hover{
-  background-color: #{$--color-primary}bd;
-  border-color: #{$--color-primary}bd;
-}
-.el-radio__input.is-checked .el-radio__inner{
-  border-color: $--color-primary;
-  background: $--color-primary;
-}
-.el-radio__input.is-checked+.el-radio__label{
-  color: $--color-primary;
-}
-.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-  background-color:$--color-primary;
-    border-color:$--color-primary;
-}
-.el-dropdown .el-dropdown__caret-button.el-button--default::before {
-  background: rgba(220, 223, 230, .5)
-}
-.el-radio-button__orig-radio:checked+.el-radio-button__inner{
-  background-color:$--color-primary;
-    border-color:$--color-primary;
-}
+// .system-cs {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 10px;
+//   z-index: 999;
+// }
+// .bao-wei-charts-slot {
+//   width: 100%;
+//   height: 100%;
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+// }
+// .el-button--primary{
+//  background-color: #{$--color-primary};
+//   border-color: #{$--color-primary};
+// }
+// .el-button--primary:focus,.el-button--primary:hover{
+//   background-color: #{$--color-primary}bd;
+//   border-color: #{$--color-primary}bd;
+// }
+// .el-radio__input.is-checked .el-radio__inner{
+//   border-color: $--color-primary;
+//   background: $--color-primary;
+// }
+// .el-radio__input.is-checked+.el-radio__label{
+//   color: $--color-primary;
+// }
+// .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+//   background-color:$--color-primary;
+//     border-color:$--color-primary;
+// }
+// .el-dropdown .el-dropdown__caret-button.el-button--default::before {
+//   background: rgba(220, 223, 230, .5)
+// }
+// .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+//   background-color:$--color-primary;
+//     border-color:$--color-primary;
+// }
+// .el-radio-group.country-2  .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+//     color: $--color-primary;
+// }
 </style>

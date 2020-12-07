@@ -4,6 +4,7 @@ export default {
     data() {
         return {
             leftMenuWidth: '200px', // 左侧区域宽度
+            themeClass: "charts-theme0", //项目主题类名
             nowMenuId: '', //当前menuid
             menuSetting: {
                 isShow: false,
@@ -21,7 +22,14 @@ export default {
             leftMenu: []
         }
     },
+    mounted() {
+        this.themeClass = 'charts-theme' + this.settingConfig.theme
+    },
     methods: {
+        //项目主体(主题)配置事件
+        projectConfigChange(projectConfig) {
+            this.themeClass = 'charts-theme' + projectConfig.theme
+        },
         //顶部栏数据变化事件
         changTopAll(viewChange) {
             this.$refs['myPage'].changTopAll(viewChange)
@@ -44,7 +52,9 @@ export default {
             serviceAxios
                 .post(
                     this.settingConfig.commonUrl +
-                    '/busMenuSetting/getMenuSettingDataByModuleId', { menuId }
+                    '/busMenuSetting/getMenuSettingDataByModuleId', {
+                        menuId
+                    }
                 )
                 .then(res => {
                     const code = res.code
@@ -93,17 +103,17 @@ export default {
                 })
         },
         //组题选则类名
-        themeClass() {
-            let themeClass = ''
-            switch (this.settingConfig.theme) {
-                case '1':
-                    themeClass = 'charts-theme1'
-                    break
-                default:
-                    themeClass = ''
-            }
-            return themeClass
-        },
+        // themeClass() {
+        //   let themeClass = ''
+        //   switch (this.settingConfig.theme) {
+        //     case '1':
+        //       themeClass = 'charts-theme1'
+        //       break
+        //     default:
+        //       themeClass = ''
+        //   }
+        //   return themeClass
+        // },
         // 工具启动，开始加载数据渲染事件
         startRender() {
             // 开始加载菜单数据
@@ -186,7 +196,9 @@ export default {
             if (this.settingConfig.isCustomMenu) {
                 // 自定义配置菜单数据获取
                 serviceAxios
-                    .post(this.settingConfig.systomMenuApi + '/menu/insertMenu', { themeCode: this.settingConfig.themeCode })
+                    .post(this.settingConfig.systomMenuApi + '/menu/insertMenu', {
+                        themeCode: this.settingConfig.themeCode
+                    })
                     .then(res => {
                         // console.log(res)
                         const code = res.code

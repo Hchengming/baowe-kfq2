@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      commonUrl: 'http://localhost:4000',
+      commonUrl: '',
       nowMenuId: '', // 点击项当前id
       // 菜单配置项
       menuFormAll: {

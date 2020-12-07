@@ -223,9 +223,8 @@ export default {
     formItemStyle(item) {
       let style = {};
       if (item.isLineFeed === "1") {
-        style.float = "none";
-      } else {
-        style.float = "left";
+        // style.float = "left";
+        style.clear = "left";
       }
 
       return style;

@@ -1,87 +1,146 @@
 #bao-wei-charts.charts-theme1 {
-  .el-loading-mask {
-    background: rgba(255, 255, 255, 0.5) !important;
-  }
-  .KFQ_wrap {
-    .el-header {
-      background: #0a1a33 !important;
+    $--color-primary: #162d50;
+    .theme-color {
+        color: $--color-primary !important;
     }
-    .el-main {
-      background: #11193c;
-      .statisticsWrap {
-        border-radius: 0;
-        .statisticsBox {
-          background: #0b1127;
-        }
-        //
-        .statistics_title {
-          // height: 100px;
-          background: #162d50 !important;
-          border-bottom-color: #59595c;
-          .box {
-            border-color: #64757d !important;
-            .top {
-              border: 1px solid #64757d;
-            }
-            .left .txt2 {
-              color: #a9dbfb !important ;
-            }
-            .right {
-              color: #c3a9a9;
-              .el-icon-delete {
-                color: #c3a9a9;
-              }
-            }
-          }
-        }
-        .bw_list1 {
-          color: white;
-        }
-        #bw_table {
-          .el-table {
-            background: #0b1127;
-            th,
-            td {
-              background: #0b1127;
-              color: white;
-            }
-          }
-        }
-        .bw_list1,
-        #bw_table {
-          .el-pagination {
-            .el-pagination__total,
-            .el-pagination__jump {
-              color: white;
-            }
-            .el-input__inner {
-              background: #162d50;
-              color: white;
-            }
-            .btn-prev,
-            .btn-next,
-            .el-pager li {
-              background: #162d50;
-              color: white;
-              &:hover,
-              &.active {
-                color: #409eff;
-              }
-            }
-          }
-        }
-
-        .stataic_destail_table {
-          .detail_box .detail_row .detail_col {
-            color: white;
-            .key {
-              background: #1a2344;
-            }
-          }
-        }
-      }
+    .theme-bg-color {
+        background: $--color-primary !important;
     }
-  }
+    .theme-box-shadow {
+        box-shadow: 0 0 5px $--color-primary;
+    }
+    .theme-border-color {
+        border-color: $--color-primary !important;
+    }
+    .menu-bg-color {
+        background: $--color-primary !important;
+    }
+    .system-cs {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        z-index: 999;
+    }
+    .bao-wei-charts-slot {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .el-button--primary {
+        background-color: #{$--color-primary};
+        border-color: #{$--color-primary};
+    }
+    .el-button--primary:focus,
+    .el-button--primary:hover {
+        background-color: #{$--color-primary}bd;
+        border-color: #{$--color-primary}bd;
+    }
+    .el-radio__input.is-checked .el-radio__inner {
+        border-color: $--color-primary;
+        background: $--color-primary;
+    }
+    .el-radio__input.is-checked+.el-radio__label {
+        color: $--color-primary;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+        background-color: $--color-primary;
+        border-color: $--color-primary;
+    }
+    .el-dropdown .el-dropdown__caret-button.el-button--default::before {
+        background: rgba(220, 223, 230, .5)
+    }
+    .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+        background-color: $--color-primary;
+        border-color: $--color-primary;
+    }
+    .el-radio-group.country-2 .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+        color: $--color-primary;
+    }
+    .el-loading-mask {
+        background: rgba(255, 255, 255, 0.5) !important;
+    }
+    .KFQ_wrap {
+        .el-header {
+            background: #0a1a33 !important;
+        }
+        .el-main {
+            background: #11193c;
+            .statisticsWrap {
+                border-radius: 0;
+                .statisticsBox {
+                    background: #0b1127;
+                }
+                //
+                .statistics_title {
+                    // height: 100px;
+                    background: #162d50 !important;
+                    border-bottom-color: #59595c;
+                    .box {
+                        border-color: #64757d !important;
+                        .top {
+                            border: 1px solid #64757d;
+                        }
+                        .left .txt2 {
+                            color: #a9dbfb !important;
+                        }
+                        .right {
+                            color: #c3a9a9;
+                            .el-icon-delete {
+                                color: #c3a9a9;
+                            }
+                        }
+                    }
+                }
+                .bw_list1 {
+                    color: white;
+                }
+                #bw_table {
+                    .el-table {
+                        background: #0b1127;
+                        th,
+                        td {
+                            background: #0b1127;
+                            color: white;
+                        }
+                    }
+                }
+                .bw_list1,
+                #bw_table {
+                    .el-pagination {
+                        .el-pagination__total,
+                        .el-pagination__jump {
+                            color: white;
+                        }
+                        .el-input__inner {
+                            background: #162d50;
+                            color: white;
+                        }
+                        .btn-prev,
+                        .btn-next,
+                        .el-pager li {
+                            background: #162d50;
+                            color: white;
+                            &:hover,
+                            &.active {
+                                color: #409eff;
+                            }
+                        }
+                    }
+                }
+                .stataic_destail_table {
+                    .detail_box .detail_row .detail_col {
+                        color: white;
+                        .key {
+                            background: #1a2344;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 // rgba(255, 255, 255, 0.2)
