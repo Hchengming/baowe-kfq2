@@ -2,8 +2,8 @@
   <div class="top-bar-wrap" style="width:60%">
     <div class="operation">
       <i
-        class="iconfont iconxiugai theme-color"
         v-if="settingConfig.systemPermissions === 'admin'"
+        class="iconfont iconxiugai theme-color"
         @click="emit"
       />
       <el-popconfirm
@@ -14,22 +14,22 @@
         @confirm="deleteTemplate"
       >
         <i
+          v-if="settingConfig.systemPermissions === 'admin'"
           slot="reference"
           title="删除"
-          v-if="settingConfig.systemPermissions === 'admin'"
           class="el-icon-delete"
         />
       </el-popconfirm>
     </div>
     <ul id="top-bar-box">
       <li
-      class="theme-bg-color"
         v-for="(data, indexs) in topBarData"
+        :key="indexs"
+        class="theme-bg-color"
         :style="{
           height: liHeight(),
           background: listBackground(data, indexs),
         }"
-        :key="indexs"
       >
         <div class="top-bar-boxs">
           <div :class="['list-box', { 'list-box-2': data.length > 2 }]">
@@ -41,15 +41,14 @@
               <p
                 v-for="(item, index) in nowData(data)"
                 :key="index"
-                @click="topBarClick(data, item.key)"
                 :class="[data.length > 2 ? 'txt3' : 'txt2']"
+                @click="topBarClick(data, item.key)"
               >
                 <span
                   v-show="data.length <= 2"
                   class="t1"
                   v-html="nowlabel(item)"
-                />{{ item.value }}<span class="t2">{{ nowDW(item) }}</span
-                ><span
+                />{{ item.value }}<span class="t2">{{ nowDW(item) }}</span><span
                   v-show="data.length > 2"
                   class="t3"
                   v-html="nowlabel(item)"
@@ -74,17 +73,17 @@ export default {
   props: {
     topBarAll: {
       type: Object,
-      default: null,
+      default: null
     },
     itemApiData: {
       type: Array,
-      default: null,
+      default: null
     },
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {},
-    },
+      default: {}
+    }
   },
   data() {
     return {}
@@ -106,7 +105,7 @@ export default {
                   key: key,
                   value: items[key],
                   dw: item.dw ? item.dw : '',
-                  label: item.label ? item.label : '',
+                  label: item.label ? item.label : ''
                 })
               }
             }
@@ -117,12 +116,12 @@ export default {
       }
       // console.log(this.topBarAll)
       return data
-    },
+    }
   },
   methods: {
-    //背景颜色设置
+    // 背景颜色设置
     listBackground(data, index) {
-      let form = this.topBarAll.form
+      const form = this.topBarAll.form
       let bgColor = ''
       switch (form.bgType) {
         case '0':
@@ -195,7 +194,7 @@ export default {
     // 顶部菜单点击事件
     topBarClick(item, key) {
       this.$emit('topBarClick', item, key)
-    },
-  },
+    }
+  }
 }
 </script>

@@ -20,15 +20,16 @@
       <p>顶部栏组件</p>
       <div class="mengban">+</div>
     </li> -->
-     <li
-     v-for="(item,index) in listData" :key="index"
+    <li
+      v-for="(item,index) in listData"
+      :key="index"
       :class="['theme-bg',{'theme-box-shadow':choosetype==index}]"
       @click="addAssembly(item.type)"
       @mouseout="choosetype=null"
       @mousemove="choosetype=index"
     >
       <i :class="['iconfont',item.icon, 'theme-color']" />
-      <p>{{item.name}}</p>
+      <p>{{ item.name }}</p>
       <div class="mengban">+</div>
     </li>
     <!--  -->
@@ -44,18 +45,18 @@ export default {
   data() {
     return {
       choosetype: '',
-      listData:[{
-        type:"tableChart",
-        name:"图表组件集",
-        icon:"icontubiao"
-      },{
-        type:"topBar",
-        name:"顶部栏组件",
-        icon:"icondingbulan"
-      },{
-        type:"tabs",
-        name:"Tabs切换",
-        icon:"icondangan"
+      listData: [{
+        type: 'tableChart',
+        name: '图表组件集',
+        icon: 'icontubiao'
+      }, {
+        type: 'topBar',
+        name: '顶部栏组件',
+        icon: 'icondingbulan'
+      }, {
+        type: 'tabs',
+        name: 'Tabs切换',
+        icon: 'icondangan'
       }]
     }
   },

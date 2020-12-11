@@ -68,10 +68,10 @@ export default {
       type: Object,
       default: null
     },
-     settingConfig: {
+    settingConfig: {
       type: Object,
       default: null
-    },
+    }
   }
 }
 </script>

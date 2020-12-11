@@ -1,57 +1,77 @@
 <template>
-  <div id="bao-wei-charts"
-       :class="themeClass">
+  <div
+    id="bao-wei-charts"
+    :class="themeClass"
+  >
     <el-container class="KFQ_wrap">
       <el-header class="theme-bg-color">
         <div class="logo">
           <img :src="settingConfig.logoUrl">
           <span>{{ settingConfig.itemTitle }}</span>
-          <i v-if="leftMenu.length > 0"
-             :class="['menu_icon theme-color', menu_i]"
-             @click="leftMenuControl" />
+          <i
+            v-if="leftMenu.length > 0"
+            :class="['menu_icon theme-color', menu_i]"
+            @click="leftMenuControl"
+          />
         </div>
         <ul class="header_menu">
-          <li v-for="(item, index) in menuData"
-              :key="index"
-              :class="{
+          <li
+            v-for="(item, index) in menuData"
+            :key="index"
+            :class="{
               'active': menuActiveIndex == index
-            }">
+            }"
+          >
 
             <span @click="topMenuClick(item, index)"> <i :class="['iconfont', item.menuIcon, 'theme-color']" />{{ item.menuName }}</span>
-            <i title="菜单设置"
-               v-if="settingConfig.systemPermissions==='admin'"
-               class="el-icon-setting"
-               @click="menuSettingClick(item)" />
+            <i
+              v-if="settingConfig.systemPermissions==='admin'"
+              title="菜单设置"
+              class="el-icon-setting"
+              @click="menuSettingClick(item)"
+            />
           </li>
         </ul>
       </el-header>
       <el-container>
         <!-- 左侧导航栏 -->
-        <el-aside v-if="leftMenu.length > 0"
-                  :width="leftMenuWidth">
-          <el-menu :default-active="defaultActive"
-                   class="el-menu-vertical-demo menu-bg-color"
-                   :collapse="isCollapse">
-            <my-menu v-for="menuItem in leftMenu"
-                     :key="menuItem.menuCode"
-                     :menu-item="menuItem"
-                     :settingConfig="settingConfig"
-                     @menuSettingClick="menuSettingClick"
-                     @leftMenuClick="leftMenuClick" />
+        <el-aside
+          v-if="leftMenu.length > 0"
+          :width="leftMenuWidth"
+        >
+          <el-menu
+            :default-active="defaultActive"
+            class="el-menu-vertical-demo menu-bg-color"
+            :collapse="isCollapse"
+          >
+            <my-menu
+              v-for="menuItem in leftMenu"
+              :key="menuItem.menuCode"
+              :menu-item="menuItem"
+              :setting-config="settingConfig"
+              @menuSettingClick="menuSettingClick"
+              @leftMenuClick="leftMenuClick"
+            />
           </el-menu>
         </el-aside>
         <!-- 内容区域 -->
         <el-main class="theme-bg">
-          <my-page ref="myPage"
-                   :setting-config="settingConfig"
-                   @projectConfigChange="projectConfigChange"
-                   @getMenuData="getMenuChange"
-                   :slot-name="slotName"
-                   @elementMethods="elementMethods">
-            <div v-for="item in slotName"
-                 :key="item"
-                 style="width:100%;height:100%"
-                 :slot="item">
+          <my-page
+            ref="myPage"
+            :setting-config="settingConfig"
+            :now-project-config="nowProjectConfig"
+            :slot-name="slotName"
+            @projectConfigChange="projectConfigChange"
+            @projectConfigSubmit="projectConfigSubmit"
+            @getMenuData="getMenuChange"
+            @elementMethods="elementMethods"
+          >
+            <div
+              v-for="item in slotName"
+              :key="item"
+              :slot="item"
+              style="width:100%;height:100%"
+            >
               <slot :name="item" />
             </div>
           </my-page>
@@ -59,8 +79,10 @@
         </el-main>
       </el-container>
     </el-container>
-    <menu-setting @submit="menuSettingSubmit"
-                  :menuSetting="menuSetting"></menu-setting>
+    <menu-setting
+      :menu-setting="menuSetting"
+      @submit="menuSettingSubmit"
+    />
   </div>
 </template>
 <script>

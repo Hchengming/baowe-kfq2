@@ -4,14 +4,14 @@ export default {
     data() {
         return {
             leftMenuWidth: '200px', // 左侧区域宽度
-            themeClass: "charts-theme2", //项目主题类名
-            nowMenuId: '', //当前menuid
+            themeClass: 'charts-theme2', // 项目主题类名
+            nowMenuId: '', // 当前menuid
             menuSetting: {
                 isShow: false,
                 menuId: '',
                 jsjbxx: '',
                 menuMap: '',
-                type: '新增' //配置类型 新增/修改
+                type: '新增' // 配置类型 新增/修改
             },
             menu_i: 'el-icon-s-fold', // 点击图标控制
             isCollapse: false, // 左侧菜单展示控制
@@ -19,7 +19,8 @@ export default {
             menuData: [], // 菜单数据
             menuActiveIndex: 0, // 顶部菜单选中索引
             // 侧导航数据
-            leftMenu: []
+            leftMenu: [],
+            nowProjectConfig: { theme: 2 } // 当前查询后主题配置页面数据
         }
     },
     mounted() {
@@ -28,28 +29,59 @@ export default {
         }
     },
     methods: {
-        //项目主体(主题)配置事件
+        // 项目主体(主题)配置事件
         projectConfigChange(projectConfig) {
             this.themeClass = 'charts-theme' + projectConfig.theme
+            this.settingConfig.theme = projectConfig.theme
         },
-        //顶部栏数据变化事件
+        // 项目主题获取事件
+        getProjectConfig() {
+            serviceAxios.post(this.settingConfig.commonUrl + '/busThemeConfig/selectProjectConfig', {
+                projectId: this.settingConfig.answerId
+            }).then(res => {
+                console.log(res, 'res')
+                if (res.data.projectConfigs) {
+                    this.nowProjectConfig = JSON.parse(res.data.projectConfigs)
+                    this.themeClass = 'charts-theme' + this.nowProjectConfig.theme
+                    this.settingConfig.theme = this.nowProjectConfig.theme
+                }
+            })
+        },
+        // 项目主题编辑事件
+        projectConfigEmit(projectConfig) {
+            serviceAxios.post(this.settingConfig.commonUrl + '/busThemeConfig/insertProjectConfigData', {
+                projectId: this.settingConfig.answerId,
+                projectConfig: projectConfig
+            }).then(() => {
+                this.$message({
+                    type: 'syccess',
+                    message: '项目主题修改成功'
+                })
+                this.getProjectConfig()
+            })
+        },
+        // 项目主体(主题)配置保存事件
+        projectConfigSubmit(projectConfig) {
+            this.projectConfigEmit(projectConfig)
+        },
+        // 顶部栏数据变化事件
         changTopAll(viewChange) {
             this.$refs['myPage'].changTopAll(viewChange)
         },
-        //通过模块id改变模块渲染数据事件
+        // 通过模块id改变模块渲染数据事件
         changePageData(moduleId, viewchange) {
             this.$refs['myPage'].changePageData(moduleId, viewchange)
         },
-        //图表模块显示隐藏控制事件
+        // 图表模块显示隐藏控制事件
         modeuleShow(obj) {
             this.$refs['myPage'].modeuleShow(obj)
         },
-        //菜单配置按钮点击事件
+        // 菜单配置按钮点击事件
         menuSettingClick(menuItem) {
             this.menuSetting.menuId = menuItem.menuId
             this.queryMenuSetting(menuItem.menuId)
         },
-        //菜单配置数据查询事件
+        // 菜单配置数据查询事件
         queryMenuSetting(menuId, fn) {
             serviceAxios
                 .post(
@@ -77,7 +109,7 @@ export default {
                     }
                 })
         },
-        //菜单配置提交事件
+        // 菜单配置提交事件
         menuSettingSubmit() {
             let url = ''
             if (this.menuSetting.type === '新增') {
@@ -104,24 +136,13 @@ export default {
                     }
                 })
         },
-        //组题选则类名
-        // themeClass() {
-        //   let themeClass = ''
-        //   switch (this.settingConfig.theme) {
-        //     case '1':
-        //       themeClass = 'charts-theme1'
-        //       break
-        //     default:
-        //       themeClass = ''
-        //   }
-        //   return themeClass
-        // },
         // 工具启动，开始加载数据渲染事件
         startRender() {
             // 开始加载菜单数据
             this.getTreeMenu()
             this.$refs['myPage'].getItemApi()
             this.$refs['myPage'].getDataIview()
+            this.getProjectConfig()
         },
         // 表格、列表单元格点击菜单跳转事件执行
         cellClickMenuTap(obj) {
@@ -146,12 +167,13 @@ export default {
             this.cellClickMenuTap(obj)
             this.$emit('elementMethods', obj)
         },
-        //菜单点击后js脚本执行
+        // 菜单点击后js脚本执行
         menuJS(menuId) {
             this.queryMenuSetting(menuId, data => {
                 if (data) {
                     if (data.jsjbxx && data.jsjbxx.replace(/\s*/g, '') !== '') {
                         const funcStr = data.jsjbxx
+                            // eslint-disable-next-line no-eval
                         const test = eval('(false || ' + funcStr + ')')
                         if (test) {
                             test()
@@ -219,7 +241,7 @@ export default {
                         }
                     })
             } else {
-                //项目-直接菜单数据获取
+                // 项目-直接菜单数据获取
                 // const url = `http://23.36.123.128/api/applicationcenter/function/findAll?key=a18f4adc-94aa-4aa4-a9cd-e24ec52e2abe&type=1`
                 const url = `http://23.36.123.128/api/applicationcenter/function/findAll?key=${this.settingConfig.answerId}&type=1`
                 serviceAxios.get(url, {}).then(res => {

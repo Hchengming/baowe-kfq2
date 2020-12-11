@@ -2,31 +2,31 @@
   <div>
     <!-- 区县-单选-通用组件 -->
     <country
-      :form="form"
-      :commonItem="commonItem"
-      @cuntryChange="cuntryChange"
       v-if="commonItem.type==='country-radio'"
-    ></country>
+      :form="form"
+      :common-item="commonItem"
+      @cuntryChange="cuntryChange"
+    />
   </div>
 </template>
 <script>
-import Country from "./find/Country";
+import Country from './find/Country'
 export default {
   components: { Country },
   props: {
     form: { type: Object, default: null },
     commonItem: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     cuntryChange() {
-      this.$emit("formSubmit");
-    },
-  },
-};
+      this.$emit('formSubmit')
+    }
+  }
+}
 </script>

@@ -8,8 +8,8 @@
     />
     <article
       v-show="statisticsAll.isShow !== false"
-      :ref="'statisticsWrap'"
       :id="settingForm.elementId ? settingForm.elementId : undefined"
+      :ref="'statisticsWrap'"
       :style="{
         height: modelStyle.height + 'px',
         width: modelStyle.width + 'px',
@@ -28,19 +28,14 @@
     >
       <div class="statisticsBox">
         <div
-          v-if="
-            this.systemPermissions === 'admin' ||
+          v-if=" systemPermissions === 'admin' ||
             (settingForm.moduleType !== '1' && !settingForm.isHeaderHide)
           "
           class="statistics_title theme-bg-color"
           @mousedown="mousedown_tz"
         >
           <i
-            v-if="
-              statisticsAll.parentModuleId ||
-              (settingForm.blankTemplateConfig &&
-                settingForm.blankTemplateConfig.isCloseBtn === true)
-            "
+            v-if="isModuleClose()"
             class="el-icon-close"
             @click="statisticsClose"
           />
@@ -50,7 +45,10 @@
               <span v-if="settingForm.subtitle1">---</span>
               <span class="txt2">{{ settingForm.subtitle1 }}</span>
             </div>
-            <div class="right">
+            <div
+              class="right"
+              :style="{ 'margin-right': isModuleClose() ? '20px' : 0 }"
+            >
               <span class="txt3">{{ settingForm.subtitle2 }}</span>
 
               <i
@@ -70,8 +68,8 @@
               <i
                 v-if="
                   isAdmin &&
-                  settingForm.moduleType === '0' &&
-                  settingForm.isDestail === '1'
+                    settingForm.moduleType === '0' &&
+                    settingForm.isDestail === '1'
                 "
                 title="详情配置"
                 class="iconxiangqingpeizhi iconfont"
@@ -133,18 +131,15 @@
                 v-if="settingForm.isAddMoreIcon === '1'"
                 class="more"
                 @click="moduleMore"
-                >更多</span
-              >
-              <!-- iconfont icongengduo -->
+              >更多</span>
             </div>
           </div>
         </div>
-        <!-- <div class="statistics-Box"></div> -->
 
         <div
           v-loading="
             !statisticsAll.data &&
-            (settingForm.moduleType === '0' || settingForm.moduleType === '2')
+              (settingForm.moduleType === '0' || settingForm.moduleType === '2')
           "
           class="statistics-content"
           element-loading-text="数据加载中"
@@ -155,9 +150,9 @@
           <where
             ref="where"
             :condition-area-config="statisticsAll.conditionAreaConfig"
+            :where-height.sync="whereHeight"
             @whereOtherBtnClick="whereOtherBtnClick"
             @whereSubmit="whereSubmit"
-            :whereHeight.sync="whereHeight"
           />
           <!-- 空白模板嵌入 -->
           <div
@@ -204,9 +199,9 @@
             :data="statisticsAll.data"
             :chart-column="settingForm.keyArr"
             :title-show="settingForm.titleShow === '1' ? true : false"
-            :settingConfig="settingConfig"
+            :setting-config="settingConfig"
             :chart-type="settingForm.displayMode"
-            :settingForm="settingForm"
+            :setting-form="settingForm"
             :height="boxHeight()"
             @setOptions="setOptions"
             @eventClick="eventClick"
@@ -256,7 +251,7 @@
           :item-api-data="itemApiData"
           :data-view-list="dataViewList"
           :where-form="whereForm"
-          :settingConfig="settingConfig"
+          :setting-config="settingConfig"
           @submit="settingKeep"
         />
         <!-- 子模块新增表单 -->
@@ -264,7 +259,7 @@
           ref="childSettingForm"
           :form="childSettingForm"
           :data-url="dataUrl"
-          :settingConfig="settingConfig"
+          :setting-config="settingConfig"
           :item-api-data="itemApiData"
           :data-view-list="dataViewList"
           @submit="childSettingKeep"
@@ -280,19 +275,19 @@
   </div>
 </template>
 <script>
-import WhereSetting from "../../components/WhereSetting";
-import Where from "../../components/Where2.0";
-import List from "../../components/List";
-import BwLine from "../../components/Line@2.0/index.vue";
-import BwTable from "../../components/Table2/index.vue";
-import SettingForm from "../../components/SettingForm";
-import dragStretchMixins from "./dragStretchMixins";
-import { childMixins, screenMixins, destailMixins } from "./statisticsMixins";
-import dataPresentation from "../../components/SettingForm/dataPresentation.json";
-import DestailSetting from "../../components/DestailSetting";
-import Destail from "../../components/Destail";
-import DetailsTable from "../../components/DetailsTable/index.vue";
-import IframeModel from "../../components/IframeModel/index.vue";
+import WhereSetting from '../../components/WhereSetting'
+import Where from '../../components/Where2.0'
+import List from '../../components/List'
+import BwLine from '../../components/Line@2.0/index.vue'
+import BwTable from '../../components/Table2/index.vue'
+import SettingForm from '../../components/SettingForm'
+import dragStretchMixins from './dragStretchMixins'
+import { childMixins, screenMixins, destailMixins } from './statisticsMixins'
+import dataPresentation from '../../components/SettingForm/dataPresentation.json'
+import DestailSetting from '../../components/DestailSetting'
+import Destail from '../../components/Destail'
+import DetailsTable from '../../components/DetailsTable/index.vue'
+import IframeModel from '../../components/IframeModel/index.vue'
 export default {
   components: {
     SettingForm,
@@ -304,249 +299,252 @@ export default {
     DestailSetting,
     Destail,
     DetailsTable,
-    IframeModel,
+    IframeModel
   },
   mixins: [dragStretchMixins, childMixins, screenMixins, destailMixins],
   // props: ['statisticsAll', 'browserXY', 'systemPermissions', 'dataUrl'],
   props: {
     statisticsAll: {
       type: Object,
-      default: null,
+      default: null
     },
     browserXY: {
       type: Object,
-      default: null,
+      default: null
     },
     systemPermissions: {
       type: String,
-      default: null,
+      default: null
     },
     dataUrl: {
       type: String,
-      default: null,
+      default: null
     },
     addSettingForm: {
       type: Object,
-      default: null,
+      default: null
     },
     itemApiData: {
       type: Array,
-      default: null,
+      default: null
     },
     dataViewList: {
       type: Array,
-      default: null,
+      default: null
     },
     settingConfig: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
       statisticsShow: true,
-      bwLineType: ["pie", "ring", "histogram", "bar", "line", "radar"],
+      bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line', 'radar'],
       typeData: dataPresentation,
       chooseHover: null,
-      whereHeight:40,//搜索模块高度
+      whereHeight: 40 // 搜索模块高度
       // parentWhereFormUse:{}//父级筛选条件可传入子级条件筛选
       // deleteTitle: '确定删除删除当前模块？'
-    };
-  },
-  mounted(){
-//  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
+    }
   },
   computed: {
     isAdmin() {
-      return this.systemPermissions === "admin";
+      return this.systemPermissions === 'admin'
     },
     // 删除判断弹出文字
     deleteTitle() {
-      let title = "";
+      let title = ''
       if (
-        this.statisticsAll.isRowDrillDown === "1" ||
+        this.statisticsAll.isRowDrillDown === '1' ||
         this.statisticsAll.drillDownKeyAll
       ) {
-        title = "当前模块已配置有子级，是否强制删除当前模块和所有子级模块？";
+        title = '当前模块已配置有子级，是否强制删除当前模块和所有子级模块？'
       } else {
-        title = "确定删除删除当前模块？";
+        title = '确定删除删除当前模块？'
       }
-      return title;
-    },
+      return title
+    }
   },
   watch: {
     browserXY: {
       handler() {
-        this.getMainStyle();
-        this.setDemos();
+        this.getMainStyle()
+        this.setDemos()
       },
-      deep: true,
-    },
+      deep: true
+    }
+  },
+  mounted() {
+    //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
+    // 模块是否可关闭
+    isModuleClose() {
+      return this.statisticsAll.parentModuleId || this.settingForm.isModuleClose
+    },
     // 当前模块是否为图表组件判断
     isCharts() {
       const offon = !!(
-        !this.settingForm.moduleType || this.settingForm.moduleType === "0"
-      );
-      return offon;
+        !this.settingForm.moduleType || this.settingForm.moduleType === '0'
+      )
+      return offon
     },
     // 表单内容区域高度
     boxHeight() {
-      let Height = null;
-     
-      //判断是否有查询模块
+      let Height = null
+
+      // 判断是否有查询模块
       if (
         this.statisticsAll.conditionAreaConfig &&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
-        console.log(this.whereHeight,'this.whereHeight')
-        Height = this.modelStyle.height - 56 - this.whereHeight;
+        Height = this.modelStyle.height - 56 - this.whereHeight
       } else {
-        Height = this.modelStyle.height - 56;
+        Height = this.modelStyle.height - 56
       }
 
-      //iframe模块
-      if (this.settingForm.moduleType === "1") {
-        Height += 55;
+      // iframe模块
+      if (this.settingForm.moduleType === '1') {
+        Height += 55
       } else {
-        //标题栏隐藏
+        // 标题栏隐藏
         if (this.settingForm.isHeaderHide) {
-          Height += 46;
+          Height += 46
         }
       }
-      return Height;
+      return Height
     },
     // 更多按钮点击事件
     moduleMore() {
-      if (this.settingForm.moreUrl.replace(/\s*/g, "") !== "") {
-        window.open(this.settingForm.moreUrl, "_blank");
+      if (this.settingForm.moreUrl.replace(/\s*/g, '') !== '') {
+        window.open(this.settingForm.moreUrl, '_blank')
       }
-      this.$emit("statisticsMore", this.statisticsAll);
+      this.$emit('statisticsMore', this.statisticsAll)
     },
     // 模板克隆事件
     copyTemplate() {
       // 克隆当前模块配置数据
-      const contentAreaConfigCopy = JSON.parse(
-        JSON.stringify(this.settingForm)
-      );
-      contentAreaConfigCopy.title = contentAreaConfigCopy.title + "-copy";
+      const contentAreaConfigCopy = JSON.parse(JSON.stringify(this.settingForm))
+      contentAreaConfigCopy.title = contentAreaConfigCopy.title + '-copy'
       contentAreaConfigCopy.zindex = (
         parseFloat(contentAreaConfigCopy.zindex) + 1
-      ).toString();
+      ).toString()
       // console.log(contentAreaConfigCopy)
       // 判断当前克隆模块为子级还是一级页面模块
       if (!this.statisticsAll.parentModuleId) {
         // 一级克隆 --调用一级新增方法
-        this.$emit("firstAddKeep", contentAreaConfigCopy);
+        this.$emit('firstAddKeep', contentAreaConfigCopy)
       } else {
-        this.childAddType = "0";
-        this.childSettingKeep(contentAreaConfigCopy);
+        this.childAddType = '0'
+        this.childSettingKeep(contentAreaConfigCopy)
       }
     },
     // 配置字段筛选
     nowClums() {
-      const data = [];
+      const data = []
       this.settingForm.keyArr.forEach((item) => {
         if (item.isShow === true) {
-          data.push(item);
+          data.push(item)
         }
-      });
-      return data;
+      })
+      return data
     },
     // 弹窗关闭事件
     statisticsClose() {
-      if (this.settingForm.moduleType === "3") {
-        this.$emit("blankTemplateClose", this.statisticsAll.moduleId);
+      if (this.settingForm.moduleType === '3') {
+        this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
       } else {
         this.$emit(
-          "statisticsClose",
+          'statisticsClose',
           this.statisticsAll.moduleId,
           this.statisticsAll.parentModuleId
-        );
+        )
       }
     },
     // 模块删除按钮点击事件
     deleteTemplate() {
+      console.log('..........')
+
       this.$emit(
-        "deleteMoule",
+        'deleteMoule',
         this.statisticsAll.moduleId,
         this.statisticsAll.menuId,
         this.statisticsAll.parentModuleId
-      );
+      )
     },
     // 模块设置表单保存事件
     settingKeep(contentAreaConfig) {
-      this.setDemos();
+      this.setDemos()
       this.$emit(
-        "updateMoule",
+        'updateMoule',
         contentAreaConfig,
         this.statisticsAll.moduleId,
         () => {
-          this.$refs["settingForm"].close();
+          this.$refs['settingForm'].close()
         },
         this.whereForm
-      );
+      )
     },
     // 设置按钮点击事件
     settingClick() {
-      this.$emit("settingClick", this.statisticsAll, (keyArr) => {
-        this.$refs["settingForm"].show({
-          keyArr,
-        });
-      });
+      this.$emit('settingClick', this.statisticsAll, (keyArr) => {
+        this.$refs['settingForm'].show({
+          keyArr
+        })
+      })
     },
     // 展示方式选择点击事件
     chooseType(chartType) {
-      this.settingForm.displayMode = chartType;
+      this.settingForm.displayMode = chartType
       if (this.isAdmin) {
         this.$emit(
-          "updateMoule",
+          'updateMoule',
           this.settingForm,
           this.statisticsAll.moduleId,
           () => {},
           this.whereForm
-        );
+        )
       }
     },
     // 分页事件
     tablePageSort(pageAll) {
       this.$emit(
-        "tablePageSort",
+        'tablePageSort',
         this.statisticsAll.moduleId,
         pageAll,
         this.whereForm
-      );
+      )
     },
     // 图表点击事件
     eventClick(e) {
       this.statisticsAll.data.forEach((items, index) => {
-        let offon = false;
-        if (this.settingForm.displayMode === "bar") {
-          offon = this.statisticsAll.data.length - 1 - e.dataIndex === index;
+        let offon = false
+        if (this.settingForm.displayMode === 'bar') {
+          offon = this.statisticsAll.data.length - 1 - e.dataIndex === index
         } else {
-          offon = e.dataIndex === index;
+          offon = e.dataIndex === index
         }
         if (offon) {
-          this.rowClick(items, index);
+          this.rowClick(items, index)
           this.settingForm.keyArr.forEach((item, num) => {
             if (num > 0 && items[item.key] === e.value) {
-              this.cellClick(items, item.key);
+              this.cellClick(items, item.key)
             }
-          });
+          })
         }
-      });
+      })
     },
-    //图表配置数据暴露，外层定制化
+    // 图表配置数据暴露，外层定制化
     setOptions(options, chartType, data) {
       this.$emit(
-        "setOptions",
+        'setOptions',
         options,
         chartType,
         data,
         this.statisticsAll.moduleId
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>

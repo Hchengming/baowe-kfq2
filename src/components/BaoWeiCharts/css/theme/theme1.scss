@@ -56,11 +56,23 @@
         background-color: $--color-primary;
         border-color: $--color-primary;
     }
+    .el-radio-group.country-2 .el-radio-button__inner {
+        color: $--color-primary;
+        background-color: transparent;
+        border-color: none;
+    }
     .el-radio-group.country-2 .el-radio-button__orig-radio:checked+.el-radio-button__inner {
         color: $--color-primary;
+        // background-color: transparent;
+        // border-color: transparent;
+        font-weight: bold;
+        box-shadow: none;
     }
     .el-loading-mask {
         background: rgba(255, 255, 255, 0.5) !important;
+    }
+    .static-where-2 {
+        background-color: #dcdfe6;
     }
     .KFQ_wrap {
         .el-header {
@@ -68,6 +80,14 @@
         }
         .el-main {
             background: #11193c;
+            .landTransferSystem-slot-content .item-home .search-query {
+                background-color: inherit;
+                color: #fff;
+                .el-input__inner {
+                    background-color: inherit;
+                    color: #fff;
+                }
+            }
             .statisticsWrap {
                 border-radius: 0;
                 .statisticsBox {
@@ -87,11 +107,27 @@
                             color: #a9dbfb !important;
                         }
                         .right {
-                            color: #c3a9a9;
-                            .el-icon-delete {
-                                color: #c3a9a9;
-                            }
+                            color: #fff;
                         }
+                    }
+                }
+                .tabs-list span {
+                    color: #fff;
+                }
+                .custom-table tr td {
+                    background-color: inherit !important;
+                    color: white;
+                }
+                .el-table {
+                    tr {
+                        background-color: #0B1127;
+                        color: #fff;
+                        &:hover td {
+                            background-color: inherit;
+                        }
+                    }
+                    th {
+                        background-color: inherit;
                     }
                 }
                 .bw_list1 {
@@ -135,6 +171,51 @@
                         color: white;
                         .key {
                             background: #1a2344;
+                        }
+                    }
+                }
+                #bw_table thead .cell {
+                    padding: 10px 0;
+                    line-height: 1.15;
+                    font-weight: bold;
+                }
+                .el-table tbody tr {
+                    height: 45px;
+                }
+                // .el-table tbody tr:nth-child(odd) {
+                //     background: linear-gradient(180deg, #fff 0, #eef6ff);
+                // }
+                .el-pagination {
+                    padding: 10px;
+                    text-align: center;
+                }
+                .statistics_title {
+                    line-height: 42px;
+                    height: 42px;
+                    font-size: 18px;
+                    color: #3d7cb0;
+                    border-radius: 4px 4px 0 0;
+                    // -webkit-box-shadow: 0 -1px 0 0 #e9f1f9;
+                    // box-shadow: 0 -1px 0 0 #e9f1f9;
+                    // background: #f8fafc !important;
+                    font-weight: 700;
+                    padding: 0;
+                    padding-left: 14px;
+                    .el-icon-close {
+                        color: $--color-primary;
+                    }
+                    .box {
+                        height: 100%;
+                        line-height: inherit;
+                        border: none;
+                        .right .el-icon-setting {
+                            line-height: inherit;
+                        }
+                        .right .el-icon-delete {
+                            color: inherit;
+                        }
+                        .t_list {
+                            font-size: 16px;
                         }
                     }
                 }

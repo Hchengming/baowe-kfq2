@@ -13,7 +13,7 @@ export default {
             settingForm: {},
             // 拖拽图标样式设置
             // TZStyle: {},
-            // 内容区域宽高  
+            // 内容区域宽高
             mainStyle: {
                 width: null,
                 height: null,
@@ -32,6 +32,7 @@ export default {
             this.getMainStyle()
             this.setDemos()
         },
+        deep: true
     },
     mounted() {
         this.getMainStyle()
@@ -240,7 +241,6 @@ export default {
         },
         // 模块拖拽拉伸后保存事件
         TZLSKeep() {
-
             this.$emit(
                 'updateMoule',
                 this.settingForm,

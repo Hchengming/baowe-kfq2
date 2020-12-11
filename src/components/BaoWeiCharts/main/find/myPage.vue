@@ -18,8 +18,8 @@
       <div
         v-for="item in slotName"
         :key="item"
-        style="width: 100%; height: 100%"
         :slot="item"
+        style="width: 100%; height: 100%"
       >
         <slot :name="item" />
       </div>
@@ -44,7 +44,7 @@
       :item-api-data="itemApiData"
       :setting-config="settingConfig"
       @submit="topBarAdd"
-    ></top-bar-setting>
+    />
     <!-- 页面配置 -->
     <div v-if="settingConfig.systemPermissions === 'admin'" class="hoverMenu">
       <div class="box">
@@ -89,26 +89,26 @@
         @addAssembly="addAssembly"
       />
       <!-- 项目配置  主题配置 -->
-      <project-config @projectConfigChange="projectConfigChange"  v-if="rightDrawerType == 'theme'"></project-config>
+      <project-config v-if="rightDrawerType == 'theme'" :now-project-config="nowProjectConfig" @projectConfigChange="projectConfigChange" @projectConfigSubmit="projectConfigSubmit" />
       <!-- tabs切换组件 -->
       <tab-setting
         ref="tabsSetting"
+        :tabs-form="tabsConfig"
         @tabsAdd="tabsAdd"
-        :tabsForm="tabsConfig"
-      ></tab-setting>
+      />
     </el-drawer>
   </div>
 </template>
 <script>
-import middleware from "../../tuobiao/middleware/index";
-import assembly from "./assembly";
-import MenuSetting from "../../components/MenuSetting";
+import middleware from '../../tuobiao/middleware/index'
+import assembly from './assembly'
+import MenuSetting from '../../components/MenuSetting'
 /* 顶部栏导入 */
-import TopBar from "../../components/TopBar@2.0";
-import TopBarSetting from "../../components/TopBarSetting";
-import topBarMixins from "./mixins/topBarMixins.js";
-import myPageMixins from "./mixins/myPageMixins.js";
-import TabSetting from "../../components/TabSetting";
+import TopBar from '../../components/TopBar@2.0'
+import TopBarSetting from '../../components/TopBarSetting'
+import topBarMixins from './mixins/topBarMixins.js'
+import myPageMixins from './mixins/myPageMixins.js'
+import TabSetting from '../../components/TabSetting'
 import ProjectConfig from './ProjectConfig'
 /* ====end==== */
 // import myMap from '../../components/maps/map'
@@ -128,108 +128,115 @@ export default {
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {},
+      default: {}
     },
     slotName: {
       type: Array,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: null,
+      default: null
     },
+    nowProjectConfig: {
+      type: Object, default: null
+    }
   },
   data() {
     return {
       pageLoading: false,
-      rightDrawerType: "",
-      rightDrawerTypeTitle:'',
+      rightDrawerType: '',
+      rightDrawerTypeTitle: '',
       nowMenuItem: {}, // 当前选中菜单配置信息
       settingDrawer: false, // 右侧抽屉显示隐藏控制
-      chooseType: "",
-    };
+      chooseType: ''
+    }
   },
   mounted() {
-    const _this = this;
-    window.onresize = function () {
-      _this.$refs["middleware"].resize();
-    };
+    const _this = this
+    window.onresize = function() {
+      _this.$refs['middleware'].resize()
+    }
   },
   methods: {
-    //项目主体(主题)配置事件
-    projectConfigChange(obj){
-       this.$emit('projectConfigChange',obj)
+    // 项目主体(主题)配置事件
+    projectConfigChange(obj) {
+      this.$emit('projectConfigChange', obj)
     },
-    //通过模块id改变模块渲染数据事件
+    projectConfigSubmit(obj) {
+      this.settingDrawer = false
+      this.$emit('projectConfigSubmit', obj)
+    },
+    // 通过模块id改变模块渲染数据事件
     changePageData(moduleId, viewchange) {
-      this.$refs["middleware"].changePageData(moduleId, viewchange);
+      this.$refs['middleware'].changePageData(moduleId, viewchange)
     },
-    //图表模块显示隐藏控制事件
+    // 图表模块显示隐藏控制事件
     modeuleShow(obj) {
-      this.$refs["middleware"].modeuleShow(obj);
+      this.$refs['middleware'].modeuleShow(obj)
     },
     setPageLoding(offon) {
       // console.log(offon)
-      this.pageLoading = offon;
+      this.pageLoading = offon
     },
     // 组件事件暴露
     elementMethods(reqObj) {
-      this.$emit("elementMethods", reqObj);
+      this.$emit('elementMethods', reqObj)
       // this.chartsMethods(reqObj)
     },
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {
-      this.nowMenuItem = menuItem;
-      this.$refs["middleware"].menuClick(menuItem, menuTypes, fn);
-      this.getTopBarConfig();
+      this.nowMenuItem = menuItem
+      this.$refs['middleware'].menuClick(menuItem, menuTypes, fn)
+      this.getTopBarConfig()
       // this.elementMethods({
       //   name: '菜单点击事件',
       //   methodsName: 'menuClick',
       //   menuItem
       // })
-      sessionStorage.setItem("menuItem", JSON.stringify(menuItem));
+      sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
     mainStyleChange() {
-      this.$refs["middleware"].mainStyleChange();
+      this.$refs['middleware'].mainStyleChange()
       // this.$refs['myMaps'].resize()
     },
     // 菜单数据传递
     getMenuData(menuData) {
-      this.$emit("getMenuData", menuData);
+      this.$emit('getMenuData', menuData)
     },
     // 右侧抽屉显示事件
     rightDrawerShow(type) {
-      this.rightDrawerType = type;
+      this.rightDrawerType = type
       switch (type) {
-        case "menu":
-          this.rightDrawerTypeTitle = "菜单配置";
-          break;
-        case "assembly":
-          this.rightDrawerTypeTitle = "组件新增";
-          break;
-        case "theme":
-          this.rightDrawerTypeTitle = "主题选择";
-          break;
+        case 'menu':
+          this.rightDrawerTypeTitle = '菜单配置'
+          break
+        case 'assembly':
+          this.rightDrawerTypeTitle = '组件新增'
+          break
+        case 'theme':
+          this.rightDrawerTypeTitle = '主题选择'
+          break
       }
-      this.settingDrawer = true;
+      this.settingDrawer = true
     },
     // 右侧抽屉关闭事件
     drawerClose() {
-      this.settingDrawer = false;
+      this.settingDrawer = false
     },
     // 页面组件新增事件
     addAssembly(type) {
       switch (type) {
-        case "tableChart": // 图表组件集
-          this.$refs["middleware"].addTemplate();
-          break;
-        case "topBar": // 顶部栏组件
-          this.$refs["topBarSetting"].show();
-          break;
-        case "tabs": //tabs切换
-          this.$refs["tabsSetting"].show();
-          break;
+        case 'tableChart': // 图表组件集
+          this.$refs['middleware'].addTemplate()
+          break
+        case 'topBar': // 顶部栏组件
+          this.$refs['topBarSetting'].show()
+          break
+        case 'tabs': // tabs切换
+          this.$refs['tabsSetting'].show()
+          break
       }
-      this.settingDrawer = false;
-    },
-  },
-};
+      this.settingDrawer = false
+    }
+  }
+}
 </script>

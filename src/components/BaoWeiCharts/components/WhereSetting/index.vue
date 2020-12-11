@@ -104,7 +104,7 @@
                   <el-select
                     v-if="
                       item.key == 'styleType' &&
-                      ['radio', 'checkbox'].indexOf(items.type) > -1
+                        ['radio', 'checkbox'].indexOf(items.type) > -1
                     "
                     v-model="items[item.key]"
                     size="small"
@@ -226,9 +226,11 @@
         <div />
         <div class="right">
           <el-button size="small" @click="isShow = false">取 消</el-button>
-          <el-button type="primary" size="small" @click="onSubmit"
-            >确 定</el-button
-          >
+          <el-button
+            type="primary"
+            size="small"
+            @click="onSubmit"
+          >确 定</el-button>
         </div>
       </span>
     </el-dialog>
@@ -236,323 +238,324 @@
   </div>
 </template>
 <script>
-import settingData from "./settingData";
-import ButtonSetting from "../ButtonSetting/index.vue";
-import { dragDialog } from "../../utils/mixins.js";
-import filterDataDefault from "./commonWhere.json";
+import settingData from './settingData'
+import ButtonSetting from '../ButtonSetting/index.vue'
+import { dragDialog } from '../../utils/mixins.js'
+import filterDataDefault from './commonWhere.json'
 // import filterDataDefault from "./CommonFilter/commonWhere.json";
 export default {
-  components: { settingData, ButtonSetting},
+  components: { settingData, ButtonSetting },
   mixins: [dragDialog],
   props: {
     screenAll: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
-      dialogRef: "screenFormDialog",
+      dialogRef: 'screenFormDialog',
       isShow: false,
       tableClums: [
         {
-          title: "表单类型",
-          key: "type",
-          width: 100,
+          title: '表单类型',
+          key: 'type',
+          width: 100
         },
         {
-          title: "参数名称",
-          key: "key",
-          width: 80,
+          title: '参数名称',
+          key: 'key',
+          width: 80
         },
         {
-          title: "标签",
-          key: "label",
-          width: 100,
+          title: '标签',
+          key: 'label',
+          width: 100
         },
         {
-          title: "左侧标签宽度",
-          key: "labelWidth",
-          width: 100,
+          title: '左侧标签宽度',
+          key: 'labelWidth',
+          width: 100
         },
         {
-          title: "右侧宽度",
-          key: "rightWidth",
-          width: 100,
+          title: '右侧宽度',
+          key: 'rightWidth',
+          width: 100
         },
         {
-          title: "配置数据/接口",
-          key: "changeData",
-          width: 100,
+          title: '配置数据/接口',
+          key: 'changeData',
+          width: 100
         },
         {
-          title: "默认值",
-          key: "defaultValue",
-          width: 100,
+          title: '默认值',
+          key: 'defaultValue',
+          width: 100
         },
         {
-          title: "下级参数",
-          key: "sfxjcx",
-          width: 80,
+          title: '下级参数',
+          key: 'sfxjcx',
+          width: 80
         },
         {
-          title: "显示样式",
-          key: "styleType",
-          width: 100,
+          title: '显示样式',
+          key: 'styleType',
+          width: 100
         },
         {
-          title: "是否结束时间",
-          key: "sfjssj",
-          width: 100,
+          title: '是否结束时间',
+          key: 'sfjssj',
+          width: 100
         },
         {
-          key: "isInsert",
-          title: "是否直接查询",
-          width: 100,
+          key: 'isInsert',
+          title: '是否直接查询',
+          width: 100
         },
         {
-          key: "isLineFeed",
-          title: "是否换行",
-          width: 80,
+          key: 'isLineFeed',
+          title: '是否换行',
+          width: 80
         },
         {
-          title: "操作",
-          width: 75,
-        },
+          title: '操作',
+          width: 75
+        }
       ],
       // 表单类型
       typeData: [
         {
-          value: "input",
-          label: "输入框",
+          value: 'input',
+          label: '输入框'
         },
         {
-          value: "select",
-          label: "下拉框",
+          value: 'select',
+          label: '下拉框'
         },
         {
-          value: "radio",
-          label: "单选框",
+          value: 'radio',
+          label: '单选框'
         },
         {
-          value: "checkbox",
-          label: "多选框",
+          value: 'checkbox',
+          label: '多选框'
         },
         {
-          value: "number",
-          label: "数字输入框",
+          value: 'number',
+          label: '数字输入框'
         },
         {
-          value: "date",
-          label: "日期选择框",
+          value: 'date',
+          label: '日期选择框'
         },
         {
-          value: "dateTime",
-          label: "时间日期选择框",
+          value: 'dateTime',
+          label: '时间日期选择框'
         },
         {
-          value: "country-radio",
-          label: "区县-单选",
-        },
+          value: 'country-radio',
+          label: '区县-单选'
+        }
         // {
         //   value: 'textarea',
         //   label: '多行文本框'
         // }
       ],
-      commonFilterData: [], //常用配置项
+      commonFilterData: [], // 常用配置项
       btnSettingData: [], // 其他按钮配置数据
-      isShowInsertButton: "1", // 是否显示查询按钮  1:是 0：否
+      isShowInsertButton: '1', // 是否显示查询按钮  1:是 0：否
       screenData: [
         {
-          type: "input",
-          key: "",
-          label: "",
-          sfxjcx: "0", // 是否作为下级查询条件 0:否 1：是
+          type: 'input',
+          key: '',
+          label: '',
+          sfxjcx: '0', // 是否作为下级查询条件 0:否 1：是
           labelWidth: null, // 标签宽度
-          rightWidth: null, // 右侧选择框、输入框宽度
-        },
-      ],
-    };
+          rightWidth: null // 右侧选择框、输入框宽度
+        }
+      ]
+    }
   },
   methods: {
     // 是否结束时间变化事件
     isOverTimeChange(items, item) {
-      if (items[item.key] === "1") {
-        items.label = "";
+      if (items[item.key] === '1') {
+        items.label = ''
       }
     },
 
     // 标签名变化事件--获取自适应右侧标签宽度
     labelChange(index, item, items) {
       // .key,items[item.key]
-      if (item.key === "label") {
-        const length = items.label.length;
-        this.$set(items, "labelWidth", length * 16 + 1);
+      if (item.key === 'label') {
+        const length = items.label.length
+        this.$set(items, 'labelWidth', length * 16 + 1)
       }
     },
     // 弹窗显示事件
     show(conditionAreaConfig) {
-      this.isShow = true;
+      this.isShow = true
       this.isShowInsertButton = conditionAreaConfig.isShowInsertButton
         ? conditionAreaConfig.isShowInsertButton
-        : "1";
+        : '1'
       if (conditionAreaConfig) {
         this.screenData = conditionAreaConfig.screenData
           ? conditionAreaConfig.screenData
-          : [];
+          : []
         this.btnSettingData = conditionAreaConfig.btnSettingData
           ? conditionAreaConfig.btnSettingData
-          : [];
+          : []
         this.screenData.forEach((item) => {
           if (item.arr) {
-            item.arrStr = JSON.stringify(item.arr);
+            item.arrStr = JSON.stringify(item.arr)
           }
-        });
+        })
         this.commonFilterData = conditionAreaConfig.commonFilterData
           ? conditionAreaConfig.commonFilterData
-          : [];
+          : []
       }
       // console.log(this.isShowInsertButton)
     },
     // 表单类型变化事件
     typeChange(item) {
-      if (["date", "dateTime"].indexOf(item.type) === -1) {
-        item.sfjssj = "";
+      if (['date', 'dateTime'].indexOf(item.type) === -1) {
+        item.sfjssj = ''
       }
       switch (item.type) {
-        case "input":
-          delete item.dataUrl;
-          delete item.arr;
-          break;
-        case "number":
-          delete item.dataUrl;
-          delete item.arr;
-          break;
-        case "date":
-          item.styleType = "date";
-          delete item.dataUrl;
-          delete item.arr;
-          break;
-        case "dateTime":
-          delete item.dataUrl;
-          delete item.arr;
-          break;
-        case "radio":
-          item.rightWidth = null;
-          break;
-        case "checkbox":
-          item.rightWidth = null;
-          break;
-        case "country-radio":
-          this.checkCountryRadio(item);
-          break;
+        case 'input':
+          delete item.dataUrl
+          delete item.arr
+          break
+        case 'number':
+          delete item.dataUrl
+          delete item.arr
+          break
+        case 'date':
+          item.styleType = 'date'
+          delete item.dataUrl
+          delete item.arr
+          break
+        case 'dateTime':
+          delete item.dataUrl
+          delete item.arr
+          break
+        case 'radio':
+          item.rightWidth = null
+          break
+        case 'checkbox':
+          item.rightWidth = null
+          break
+        case 'country-radio':
+          this.checkCountryRadio(item)
+          break
       }
     },
-    //区县，单选项选中事件
+    // 区县，单选项选中事件
     checkCountryRadio(item) {
       filterDataDefault.forEach((obj) => {
         if (obj.type === item.type) {
-          for (let key in obj) {
-              item[key] = obj[key];            
+          for (const key in obj) {
+            item[key] = obj[key]
           }
         }
-      });
+      })
     },
     // 表单确认事件
     onSubmit() {
-      let offon = false;
+      let offon = false
       // 筛选表单配置数据校验
       // console.log(this.screenData)
       this.screenData.forEach((item) => {
-        delete item.arrStr;
+        delete item.arrStr
         if (!item.key || !item.type) {
-          offon = true;
+          offon = true
         }
-        if (["radio", "checkbox", "select"].indexOf(item.type) > -1) {
+        if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
           if (!item.dataUrl && !item.arr) {
-            offon = true;
+            offon = true
           }
         }
-      });
+      })
       // 其他按钮配置数据校验
-      let offon2 = false;
+      let offon2 = false
       this.btnSettingData.forEach((item) => {
         if (!item.name || !item.methodsName || !item.type) {
-          offon2 = true;
+          offon2 = true
         }
-      });
+      })
       if (offon || offon2) {
-        let err1 = "";
-        let err2 = "";
-        if (offon)
+        let err1 = ''
+        let err2 = ''
+        if (offon) {
           err1 =
-            "表单配置写完整(字段名不能为空，单选、多选、下拉框配置数据不能为空);";
-        if (offon2) err2 = "其他按钮配置数据未填写完整";
+            '表单配置写完整(字段名不能为空，单选、多选、下拉框配置数据不能为空);'
+        }
+        if (offon2) err2 = '其他按钮配置数据未填写完整'
         this.$message({
-          type: "error",
-          message: err1 + err2,
-        });
+          type: 'error',
+          message: err1 + err2
+        })
       } else {
         const datas = JSON.parse(
           JSON.stringify({
             screenData: this.screenData,
             btnSettingData: this.btnSettingData,
             // commonFilterData: this.commonFilterData,
-            isShowInsertButton: this.isShowInsertButton,
+            isShowInsertButton: this.isShowInsertButton
           })
-        );
-        this.$emit("screenKeep", datas);
-        this.isShow = false;
+        )
+        this.$emit('screenKeep', datas)
+        this.isShow = false
       }
     },
     // 新增按钮点击事件
     addScreen() {
       this.screenData.push({
-        type: "input",
-        key: "",
-        label: "",
-        sfxjcx: "0", // 是否作为下级查询条件
-        styleType: "",
-        isLineFeed: "0",
+        type: 'input',
+        key: '',
+        label: '',
+        sfxjcx: '0', // 是否作为下级查询条件
+        styleType: '',
+        isLineFeed: '0'
         // dataUrl: "" //数据接口
-      });
+      })
     },
     // 向上排序
     sortPrev(item, index, offon) {
-      if (offon) return;
-      this.screenData.splice(index, 1);
-      this.screenData.splice(index - 1, 0, item);
+      if (offon) return
+      this.screenData.splice(index, 1)
+      this.screenData.splice(index - 1, 0, item)
     },
     // 向下排序
     sortNext(item, index, offon) {
-      if (offon) return;
-      this.screenData.splice(index, 1);
-      this.screenData.splice(index + 1, 0, item);
+      if (offon) return
+      this.screenData.splice(index, 1)
+      this.screenData.splice(index + 1, 0, item)
     },
     // 删除项点击事件
     screenDelete(item, index) {
-      this.screenData.splice(index, 1);
+      this.screenData.splice(index, 1)
     },
     // 数据配置框获取焦点事件
     itemDataChange(item, index) {
-      if (["input", "number", "textarea"].indexOf(item.type) > -1) return;
-      this.$refs.settingData.show(item, index);
+      if (['input', 'number', 'textarea'].indexOf(item.type) > -1) return
+      this.$refs.settingData.show(item, index)
     },
     // 数据配置确认事件
     itemDataConfig(obj) {
       if (obj.dataUrl) {
-        this.$set(this.screenData[obj.index], "arr", undefined);
-        this.$set(this.screenData[obj.index], "dataUrl", obj.dataUrl);
+        this.$set(this.screenData[obj.index], 'arr', undefined)
+        this.$set(this.screenData[obj.index], 'dataUrl', obj.dataUrl)
       } else {
-        this.$set(this.screenData[obj.index], "dataUrl", undefined);
-        this.$set(this.screenData[obj.index], "arr", obj.arr);
+        this.$set(this.screenData[obj.index], 'dataUrl', undefined)
+        this.$set(this.screenData[obj.index], 'arr', obj.arr)
         this.$set(
           this.screenData[obj.index],
-          "arrStr",
+          'arrStr',
           JSON.stringify(obj.arr)
-        );
+        )
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -1,15 +1,17 @@
 <template>
   <div id="bw_table">
-    <el-table :border="true"
-              :data="tabledata"
-              @cell-click="cellClick"
-              @row-click="rowClick"
-              :row-class-name="tableRowClassName"
-              stripe
-              :height="nowHieght()"
-              :row-key="settingForm.tableOtherConfig?settingForm.tableOtherConfig.onlyKey:undefined"
-              :tree-props="{children: settingForm.tableOtherConfig?settingForm.tableOtherConfig.childKey:'children', hasChildren: 'hasChildren'}"
-              :style="{width: '100%'}">
+    <el-table
+      :border="true"
+      :data="tabledata"
+      :row-class-name="tableRowClassName"
+      stripe
+      :height="nowHieght()"
+      :row-key="settingForm.tableOtherConfig?settingForm.tableOtherConfig.onlyKey:undefined"
+      :tree-props="{children: settingForm.tableOtherConfig?settingForm.tableOtherConfig.childKey:'children', hasChildren: 'hasChildren'}"
+      :style="{width: '100%'}"
+      @cell-click="cellClick"
+      @row-click="rowClick"
+    >
       <!-- <el-table-column v-for="(item,index) in colums"
                        :key="index"
                        :class-name="item.className+' '+cellCursorClass(item.key)"
@@ -31,71 +33,74 @@
                        @click="operateButtonClick(val,scope.row)"
                        size="mini">{{val.name}}</el-button>
           </div>
-        
+
         </template>
 
       </el-table-column> -->
-      <table-column v-for="(item,index) in tableColums()"
-                    :key="index"
-                    :item="item"
-                    :statisticsAll="statisticsAll"
-                    :settingForm="settingForm"
-                    :colums="colums">
-      </table-column>
+      <table-column
+        v-for="(item,index) in tableColums()"
+        :key="index"
+        :item="item"
+        :statistics-all="statisticsAll"
+        :setting-form="settingForm"
+        :colums="colums"
+      />
     </el-table>
-    <el-pagination @current-change="handleCurrentChange"
-                   @size-change="handleSizeChange"
-                   :current-page="paginationAll.currentPage"
-                   :page-size="paginationAll.pageSize"
-                   :page-sizes="pageSizes"
-                   layout="total, sizes, prev, pager, next, jumper"
-                   :total="paginationAll.total"
-                   v-if="paginationAll"></el-pagination>
+    <el-pagination
+      v-if="paginationAll"
+      :current-page="paginationAll.currentPage"
+      :page-size="paginationAll.pageSize"
+      :page-sizes="pageSizes"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="paginationAll.total"
+      @current-change="handleCurrentChange"
+      @size-change="handleSizeChange"
+    />
   </div>
 </template>
 <script>
 import listTableCommonJs from './TableMixins'
 import TableColumn from './tableColumn/tableColumn.vue'
 export default {
-  mixins: [listTableCommonJs],
   components: { TableColumn },
-  data () {
-    return {
-      cellCursor: ''
-    }
-  },
+  mixins: [listTableCommonJs],
   // props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
   props: {
     tabledata: {
       type: Array,
-      default:null
+      default: null
     },
     colums: {
-      type: Array, default:null
+      type: Array, default: null
     },
     height: {
-      type: Number, default:null
+      type: Number, default: null
     },
     width: {
-      type: Number, default:null
+      type: Number, default: null
     },
     settingForm: {
-      type: Object, default:null
+      type: Object, default: null
     },
     paginationAll: {
-      type: Object, default:null
+      type: Object, default: null
     },
     statisticsAll: {
-      type: Object, default:null
+      type: Object, default: null
     },
     border: {
-      type: Boolean, default:null
+      type: Boolean, default: null
+    }
+  },
+  data() {
+    return {
+      cellCursor: ''
     }
   },
   computed: {},
   methods: {
-    //递归遍历树形数据
-    reduiction (data, fn) {
+    // 递归遍历树形数据
+    reduiction(data, fn) {
       data.forEach((item, index) => {
         fn(item, index)
         if (item.children && item.children.length > 0) {
@@ -103,12 +108,12 @@ export default {
         }
       })
     },
-    //表格表头配置
-    tableColums () {
+    // 表格表头配置
+    tableColums() {
       let tableColums = []
-      //判断是否为多表头表格
+      // 判断是否为多表头表格
       if (this.settingForm.tableHeaderConfig && this.settingForm.tableHeaderConfig.hierarchy > 1) {
-        //01 多表头表格
+        // 01 多表头表格
         tableColums = this.settingForm.tableHeaderConfig.headerSetting[0].children
         this.reduiction(tableColums, items => {
           this.colums.forEach(item => {
@@ -117,9 +122,8 @@ export default {
             }
           })
         })
-
       } else {
-        //02 普通表格
+        // 02 普通表格
         tableColums = this.colums
       }
       return tableColums
@@ -169,9 +173,9 @@ export default {
       this.$emit('rowClick', row, row.rowIndex)
     },
     // 表格单元格点击事件
-    cellClick (row, column) {
+    cellClick(row, column) {
       this.$emit('cellClick', row, column.property)
-    },
+    }
 
   }
 }

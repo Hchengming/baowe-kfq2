@@ -55,7 +55,7 @@
 </script>
 
 <style scoped>
-	/deep/ .el-dialog__body {
+	::v-deep .el-dialog__body {
 		padding: 1px 0 !important;
 		max-height: 58vh;
 	}

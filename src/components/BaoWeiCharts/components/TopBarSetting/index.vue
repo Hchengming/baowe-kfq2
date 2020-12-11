@@ -20,7 +20,7 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <el-col :span="4" v-if="form.bgType != '2'">
+          <el-col v-if="form.bgType != '2'" :span="4">
             <el-form-item label="背景一" prop="bg1">
               <el-input
                 v-model="form.bg1"
@@ -29,7 +29,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="4" v-if="form.bgType === '1'">
+          <el-col v-if="form.bgType === '1'" :span="4">
             <el-form-item label="背景二" prop="bg2">
               <el-input
                 v-model="form.bg2"
@@ -38,7 +38,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="6" v-if="form.bgType === '2'">
+          <el-col v-if="form.bgType === '2'" :span="6">
             <el-form-item label="背景字段" prop="bgKey">
               <el-input
                 v-model="form.bgKey"
@@ -60,7 +60,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item
-          
+
               label="宽度(%)"
               prop="width"
             >
@@ -87,10 +87,10 @@
         </el-row>
         <!-- 数据接口处理部分 -->
         <api-choose
+          ref="apiChoose"
           :item-api-data="itemApiData"
           :setting-config="settingConfig"
           :data-view-list="dataViewList"
-          ref="apiChoose"
           :form="form"
         />
         <!-- 接口参数、字段配置             -->
@@ -182,26 +182,26 @@
   </el-dialog>
 </template>
 <script>
-import { dragDialog } from "../../utils/mixins.js";
-import JSMixins from "./mixins.js";
-import ApiChoose from "../ApiChoose/index.vue";
-import ParamKeyConfig from "../SettingForm/ParamKeyConfig/index.vue";
+import { dragDialog } from '../../utils/mixins.js'
+import JSMixins from './mixins.js'
+import ApiChoose from '../ApiChoose/index.vue'
+import ParamKeyConfig from '../SettingForm/ParamKeyConfig/index.vue'
 export default {
   components: { ApiChoose, ParamKeyConfig },
   mixins: [JSMixins, dragDialog],
   props: {
     itemApiData: {
       type: Array,
-      default: null,
+      default: null
     },
     dataViewList: {
       type: Array,
-      default: null,
+      default: null
     },
     settingConfig: {
       type: Object,
-      default: null,
-    },
-  },
-};
+      default: null
+    }
+  }
+}
 </script>

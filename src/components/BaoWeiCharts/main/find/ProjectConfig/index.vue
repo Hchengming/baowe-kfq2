@@ -2,59 +2,64 @@
   <div class="project-config-wrap">
     <div class="theme-choose">
       <span>主题风格</span>
-      <el-radio-group v-model="projectConfig.theme" @change="themeChange">
+      <el-radio-group
+        v-model="nowProjectConfig.theme"
+        @change="themeChange"
+      >
         <el-radio
-          border
-          size="medium"
           v-for="(item, index) in themeData"
           :key="index"
+          border
+          size="medium"
           :label="item.value"
-          >{{ item.label }}</el-radio
-        >
+        >{{ item.label }}</el-radio>
       </el-radio-group>
       <div class="bottom-confirm">
-         <el-button type="primary" @click="onSubmit"
-          >确 认</el-button> 
+        <el-button
+          type="primary"
+          @click="onSubmit"
+        >确 认</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    nowProjectConfig: {
+      type: Object, default: null
+    }
+  },
   data() {
     return {
-      projectConfig: {
-        theme: "2",
-      },
       // 项目主题风格选择数据
       themeData: [
         {
-          label: "深蓝色主题风格",
-          value: "2",
+          label: '深蓝色主题风格',
+          value: 2
         },
         // {
         //   label: "默认主题风格",
         //   value: "0",
         // },
         {
-          label: "大屏展示类背景风格",
-          value: "1",
-        },
-        
-      ],
-    };
+          label: '大屏展示类背景风格',
+          value: 1
+        }
+      ]
+    }
   },
-  methods:{
-      //项目主体配置确认事件
-      onSubmit(){
-        // this.$emit('projectConfigSubmit',this.projectConfig)
-      },
-      //主题风格变化事件
-      themeChange(){
-         this.$emit('projectConfigChange',this.projectConfig)
-      }
+  methods: {
+    // 项目主体配置确认事件
+    onSubmit() {
+      this.$emit('projectConfigSubmit', this.nowProjectConfig)
+    },
+    // 主题风格变化事件
+    themeChange() {
+      this.$emit('projectConfigChange', this.nowProjectConfig)
+    }
   }
-};
+}
 </script>
 <style lang="scss">
 .project-config-wrap {
@@ -71,13 +76,13 @@ export default {
       margin-top: 5px;
     }
   }
-  .bottom-confirm{
-      display: flex;
-      justify-content: flex-end;
+  .bottom-confirm {
+    display: flex;
+    justify-content: flex-end;
     //   margin-top: 20px;
-      position: absolute;
-      bottom: 20px;
-      right:20px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
   }
 }
 </style>

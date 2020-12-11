@@ -58,6 +58,8 @@
     }
     .el-radio-group.country-2 .el-radio-button__orig-radio:checked+.el-radio-button__inner {
         color: $--color-primary;
+        background-color: white;
+        border-color: white;
     }
     #bw_table thead .cell {
         padding: 10px 0;
@@ -94,6 +96,9 @@
         font-weight: 700;
         padding: 0;
         padding-left: 14px;
+        .el-icon-close {
+            color: $--color-primary;
+        }
         .box {
             height: 100%;
             line-height: inherit;

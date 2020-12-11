@@ -41,7 +41,6 @@ body{
   p {
     padding: 0;
     margin: 0;
-
     text-decoration: none;
     outline: none;
   }
@@ -916,7 +915,9 @@ body{
 }
 .fieldset-list {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
+  overflow: auto;
+  width: 1250px;
 }
 /*iframe配置*/
 .iframe-dy-box {
@@ -986,7 +987,7 @@ body{
       width: 100px;
     }
     & > span:nth-child(3) {
-      width: 80px;
+      width: 130px;
     }
   }
 }
@@ -1257,7 +1258,7 @@ body{
       font-size: 16px;
     }
     .el-dialog__headerbtn {
-      top: 14px;
+      top:6px;
     }
   }
   .el-dialog__body {

@@ -16,11 +16,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-   <fieldset  class="keys-config-setting">
-       <legend class="theme-color">tabs切换栏设置</legend>
-       <colums-setting :tableCloums="titleColums" :tableData="tabsForm.titleData"></colums-setting>
-    </fieldset>
-      
+      <fieldset class="keys-config-setting">
+        <legend class="theme-color">tabs切换栏设置</legend>
+        <colums-setting :table-cloums="titleColums" :table-data="tabsForm.titleData" />
+      </fieldset>
+
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
           <el-form-item label="宽度(页面占比)" prop="width">
@@ -84,7 +84,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="是否启用拖拽功能" prop="isDrafting">
-            <el-switch v-model="tabsForm.isDrafting"></el-switch>
+            <el-switch v-model="tabsForm.isDrafting" />
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -106,16 +106,16 @@
   <!-- </div> -->
 </template>
 <script>
-import TabSettingMixins from "./TabSettingMixins";
+import TabSettingMixins from './TabSettingMixins'
 import ColumsSetting from '../ColumsSetting'
 export default {
+  components: { ColumsSetting },
   mixins: [TabSettingMixins],
-  components:{ColumsSetting},
   props: {
     tabsForm: {
       type: Object,
-      default: null,
-    },
-  },
-};
+      default: null
+    }
+  }
+}
 </script>

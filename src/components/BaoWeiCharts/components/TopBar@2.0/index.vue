@@ -2,8 +2,8 @@
   <div class="top-bar-wrap" :style="{height: liHeight(),background:wrapBg(),width:wrapWidth()}">
     <div class="operation">
       <i
-        class="iconfont iconxiugai theme-color"
         v-if="settingConfig.systemPermissions === 'admin'"
+        class="iconfont iconxiugai theme-color"
         @click="emit"
       />
       <el-popconfirm
@@ -14,9 +14,9 @@
         @confirm="deleteTemplate"
       >
         <i
+          v-if="settingConfig.systemPermissions === 'admin'"
           slot="reference"
           title="删除"
-          v-if="settingConfig.systemPermissions === 'admin'"
           class="el-icon-delete"
         />
       </el-popconfirm>
@@ -24,14 +24,14 @@
     <ul id="top-bar-box">
       <li
         v-for="(obj, indexs) in topBarAll.data"
+        :key="indexs"
         class="theme-bg-color"
         :style="{ height: liHeight(), background: listBackground(obj, indexs) }"
-        :key="indexs"
         @click="topBarClick(obj)"
       >
         <div class="top-bar-boxs">
           <div :class="['list-box', { 'list-box-2': obj.data.length > 1 }]">
-            <p class="txt1" >
+            <p class="txt1">
               {{ obj.title }}
             </p>
             <div class="test">
@@ -43,8 +43,7 @@
                 <!-- <span v-show="obj.data.length<=1"
                     class="t1"
                     v-html="item.label" /> -->
-                {{ item.value }}<span class="t2">{{ item.dw }}</span
-                ><span
+                {{ item.value }}<span class="t2">{{ item.dw }}</span><span
                   v-show="obj.data.length > 1"
                   class="t3"
                   v-html="item.label"
@@ -57,10 +56,10 @@
     </ul>
     <top-bar-setting
       ref="topBarSetting"
-       :data-view-list="dataViewList"
-                     :item-api-data="itemApiData"
-                     :setting-config="settingConfig"
-      
+      :data-view-list="dataViewList"
+      :item-api-data="itemApiData"
+      :setting-config="settingConfig"
+
       @submit="settingSubmit"
     />
   </div>
@@ -72,19 +71,19 @@ export default {
   props: {
     topBarAll: {
       type: Object,
-      default: null,
+      default: null
     },
     itemApiData: {
       type: Array,
-      default: null,
+      default: null
     },
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {},
+      default: {}
     },
-    dataViewList:{
-       type: Array,
+    dataViewList: {
+      type: Array,
       default: null
     }
   },
@@ -92,22 +91,22 @@ export default {
     return {}
   },
   methods: {
-    wrapWidth(){
-      return  this.topBarAll.form&&this.topBarAll.form.width?this.topBarAll.form.width+'%':'100%'
+    wrapWidth() {
+      return this.topBarAll.form && this.topBarAll.form.width ? this.topBarAll.form.width + '%' : '100%'
     },
-    //获取数据失败后背景颜色设置
-    wrapBg(){
-      let bg='';
-      if(!this.topBarAll.data||this.topBarAll.data.length===0){
-        bg="#3c212121"
-      }else{
-        bg=undefined
+    // 获取数据失败后背景颜色设置
+    wrapBg() {
+      let bg = ''
+      if (!this.topBarAll.data || this.topBarAll.data.length === 0) {
+        bg = '#3c212121'
+      } else {
+        bg = undefined
       }
-         return bg
+      return bg
     },
-    //背景颜色设置
+    // 背景颜色设置
     listBackground(obj, index) {
-      let form = this.topBarAll.form
+      const form = this.topBarAll.form
       let bgColor = ''
       switch (form.bgType) {
         case '0':
@@ -125,7 +124,7 @@ export default {
       }
       // console.log(data)
       // console.log(index)
-      return bgColor +'!important'
+      return bgColor + '!important'
     },
     // 列高度计算
     liHeight() {
@@ -150,8 +149,8 @@ export default {
     },
     // 顶部菜单点击事件
     topBarClick(obj) {
-      this.$emit('topBarClick',obj)
-    },
-  },
+      this.$emit('topBarClick', obj)
+    }
+  }
 }
 </script>

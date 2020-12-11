@@ -5,18 +5,18 @@ export default {
         }
     },
     methods: {
-        //鼠标移入悬浮框显示内容配置
+        // 鼠标移入悬浮框显示内容配置
         setBarToopTip(options) {
-            //01 数值求和
-            let totalArr = []
+            // 01 数值求和
+            const totalArr = []
             options.series.forEach((item, index) => {
-                    let max = 0;
+                    let max = 0
                     item.data.forEach(num => {
                         max += num
                     })
                     totalArr[index] = max
                 })
-                //02 显示配置
+                // 02 显示配置
             options.tooltip = {
                 trigger: 'axis',
                 formatter(params) {
@@ -30,16 +30,16 @@ export default {
                 }
             }
         },
-        //柱状图、条形图出现点击状态事件
+        // 柱状图、条形图出现点击状态事件
         barClick(params, options, myChart) {
-            //柱状图
+            // 柱状图
             if (this.chartType === 'histogram') {
                 myChart.setOption({
                     xAxis: {
                         axisLabel: {
                             textStyle: {
                                 color: function(value, index) {
-                                    return index == params.dataIndex ? '#0091FF' : '#333333'
+                                    return index === params.dataIndex ? '#0091FF' : '#333333'
                                 }
                             }
                         }
@@ -47,39 +47,38 @@ export default {
                     }
                 })
             } else if (this.chartType === 'bar') {
-                //条形图
+                // 条形图
                 myChart.setOption({
                     yAxis: {
                         axisLabel: {
                             textStyle: {
                                 color: function(value, index) {
-                                    return index == params.dataIndex ? '#0091FF' : '#333333'
+                                    return index === params.dataIndex ? '#0091FF' : '#333333'
                                 }
                             }
                         }
 
                     }
                 })
-
             }
         },
-        // series图表显示配置  
+        // series图表显示配置
         setBarSeries(options) {
             this.chartColumns.forEach((items, indexs) => {
-                let obj = {
+                const obj = {
                     name: items.title,
                     type: 'bar',
                     barGap: 0,
                     data: [],
                     label: {
-                        show: true, //开启显示
-                        position: this.chartType === 'bar' ? 'right' : 'top', //在上方显示
-                        fontSize: 10,
+                        show: true, // 开启显示
+                        position: this.chartType === 'bar' ? 'right' : 'top', // 在上方显示
+                        fontSize: 10
                     },
                     itemStyle: {
-                        //柱体背景颜色
+                        // 柱体背景颜色
                         color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
-                    },
+                    }
 
                 }
 
@@ -89,14 +88,13 @@ export default {
 
                 options.series.push(obj)
             })
-
         },
         // x轴、y轴公共配置
         setBarAxis(options) {
             const valueAxis = {
                 type: 'value'
             }
-            let dataTitle = []
+            const dataTitle = []
             this.data.forEach(item => {
                 dataTitle.push(item[this.titleKey])
             })

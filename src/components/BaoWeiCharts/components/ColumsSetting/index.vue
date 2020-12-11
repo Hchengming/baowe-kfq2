@@ -21,17 +21,17 @@
         <!-- 下拉框 -->
         <el-select
           v-if="item.formType == 'select'"
-          @change="selectChange(items, item, index)"
+          v-model="items[item.key]"
           :style="{ width: item.width + 'px' }"
           :disabled="item.disabled"
-          v-model="items[item.key]"
           size="small"
+          @change="selectChange(items, item, index)"
         >
           <el-option
-            v-for="item in item.selectArr"
-            :key="item.val"
-            :value="item.val"
-            :label="item.lab"
+            v-for="x in item.selectArr"
+            :key="x.val"
+            :value="x.val"
+            :label="x.lab"
           />
         </el-select>
         <!-- 数字框 -->
@@ -82,62 +82,62 @@ export default {
   props: {
     tableData: {
       type: Array,
-      default: null,
+      default: null
     },
     tableCloums: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
-    //下拉框变化事件
+    // 下拉框变化事件
     selectChange(items, item) {
       if (item.change) {
-        item.change(items, item);
-       
+        item.change(items, item)
+
         // console.log(items)
       }
     },
-    //获取新增默认列值
+    // 获取新增默认列值
     setColums() {
-      let obj = {};
+      const obj = {}
       this.tableCloums.forEach((item) => {
         if (item.defaultValue) {
-          obj[item.key] = item.defaultValue;
+          obj[item.key] = item.defaultValue
         } else {
-          obj[item.key] = null;
+          obj[item.key] = null
         }
-      });
-      console.log(obj);
-      return obj;
+      })
+      console.log(obj)
+      return obj
     },
-    //列新增事件
+    // 列新增事件
     cloumsAdd() {
-      this.tableData.push(this.setColums());
+      this.tableData.push(this.setColums())
     },
-    //列删除事件
+    // 列删除事件
     cloumsDelete(index) {
-      this.tableData.splice(index, 1);
+      this.tableData.splice(index, 1)
     },
-    //序号变化事件
+    // 序号变化事件
     sortChange(index, type) {
-      let obj = this.tableData[index];
+      const obj = this.tableData[index]
 
-      if (type === "prev") {
-        if (index === 0) return;
-        this.tableData.splice(index, 1);
-        this.tableData.splice(index - 1, 0, obj);
+      if (type === 'prev') {
+        if (index === 0) return
+        this.tableData.splice(index, 1)
+        this.tableData.splice(index - 1, 0, obj)
       } else {
-        if (index === this.tableData.length - 1) return;
-        this.tableData.splice(index, 1);
-        this.tableData.splice(index + 1, 0, obj);
+        if (index === this.tableData.length - 1) return
+        this.tableData.splice(index, 1)
+        this.tableData.splice(index + 1, 0, obj)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .table-arr-setting {

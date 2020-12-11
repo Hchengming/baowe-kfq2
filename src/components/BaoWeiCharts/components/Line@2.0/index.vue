@@ -1,6 +1,11 @@
 <template>
   <div class="v_chart_line" :style="{ height: height + 'px' }">
-    <div class="v_chart_pie_choose" v-if="chartColumns.length>1&&['pie', 'ring'].indexOf(this.chartType) > -1">
+    <div
+      v-if="
+        chartColumns.length > 1 && ['pie', 'ring'].indexOf(chartType) > -1
+      "
+      class="v_chart_pie_choose"
+    >
       <div class="btn">
         <button
           v-for="(item, index) in chartColumns"
@@ -17,55 +22,49 @@
       id="chart-main"
       ref="myCharts"
       :style="{ width: '100%', height: chartsHeight() + 'px' }"
-    ></div>
+    />
   </div>
 </template>
 
 <script>
-import barMixins from "./mixins/barMixins";
-import lineMixins from "./mixins/lineMixins";
-import pieMixins from "./mixins/pieMixins";
-import radarMixins from "./mixins/radarMixins";
-import commonMixins from "./mixins/commonMixins";
+import barMixins from './mixins/barMixins'
+import lineMixins from './mixins/lineMixins'
+import pieMixins from './mixins/pieMixins'
+import radarMixins from './mixins/radarMixins'
+import commonMixins from './mixins/commonMixins'
 export default {
-  mixins: [
-    commonMixins,
-    barMixins,
-    lineMixins,
-    pieMixins,
-    radarMixins,
-  ],
+  mixins: [commonMixins, barMixins, lineMixins, pieMixins, radarMixins],
   props: {
     data: {
       type: Array,
-      default: null,
+      default: null
     },
     chartColumn: {
       type: Array,
-      default: null,
+      default: null
     },
     height: {
       type: Number,
-      default: 0,
+      default: 0
     },
     chartType: {
       type: String,
-      default: "",
+      default: ''
     },
     titleShow: {
       type: Boolean,
-      default: null,
+      default: null
     },
     settingConfig: {
       type: Object,
-      default: null,
+      default: null
     },
     settingForm: {
       type: Object,
-      default: null,
-    },
-  },
-};
+      default: null
+    }
+  }
+}
 </script>
 
 <style>

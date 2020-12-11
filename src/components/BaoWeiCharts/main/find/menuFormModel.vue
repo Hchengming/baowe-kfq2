@@ -1,51 +1,64 @@
- <template>
-  <el-dialog class="settingForm menuForm"
-             title="菜单编辑信息"
-             :append-to-body="true"
-             :visible.sync="menuFormAll.isShow">
-    <el-form ref="form"
-             :model="menuFormAll.menuForm"
-             :rules="rules"
-             label-width="130px">
-      <el-form-item label="菜单编码"
-                    prop="menuCode">
-        <el-input size="small"
-                  v-model="menuFormAll.menuForm.menuCode"></el-input>
+<template>
+  <el-dialog
+    class="settingForm menuForm"
+    title="菜单编辑信息"
+    :append-to-body="true"
+    :visible.sync="menuFormAll.isShow"
+  >
+    <el-form
+      ref="form"
+      :model="menuFormAll.menuForm"
+      :rules="rules"
+      label-width="130px"
+    >
+      <el-form-item
+        label="菜单编码"
+        prop="menuCode"
+      >
+        <el-input
+          v-model="menuFormAll.menuForm.menuCode"
+          size="small"
+        />
       </el-form-item>
-      <el-form-item label="菜单名称"
-                    prop="menuName">
-        <el-input size="small"
-                  v-model="menuFormAll.menuForm.menuName"></el-input>
+      <el-form-item
+        label="菜单名称"
+        prop="menuName"
+      >
+        <el-input
+          v-model="menuFormAll.menuForm.menuName"
+          size="small"
+        />
       </el-form-item>
-      <el-form-item label="菜单图标"
-                    prop="menuIcon">
-        <el-input size="small"
-                  v-model="menuFormAll.menuForm.menuIcon"></el-input>
+      <el-form-item
+        label="菜单图标"
+        prop="menuIcon"
+      >
+        <el-input
+          v-model="menuFormAll.menuForm.menuIcon"
+          size="small"
+        />
       </el-form-item>
     </el-form>
-    <span slot="footer"
-          class="dialog-footer">
+    <span
+      slot="footer"
+      class="dialog-footer"
+    >
       <el-button @click="menuFormAll.isShow=false">取 消</el-button>
-      <el-button type="primary"
-                 @click="onSubmit">确 定</el-button>
+      <el-button
+        type="primary"
+        @click="onSubmit"
+      >确 定</el-button>
     </span>
   </el-dialog>
 </template>
 <script>
 export default {
-  props:{
-    menuFormAll:{
+  props: {
+    menuFormAll: {
       type: Object
     }
   },
-  watch: {
-    'menuFormAll.isShow' (val) {
-      if (!val) {
-        this.resetForm()
-      }
-    }
-  },
-  data () {
+  data() {
     return {
       rules: {
         menuCode: [
@@ -57,9 +70,16 @@ export default {
       }
     }
   },
+  watch: {
+    'menuFormAll.isShow'(val) {
+      if (!val) {
+        this.resetForm()
+      }
+    }
+  },
   methods: {
     // 表单提交事件
-    onSubmit () {
+    onSubmit() {
       this.$refs['form'].validate(valid => {
         if (valid) {
           this.$emit('menuFormSubmit', this.menuFormAll.menuForm, () => {
@@ -75,7 +95,7 @@ export default {
       })
     },
     // 表单重置事件
-    resetForm () {
+    resetForm() {
       this.menuFormAll.isShow = false
       this.$refs['form'].resetFields()
     }

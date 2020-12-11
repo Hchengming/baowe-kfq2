@@ -1,25 +1,44 @@
 <template>
   <div>
     <el-dialog
+      :id="settingFormId()"
       ref="settingFormDialog"
       v-drag
       class="settingForm dialog-common"
-      :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"
       :visible.sync="dialogVisible"
     >
-      <div slot="title" class="headerTitle">模块配置信息</div>
+      <div
+        slot="title"
+        class="headerTitle"
+      >模块配置信息</div>
       <div class="setting-form-box">
-        <el-form ref="settingForm" :model="form" label-width="130px">
-          <el-row type="flex" class="row-bg">
+        <el-form
+          ref="settingForm"
+          :model="form"
+          label-width="130px"
+        >
+          <el-row
+            type="flex"
+            class="row-bg"
+          >
             <el-col :span="8">
-              <el-form-item label="模块标题" prop="title">
-                <el-input v-model="form.title" size="small" />
+              <el-form-item
+                label="模块标题"
+                prop="title"
+              >
+                <el-input
+                  v-model="form.title"
+                  size="small"
+                />
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="副标题1" prop="subtitle1">
+              <el-form-item
+                label="副标题1"
+                prop="subtitle1"
+              >
                 <el-input
                   v-model="form.subtitle1"
                   size="small"
@@ -32,14 +51,26 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="副标题2" prop="subtitle2">
-                <el-input v-model="form.subtitle2" size="small" />
+              <el-form-item
+                label="副标题2"
+                prop="subtitle2"
+              >
+                <el-input
+                  v-model="form.subtitle2"
+                  size="small"
+                />
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row type="flex" class="row-bg">
-             <el-col :span="8">
-              <el-form-item label="模块ID" prop="moreUrl">
+          <el-row
+            type="flex"
+            class="row-bg"
+          >
+            <el-col :span="8">
+              <el-form-item
+                label="模块ID"
+                prop="moreUrl"
+              >
                 <el-input
                   v-model="form.elementId"
                   size="small"
@@ -48,15 +79,24 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="是否添加更多按钮" prop="isAddMoreIcon">
+              <el-form-item
+                label="是否添加更多按钮"
+                prop="isAddMoreIcon"
+              >
                 <el-radio-group v-model="form.isAddMoreIcon">
                   <el-radio label="1">有</el-radio>
                   <el-radio label="0">没有</el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col v-if="form.isAddMoreIcon === '1'" :span="8">
-              <el-form-item label="按钮跳转路径" prop="moreUrl">
+            <el-col
+              v-if="form.isAddMoreIcon === '1'"
+              :span="8"
+            >
+              <el-form-item
+                label="按钮跳转路径"
+                prop="moreUrl"
+              >
                 <el-input
                   v-model="form.moreUrl"
                   size="small"
@@ -65,16 +105,30 @@
               </el-form-item>
             </el-col>
           </el-row>
-           <el-row>
-             <el-col :span="8">
-                  <el-form-item label="标题栏是否隐藏" prop="isHeaderHide">
-                <el-switch v-model="form.isHeaderHide"></el-switch>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item
+                label="标题栏是否隐藏"
+                prop="isHeaderHide"
+              >
+                <el-switch v-model="form.isHeaderHide" />
               </el-form-item>
-             </el-col>
-           </el-row>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item
+                label="模块是否可关闭"
+                prop="isModuleClose"
+              >
+                <el-switch v-model="form.isModuleClose" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="模块内容" prop="moduleType">
+              <el-form-item
+                label="模块内容"
+                prop="moduleType"
+              >
                 <el-radio-group
                   v-model="form.moduleType"
                   @change="moduleTypeChange"
@@ -86,8 +140,14 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col v-if="form.moduleType === '2'" :span="12">
-              <el-form-item label="详情表格主题" prop="destailTypeTheme">
+            <el-col
+              v-if="form.moduleType === '2'"
+              :span="12"
+            >
+              <el-form-item
+                label="详情表格主题"
+                prop="destailTypeTheme"
+              >
                 <el-radio-group v-model="form.destailTypeTheme">
                   <el-radio label="0">默认</el-radio>
                   <el-radio label="1">主题一</el-radio>
@@ -102,7 +162,10 @@
           >
             <el-row>
               <el-col :span="8">
-                <el-form-item label="图表展现方式" prop="displayMode">
+                <el-form-item
+                  label="图表展现方式"
+                  prop="displayMode"
+                >
                   <el-select
                     v-model="form.displayMode"
                     size="small"
@@ -118,14 +181,17 @@
                 </el-form-item>
               </el-col>
               <el-col
-                :span="8"
                 v-if="
                   ['histogram', 'bar', 'line', 'radar'].indexOf(
                     form.displayMode
                   ) > -1
                 "
+                :span="8"
               >
-                <el-form-item label="图表头部切换显示" prop="titleShow">
+                <el-form-item
+                  label="图表头部切换显示"
+                  prop="titleShow"
+                >
                   <el-radio-group v-model="form.titleShow">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
@@ -133,10 +199,13 @@
                 </el-form-item>
               </el-col>
               <el-col
-                :span="8"
                 v-if="['histogram', 'bar'].indexOf(form.displayMode) > -1"
+                :span="8"
               >
-                <el-form-item label="图形显示" prop="titleShow">
+                <el-form-item
+                  label="图形显示"
+                  prop="titleShow"
+                >
                   <el-radio-group v-model="form.barHisShowType">
                     <el-radio label="0">默认</el-radio>
                     <el-radio label="1">堆叠图</el-radio>
@@ -144,9 +213,15 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row type="flex" class="row-bg">
+            <el-row
+              type="flex"
+              class="row-bg"
+            >
               <el-col :span="8">
-                <el-form-item label="是否有子模块" prop="submodule">
+                <el-form-item
+                  label="是否有子模块"
+                  prop="submodule"
+                >
                   <el-radio-group
                     v-model="form.submodule"
                     @change="submoduleChange"
@@ -156,8 +231,14 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.submodule == '1'" :span="8">
-                <el-form-item label="子模块点击展现" prop="clickToShow">
+              <el-col
+                v-if="form.submodule == '1'"
+                :span="8"
+              >
+                <el-form-item
+                  label="子模块点击展现"
+                  prop="clickToShow"
+                >
                   <el-radio-group
                     v-model="form.clickToShow"
                     @change="clickToShowChange"
@@ -168,8 +249,14 @@
                 </el-form-item>
               </el-col>
 
-              <el-col v-if="form.submodule == '0'" :span="8">
-                <el-form-item label="是否添加详情展示" prop="isDestail">
+              <el-col
+                v-if="form.submodule == '0'"
+                :span="8"
+              >
+                <el-form-item
+                  label="是否添加详情展示"
+                  prop="isDestail"
+                >
                   <el-radio-group v-model="form.isDestail">
                     <el-radio label="0">否</el-radio>
                     <el-radio label="1">是</el-radio>
@@ -179,15 +266,24 @@
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item label="是否链接地图" prop="isLinkMap">
+                <el-form-item
+                  label="是否链接地图"
+                  prop="isLinkMap"
+                >
                   <el-radio-group v-model="form.isLinkMap">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.isLinkMap === '1'" :span="16">
-                <el-form-item label="地图定位" prop="mapPosition">
+              <el-col
+                v-if="form.isLinkMap === '1'"
+                :span="16"
+              >
+                <el-form-item
+                  label="地图定位"
+                  prop="mapPosition"
+                >
                   <el-radio-group v-model="form.mapPosition">
                     <el-radio label="0">重庆</el-radio>
                     <el-radio label="1">区县</el-radio>
@@ -199,7 +295,10 @@
 
             <el-row>
               <el-col :span="8">
-                <el-form-item label="接口类型" prop="apiType">
+                <el-form-item
+                  label="接口类型"
+                  prop="apiType"
+                >
                   <el-radio-group
                     v-model="form.apiType"
                     @change="apiTypeChange"
@@ -210,10 +309,16 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="数据是否添加分页" prop="isPage">
+                <el-form-item
+                  label="数据是否添加分页"
+                  prop="isPage"
+                >
                   <el-radio-group v-model="form.isPage">
                     <el-radio label="1">是</el-radio>
-                    <el-radio label="0" :disabled="isPageDisabled">否</el-radio>
+                    <el-radio
+                      label="0"
+                      :disabled="isPageDisabled"
+                    >否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -243,7 +348,7 @@
             <!-- 数据接口处理部分 -->
             <api-choose
               ref="apiChoose"
-              :settingConfig="settingConfig"
+              :setting-config="settingConfig"
               :item-api-data="itemApiData"
               :data-view-list="dataViewList"
               :form="form"
@@ -257,19 +362,20 @@
               :where-form="whereForm"
             >
               <div slot="keys">
-                <el-button size="small" @click="getKeysData"
-                  >字段获取</el-button
-                >
+                <el-button
+                  size="small"
+                  @click="getKeysData"
+                >字段获取</el-button>
                 <el-button
                   v-if="['table', 'list'].indexOf(form.displayMode) > -1"
                   size="small"
                   @click="operateButtonSetting"
-                  >右侧操作按钮配置</el-button
-                >
-                <el-button size="small" @click="tableHeaderSetting"
-                  >多表头配置</el-button
-                >
-                <br />
+                >右侧操作按钮配置</el-button>
+                <el-button
+                  size="small"
+                  @click="tableHeaderSetting"
+                >多表头配置</el-button>
+                <br>
                 <!-- <p class="tips">
                 <span v-if="!isWidth">*第一个字段必须为图表标题字段</span>
               </p> -->
@@ -277,7 +383,10 @@
                   <li class="zdpz_list_header">
                     <span class="hTxt1 hTxt">字段名</span>
                     <span class="hTxt2 hTxt">含义</span>
-                    <span v-if="isWidth" class="hTxt3 hTxt">宽度</span>
+                    <span
+                      v-if="isWidth"
+                      class="hTxt3 hTxt"
+                    >宽度</span>
                     <span class="hTxt4 hTxt">单位</span>
                     <!-- <span class="hTxt5 hTxt" title="单元格数据自定义js脚本渲染"
                       >单元格渲染</span
@@ -287,12 +396,14 @@
                       title="单元格鼠标移入悬浮框内容自定义js脚本渲染"
                       >tip渲染</span
                     > -->
-                    <span v-if="form.submodule == '1'" class="hTxt7 hTxt"
-                      >下级参数</span
-                    >
-                    <span v-if="form.isLinkMap == '1'" class="hTxt9 hTxt"
-                      >地图使用字段</span
-                    >
+                    <span
+                      v-if="form.submodule == '1'"
+                      class="hTxt7 hTxt"
+                    >下级参数</span>
+                    <span
+                      v-if="form.isLinkMap == '1'"
+                      class="hTxt9 hTxt"
+                    >地图使用字段</span>
                     <span class="hTxt8 hTxt">
                       列表显示
                       <el-checkbox
@@ -308,15 +419,17 @@
                       />
                     </span>
                     <span
-                      class="hTxt83 hTxt"
                       v-if="
                         form.moduleType === '0' &&
-                        ['bar', 'histogram'].indexOf(form.displayMode) > -1
+                          ['bar', 'histogram'].indexOf(form.displayMode) > -1
                       "
+                      class="hTxt83 hTxt"
                     >
                       柱背景颜色
                     </span>
                     <span class="hTxt82 hTxt">图表标题字段</span>
+                    <span class="hTxt82 hTxt">表格列固定</span>
+                    <span class="hTxt82 hTxt">表格列排序</span>
                     <span class="hTxt91 hTxt">其他配置</span>
                     <!-- <span class="hTxt5 hTxt" v-if="form.clickToShow=='cell'">下钻关联字段</span> -->
                     <span class="hTxt6 hTxt icons">
@@ -348,7 +461,10 @@
                         :disabled="item.key === 'operationButton'"
                       />
                     </span>
-                    <span v-if="isWidth" class="hTxt3 hTxt">
+                    <span
+                      v-if="isWidth"
+                      class="hTxt3 hTxt"
+                    >
                       <el-input
                         v-model="item.width"
                         size="mini"
@@ -382,14 +498,20 @@
                       />
                     </span> -->
                     <!-- 下级参数 -->
-                    <span v-if="form.submodule == '1'" class="hTxt7 hTxt">
+                    <span
+                      v-if="form.submodule == '1'"
+                      class="hTxt7 hTxt"
+                    >
                       <el-checkbox
                         v-model="item.isCruxKey"
                         :disabled="item.key === 'operationButton'"
                       />
                     </span>
                     <!-- 地图使用字段 -->
-                    <span v-if="form.isLinkMap == '1'" class="hTxt9 hTxt">
+                    <span
+                      v-if="form.isLinkMap == '1'"
+                      class="hTxt9 hTxt"
+                    >
                       <el-checkbox
                         v-model="item.isMapKey"
                         :disabled="item.key === 'operationButton'"
@@ -412,15 +534,15 @@
                     </span>
                     <!-- 柱背景颜色 -->
                     <span
-                      class="hTxt83 hTxt"
                       v-if="
                         form.moduleType === '0' &&
-                        ['bar', 'histogram'].indexOf(form.displayMode) > -1
+                          ['bar', 'histogram'].indexOf(form.displayMode) > -1
                       "
+                      class="hTxt83 hTxt"
                     >
                       <el-input
-                        v-model="item.zBgColor"
                         v-if="item.ischartsShow"
+                        v-model="item.zBgColor"
                         size="mini"
                         placeholder="背景颜色"
                         type="color"
@@ -435,6 +557,30 @@
                         @change="chartsTitleChange(item.key)"
                       />
                     </span>
+                    <!-- 表格列固定 -->
+                    <span class="hTxt82 hTxt">
+                      <el-select
+                        v-model="item.colFixed"
+                        size="small"
+                        placeholder="表格列固定"
+                      >
+                        <el-option label="否" value="null" />
+                        <el-option label="左侧" value="left" />
+                        <el-option label="右侧" value="right" />
+                      </el-select>
+                    </span>
+
+                    <!-- 表格列排序 -->
+                    <span class="hTxt82 hTxt">
+                      <el-select
+                        v-model="item.colSort"
+                        size="small"
+                        placeholder="是否排序"
+                      >
+                        <el-option label="否" value="0" />
+                        <el-option label="是" value="1" />
+                      </el-select>
+                    </span>
                     <!-- 其他配置 -->
                     <span class="hTxt91 hTxt">
                       <el-button
@@ -443,7 +589,7 @@
                         icon="el-icon-edit"
                         circle
                         @click="otherKeySetting(item, index)"
-                      ></el-button>
+                      />
                     </span>
                     <!-- 右侧按钮区域 -->
                     <span class="icons hTxt6 hTxt">
@@ -454,7 +600,7 @@
                       <i
                         v-show="
                           form.keyArr.length > 1 &&
-                          item.key !== 'operationButton'
+                            item.key !== 'operationButton'
                         "
                         class="el-icon-remove-outline remove"
                         @click="keyRemove(index)"
@@ -482,16 +628,25 @@
                 </ul>
               </div>
             </param-key-config>
-            <el-row v-if="form.menuTapAll" class="el-row-menu-tap">
+            <el-row
+              v-if="form.menuTapAll"
+              class="el-row-menu-tap"
+            >
               <el-col :span="8">
-                <el-form-item label="是否绑定菜单页面跳转" label-width="140px">
+                <el-form-item
+                  label="是否绑定菜单页面跳转"
+                  label-width="140px"
+                >
                   <el-radio-group v-model="form.menuTapAll.isMenuTap">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.menuTapAll.isMenuTap === '1'" :span="8">
+              <el-col
+                v-if="form.menuTapAll.isMenuTap === '1'"
+                :span="8"
+              >
                 <el-form-item label="触发跳转字段">
                   <el-select
                     v-model="form.menuTapAll.menuTapKey"
@@ -507,7 +662,10 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.menuTapAll.isMenuTap === '1'" :span="8">
+              <el-col
+                v-if="form.menuTapAll.isMenuTap === '1'"
+                :span="8"
+              >
                 <el-form-item label="菜单编码字段">
                   <el-select
                     v-model="form.menuTapAll.menuCodeKey"
@@ -527,14 +685,20 @@
             <!-- 表格类型选择 -->
             <el-row v-if="form.displayMode==='table'">
               <el-col :span="8">
-                <el-form-item label="表格类型" label-width="140px">
-                  <el-radio-group v-model="form.tableOtherConfig.tableType"> 
+                <el-form-item
+                  label="表格类型"
+                  label-width="140px"
+                >
+                  <el-radio-group v-model="form.tableOtherConfig.tableType">
                     <el-radio label="0">普通表格</el-radio>
                     <el-radio label="1">树形表格</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-               <el-col v-if="form.tableOtherConfig.tableType=== '1'" :span="8">
+              <el-col
+                v-if="form.tableOtherConfig.tableType=== '1'"
+                :span="8"
+              >
                 <el-form-item label="唯一值字段">
                   <el-select
                     v-model="form.tableOtherConfig.onlyKey"
@@ -550,14 +714,17 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.tableOtherConfig.tableType=== '1'" :span="8">
+              <el-col
+                v-if="form.tableOtherConfig.tableType=== '1'"
+                :span="8"
+              >
                 <el-form-item label="子级字段名">
-                   <el-input
+                  <el-input
                     v-model="form.tableOtherConfig.childKey"
                     size="small"
                     placeholder="树形表格子级字段名"
                   />
-                  
+
                 </el-form-item>
               </el-col>
             </el-row>
@@ -569,7 +736,10 @@
           >
             <el-row>
               <el-col :span="8">
-                <el-form-item label="iframe类型" prop="iframeType">
+                <el-form-item
+                  label="iframe类型"
+                  prop="iframeType"
+                >
                   <el-radio-group
                     v-model="form.iframeAll.iframeType"
                     @change="iframeTypeChange"
@@ -580,7 +750,10 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="iframe框id" prop="iframeId">
+                <el-form-item
+                  label="iframe框id"
+                  prop="iframeId"
+                >
                   <el-input
                     v-model="form.iframeAll.iframeId"
                     size="small"
@@ -592,7 +765,10 @@
 
             <el-row>
               <el-col :span="24">
-                <el-form-item label="iframe路径" prop="iframeUrl">
+                <el-form-item
+                  label="iframe路径"
+                  prop="iframeUrl"
+                >
                   <el-input
                     v-model="form.iframeAll.iframeUrl"
                     size="small"
@@ -611,10 +787,19 @@
             />
           </div>
           <!-- 详情列表展示 -->
-          <div v-if="form.moduleType === '2'" class="content-dy-box">
-            <el-row type="flex" class="row-bg">
+          <div
+            v-if="form.moduleType === '2'"
+            class="content-dy-box"
+          >
+            <el-row
+              type="flex"
+              class="row-bg"
+            >
               <el-col :span="8">
-                <el-form-item label="接口类型" prop="apiType">
+                <el-form-item
+                  label="接口类型"
+                  prop="apiType"
+                >
                   <el-radio-group
                     v-model="form.apiType"
                     @change="apiTypeChange"
@@ -642,7 +827,7 @@
             <!-- 数据接口处理部分 -->
             <api-choose
               :item-api-data="itemApiData"
-              :settingConfig="settingConfig"
+              :setting-config="settingConfig"
               :data-view-list="dataViewList"
               :form="form"
             />
@@ -655,9 +840,10 @@
               :where-form="whereForm"
             >
               <div slot="keys">
-                <el-button size="small" @click="getKeysData"
-                  >字段获取</el-button
-                >
+                <el-button
+                  size="small"
+                  @click="getKeysData"
+                >字段获取</el-button>
                 <p class="tips" />
                 <ul class="details-table-list">
                   <li>
@@ -760,9 +946,15 @@
             v-if="form.moduleType === '3'"
             class="content-dy-box blank-template-box"
           >
-            <el-row type="flex" class="row-bg">
+            <el-row
+              type="flex"
+              class="row-bg"
+            >
               <el-col :span="12">
-                <el-form-item label="slot" prop="title">
+                <el-form-item
+                  label="slot"
+                  prop="title"
+                >
                   <el-input
                     v-model="form.blankTemplateConfig.slot"
                     placeholder="slot嵌入字段"
@@ -770,18 +962,18 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="关闭按钮是否显示" prop="title">
-                  <el-switch v-model="form.blankTemplateConfig.isCloseBtn">
-                  </el-switch>
-                </el-form-item>
-              </el-col>
             </el-row>
           </div>
 
-          <el-row type="flex" class="row-bg">
+          <el-row
+            type="flex"
+            class="row-bg"
+          >
             <el-col :span="12">
-              <el-form-item label="宽度(页面占比)" prop="width">
+              <el-form-item
+                label="宽度(页面占比)"
+                prop="width"
+              >
                 <el-input-number
                   v-model="form.width"
                   size="small"
@@ -789,11 +981,17 @@
                   :max="100"
                   :precision="2"
                 />
-                <el-button size="small" @click="widthMax">一键100%</el-button>
+                <el-button
+                  size="small"
+                  @click="widthMax"
+                >一键100%</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="高度(页面占比)" prop="height">
+              <el-form-item
+                label="高度(页面占比)"
+                prop="height"
+              >
                 <el-input-number
                   v-model="form.height"
                   size="small"
@@ -801,13 +999,22 @@
                   :max="100"
                   :precision="2"
                 />
-                <el-button size="small" @click="heightMax">一键100%</el-button>
+                <el-button
+                  size="small"
+                  @click="heightMax"
+                >一键100%</el-button>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row type="flex" class="row-bg">
+          <el-row
+            type="flex"
+            class="row-bg"
+          >
             <el-col :span="12">
-              <el-form-item label="位置X轴(页面占比)" prop="left">
+              <el-form-item
+                label="位置X轴(页面占比)"
+                prop="left"
+              >
                 <el-input-number
                   v-model="form.left"
                   size="small"
@@ -818,7 +1025,10 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="位置Y轴(页面占比)" prop="top">
+              <el-form-item
+                label="位置Y轴(页面占比)"
+                prop="top"
+              >
                 <el-input-number
                   v-model="form.top"
                   size="small"
@@ -829,9 +1039,15 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row type="flex" class="row-bg">
+          <el-row
+            type="flex"
+            class="row-bg"
+          >
             <el-col :span="4">
-              <el-form-item label="视图层级" prop="zindex">
+              <el-form-item
+                label="视图层级"
+                prop="zindex"
+              >
                 <el-input
                   v-model="form.zindex"
                   size="small"
@@ -840,14 +1056,20 @@
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="是否启用拖拽功能" prop="isDrafting">
-                <el-switch v-model="form.isDrafting"></el-switch>
+              <el-form-item
+                label="是否启用拖拽功能"
+                prop="isDrafting"
+              >
+                <el-switch v-model="form.isDrafting" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item prop="mask" label="是否添加遮罩层">
+              <el-form-item
+                prop="mask"
+                label="是否添加遮罩层"
+              >
                 <el-radio-group v-model="form.mask">
                   <el-radio label="1">是</el-radio>
                   <el-radio label="0">否</el-radio>
@@ -859,17 +1081,25 @@
 
         <setting-json
           ref="settingJson"
-          @setForm="setForm"
-          :scrollTop="scrollTop"
+          :scroll-top="scrollTop"
           :form="form"
-        ></setting-json>
+          @setForm="setForm"
+        />
       </div>
 
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="close">取 消</el-button>
-        <el-button type="primary" size="small" @click="onSubmit"
-          >确 定</el-button
-        >
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          size="small"
+          @click="close"
+        >取 消</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          @click="onSubmit"
+        >确 定</el-button>
       </span>
     </el-dialog>
     <judge-pop
@@ -877,7 +1107,10 @@
       @handleClose="handleClose"
       @confirm="judgePopConfirm"
     />
-    <judge-pop ref="judgePop2" @handleClose="handleClose2" />
+    <judge-pop
+      ref="judgePop2"
+      @handleClose="handleClose2"
+    />
     <operate-button-setting
       ref="operateButtonSetting"
       :form="form"
@@ -887,26 +1120,29 @@
     <table-header-setting
       ref="tableHeaderSetting"
       :form="form"
-    ></table-header-setting>
+    />
     <!-- 图表其他字段配置弹窗 -->
-    <other-key-setting :form="form" ref="otherKeySetting"></other-key-setting>
+    <other-key-setting
+      ref="otherKeySetting"
+      :form="form"
+    />
   </div>
 </template>
 <script>
-import settingJson from "./settingJson";
-import JudgePop from "../JudgePop/index.vue";
-import { dragDialog } from "../../utils/mixins.js";
+import settingJson from './settingJson'
+import JudgePop from '../JudgePop/index.vue'
+import { dragDialog } from '../../utils/mixins.js'
 import {
   DetailsTable,
   ChartsMixins,
   iframeMixins,
-  otherMixins,
-} from "./SettingFormMixins.js";
-import ApiChoose from "../ApiChoose/index.vue";
-import ParamKeyConfig from "./ParamKeyConfig/index";
-import TableHeaderSetting from "./tableHeaderSetting/index.vue";
-import OperateButtonSetting from "./OperateButtonSetting/index.vue";
-import OtherKeySetting from "./OtherKeySetting";
+  otherMixins
+} from './SettingFormMixins.js'
+import ApiChoose from '../ApiChoose/index.vue'
+import ParamKeyConfig from './ParamKeyConfig/index'
+import TableHeaderSetting from './tableHeaderSetting/index.vue'
+import OperateButtonSetting from './OperateButtonSetting/index.vue'
+import OtherKeySetting from './OtherKeySetting'
 export default {
   components: {
     settingJson,
@@ -915,40 +1151,40 @@ export default {
     TableHeaderSetting,
     ParamKeyConfig,
     OperateButtonSetting,
-    OtherKeySetting,
+    OtherKeySetting
   },
   mixins: [DetailsTable, dragDialog, otherMixins, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
   props: {
     form: {
       type: Object,
-      default: null,
+      default: null
     },
     dataUrl: {
       type: String,
-      default: null,
+      default: null
     },
     statisticsAll: {
       type: Object,
-      default: null,
+      default: null
     },
     itemApiData: {
       type: Array,
-      default: null,
+      default: null
     },
     whereForm: {
       type: Object,
-      default: null,
+      default: null
     },
     dataViewList: {
       type: Array,
-      default: null,
+      default: null
     },
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {},
-    },
-  },
-};
+      default: {}
+    }
+  }
+}
 </script>

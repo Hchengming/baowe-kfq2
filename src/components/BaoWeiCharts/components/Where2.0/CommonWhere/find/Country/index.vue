@@ -3,42 +3,42 @@
   <div class="country-radio">
     <!-- <div class="label">区县</div> -->
     <div class="country-box">
-      <el-radio-group class="country-1" v-model="country.father" @change="fatherChange">
+      <el-radio-group v-model="country.father" class="country-1" @change="fatherChange">
         <el-radio-button
           v-for="(item, index) in countryData"
           :key="index"
           :label="item.value"
-        ></el-radio-button>
+        />
       </el-radio-group>
-      <el-radio-group class="country-2" v-model="country.child" @change="childChange">
+      <el-radio-group v-model="country.child" class="country-2" @change="childChange">
         <el-radio-button
           v-for="(item, index) in countryChild"
           :key="index"
           :label="item"
-        ></el-radio-button>
+        />
       </el-radio-group>
     </div>
   </div>
 </template>
 <script>
-import countryData from "./country.json";
+import countryData from './country.json'
 export default {
   props: {
     form: { type: Object, default: null },
     commonItem: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
-      countryData: countryData, //区县数据
+      countryData: countryData, // 区县数据
       countryChild: [],
       country: {
-        father: "所有",
-        child: "",
-      },
-    };
+        father: '所有',
+        child: ''
+      }
+    }
   },
   mounted() {
     this.chooseInit()
@@ -53,58 +53,58 @@ export default {
     // });
   },
   methods: {
-    //默认选中数据初始化
+    // 默认选中数据初始化
     chooseInit() {
       // console.log(this.form[this.commonItem.key])
-      let offon = false;
-      //01-默认选中为区域
+      let offon = false
+      // 01-默认选中为区域
       countryData.forEach((items) => {
         if (items.value === this.form[this.commonItem.key]) {
-          this.country.father = items.value;
-          offon = true;
+          this.country.father = items.value
+          offon = true
           if (items.children) {
-            this.countryChild = items.children;
-            this.country.child = items.children[0];
+            this.countryChild = items.children
+            this.country.child = items.children[0]
           }
         }
-      });
-      //02-默认选中为区县
+      })
+      // 02-默认选中为区县
       if (!offon) {
         countryData.forEach((items) => {
           if (items.children) {
             items.children.forEach((item, index) => {
               if (index !== 0 && item === this.form[this.commonItem.key]) {
-                this.country.father = items.value;
-                this.countryChild = items.children;
-                this.country.child = item;
+                this.country.father = items.value
+                this.countryChild = items.children
+                this.country.child = item
               }
-            });
+            })
           }
-        });
+        })
       }
     },
-    //父级数据变化事件
+    // 父级数据变化事件
     fatherChange(val) {
-      this.country.child = "";
+      this.country.child = ''
       this.countryData.forEach((item) => {
         if (val === item.value) {
-          this.countryChild = item.children;
+          this.countryChild = item.children
           if (item.children) {
-            this.country.child = item.children[0];
+            this.country.child = item.children[0]
           }
         }
-      });
-      this.form[this.commonItem.key] = val;
-      this.$emit("cuntryChange");
+      })
+      this.form[this.commonItem.key] = val
+      this.$emit('cuntryChange')
     },
-    //子级数据变化事件
+    // 子级数据变化事件
     childChange(val) {
       this.form[this.commonItem.key] =
-        val === "所有" ? this.country.father : val;
-      this.$emit("cuntryChange");
-    },
-  },
-};
+        val === '所有' ? this.country.father : val
+      this.$emit('cuntryChange')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .country-radio {
@@ -113,13 +113,13 @@ export default {
     .el-radio-group {
       display: block;
     }
-    /deep/ .el-radio-group.country-2{
+    ::v-deep .el-radio-group.country-2{
       .el-radio-button .el-radio-button__inner{
         border: none;
       }
       .el-radio-button__orig-radio:checked+.el-radio-button__inner{
         background: none;
-        box-shadow: -1px 0 0 0 white; 
+        box-shadow: -1px 0 0 0 white;
       }
     }
   }

@@ -796,7 +796,9 @@ body {
 }
 .fieldset-list {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  overflow: auto;
+    width: 1250px;
 }
 /*iframe配置*/
 .iframe-dy-box .fieldset-list {
@@ -859,7 +861,7 @@ body {
   width: 100px;
 }
 .param-config-setting .param-config-list li > span:nth-child(3) {
-  width: 80px;
+  width: 130px;
 }
 /*饼图、环图模块配置*/
 .v_chart_pie .pie_box {
@@ -868,10 +870,10 @@ body {
 }
 .v_chart_pie_choose {
   display: flex;
-  justify-items: center;
   justify-content: space-between;
+  justify-items: center;
 }
-.v_chart_pie_choose .btn{
+.v_chart_pie_choose .btn {
   display: flex;
 }
 .v_chart_pie_choose button {
@@ -1075,7 +1077,7 @@ body {
 }
 .dialog-common .el-dialog__header .el-dialog__headerbtn,
 .dialog-common .el-dialog__footer .el-dialog__headerbtn {
-  top: 14px;
+  top: 6px;
 }
 .dialog-common .el-dialog__body {
   padding: 5px 20px;

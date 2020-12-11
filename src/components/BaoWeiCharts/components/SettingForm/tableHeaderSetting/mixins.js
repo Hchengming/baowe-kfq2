@@ -16,7 +16,7 @@ export default {
           }
         ]
       },
-      chooseItem: {}, //当前选中项
+      chooseItem: {}, // 当前选中项
       isShow: false
     }
   },
@@ -24,7 +24,7 @@ export default {
     // 页面显示事件
     show() {
       this.isShow = true
-      if (this.form.tableHeaderConfig&&this.form.tableHeaderConfig.headerSetting) {
+      if (this.form.tableHeaderConfig && this.form.tableHeaderConfig.headerSetting) {
         this.tableHeaderConfig.hierarchy = this.form.tableHeaderConfig.hierarchy
         this.tableHeaderConfig.headerSetting = this.form.tableHeaderConfig.headerSetting
       }
@@ -37,9 +37,9 @@ export default {
       // console.log(this.tableHeaderConfig)
     },
     handleCheckChange() {},
-    //新增按钮点击事件
+    // 新增按钮点击事件
     append(data) {
-      //判断是否为一级表头   一级表头不能进行配置
+      // 判断是否为一级表头   一级表头不能进行配置
       if (this.tableHeaderConfig.hierarchy === 1) {
         this.$message({
           message: '当前为一级表头，不能进行多级表头配置',
@@ -48,32 +48,32 @@ export default {
         return false
       }
       this.chooseItem = data
-      let type =
+      const type =
         data.hierarchy < this.tableHeaderConfig.hierarchy - 1 ? '0' : '1'
       this.$refs['edit'].show(null, type)
       // console.log(data)
     },
-    //修改按钮点击事件
+    // 修改按钮点击事件
     update(data) {
       this.chooseItem = data
-      let type = data.hierarchy < this.tableHeaderConfig.hierarchy ? '0' : '1'
+      const type = data.hierarchy < this.tableHeaderConfig.hierarchy ? '0' : '1'
       this.$refs['edit'].show(data.label, type)
       // console.log(data)
     },
-    //删除按钮点击事件
+    // 删除按钮点击事件
     remove(data) {
       this.chooseItem = data
       this.reduiction(this.tableHeaderConfig.headerSetting, item => {
         if (item.children.length > 0) {
           item.children.forEach((val, index) => {
-            if (val.id == data.id) {
+            if (val.id === data.id) {
               item.children.splice(index, 1)
             }
           })
         }
       })
     },
-    //递归遍历树形数据
+    // 递归遍历树形数据
     reduiction(data, fn) {
       data.forEach((item, index) => {
         fn(item, index)
@@ -83,11 +83,11 @@ export default {
         }
       })
     },
-    //标题新增/修改弹窗保存事件
+    // 标题新增/修改弹窗保存事件
     headerNameSubmit(dataArr, dialogType) {
       // console.log(dataArr)
       if (dialogType === 'add') {
-        //01 新增保存
+        // 01 新增保存
         this.reduiction(this.tableHeaderConfig.headerSetting, item => {
           if (item.id === this.chooseItem.id) {
             dataArr.forEach(obj => {
@@ -103,7 +103,7 @@ export default {
         })
         // console.log(this.tableHeaderConfig.headerSetting)
       } else {
-        //01 修改保存
+        // 01 修改保存
         this.reduiction(this.tableHeaderConfig.headerSetting, item => {
           if (item.id === this.chooseItem.id) {
             item.label = dataArr[0].headerName
@@ -111,19 +111,19 @@ export default {
         })
       }
     },
-    //树形自定义配置
+    // 树形自定义配置
     renderContent(h, { node, data }) {
-      let key = data.key ? `(${data.key})` : ''
+      const key = data.key ? `(${data.key})` : ''
       return (
-        <span class="custom-tree-node">
-          <span class="left_title">
+        <span class='custom-tree-node'>
+          <span class='left_title'>
             {node.data.label}
             {key}
           </span>
-          <span class="tree-right-btn">
+          <span class='tree-right-btn'>
             <el-button
-              size="mini"
-              type="text"
+              size='mini'
+              type='text'
               disabled={data.key ? 'disabled' : false}
               on-click={() => this.append(data)}
             >
@@ -131,8 +131,8 @@ export default {
             </el-button>
 
             <el-button
-              size="mini"
-              type="text"
+              size='mini'
+              type='text'
               disabled={data.id === '0' || data.key ? 'disabled' : false}
               on-click={() => this.update(data)}
             >
@@ -140,8 +140,8 @@ export default {
             </el-button>
 
             <el-button
-              size="mini"
-              type="text"
+              size='mini'
+              type='text'
               disabled={
                 (data.children && data.children.length > 0) || data.id === '0'
                   ? 'disabled'

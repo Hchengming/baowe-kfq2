@@ -1,10 +1,10 @@
 <template>
   <div>
-  
+
     <article
       v-show="statisticsAll.isShow !== false"
-      :ref="'statisticsWrap'"
       :id="settingForm.elementId ? settingForm.elementId : undefined"
+      :ref="'statisticsWrap'"
       :style="{
         height: modelStyle.height + 'px',
         width: modelStyle.width + 'px',
@@ -14,19 +14,19 @@
         'z-index': settingForm.zindex,
       }"
     >
-    <div class=""></div>
+      <div class="" />
     </article>
   </div>
 </template>
 <script>
 export default {
+  mixins: [],
   data() {
     return {
-        settingForm:{},
-        modelStyle:{},
-         cursor: 'defalut'
-    };
-  },
-  mixins: [],
-};
+      settingForm: {},
+      modelStyle: {},
+      cursor: 'defalut'
+    }
+  }
+}
 </script>

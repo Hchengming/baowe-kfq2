@@ -26,7 +26,7 @@
           >
             <span :class="colClass(col)">
               <!-- {{ item[col.key] }} -->
-              <span v-html="cellHtml(col,item)"></span>
+              <span v-html="cellHtml(col,item)" />
               <span class="txt3 theme-color">{{ col.dw?col.dw:"" }}</span>
             </span>
           </el-tooltip>
