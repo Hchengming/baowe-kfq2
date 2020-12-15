@@ -22,8 +22,8 @@ export default {
                 formatter(params) {
                     let str = `${params[0].axisValue}`
                     params.forEach((item, index) => {
-                        const bfb =
-                            Math.floor((item.data / totalArr[index]) * 10000) / 100
+                        const bfb = Number(item.data) ? Math.floor((item.data / totalArr[index]) * 10000) / 100 : 0
+
                         str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb})%`
                     })
                     return str

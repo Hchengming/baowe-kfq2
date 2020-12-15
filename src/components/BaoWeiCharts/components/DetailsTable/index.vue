@@ -22,7 +22,7 @@
             class="key"
             :style="{width:skyWidth}"
           >
-            <span>{{ item.title }}</span>
+            <span>{{ item.explain }}</span>
           </div>
           <div
             v-if="settingForm.destailTypeTheme==='0'||!settingForm.destailTypeTheme"
@@ -35,7 +35,7 @@
             class="theme-2-list"
           >
             <div class="title">
-              {{ item.title }}
+              {{ item.explain }}
             </div>
             <div :class="['val']">{{ item.val }}</div>
           </div>

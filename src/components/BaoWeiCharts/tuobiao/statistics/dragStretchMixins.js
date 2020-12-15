@@ -201,14 +201,26 @@ export default {
                 var event = event || window.event
                 const moveX = event.clientX - diffX
                 const moveY = event.clientY - diffY
+                    //模块最小宽高限制
+                let offon = false;
                 if (type === 'left') {
-                    _this.modelStyle.width = width - moveX
-                    _this.modelStyle.left = left + moveX
+                    if (width - moveX > 100) {
+                        offon = true
+                        _this.modelStyle.width = width - moveX
+                        _this.modelStyle.left = left + moveX
+                    }
+
                 } else {
-                    _this.modelStyle.width = width + moveX
+                    if (width + moveX > 100) {
+                        offon = true
+                        _this.modelStyle.width = width + moveX
+                    }
+
                 }
-                _this.modelStyle.height = height + moveY
-                _this.getDemos()
+                if (offon && height + moveY > 100) {
+                    _this.modelStyle.height = height + moveY
+                    _this.getDemos()
+                }
             }
             document.onmouseup = function() {
                 this.onmousemove = null

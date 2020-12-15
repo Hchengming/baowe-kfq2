@@ -1365,19 +1365,21 @@ body{
 
     .detail_col {
       display: flex;
+     
       .key {
         width: 80px;
-        padding: 5px;
         border-left: 1px solid @border;
         border-bottom: 1px solid @border;
         display: flex;
         align-items: center;
-        background: #f5f5f5;
+        background: #F5F9FF;
         box-sizing: border-box;
+        line-height: 20px;
+        padding: 8px 3px;
+        justify-content: center;
       }
       .value {
         width: calc(100% - 80px);
-        padding: 5px;
         clear: right;
         border-left: 1px solid @border;
         border-bottom: 1px solid @border;
@@ -1386,6 +1388,9 @@ body{
         max-height: 81px;
         overflow: auto;
         box-sizing: border-box;
+        line-height: 20px;
+        padding: 8px 3px;
+        text-align: center;
       }
       .value.bg {
         background: #dcdcdc;

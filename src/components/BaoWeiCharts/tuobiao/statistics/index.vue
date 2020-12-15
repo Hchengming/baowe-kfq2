@@ -1,16 +1,14 @@
 <template>
   <div>
-    <div
-      v-if="settingForm.mask && settingForm.mask == '1'"
-      class="statisticsMask"
-      :style="{ 'z-index': settingForm.zindex }"
-      @click="statisticsClose"
-    />
-    <article
-      v-show="statisticsAll.isShow !== false"
-      :id="settingForm.elementId ? settingForm.elementId : undefined"
-      :ref="'statisticsWrap'"
-      :style="{
+    <div v-if="settingForm.mask && settingForm.mask == '1'"
+         v-show="statisticsAll.isShow !== false"
+         class="statisticsMask"
+         :style="{ 'z-index': settingForm.zindex }"
+         @click="statisticsClose" />
+    <article v-show="statisticsAll.isShow !== false"
+             :id="settingForm.elementId ? settingForm.elementId : undefined"
+             :ref="'statisticsWrap'"
+             :style="{
         height: modelStyle.height + 'px',
         width: modelStyle.width + 'px',
         left: modelStyle.left + 'px',
@@ -18,258 +16,217 @@
         cursor: cursor,
         'z-index': settingForm.zindex,
       }"
-      :class="[
+             :class="[
         'statisticsWrap',
         'statisticsWrapCase2',
         { statisticsWrapCase3: settingForm.moduleType === '3' },
         { 'iframe-statistics-wrap': settingForm.moduleType === '1' },
         { 'title-hide': settingForm.isHeaderHide },
-      ]"
-    >
+      ]">
       <div class="statisticsBox">
-        <div
-          v-if=" systemPermissions === 'admin' ||
+        <div v-if=" systemPermissions === 'admin' ||
             (settingForm.moduleType !== '1' && !settingForm.isHeaderHide)
           "
-          class="statistics_title theme-bg-color"
-          @mousedown="mousedown_tz"
-        >
-          <i
-            v-if="isModuleClose()"
-            class="el-icon-close"
-            @click="statisticsClose"
-          />
+             class="statistics_title theme-bg-color"
+             @mousedown="mousedown_tz">
+          <i v-if="isModuleClose()"
+             class="el-icon-close"
+             @click="statisticsClose" />
           <div class="box">
             <div class="left">
               <span class="txt1">{{ settingForm.title }}</span>
-              <span v-if="settingForm.subtitle1">---</span>
-              <span class="txt2">{{ settingForm.subtitle1 }}</span>
+              <span v-if="settingFormSubtitle1()">---</span>
+              <span class="txt2"
+                    v-text="settingFormSubtitle1()"></span>
             </div>
-            <div
-              class="right"
-              :style="{ 'margin-right': isModuleClose() ? '20px' : 0 }"
-            >
+            <div class="right"
+                 :style="{ 'margin-right': isModuleClose() ? '20px' : 0 }">
               <span class="txt3">{{ settingForm.subtitle2 }}</span>
 
-              <i
-                v-if="statisticsAll.parentModuleId && isAdmin"
-                title="同级新增"
-                class="iconzengjia iconfont"
-                @click="TJAdd"
-              />
+              <i v-if="statisticsAll.parentModuleId && isAdmin"
+                 title="同级新增"
+                 class="iconzengjia iconfont"
+                 @click="TJAdd" />
               <!-- 设置按钮 -->
 
-              <i
-                v-if="isAdmin && settingForm.moduleType !== '1'"
-                title="筛选配置"
-                class="iconicon-system-fn-configure iconfont"
-                @click="screenSetting"
-              />
-              <i
-                v-if="
+              <i v-if="isAdmin && settingForm.moduleType !== '1'"
+                 title="筛选配置"
+                 class="iconicon-system-fn-configure iconfont"
+                 @click="screenSetting" />
+              <i v-if="
                   isAdmin &&
                     settingForm.moduleType === '0' &&
                     settingForm.isDestail === '1'
                 "
-                title="详情配置"
-                class="iconxiangqingpeizhi iconfont"
-                @click="destailSettingShow"
-              />
-              <i
-                v-if="isAdmin"
-                title="模块设置"
-                class="el-icon-setting"
-                @click="settingClick"
-              />
-              <el-popconfirm
-                v-if="isAdmin && settingForm.moduleType !== '1'"
-                icon="el-icon-info"
-                class="copy-template-popconfirm"
-                icon-color="#8E9298"
-                title="是否克隆当前模块"
-                @confirm="copyTemplate"
-              >
-                <i slot="reference" title="克隆" class="iconfont iconkelong" />
+                 title="详情配置"
+                 class="iconxiangqingpeizhi iconfont"
+                 @click="destailSettingShow" />
+              <i v-if="isAdmin"
+                 title="模块设置"
+                 class="el-icon-setting"
+                 @click="settingClick" />
+              <el-popconfirm v-if="isAdmin && settingForm.moduleType !== '1'"
+                             icon="el-icon-info"
+                             class="copy-template-popconfirm"
+                             icon-color="#8E9298"
+                             title="是否克隆当前模块"
+                             @confirm="copyTemplate">
+                <i slot="reference"
+                   title="克隆"
+                   class="iconfont iconkelong" />
               </el-popconfirm>
-              <el-popconfirm
-                v-if="isAdmin"
-                icon="el-icon-info"
-                class="delete-template-popconfirm"
-                icon-color="red"
-                :title="deleteTitle"
-                @confirm="deleteTemplate"
-              >
-                <i slot="reference" title="删除" class="el-icon-delete" />
+              <el-popconfirm v-if="isAdmin"
+                             icon="el-icon-info"
+                             class="delete-template-popconfirm"
+                             icon-color="red"
+                             :title="deleteTitle"
+                             @confirm="deleteTemplate">
+                <i slot="reference"
+                   title="删除"
+                   class="el-icon-delete" />
               </el-popconfirm>
 
-              <div
-                v-if="!settingForm.moduleType || settingForm.moduleType === '0'"
-                class="pic"
-              >
+              <div v-if="!settingForm.moduleType || settingForm.moduleType === '0'"
+                   class="pic">
                 <!-- isAdmin && typeData.length > 1 -->
                 <i class="iconfont icondangan" />
                 <div class="t_list">
                   <ul>
-                    <li
-                      v-for="(item, index) in typeData"
-                      :key="index"
-                      :class="{
+                    <li v-for="(item, index) in typeData"
+                        :key="index"
+                        :class="{
                         'active theme-bg-color':
                           item.type == settingForm.displayMode ||
                           chooseHover == index,
                       }"
-                      @mousemove="chooseHover = index"
-                      @mouseout="chooseHover = null"
-                      @click="chooseType(item.type)"
-                    >
+                        @mousemove="chooseHover = index"
+                        @mouseout="chooseHover = null"
+                        @click="chooseType(item.type)">
                       {{ item.title }}
                     </li>
                   </ul>
                 </div>
               </div>
-              <span
-                v-if="settingForm.isAddMoreIcon === '1'"
-                class="more"
-                @click="moduleMore"
-              >更多</span>
+              <span v-if="settingForm.isAddMoreIcon === '1'"
+                    class="more"
+                    @click="moduleMore">更多</span>
             </div>
           </div>
         </div>
 
-        <div
-          v-loading="
+        <div v-loading="
             !statisticsAll.data &&
               (settingForm.moduleType === '0' || settingForm.moduleType === '2')
           "
-          class="statistics-content"
-          element-loading-text="数据加载中"
-          element-loading-spinner="el-icon-loading"
-          element-loading-background="rgba(0, 0, 0, 0.2)"
-        >
+             class="statistics-content"
+             element-loading-text="数据加载中"
+             element-loading-spinner="el-icon-loading"
+             element-loading-background="rgba(0, 0, 0, 0.2)">
           <!-- 筛选模块 -->
-          <where
-            ref="where"
-            :condition-area-config="statisticsAll.conditionAreaConfig"
-            :where-height.sync="whereHeight"
-            @whereOtherBtnClick="whereOtherBtnClick"
-            @whereSubmit="whereSubmit"
-          />
+          <where ref="where"
+                 :condition-area-config="statisticsAll.conditionAreaConfig"
+                 :where-height.sync="whereHeight"
+                 @whereOtherBtnClick="whereOtherBtnClick"
+                 @whereSubmit="whereSubmit" />
           <!-- 空白模板嵌入 -->
-          <div
-            v-if="settingForm.moduleType === '3'"
-            :style="{ width: '100%', height: boxHeight() + 'px' }"
-          >
+          <div v-if="settingForm.moduleType === '3'"
+               :style="{ width: '100%', height: boxHeight() + 'px' }">
             <slot :name="settingForm.blankTemplateConfig.slot" />
           </div>
           <!-- 列表展示 -->
-          <list
-            v-if="settingForm.displayMode == 'list' && isCharts()"
-            :height="boxHeight()"
-            :data="statisticsAll.data"
-            :colums="nowClums()"
-            :statistics-all="statisticsAll"
-            :pagination-all="statisticsAll.paginationAll"
-            :setting-form="settingForm"
-            @rowClick="rowClick"
-            @cellClick="cellClick"
-            @operateButtonClick="operateButtonClick"
-            @tablePageSort="tablePageSort"
-          />
+          <list v-if="settingForm.displayMode == 'list' && isCharts()"
+                :height="boxHeight()"
+                :data="statisticsAll.data"
+                :colums="nowClums()"
+                :statistics-all="statisticsAll"
+                :pagination-all="statisticsAll.paginationAll"
+                :setting-form="settingForm"
+                @rowClick="rowClick"
+                @cellClick="cellClick"
+                @operateButtonClick="operateButtonClick"
+                @tablePageSort="tablePageSort" />
           <!-- 数据表格展示 -->
-          <bw-table
-            v-if="settingForm.displayMode == 'table' && isCharts()"
-            :tabledata="statisticsAll.data"
-            :colums="nowClums()"
-            :height="boxHeight()"
-            :setting-form="settingForm"
-            :width="modelStyle.width - 40"
-            :statistics-all="statisticsAll"
-            :border="false"
-            :pagination-all="statisticsAll.paginationAll"
-            @operateButtonClick="operateButtonClick"
-            @cellClick="cellClick"
-            @rowClick="rowClick"
-            @tablePageSort="tablePageSort"
-          />
+          <bw-table v-if="settingForm.displayMode == 'table' && isCharts()"
+                    :tabledata="statisticsAll.data"
+                    :colums="nowClums()"
+                    :height="boxHeight()"
+                    :setting-form="settingForm"
+                    :width="modelStyle.width - 40"
+                    :statistics-all="statisticsAll"
+                    :border="false"
+                    :pagination-all="statisticsAll.paginationAll"
+                    @operateButtonClick="operateButtonClick"
+                    @cellClick="cellClick"
+                    @rowClick="rowClick"
+                    @tablePageSort="tablePageSort" />
           <!-- 折线图、条形图、柱状图、饼图、环图 -->
-          <bw-line
-            v-if="
+          <bw-line v-if="
               bwLineType.indexOf(settingForm.displayMode) > -1 && isCharts()
             "
-            :data="statisticsAll.data"
-            :chart-column="settingForm.keyArr"
-            :title-show="settingForm.titleShow === '1' ? true : false"
-            :setting-config="settingConfig"
-            :chart-type="settingForm.displayMode"
-            :setting-form="settingForm"
-            :height="boxHeight()"
-            @setOptions="setOptions"
-            @eventClick="eventClick"
-          />
+                   :data="statisticsAll.data"
+                   :chart-column="settingForm.keyArr"
+                   :title-show="settingForm.titleShow === '1' ? true : false"
+                   :setting-config="settingConfig"
+                   :chart-type="settingForm.displayMode"
+                   :setting-form="settingForm"
+                   :height="boxHeight()"
+                   @setOptions="setOptions"
+                   @eventClick="eventClick" />
           <!-- <slot name="otherBox"></slot> -->
           <!-- 详情列表模块组件 -->
-          <details-table
-            v-if="settingForm.moduleType === '2'"
-            :label-width="settingForm.destailsTableLabelWidth"
-            :setting-form="settingForm"
-            :table-data="statisticsAll.data"
-            :height="boxHeight()"
-          />
+          <details-table v-if="settingForm.displayMode === 'destailTable'"
+                         :label-width="settingForm.destailsTableLabelWidth"
+                         :setting-form="settingForm"
+                         :table-data="detailsTableData()"
+                         :height="boxHeight()" />
           <!-- iframe嵌入组件 -->
-          <iframe-model
-            v-if="settingForm.moduleType === '1'"
-            :height="boxHeight()"
-            :statistics-all="statisticsAll"
-            :iframe-position-all="statisticsAll.iframePositionAll"
-            :iframe-all="settingForm.iframeAll"
-          />
+          <iframe-model v-if="settingForm.moduleType === '1'"
+                        :height="boxHeight()"
+                        :statistics-all="statisticsAll"
+                        :iframe-position-all="statisticsAll.iframePositionAll"
+                        :iframe-all="settingForm.iframeAll" />
         </div>
         <!-- 左侧缩放按钮控制 -->
-        <div
-          v-if="isAdmin"
-          class="suofang suofang-left"
-          @mousedown="mousedown_left_ls"
-        >
+        <div v-if="isAdmin"
+             class="suofang suofang-left"
+             @mousedown="mousedown_left_ls">
           <!-- <i
           class="iconfont iconkuozhan-copy theme-color"></i>-->
         </div>
         <!-- 右侧缩放按钮控制 -->
-        <div
-          v-if="isAdmin"
-          class="suofang suofang-right"
-          @mousedown="mousedown_right_ls"
-        >
+        <div v-if="isAdmin"
+             class="suofang suofang-right"
+             @mousedown="mousedown_right_ls">
           <!-- <i
           class="iconfont iconkuozhan theme-color"></i>-->
         </div>
         <!-- 模块修改表单 -->
-        <settingForm
-          ref="settingForm"
-          :form="settingForm"
-          :data-url="dataUrl"
-          :statistics-all="statisticsAll"
-          :item-api-data="itemApiData"
-          :data-view-list="dataViewList"
-          :where-form="whereForm"
-          :setting-config="settingConfig"
-          @submit="settingKeep"
-        />
+        <settingForm ref="settingForm"
+                     :form="settingForm"
+                     :data-url="dataUrl"
+                     :statistics-all="statisticsAll"
+                     :item-api-data="itemApiData"
+                     :data-view-list="dataViewList"
+                     :where-form="whereForm"
+                     :setting-config="settingConfig"
+                     @submit="settingKeep" />
         <!-- 子模块新增表单 -->
-        <settingForm
-          ref="childSettingForm"
-          :form="childSettingForm"
-          :data-url="dataUrl"
-          :setting-config="settingConfig"
-          :item-api-data="itemApiData"
-          :data-view-list="dataViewList"
-          @submit="childSettingKeep"
-        />
+        <settingForm ref="childSettingForm"
+                     :form="childSettingForm"
+                     :data-url="dataUrl"
+                     :setting-config="settingConfig"
+                     :item-api-data="itemApiData"
+                     :data-view-list="dataViewList"
+                     @submit="childSettingKeep" />
         <!-- 筛选配置弹出层 -->
-        <where-setting ref="screenSetting" @screenKeep="screenKeep" />
+        <where-setting ref="screenSetting"
+                       @screenKeep="screenKeep" />
         <!-- 详情配置弹窗 -->
-        <destail-setting ref="destailSetting" @submit="destailSettingSubmit" />
+        <destail-setting ref="destailSetting"
+                         @submit="destailSettingSubmit" />
         <!-- 详情弹窗 -->
-        <destail ref="destail" :statistics-all="statisticsAll" />
+        <destail ref="destail"
+                 :statistics-all="statisticsAll" />
       </div>
     </article>
   </div>
@@ -299,43 +256,43 @@ export default {
     DestailSetting,
     Destail,
     DetailsTable,
-    IframeModel
+    IframeModel,
   },
   mixins: [dragStretchMixins, childMixins, screenMixins, destailMixins],
   // props: ['statisticsAll', 'browserXY', 'systemPermissions', 'dataUrl'],
   props: {
     statisticsAll: {
       type: Object,
-      default: null
+      default: null,
     },
     browserXY: {
       type: Object,
-      default: null
+      default: null,
     },
     systemPermissions: {
       type: String,
-      default: null
+      default: null,
     },
     dataUrl: {
       type: String,
-      default: null
+      default: null,
     },
     addSettingForm: {
       type: Object,
-      default: null
+      default: null,
     },
     itemApiData: {
       type: Array,
-      default: null
+      default: null,
     },
     dataViewList: {
       type: Array,
-      default: null
+      default: null,
     },
     settingConfig: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -343,7 +300,7 @@ export default {
       bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line', 'radar'],
       typeData: dataPresentation,
       chooseHover: null,
-      whereHeight: 40 // 搜索模块高度
+      whereHeight: 40, // 搜索模块高度
       // parentWhereFormUse:{}//父级筛选条件可传入子级条件筛选
       // deleteTitle: '确定删除删除当前模块？'
     }
@@ -364,7 +321,7 @@ export default {
         title = '确定删除删除当前模块？'
       }
       return title
-    }
+    },
   },
   watch: {
     browserXY: {
@@ -372,13 +329,32 @@ export default {
         this.getMainStyle()
         this.setDemos()
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
+    //详情列表模块数据
+    detailsTableData() {
+      let data = this.statisticsAll.data
+      if(!data) return 
+      let contentAreaConfig = this.statisticsAll.contentAreaConfig
+      if (contentAreaConfig.apiType === '1') {
+        if (data.constructor == Array) {
+          data=data[0]
+        }
+      }else if (contentAreaConfig.apiType === '0'){
+        data=data[0]
+      }
+      return data
+    },
+    //标题二
+    settingFormSubtitle1() {
+      let contentAreaConfig = this.statisticsAll.contentAreaConfig
+      return contentAreaConfig.subtitle1
+    },
     // 模块是否可关闭
     isModuleClose() {
       return this.statisticsAll.parentModuleId || this.settingForm.isModuleClose
@@ -464,8 +440,6 @@ export default {
     },
     // 模块删除按钮点击事件
     deleteTemplate() {
-      console.log('..........')
-
       this.$emit(
         'deleteMoule',
         this.statisticsAll.moduleId,
@@ -490,7 +464,7 @@ export default {
     settingClick() {
       this.$emit('settingClick', this.statisticsAll, (keyArr) => {
         this.$refs['settingForm'].show({
-          keyArr
+          keyArr,
         })
       })
     },
@@ -544,7 +518,7 @@ export default {
         data,
         this.statisticsAll.moduleId
       )
-    }
-  }
+    },
+  },
 }
 </script>

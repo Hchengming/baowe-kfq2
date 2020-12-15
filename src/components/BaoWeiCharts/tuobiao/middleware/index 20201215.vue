@@ -18,50 +18,55 @@
          @operateButtonClick  表格、列表右侧其他按钮点击事件
          @setOptions    图表配置数据暴露，外层定制化配置事件
     -->
-    <section v-for="(item, index) in pageData"
-             :key="index">
-      <statistics :statistics-all="item"
-                  :browser-x-y="browserXY"
-                  :data-url="settingConfig.dataUrl"
-                  :setting-config="settingConfig"
-                  :add-setting-form="addSettingForm"
-                  :item-api-data="itemApiData"
-                  :data-view-list="dataViewList"
-                  :system-permissions="settingConfig.systemPermissions"
-                  @setOptions="setOptions"
-                  @firstAddKeep="addKeep"
-                  @deleteMoule="deleteMoule"
-                  @rowClick="rowClick"
-                  @cellClick="cellClick"
-                  @updateMoule="updateMoule"
-                  @childSettingAdd="childSettingAdd"
-                  @childInsertData="childInsertData"
-                  @statisticsClose="statisticsClose"
-                  @blankTemplateClose="blankTemplateClose"
-                  @screenKeep="screenKeep"
-                  @tablePageSort="tablePageSort"
-                  @whereSubmit="whereSubmit"
-                  @detailsAreaConfigEmit="detailsAreaConfigEmit"
-                  @whereOtherBtnClick="whereOtherBtnClick"
-                  @operateButtonClick="operateButtonClick"
-                  @statisticsMore="statisticsMore"
-                  @settingClick="settingClick">
-        <div v-if="item.contentAreaConfig.blankTemplateConfig"
-             :slot="item.contentAreaConfig.blankTemplateConfig.slot"
-             style="width: 100%; height: 100%">
+    <section v-for="(item, index) in pageData" :key="index">
+      <statistics
+        :statistics-all="item"
+        :browser-x-y="browserXY"
+        :data-url="settingConfig.dataUrl"
+        :setting-config="settingConfig"
+        :add-setting-form="addSettingForm"
+        :item-api-data="itemApiData"
+        :data-view-list="dataViewList"
+        :system-permissions="settingConfig.systemPermissions"
+        @setOptions="setOptions"
+        @firstAddKeep="addKeep"
+        @deleteMoule="deleteMoule"
+        @rowClick="rowClick"
+        @cellClick="cellClick"
+        @updateMoule="updateMoule"
+        @childSettingAdd="childSettingAdd"
+        @childInsertData="childInsertData"
+        @statisticsClose="statisticsClose"
+        @blankTemplateClose="blankTemplateClose"
+        @screenKeep="screenKeep"
+        @tablePageSort="tablePageSort"
+        @whereSubmit="whereSubmit"
+        @detailsAreaConfigEmit="detailsAreaConfigEmit"
+        @whereOtherBtnClick="whereOtherBtnClick"
+        @operateButtonClick="operateButtonClick"
+        @statisticsMore="statisticsMore"
+        @settingClick="settingClick"
+      >
+        <div
+          v-if="item.contentAreaConfig.blankTemplateConfig"
+          :slot="item.contentAreaConfig.blankTemplateConfig.slot"
+          style="width: 100%; height: 100%"
+        >
           <slot :name="item.contentAreaConfig.blankTemplateConfig.slot" />
         </div>
       </statistics>
     </section>
 
     <!-- 新增弹窗模块 -->
-    <settingForm ref="settingForm"
-                 :data-view-list="dataViewList"
-                 :form="addSettingForm"
-                 :data-url="settingConfig.dataUrl"
-                 :item-api-data="itemApiData"
-                 :setting-config="settingConfig"
-                 @submit="addKeep" />
+    <settingForm
+      ref="settingForm"
+      :data-view-list="dataViewList"
+      :form="addSettingForm"
+      :data-url="settingConfig.dataUrl"
+      :item-api-data="itemApiData"
+      :setting-config="settingConfig"
+      @submit="addKeep"
+    />
   </div>
 </template>
 <script>
@@ -78,16 +83,16 @@ export default {
   props: {
     settingConfig: {
       type: Object,
-      default: null,
+      default: null
     },
     dataViewList: {
       type: Array,
-      default: null,
+      default: null
     },
     itemApiData: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
@@ -107,7 +112,7 @@ export default {
         moduleCode: '', // 模板编码  当前模板唯一编码
         blankTemplateConfig: {
           // 空白模板配置项
-          slot: '', // slot嵌入字段
+          slot: '' // slot嵌入字段
         },
         destailTypeTheme: '0', // 详情表格展示组题样式选则 0：默认表格  1：主题一
         apiType: '1', // 0：数据视图 1：应用接口
@@ -119,7 +124,7 @@ export default {
         tableOtherConfig: {
           tableType: '0', // 表格类型 0:普通表格 1:树形表格
           onlyKey: '', // 行数据唯一字段
-          childKey: 'children', // 树形表格子级字段名
+          childKey: 'children' // 树形表格子级字段名
         },
 
         operateButton: [], // 列表、表格右侧操作按钮配置数据
@@ -129,7 +134,7 @@ export default {
         iframeAll: {
           iframeType: '0', // 0-map地图  1-其他类型
           iframeId: '', // 自定义iframe框id名
-          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129', // iframe嵌入路径,
+          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129' // iframe嵌入路径,
         },
         height: 30,
         width: 30,
@@ -143,7 +148,7 @@ export default {
         menuTapAll: {
           isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
           menuTapKey: '', // 点击触发跳转字段
-          menuCodeKey: '', // 菜单编码字段
+          menuCodeKey: '' // 菜单编码字段
         },
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
         isLinkMap: '0', // 是否链接iframe地图  0:不链接 1:链接
@@ -154,9 +159,9 @@ export default {
         isDestail: '0', // 是否添加详情弹窗
         isDrafting: false, // 是否给用户启用模块拖拽功能
         isHeaderHide: false, // 模块头部是否显示
-        isModuleClose: false, // 模块是否可关闭
+        isModuleClose: false // 模块是否可关闭
       },
-      addSettingFormClone: {},
+      addSettingFormClone: {}
     }
   },
   mounted() {
@@ -198,7 +203,7 @@ export default {
         moduleId: moduleId,
         name: '查询模块其他按钮点击事件',
         methodsName: 'whereOtherBtnClick',
-        otherItem: setttingItem,
+        otherItem: setttingItem
       })
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
@@ -208,7 +213,7 @@ export default {
         name: '表格、列表右侧其他按钮点击事件',
         methodsName: 'operateButtonClick',
         buttonSetting,
-        rowItem,
+        rowItem
       })
     },
     // 头部右侧更多按钮点击事件
@@ -216,7 +221,7 @@ export default {
       this.chartsMethods({
         moduleId: statisticsAll.moduleId,
         name: '头部右侧更多按钮点击事件',
-        methodsName: 'statisticsMore',
+        methodsName: 'statisticsMore'
       })
     },
     // 菜单点击事件
@@ -230,7 +235,7 @@ export default {
         moduleId: moduleId,
         parentModuleId: parentModuleId,
         name: '页面关闭事件',
-        methodsName: 'statisticsMore',
+        methodsName: 'statisticsMore'
       })
       if (!parentModuleId) return
       const datas = []
@@ -302,7 +307,7 @@ export default {
         item.contentAreaConfig.menuTapAll = {
           isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
           menuTapKey: '', // 点击触发跳转字段
-          menuCodeKey: '', // 菜单编码字段
+          menuCodeKey: '' // 菜单编码字段
         }
       }
       // 筛选配置数据格式转换
@@ -317,7 +322,7 @@ export default {
           ? item.contentAreaConfig.defaultParameters.replace(/\s*/g, '')
           : ''
         item.conditionAreaConfig = {
-          screenData: [],
+          screenData: []
         }
         if (defaultParameters) {
           const obj = JSON.parse(defaultParameters)
@@ -334,7 +339,7 @@ export default {
                 type: 'input',
                 label: key,
                 labelWidth: 90,
-                rightWidth: 120,
+                rightWidth: 120
               })
             }
           }
@@ -353,7 +358,7 @@ export default {
         this.settingConfig.commonUrl +
           '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
         {
-          menuId: this.menuId,
+          menuId: this.menuId
         }
       )
         .then((res) => {
@@ -375,7 +380,7 @@ export default {
               const obj = {
                 url: item.contentAreaConfig.url,
                 keys: keys,
-                index: index,
+                index: index
               }
 
               if (item.contentAreaConfig.isPage === '1') {
@@ -396,14 +401,14 @@ export default {
                 item.contentAreaConfig.moduleType !== '1' &&
                 item.contentAreaConfig.moduleType !== '3'
               ) {
-                this.getTableData(obj, defaultReqData, item, index)
+                this.getTableData(obj, defaultReqData, item,index)
               }
             })
             this.chartsMethods({
               methodsName: 'getPageData',
               name: '页面模块渲染数据加载完成事件',
               data: this.pageData,
-              menuId: this.menuId,
+              menuId: this.menuId
             })
           }
           this.pageLoding(false)
@@ -411,7 +416,7 @@ export default {
         .catch((msg) => {
           this.$message({
             message: '请求失败' + msg,
-            type: 'error',
+            type: 'error'
           })
           this.pageLoding(false)
           return false
@@ -441,8 +446,44 @@ export default {
       }
       return paramValue
     },
-    //特殊请求二次开发暴露
-    specialRequest(reqData, config, obj) {
+    // 图表数据获取
+    getTableData(obj, whereReqData, config,nowIndex) {
+      nowIndex?nowIndex:1;
+      let reqData = {
+        currentPage: obj.currentPage,
+        pageSize: obj.pageSize
+        // keys: obj.keys,
+      }
+      // 查询其他-参数接入
+      if (whereReqData) {
+        Object.assign(reqData, whereReqData)
+      }
+      const resDataFn = (resData) => {
+        // console.log(JSON.stringify(resData) )
+        if (
+          !config.contentAreaConfig.moduleType ||
+          config.contentAreaConfig.moduleType === '0'
+        ) {
+          if (config.contentAreaConfig.isPage === '1') {
+            
+            this.$set(this.pageData[obj.index], 'data',this.dataFormat(config,resData.list) )
+            this.$set(this.pageData[obj.index], 'paginationAll', {
+              currentPage: obj.currentPage,
+              pageSize: obj.pageSize,
+              total: resData.total
+            })
+          } else {
+            if (resData.constructor === Object) {
+              resData = []
+            }
+            this.$set(this.pageData[obj.index], 'data', this.dataFormat(config,resData))
+            this.$set(this.pageData[obj.index], 'paginationAll', undefined)
+          }
+        } else if (config.contentAreaConfig.moduleType === '2') {
+          this.$set(this.pageData[obj.index], 'data', resData)
+        }
+        // console.log(this.pageData[obj.index])
+      }
       const reqObj = JSON.parse(JSON.stringify(reqData))
       reqObj.methodsName = 'getchartsList'
       reqObj.name = '图表数据请求事件'
@@ -458,27 +499,11 @@ export default {
 
       reqObj.tsqkData = (data) => {
         // 特殊情况数据处理后返回
-        this.viewDataTranslation(data, obj, config)
+        resDataFn(data)
       }
-
+      // console.log(reqObj, '===')
       this.$emit('chartsMethods', reqObj)
-      return sftsqk
-    },
-    // 图表数据获取
-    getTableData(obj, whereReqData, config, nowIndex) {
-      nowIndex ? nowIndex : 1
-      let reqData = {
-        currentPage: obj.currentPage,
-        pageSize: obj.pageSize,
-        // keys: obj.keys,
-      }
-      // 查询其他-参数接入
-      if (whereReqData) {
-        Object.assign(reqData, whereReqData)
-      }
-      //返回特殊情况数据处理
-      const sftsqk = this.specialRequest(reqData, config, obj)
-
+      //  console.log(sftsqk)
       if (!sftsqk) {
         // 根据请求方式的不同进行调整
         const options =
@@ -502,7 +527,7 @@ export default {
               key !== 'viewId'
             ) {
               queryParamList.push({
-                [key]: reqData[key],
+                [key]: reqData[key]
               })
             }
           }
@@ -510,14 +535,14 @@ export default {
             viewId: config.contentAreaConfig.viewId,
             pageSize: reqData.pageSize,
             pageNumber: obj.currentPage,
-            queryParamList: queryParamList,
+            queryParamList: queryParamList
           }
-          nowIndex *= 200
+          nowIndex*=200
         }
         // console.log(reqData)
         if (options === 'get') {
           reqData = {
-            params: reqData,
+            params: reqData
           }
         }
         // 判断当前接口是完全接口还是测试接口
@@ -532,11 +557,7 @@ export default {
           this.settingConfig.isProducrTestData &&
           !obj.url.replace(/\s*/g, '')
         ) {
-          this.viewDataTranslation(
-            this.setCSdata(config.contentAreaConfig),
-            obj,
-            config
-          )
+          resDataFn(this.setCSdata(config.contentAreaConfig))
           return false
         }
         // 数据请求
@@ -547,16 +568,18 @@ export default {
         setTimeout(() => {
           serviceAxios[options](nowUrl, reqData)
             .then((res) => {
-              // console.log(res)
+            // console.log(res)
               if (res.code === 20000 || res.code === 200) {
                 const resData = res.data
-                this.viewDataTranslation(resData, obj, config)
+                resDataFn(resData)
               }
             })
             .catch((msg) => {
+              console.log('请求失败', reqObj)
+
               this.$message({
                 message: '请求失败' + msg,
-                type: 'error',
+                type: 'error'
               })
 
               return false
@@ -564,45 +587,33 @@ export default {
         }, nowIndex)
       }
     },
-    //图表渲染数据处理
-    viewDataTranslation(resData, obj, config) {
-      // console.log(JSON.stringify(resData) )
-      if (
-        !config.contentAreaConfig.moduleType ||
-        config.contentAreaConfig.moduleType === '0'
-      ) {
-        if (config.contentAreaConfig.isPage === '1') {
-          this.$set(
-            this.pageData[obj.index],
-            'data',
-            this.dataFormat(config, resData.list)
-          )
-          this.$set(this.pageData[obj.index], 'paginationAll', {
-            currentPage: obj.currentPage,
-            pageSize: obj.pageSize,
-            total: resData.total,
-          })
-        } else {
-          if (resData.constructor === Object) {
-            resData = []
+    //图表数据请求
+    getResData(resData,obj,config){
+        // console.log(JSON.stringify(resData) )
+        if (
+          !config.contentAreaConfig.moduleType ||
+          config.contentAreaConfig.moduleType === '0'
+        ) {
+          if (config.contentAreaConfig.isPage === '1') {
+            
+            this.$set(this.pageData[obj.index], 'data',this.dataFormat(config,resData.list) )
+            this.$set(this.pageData[obj.index], 'paginationAll', {
+              currentPage: obj.currentPage,
+              pageSize: obj.pageSize,
+              total: resData.total
+            })
+          } else {
+            if (resData.constructor === Object) {
+              resData = []
+            }
+            this.$set(this.pageData[obj.index], 'data', this.dataFormat(config,resData))
+            this.$set(this.pageData[obj.index], 'paginationAll', undefined)
           }
-          this.$set(
-            this.pageData[obj.index],
-            'data',
-            this.dataFormat(config, resData)
-          )
-          this.$set(this.pageData[obj.index], 'paginationAll', undefined)
+        } else if (config.contentAreaConfig.moduleType === '2') {
+          this.$set(this.pageData[obj.index], 'data', resData)
         }
-      } else if (config.contentAreaConfig.moduleType === '2') {
-        //详情类模块返回数据处理
-        this.destailsViewTranslation()
-        this.$set(this.pageData[obj.index], 'data', resData)
-      }
-    },
-    //详情类模块返回数据处理
-    destailsViewTranslation() {
-      
-    },
+        // console.log(this.pageData[obj.index])
+      },
     // 测试数据生产
     setCSdata(settingForm) {
       const arr = []
@@ -617,29 +628,29 @@ export default {
       if (settingForm.isPage === '1') {
         return {
           list: arr,
-          total: 20,
+          total: 20
         }
       } else {
         return arr
       }
     },
     //返回数据格式化
-    dataFormat(config, resData) {
-      let colClums = config.contentAreaConfig.keyArr
-      colClums.forEach((item) => {
-        if (item.colDataformat) {
+    dataFormat(config,resData){
+      let colClums=config.contentAreaConfig.keyArr;
+      colClums.forEach(item=>{
+        if(item.colDataformat){
           console.log(item.colDataformat)
           // eslint-disable-next-line no-eval
-          const test = eval('(false || ' + item.colDataformat + ')')
-
-          resData.forEach((val) => {
-            val[item.key] = test(item, val)
+           const test = eval('(false || ' + item.colDataformat + ')')
+         
+          resData.forEach(val=>{
+           val[item.key]=test(item,val)
           })
         }
       })
       return resData
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>

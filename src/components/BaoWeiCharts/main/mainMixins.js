@@ -37,9 +37,9 @@ export default {
         // 项目主题获取事件
         getProjectConfig() {
             serviceAxios.post(this.settingConfig.commonUrl + '/busThemeConfig/selectProjectConfig', {
-                projectId: this.settingConfig.answerId
+                projectId: this.settingConfig.answerId ? this.settingConfig.answerId : this.settingConfig.themeCode
             }).then(res => {
-                console.log(res, 'res')
+                // console.log(res, 'res')
                 if (res.data.projectConfigs) {
                     this.nowProjectConfig = JSON.parse(res.data.projectConfigs)
                     this.themeClass = 'charts-theme' + this.nowProjectConfig.theme
@@ -50,7 +50,7 @@ export default {
         // 项目主题编辑事件
         projectConfigEmit(projectConfig) {
             serviceAxios.post(this.settingConfig.commonUrl + '/busThemeConfig/insertProjectConfigData', {
-                projectId: this.settingConfig.answerId,
+                projectId: this.settingConfig.answerId ? this.settingConfig.answerId : this.settingConfig.themeCode,
                 projectConfig: projectConfig
             }).then(() => {
                 this.$message({

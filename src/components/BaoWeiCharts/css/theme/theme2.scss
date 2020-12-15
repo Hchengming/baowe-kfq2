@@ -103,6 +103,9 @@
             height: 100%;
             line-height: inherit;
             border: none;
+            .left .txt1 {
+                margin-left: 0;
+            }
             .right .el-icon-setting {
                 line-height: inherit;
             }
@@ -110,7 +113,7 @@
                 color: inherit;
             }
             .t_list {
-                font-size: 16px;
+                font-size: 14px;
             }
         }
     }
