@@ -53,11 +53,13 @@ export default {
         type: 'topBar',
         name: '顶部栏组件',
         icon: 'icondingbulan'
-      }, {
-        type: 'tabs',
-        name: 'Tabs切换',
-        icon: 'icondangan'
-      }]
+      }
+      // , {
+      //   type: 'tabs',
+      //   name: 'Tabs切换',
+      //   icon: 'icondangan'
+      // }
+      ]
     }
   },
   methods: {

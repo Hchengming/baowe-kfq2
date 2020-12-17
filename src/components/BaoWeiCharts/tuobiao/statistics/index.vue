@@ -49,10 +49,10 @@
                  @click="TJAdd" />
               <!-- 设置按钮 -->
 
-              <i v-if="isAdmin && settingForm.moduleType !== '1'"
+              <!-- <i v-if="isAdmin && settingForm.moduleType !== '1'"
                  title="筛选配置"
                  class="iconicon-system-fn-configure iconfont"
-                 @click="screenSetting" />
+                 @click="screenSetting" /> -->
               <i v-if="
                   isAdmin &&
                     settingForm.moduleType === '0' &&
@@ -116,7 +116,7 @@
 
         <div v-loading="
             !statisticsAll.data &&
-              (settingForm.moduleType === '0' || settingForm.moduleType === '2')
+              settingForm.moduleType === '0' 
           "
              class="statistics-content"
              element-loading-text="数据加载中"
@@ -204,6 +204,7 @@
         <settingForm ref="settingForm"
                      :form="settingForm"
                      :data-url="dataUrl"
+                   
                      :statistics-all="statisticsAll"
                      :item-api-data="itemApiData"
                      :data-view-list="dataViewList"
@@ -216,11 +217,12 @@
                      :data-url="dataUrl"
                      :setting-config="settingConfig"
                      :item-api-data="itemApiData"
+                      
                      :data-view-list="dataViewList"
                      @submit="childSettingKeep" />
         <!-- 筛选配置弹出层 -->
-        <where-setting ref="screenSetting"
-                       @screenKeep="screenKeep" />
+        <!-- <where-setting ref="screenSetting"
+                       @screenKeep="screenKeep" /> -->
         <!-- 详情配置弹窗 -->
         <destail-setting ref="destailSetting"
                          @submit="destailSettingSubmit" />
@@ -232,7 +234,7 @@
   </div>
 </template>
 <script>
-import WhereSetting from '../../components/WhereSetting'
+// import WhereSetting from '../../components/WhereSetting'
 import Where from '../../components/Where2.0'
 import List from '../../components/List'
 import BwLine from '../../components/Line@2.0/index.vue'
@@ -251,7 +253,7 @@ export default {
     List,
     BwLine,
     BwTable,
-    WhereSetting,
+    // WhereSetting,
     Where,
     DestailSetting,
     Destail,

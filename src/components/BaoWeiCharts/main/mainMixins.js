@@ -14,7 +14,7 @@ export default {
                 type: '新增' // 配置类型 新增/修改
             },
             menu_i: 'el-icon-s-fold', // 点击图标控制
-            isCollapse: false, // 左侧菜单展示控制
+            isCollapse: false, // 左侧菜单展示控制`
             defaultActive: '',
             menuData: [], // 菜单数据
             menuActiveIndex: 0, // 顶部菜单选中索引
@@ -37,7 +37,7 @@ export default {
         // 项目主题获取事件
         getProjectConfig() {
             serviceAxios.post(this.settingConfig.commonUrl + '/busThemeConfig/selectProjectConfig', {
-                projectId: this.settingConfig.answerId ? this.settingConfig.answerId : this.settingConfig.themeCode
+                projectId: this.settingConfig.answerId
             }).then(res => {
                 // console.log(res, 'res')
                 if (res.data.projectConfigs) {
@@ -50,7 +50,7 @@ export default {
         // 项目主题编辑事件
         projectConfigEmit(projectConfig) {
             serviceAxios.post(this.settingConfig.commonUrl + '/busThemeConfig/insertProjectConfigData', {
-                projectId: this.settingConfig.answerId ? this.settingConfig.answerId : this.settingConfig.themeCode,
+                projectId: this.settingConfig.answerId,
                 projectConfig: projectConfig
             }).then(() => {
                 this.$message({
@@ -221,7 +221,7 @@ export default {
                 // 自定义配置菜单数据获取
                 serviceAxios
                     .post(this.settingConfig.systomMenuApi + '/menu/insertMenu', {
-                        themeCode: this.settingConfig.themeCode
+                        answerId: this.settingConfig.answerId
                     })
                     .then(res => {
                         // console.log(res)

@@ -40,14 +40,9 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="接口路径:" label-width="65px">
-          <el-input v-model="form.url" size="small" placeholder="接口路径" @change="urlChange" />
+          <el-input v-model="form.url" size="small" placeholder="接口路径" />
         </el-form-item>
       </el-col>
-      <!-- <el-col :span="3" v-if="!form.submodule">
-        <el-button size="small"
-                   style="margin-top:2px"
-                   @click="getKeysData">字段获取</el-button>
-      </el-col>-->
     </el-row>
   </div>
 </template>
@@ -56,11 +51,11 @@ import JSMixins from './mixins.js'
 export default {
   mixins: [JSMixins],
   props: {
-    itemApiData: {
+    dataViewList: {
       type: Array,
       default: null
     },
-    dataViewList: {
+    itemApiData:{
       type: Array,
       default: null
     },

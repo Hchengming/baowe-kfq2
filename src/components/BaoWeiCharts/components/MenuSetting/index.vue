@@ -66,8 +66,8 @@ export default {
   methods: {
     // 菜单树数据查询事件
     getTreeMenu() {
-      // console.log({themeCode:this.settingConfig.themeCode})
-      serviceAxios.post(this.commonUrl + '/menu/insertMenu',{themeCode:this.settingConfig.themeCode}).then(res => {
+     
+      serviceAxios.post(this.commonUrl + '/menu/insertMenu',{answerId:this.settingConfig.answerId}).then(res => {
         // console.log(res)
         const code = res.code
         const reqData = res.data
@@ -154,7 +154,7 @@ export default {
       let url = ''
       if (this.menuFormAll.type === 'add') {
         url = '/menu/addMenu'
-        reqData.themeCode=this.settingConfig.themeCode
+        reqData.answerId=this.settingConfig.answerId
       } else {
         url = '/menu/updateMenu'
       }

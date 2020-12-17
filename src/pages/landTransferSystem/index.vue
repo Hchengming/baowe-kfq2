@@ -58,7 +58,7 @@ export default {
        //获取项目所有接口的接口路径
         getInterfaceUrl: "http://localhost:4000/application/insert",
         itemTitle: '土地供应审批和监管信息化系统', // 项目标题
-        themeCode:"002"//项目编码   
+        answerId:"002"//项目编码   
       },
     }
   },

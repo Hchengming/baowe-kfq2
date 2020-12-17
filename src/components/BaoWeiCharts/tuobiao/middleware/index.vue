@@ -61,6 +61,7 @@
                  :data-url="settingConfig.dataUrl"
                  :item-api-data="itemApiData"
                  :setting-config="settingConfig"
+                 @screenKeep="addScreenKeep"
                  @submit="addKeep" />
   </div>
 </template>
@@ -155,6 +156,12 @@ export default {
         isDrafting: false, // 是否给用户启用模块拖拽功能
         isHeaderHide: false, // 模块头部是否显示
         isModuleClose: false, // 模块是否可关闭
+        filterConfig: {
+          //筛选项配置信息
+          screenData: [{}], //查询项配置
+          btnSettingData: [], //查询按钮配置
+          isShowInsertButton: '1', //查询按钮是否显示配置
+        },
       },
       addSettingFormClone: {},
     }
@@ -305,41 +312,16 @@ export default {
           menuCodeKey: '', // 菜单编码字段
         }
       }
+      // console.log()
       // 筛选配置数据格式转换
-      if (
-        item.conditionAreaConfig &&
-        item.conditionAreaConfig.replace(/\s*/g, '')
-      ) {
-        item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
-      } else {
-        // 配置区域默认参数设置
-        const defaultParameters = item.contentAreaConfig.defaultParameters
-          ? item.contentAreaConfig.defaultParameters.replace(/\s*/g, '')
-          : ''
-        item.conditionAreaConfig = {
-          screenData: [],
-        }
-        if (defaultParameters) {
-          const obj = JSON.parse(defaultParameters)
-          if (
-            !item.conditionAreaConfig ||
-            !item.conditionAreaConfig.screenData ||
-            item.conditionAreaConfig.screenData.length === 0
-          ) {
-            for (const key in obj) {
-              item.conditionAreaConfig.screenData.push({
-                key: key,
-                defaultValue: obj[key],
-                sfxjcx: '0',
-                type: 'input',
-                label: key,
-                labelWidth: 90,
-                rightWidth: 120,
-              })
-            }
-          }
-        }
-      }
+      let filterConfig=item.contentAreaConfig.filterConfig
+       filterConfig.screenData.forEach(item=>{
+         if(['radio','checkbox','select'].indexOf(item.type)>-1){
+           item.arr=JSON.parse(item.changeData)
+         }
+       })
+       item.conditionAreaConfig=filterConfig
+      //  console.log(item.conditionAreaConfig)
     },
     // 页面加载状态变化
     pageLoding(offon) {
@@ -441,28 +423,12 @@ export default {
       }
       return paramValue
     },
-    //特殊请求二次开发暴露
-    specialRequest(reqData, config, obj) {
-      const reqObj = JSON.parse(JSON.stringify(reqData))
-      reqObj.methodsName = 'getchartsList'
-      reqObj.name = '图表数据请求事件'
-      reqObj.config = config
-      reqObj.currentPage = obj.currentPage
-      reqObj.url = obj.url
-      // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
-      let sftsqk = false // 当前是否未特殊情况
-      reqObj.sftsqk = (offon) => {
-        // 是否未特殊情况返回
-        sftsqk = offon
-      }
-
-      reqObj.tsqkData = (data) => {
-        // 特殊情况数据处理后返回
-        this.viewDataTranslation(data, obj, config)
-      }
-
-      this.$emit('chartsMethods', reqObj)
-      return sftsqk
+    // 数据获取参数配置
+    setParams(config, reqData) {
+      let screenData = config.contentAreaConfig.filterConfig.screenData
+      screenData.forEach((item) => {
+        reqData[item.key] = item.defaultValue
+      })
     },
     // 图表数据获取
     getTableData(obj, whereReqData, config, nowIndex) {
@@ -472,7 +438,9 @@ export default {
         pageSize: obj.pageSize,
         // keys: obj.keys,
       }
-      // 查询其他-参数接入
+      //默认参数设置
+      this.setParams(config, reqData)
+      //查询参数传入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
@@ -564,6 +532,29 @@ export default {
         }, nowIndex)
       }
     },
+    //特殊请求二次开发暴露
+    specialRequest(reqData, config, obj) {
+      const reqObj = JSON.parse(JSON.stringify(reqData))
+      reqObj.methodsName = 'getchartsList'
+      reqObj.name = '图表数据请求事件'
+      reqObj.config = config
+      reqObj.currentPage = obj.currentPage
+      reqObj.url = obj.url
+      // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
+      let sftsqk = false // 当前是否未特殊情况
+      reqObj.sftsqk = (offon) => {
+        // 是否未特殊情况返回
+        sftsqk = offon
+      }
+
+      reqObj.tsqkData = (data) => {
+        // 特殊情况数据处理后返回
+        this.viewDataTranslation(data, obj, config)
+      }
+
+      this.$emit('chartsMethods', reqObj)
+      return sftsqk
+    },
     //图表渲染数据处理
     viewDataTranslation(resData, obj, config) {
       // console.log(JSON.stringify(resData) )
@@ -593,16 +584,9 @@ export default {
           )
           this.$set(this.pageData[obj.index], 'paginationAll', undefined)
         }
-      } else if (config.contentAreaConfig.moduleType === '2') {
-        //详情类模块返回数据处理
-        this.destailsViewTranslation()
-        this.$set(this.pageData[obj.index], 'data', resData)
       }
     },
-    //详情类模块返回数据处理
-    destailsViewTranslation() {
-      
-    },
+
     // 测试数据生产
     setCSdata(settingForm) {
       const arr = []
