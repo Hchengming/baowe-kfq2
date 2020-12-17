@@ -197,9 +197,7 @@ export default {
     isShowWhere() {
       return (
         this.conditionAreaConfig &&
-        (this.conditionAreaConfig.screenData.length > 0 ||
-          (this.conditionAreaConfig.commonFilterData &&
-            this.conditionAreaConfig.commonFilterData.length > 0))
+        (this.conditionAreaConfig.screenData&&this.conditionAreaConfig.screenData.length > 0)
       )
     },
     // 查询模块高度变化事件

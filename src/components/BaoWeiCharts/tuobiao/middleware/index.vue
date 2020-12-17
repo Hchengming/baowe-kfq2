@@ -314,13 +314,19 @@ export default {
       }
       // console.log()
       // 筛选配置数据格式转换
-      let filterConfig=item.contentAreaConfig.filterConfig
-       filterConfig.screenData.forEach(item=>{
-         if(['radio','checkbox','select'].indexOf(item.type)>-1){
-           item.arr=JSON.parse(item.changeData)
-         }
-       })
-       item.conditionAreaConfig=filterConfig
+
+      let filterConfig = item.contentAreaConfig.filterConfig
+      if (filterConfig) {
+        filterConfig.screenData.forEach((item) => {
+          if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
+            item.arr = JSON.parse(item.changeData)
+          }
+        })
+        item.conditionAreaConfig = filterConfig
+      } else {
+        item.conditionAreaConfig = {}
+      }
+
       //  console.log(item.conditionAreaConfig)
     },
     // 页面加载状态变化
@@ -341,13 +347,16 @@ export default {
         .then((res) => {
           const code = res.code
           const resData = res.data
+
           if (code === 20000) {
             if (menuTypes === 'top' && resData.length === 0) {
               fn(true)
             }
+            this.pageData = []
             resData.forEach((item, index) => {
               this.itemGSH(item)
               // 配置数据字段集获取
+
               const keys = []
               item.isShow = true
               item.contentAreaConfig.keyArr.forEach((obj) => {
@@ -364,21 +373,13 @@ export default {
                 obj.currentPage = 1
                 obj.pageSize = item.contentAreaConfig.pageSize
               }
-              this.pageData = resData
+              this.pageData.push(item)
               // 默认请求参数解析
-              const defaultReqData = {}
-              if (item.conditionAreaConfig.screenData) {
-                item.conditionAreaConfig.screenData.forEach((conditionObj) => {
-                  if (conditionObj.defaultValue) {
-                    defaultReqData[conditionObj.key] = conditionObj.defaultValue
-                  }
-                })
-              }
               if (
                 item.contentAreaConfig.moduleType !== '1' &&
                 item.contentAreaConfig.moduleType !== '3'
               ) {
-                this.getTableData(obj, defaultReqData, item, index)
+                this.getTableData(obj, {}, item, index)
               }
             })
             this.chartsMethods({
@@ -391,6 +392,7 @@ export default {
           this.pageLoding(false)
         })
         .catch((msg) => {
+          console.log('33333')
           this.$message({
             message: '请求失败' + msg,
             type: 'error',
@@ -439,14 +441,15 @@ export default {
         // keys: obj.keys,
       }
       //默认参数设置
-      this.setParams(config, reqData)
+      if (config.contentAreaConfig.filterConfig) {
+        this.setParams(config, reqData)
+      }
       //查询参数传入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
       //返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
-
       if (!sftsqk) {
         // 根据请求方式的不同进行调整
         const options =
