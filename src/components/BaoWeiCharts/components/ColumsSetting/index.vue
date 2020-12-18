@@ -26,12 +26,12 @@
                     size="mini"
                      :title="items[item.key]"
                      :rows="item.rows"
-                      :disabled="item.disabled"
+                      :disabled="setDisabled(items,index,item)"
                     :placeholder="placeholder(item)" />
           <!-- 下拉框 -->
           <el-select v-if="item.formType == 'select'"
                      v-model="items[item.key]"
-                     :disabled="item.disabled"
+                     :disabled="setDisabled(items,index,item)"
                      :placeholder="placeholder(item)"
                      size="small"
                       :title="items[item.key]"
@@ -55,7 +55,7 @@
           <el-checkbox v-if="item.formType === 'checkbox'"
                        v-model="items[item.key]"
                        size="mini"
-                        :disabled="item.disabled"
+                        :disabled="setDisabled(items,index,item)"
                        @change="checkboxChange(items,index, item)" />
           <!-- 带右侧按钮输入框 -->
           <el-input v-if="item.formType === 'inputButton'"
@@ -63,11 +63,11 @@
                     :placeholder="placeholder(item)"
                     size="small"
                     class="input-with-select"
-                     :disabled="item.disabled"
+                     :disabled="setDisabled(items,index,item)"
                      :title="items[item.key]">
             <el-button slot="append"
                        icon="el-icon-search"
-                        :disabled="item.disabled"
+                        :disabled="setDisabled(items,index,item)"
                        @click.native="inputClick(items,index,item)" />
           </el-input>
            <!-- 颜色选择器 -->
@@ -147,6 +147,13 @@ export default {
     }
   },
   methods: {
+    setDisabled(items,index,item){
+       if(!item.disabled||item.disabled===true){
+          return item.disabled
+       }else{
+         return item.disabled(items,index,item)
+       }  
+    },
     //其他项配置点击事件
     otherInputClick(form, item, index) {
       this.tableCloums.forEach((x) => {

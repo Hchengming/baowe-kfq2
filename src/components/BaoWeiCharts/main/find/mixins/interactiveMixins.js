@@ -18,9 +18,11 @@ export default {
                 case "图表组件集":
                     this.chartsInteractive(reqObj.statisticsAll);
                     this.interactivePageData(reqObj.pageData);
-                    this.getInteractiveData();
                     break;
             }
+            this.getInteractiveData(() => {
+                this.$refs["InteractiveSetting"].show();
+            });
 
         },
         //图表组件集交互数据配置---图表、iframe
@@ -42,8 +44,6 @@ export default {
         interactivePageData(pageData) {
             pageData.forEach(config => {
                 if (config.moduleId !== this.interactiveModuleId) {
-                    //模块类型获取
-                    let type = "";
                     let moduleName = config.contentAreaConfig.title ?
                         config.contentAreaConfig.title :
                         "模块未命名";
@@ -51,14 +51,9 @@ export default {
                     if (!config.contentAreaConfig.moduleType ||
                         config.contentAreaConfig.moduleType === "0"
                     ) {
-                        //01-获取图表类型
-                        dataPresentation.forEach(item => {
-                            if (item.type === config.contentAreaConfig.displayMode) {
-                                type = item.title;
-                            }
-                        });
+
                         let interactiveParams = [];
-                        //02-获取交付对应字段参数集合
+                        //01-获取交付对应字段参数集合
                         config.conditionAreaConfig.screenData.forEach(item => {
                             interactiveParams.push({
                                 lab: item.label,
@@ -68,7 +63,7 @@ export default {
                         this.interactiveModuleAll.push({
                             moduleId: config.moduleId,
                             moduleName,
-                            type,
+                            type: config.contentAreaConfig.displayMode,
                             interactiveParams
                         });
                     } else if (config.contentAreaConfig.moduleType === "1") {
@@ -84,15 +79,16 @@ export default {
             });
         },
         //当前交互模块配置数据查询事件
-        getInteractiveData() {
+        getInteractiveData(fn) {
             this.interactiveData = [];
             serviceAxios
-                .post(this.settingConfig.commonUrl + "/interactive/select", {
+                .post(this.settingConfig.commonUrl + "/jhConfig/selectJhConfig", {
                     moduleId: this.interactiveModuleId
                 })
                 .then(res => {
-                    this.interactiveData = JSON.parse(res.data)
-                    this.$refs["InteractiveSetting"].show();
+                    this.interactiveData = res.data ? JSON.parse(res.data[0].interactiveData) : []
+                    fn()
+
                 });
         },
         //模块交互配置数据保存事件
@@ -102,7 +98,7 @@ export default {
                 interactiveData: this.interactiveData
             };
             serviceAxios
-                .post(this.settingConfig.commonUrl + "/interactive/emit", reqObj)
+                .post(this.settingConfig.commonUrl + "/jhConfig/updateJhConfig", reqObj)
                 .then(res => {
                     console.log(res);
                     this.$message({
@@ -125,6 +121,26 @@ export default {
         //表格、列表、图表、详情表格单元格点击触发交互事件
         chartsCellClick(reqObj) {
             this.interactiveModuleId = reqObj.moduleId
+                // this.$refs['middleware'].interactive()
+            this.getInteractiveData(() => {
+                this.interactiveData.forEach(items => {
+                    if (items.otherModuleConfig.length > 0) {
+                        let chartsTypeArr = []
+                        dataPresentation.forEach(obj => {
+                            chartsTypeArr.push(obj.type)
+                        })
+                        items.otherModuleConfig.forEach(item => {
+                            if (chartsTypeArr.indexOf(item.moduleType) > -1) {
+                                //01-交互表格、列表、图表、详情表格单元格
+                                let params = {}
+                                params[item.corParams] = reqObj.rowItem[items.paramsChoose]
+                                console.log(params)
+                            }
+                        })
+                    }
+                })
+
+            });
         }
     }
 };

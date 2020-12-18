@@ -1,3 +1,4 @@
+import dataPresentation from "../SettingForm/dataPresentation.json";
 export default {
     props: {
         beforeParamsData: {
@@ -37,15 +38,17 @@ export default {
                     key: "moduleType",
                     label: "模块类型",
                     width: 100,
-                    formType: "input",
-                    disabled: true
-                        // selectArr: [{ lab: '图表', val: 'charts' }, { lab: 'iframe框', val: 'iframe' }, { lab: '顶部栏', val: 'topList' }]
+                    formType: "select",
+                    disabled: true,
+                    selectArr: []
                 }, {
                     key: "corParams",
                     label: "交互对应参数",
                     width: 180,
                     formType: "select",
-                    disabled: false,
+                    disabled(items) {
+                        return items.moduleType === 'iframe' ? true : false
+                    },
                     selectArr: []
                 }, {
                     key: "jsMethods",
@@ -54,7 +57,9 @@ export default {
                     formType: "input",
                     inputType: 'textarea',
                     rows: 1,
-                    disabled: true,
+                    disabled(items) {
+                        return items.moduleType === 'iframe' ? false : true
+                    },
                     click(items, index, item) {
                         if (!item.disabled) {
                             _this.nowIndex = index
@@ -71,7 +76,23 @@ export default {
             }
         };
     },
+    mounted() {
+        this.setModyleTypeArr()
+    },
     methods: {
+        //模块类型集合数据配置
+        setModyleTypeArr() {
+            this.tableCloums[1].selectArr = [{
+                lab: 'iframe框',
+                val: 'iframe'
+            }]
+            dataPresentation.forEach(item => {
+                this.tableCloums[1].selectArr.push({
+                    lab: item.title,
+                    val: item.type
+                })
+            });
+        },
         //取消
         close() {
             this.dialogVisible = false
@@ -104,17 +125,11 @@ export default {
         },
         //模块类型选择变化事件
         moduleNameChange(items) {
-            this.tableCloums[3].disabled = true
-            this.tableCloums[2].disabled = false
             items.corParams = ''
             this.interactiveModuleAll.forEach(obj => {
                 if (items.moduleId === obj.moduleId) {
                     items.moduleType = obj.type
                     this.tableCloums[2].selectArr = obj.interactiveParams
-                    if (obj.type === 'iframe') {
-                        this.tableCloums[3].disabled = false
-                        this.tableCloums[2].disabled = true
-                    }
                 }
             })
         },
