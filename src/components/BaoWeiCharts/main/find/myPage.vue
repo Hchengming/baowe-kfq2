@@ -97,6 +97,9 @@
         @tabsAdd="tabsAdd"
       />
     </el-drawer>
+
+    <!-- 交互配置组件 -->
+    <interactive-setting ref="InteractiveSetting" :beforeParamsData="beforeParamsData"></interactive-setting>   
   </div>
 </template>
 <script>
@@ -110,6 +113,9 @@ import topBarMixins from './mixins/topBarMixins.js'
 import myPageMixins from './mixins/myPageMixins.js'
 import TabSetting from '../../components/TabSetting'
 import ProjectConfig from './ProjectConfig'
+import interactiveMixins from './mixins/interactiveMixins'
+// 交互配置组件
+import InteractiveSetting from '../../components/InteractiveSetting'
 /* ====end==== */
 // import myMap from '../../components/maps/map'
 export default {
@@ -120,10 +126,11 @@ export default {
     TopBarSetting,
     MenuSetting,
     TabSetting,
-    ProjectConfig
+    ProjectConfig,
+    InteractiveSetting
     // myMap
   },
-  mixins: [topBarMixins, myPageMixins],
+  mixins: [topBarMixins, myPageMixins,interactiveMixins],
   props: {
     settingConfig: {
       type: Object,

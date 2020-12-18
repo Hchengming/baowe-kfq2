@@ -61,10 +61,12 @@
                  title="详情配置"
                  class="iconxiangqingpeizhi iconfont"
                  @click="destailSettingShow" />
+              
               <i v-if="isAdmin"
                  title="模块设置"
                  class="el-icon-setting"
                  @click="settingClick" />
+                 <i class="el-icon-set-up" title="模块数据交互"></i>
               <el-popconfirm v-if="isAdmin && settingForm.moduleType !== '1'"
                              icon="el-icon-info"
                              class="copy-template-popconfirm"

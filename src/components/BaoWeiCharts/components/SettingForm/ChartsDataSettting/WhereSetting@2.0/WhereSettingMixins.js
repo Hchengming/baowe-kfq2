@@ -10,6 +10,9 @@ export default {
                     key: 'type',
                     width: 120,
                     formType: "select",
+                    change(items) {
+                        _this.typeChange(items)
+                    },
                     selectArr: [{
                             val: 'input',
                             lab: '输入框'
@@ -101,11 +104,11 @@ export default {
                     defaultValue: "1",
                     width: 80
                 },
-                {
-                    formType: "color",
-                    label: '颜色选择',
-                    key: 'color'
-                },
+                // {
+                //     formType: "color",
+                //     label: '颜色选择',
+                //     key: 'color'
+                // },
                 {
                     label: '其他配置',
                     formType: "other",
@@ -196,6 +199,7 @@ export default {
             if (['date', 'dateTime'].indexOf(item.type) === -1) {
                 item.sfjssj = ''
             }
+            console.log(item)
             switch (item.type) {
                 case 'input':
                     delete item.dataUrl

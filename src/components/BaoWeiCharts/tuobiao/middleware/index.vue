@@ -70,9 +70,7 @@ import middlewareMixins from './middlewareMixins'
 import Statistics from '../statistics'
 import serviceAxios from '@/utils/request.js'
 import SettingForm from '../../components/SettingForm'
-// import axios from 'axios'
-// eslint-disable-next-line no-unused-vars
-// import defaultData from './KFQTJData.json'
+
 export default {
   components: { Statistics, SettingForm },
   mixins: [middlewareMixins],
@@ -314,7 +312,12 @@ export default {
       }
       // console.log()
       // 筛选配置数据格式转换
-
+     
+      if (item.conditionAreaConfig) {
+        item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
+      }else{
+         item.conditionAreaConfig = {}
+      }
       let filterConfig = item.contentAreaConfig.filterConfig
       if (filterConfig) {
         filterConfig.screenData.forEach((item) => {
@@ -322,9 +325,22 @@ export default {
             item.arr = JSON.parse(item.changeData)
           }
         })
-        item.conditionAreaConfig = filterConfig
-      } else {
-        item.conditionAreaConfig = {}
+        //新旧筛选内容整合
+        if (item.conditionAreaConfig.screenData) {
+          filterConfig.screenData.forEach((items) => {
+            let offon = true
+            item.conditionAreaConfig.screenData.forEach((item) => {
+              if (item.key === items.key) {
+                offon = false
+              }
+            })
+            if(offon){
+              item.conditionAreaConfig.screenData.push(items)
+            }
+          })
+        } else {
+          item.conditionAreaConfig = filterConfig
+        }
       }
 
       //  console.log(item.conditionAreaConfig)

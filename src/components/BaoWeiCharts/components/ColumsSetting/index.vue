@@ -25,6 +25,7 @@
                    @click.native="inputClick(items,index,item)"
                     size="mini"
                      :title="items[item.key]"
+                     :rows="item.rows"
                     :placeholder="placeholder(item)" />
           <!-- 下拉框 -->
           <el-select v-if="item.formType == 'select'"
@@ -33,7 +34,7 @@
                      :placeholder="placeholder(item)"
                      size="small"
                       :title="items[item.key]"
-                     @change="selectChange(items, item, index)">
+                     @change="selectChange(items,index, item)">
             <el-option v-for="x in item.selectArr"
                        :key="x.val"
                        :value="x.val"
@@ -52,7 +53,7 @@
           <el-checkbox v-if="item.formType === 'checkbox'"
                        v-model="items[item.key]"
                        size="mini"
-                       @change="checkboxChange(items, item)" />
+                       @change="checkboxChange(items,index, item)" />
           <!-- 带右侧按钮输入框 -->
           <el-input v-if="item.formType === 'inputButton'"
                     v-model="items[item.key]"
@@ -167,15 +168,15 @@ export default {
       }
     },
     // 下拉框变化事件
-    selectChange(items, item) {
+    selectChange(items,index, item) {
       if (item.change) {
-        item.change(items, item)
+        item.change(items,index, item)
       }
     },
     //多选变化事件
-    checkboxChange(items, item) {
+    checkboxChange(items,index, item) {
       if (item.change) {
-        item.change(items, item)
+        item.change(items,index, item)
       }
     },
     // 获取新增默认列值
@@ -205,7 +206,7 @@ export default {
     // 列新增事件
     cloumsAdd() {
       this.tableData.push(this.setColums())
-      console.log(this.tableData)
+      // console.log(this.tableData)
     },
     // 列删除事件
     cloumsDelete(index) {
@@ -248,6 +249,12 @@ export default {
     .el-input-number {
       width: 100%;
     }
+    >>>.el-textarea .el-textarea__inner{
+      padding: 6px 3px;
+      min-height:20px !important;
+      line-height:20px
+    }
+    
     > i {
       font-size: 18px;
       cursor: pointer;
