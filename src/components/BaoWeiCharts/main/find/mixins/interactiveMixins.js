@@ -13,15 +13,15 @@ export default {
     methods: {
         // 图表组件集配置按钮点击事件
         interactiveSetting(reqObj) {
-            this.interactiveModuleAll = []
+            this.interactiveModuleAll = [];
             switch (reqObj.name) {
                 case "图表组件集":
                     this.chartsInteractive(reqObj.statisticsAll);
                     this.interactivePageData(reqObj.pageData);
-                    this.getInteractiveData()
+                    this.getInteractiveData();
                     break;
             }
-            this.$refs["InteractiveSetting"].show(this.interactiveModuleAll);
+
         },
         //图表组件集交互数据配置---图表、iframe
         chartsInteractive(statisticsAll) {
@@ -76,7 +76,7 @@ export default {
                         this.interactiveModuleAll.push({
                             moduleId: config.moduleId,
                             moduleName,
-                            type: 'iframe',
+                            type: "iframe",
                             interactiveParams: []
                         });
                     }
@@ -85,11 +85,14 @@ export default {
         },
         //当前交互模块配置数据查询事件
         getInteractiveData() {
-            this.interactiveData = []
+            this.interactiveData = [];
             serviceAxios
-                .post(this.settingConfig.commonUrl + "/interactive/select", { moduleId: this.interactiveModuleId })
+                .post(this.settingConfig.commonUrl + "/interactive/select", {
+                    moduleId: this.interactiveModuleId
+                })
                 .then(res => {
-                    console.log(res);
+                    this.interactiveData = JSON.parse(res.data)
+                    this.$refs["InteractiveSetting"].show();
                 });
         },
         //模块交互配置数据保存事件
@@ -103,10 +106,25 @@ export default {
                 .then(res => {
                     console.log(res);
                     this.$message({
-                        type: 'success',
-                        message: '当前模块交互配置数据编辑成功'
-                    })
+                        type: "success",
+                        message: "当前模块交互配置数据编辑成功"
+                    });
                 });
+        },
+        //模块交互触发
+        interactiveElementMethods(reqObj) {
+            //图表组件集配置按钮点击事件获取
+            if (reqObj.methodsName === "interactive") {
+                this.interactiveSetting(reqObj);
+            }
+            //表格单元格点击事件--触发模块交互
+            if (reqObj.methodsName === "cellClick") {
+                this.chartsCellClick(reqObj);
+            }
+        },
+        //表格、列表、图表、详情表格单元格点击触发交互事件
+        chartsCellClick(reqObj) {
+            this.interactiveModuleId = reqObj.moduleId
         }
     }
 };

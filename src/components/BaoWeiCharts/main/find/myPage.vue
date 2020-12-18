@@ -192,10 +192,9 @@ export default {
     // 组件事件暴露
     elementMethods(reqObj) {
       this.$emit('elementMethods', reqObj)
-      //图表组件集配置按钮点击事件获取
-      if(reqObj.methodsName==='interactive'){
-        this.interactiveSetting(reqObj)
-      }
+      //模块交互触发
+      this.interactiveElementMethods(reqObj)
+      
     },
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {

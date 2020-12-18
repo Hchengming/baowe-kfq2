@@ -45,7 +45,7 @@
     </fieldset>
 
     <fieldset v-if="componentType!=='iframe'" class="keys-config-setting">
-      <legend class="theme-color">字段配置</legend>
+      <legend class="theme-color">颜色配置</legend>
       <slot name="keys" />
     </fieldset>
 

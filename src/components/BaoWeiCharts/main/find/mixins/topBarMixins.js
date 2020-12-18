@@ -94,6 +94,7 @@ export default {
           sftsqk = !!offon
         },
         tsqkData: data => {
+					console.log('resData:',data)
           // 特殊情况数据处理后返回
           this.topBarAll.data = data
         }

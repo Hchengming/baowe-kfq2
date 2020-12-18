@@ -249,10 +249,6 @@ export const screenMixins = {
             if (conditionAreaConfig.screenData && conditionAreaConfig.screenData.length > 0) {
                 datas = datas.concat(conditionAreaConfig.screenData)
             }
-            // 02-通用配置项
-            if (conditionAreaConfig.commonFilterData && conditionAreaConfig.commonFilterData.length > 0) {
-                datas = datas.concat(conditionAreaConfig.commonFilterData)
-            }
             datas.forEach(item => {
                 if (item.defaultValue) {
                     this.whereForm[item.key] = item.defaultValue

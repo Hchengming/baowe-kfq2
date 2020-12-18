@@ -16,7 +16,23 @@ export default {
         bg2: '', // 背景二  bgType=1 使用
         paramConfig: []
       },
-      topBarSettingData: []
+      topBarSettingData: [],
+      bgColorSettingData: [{
+				index: 1,
+				bgcolor: '',
+			},{
+				index: 2,
+				bgcolor: '',
+			},{
+				index: 3,
+				bgcolor: '',
+			},{
+				index: 4,
+				bgcolor: '',
+			},{
+				index:5,
+				bgcolor: '',
+			}]
     }
   },
   methods: {
@@ -33,34 +49,33 @@ export default {
     },
     // 字段删除事件
     keyDelete(index) {
-      this.topBarSettingData.splice(index, 1)
+      this.bgColorSettingData.splice(index, 1)
     },
     // 上下点击排序事件
     sortChange(newIndex, nowIndex, item) {
-      if (newIndex < 0 || newIndex > this.topBarSettingData.length - 1) {
+      if (newIndex < 0 || newIndex > this.bgColorSettingData.length - 1) {
         return false
       }
-      this.topBarSettingData.splice(nowIndex, 1)
-      this.topBarSettingData.splice(newIndex, 0, item)
+      this.bgColorSettingData.splice(nowIndex, 1)
+      this.bgColorSettingData.splice(newIndex, 0, item)
     },
     // 字段新增事件
     keyAdd() {
-      this.topBarSettingData.push({
-        key: '',
-        label: '',
-        dw: '',
-        isShow: true
+      this.bgColorSettingData.push({
+       index: this.bgColorSettingData[this.bgColorSettingData.length-1].index + 1,
+       bgcolor: '',
       })
     },
     // 弹窗显示事件
-    show(topBarConfig) {
+    show() {
+			/* console.log('topBarConfig',topBarConfig)
       if (topBarConfig) {
         this.form = topBarConfig.form
         this.topBarSettingData = topBarConfig.configData
       } else {
         this.form = JSON.parse(JSON.stringify(this.form))
         this.topBarSettingData = []
-      }
+      } */
       this.isShow = true
     },
     // 弹窗确认事件
@@ -68,7 +83,8 @@ export default {
       this.$emit(
         'submit', {
           form: this.form,
-          topBarSettingData: this.topBarSettingData
+          topBarSettingData: this.bgColorSettingData
+          // bgColorSettingData: this.bgColorSettingData
         },
         () => {
           this.isShow = false

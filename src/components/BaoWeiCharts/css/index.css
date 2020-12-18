@@ -1238,6 +1238,7 @@ body {
   width: 100%;
   justify-content: space-between;
   overflow: hidden;
+  min-height: 40px;
 }
 .static-where-2 .where-left {
   display: flex;
@@ -1292,7 +1293,7 @@ body {
 }
 .static-where-2 .where-right button {
   height: 32px;
-  margin-top: 5px;
+  margin-top: 2px;
   margin-left: 10px;
 }
 /*顶部栏样式配置*/

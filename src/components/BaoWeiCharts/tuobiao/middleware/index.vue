@@ -175,8 +175,8 @@ export default {
       this.$emit('chartsMethods', {
         statisticsAll,
         methodsName: 'interactive',
-        pageData:this.pageData,
-        name:"图表组件集"
+        pageData: this.pageData,
+        name: '图表组件集',
       })
     },
     // 通过模块id改变模块渲染数据事件
@@ -350,11 +350,16 @@ export default {
             }
           })
         } else {
-          item.conditionAreaConfig = filterConfig
+          item.conditionAreaConfig.screenData = filterConfig.screenData
         }
-      }
 
-       console.log(item.conditionAreaConfig.screenData)
+        item.conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
+        item.conditionAreaConfig.isShowInsertButton =
+          filterConfig.isShowInsertButton
+      }
+      //  console.log(filterConfig,filterConfig)
+      //        console.log(item.conditionAreaConfig,'item.conditionAreaConfig')
+      //        console.log('========================')
     },
     // 页面加载状态变化
     pageLoding(offon) {

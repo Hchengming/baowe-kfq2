@@ -96,15 +96,12 @@
         <!-- 接口参数、字段配置             -->
         <param-key-config :item-api-data="itemApiData" :form="form">
           <div slot="keys" class="top-bar-setting-box">
-            <el-button size="small" @click="getKeysData">字段获取</el-button>
 
-            <p class="warning">*第一个字段必须为标题字段</p>
+            <!-- <p class="warning">*第一个字段必须为标题字段</p> -->
             <ul class="top-bar-setting-list">
               <li>
-                <span class="txt1 hTxt">字段名</span>
-                <span class="txt2 hTxt">标题</span>
-                <span class="txt2 hTxt">单位</span>
-                <span class="txt3 hTxt">是否显示</span>
+                <span class="txt1 hTxt">索引</span>
+                <span class="txt2 hTxt">颜色</span>
                 <span class="hTxt06 hTxt icons">
                   <i
                     class="el-icon-circle-plus-outline theme-color"
@@ -112,27 +109,23 @@
                   />
                 </span>
               </li>
-              <li v-for="(item, index) in topBarSettingData" :key="index">
+              <li v-for="(item, index) in bgColorSettingData" :key="index">
                 <span class="txt1 hTxt">
                   <el-input
-                    v-model="item.key"
+                    v-model="item.index"
                     size="mini"
-                    placeholder="字段名"
+                    placeholder="索引"
                   />
                 </span>
                 <span class="txt2 hTxt">
                   <el-input
-                    v-model="item.label"
+                    v-model="item.bgcolor"
+										type="color"
                     size="mini"
-                    placeholder="标签"
+                    placeholder="颜色"
                   />
                 </span>
-                <span class="txt2 hTxt">
-                  <el-input v-model="item.dw" size="mini" placeholder="单位" />
-                </span>
-                <span class="txt3 hTxt">
-                  <el-checkbox v-model="item.isShow" />
-                </span>
+                
                 <span class="hTxt06 hTxt icons">
                   <i
                     class="el-icon-remove-outline remove"
@@ -150,7 +143,7 @@
                     :class="[
                       'iconfont',
                       'iconxiayi',
-                      { disabled: topBarSettingData.length - 1 == index },
+                      { disabled: bgColorSettingData.length - 1 == index },
                     ]"
                     @click="sortChange(index + 1, index, item)"
                   />
