@@ -16,17 +16,18 @@
           交互模块
         </div>
         <div class="icon">
-          <i class="el-icon-circle-plus-outline theme-color" />
+          <i class="el-icon-circle-plus-outline theme-color" @click="addInteractive" />
         </div>
       </li>
       <li class="list"
           v-for="(items,index) in interactiveData"
+          @click="fatherIndex=index"
           :key="index">
         <div class="left">
           <div class="params-choose">
             <span>参数选择:</span>
             <el-select v-model="items.paramsChoose"
-                       multiple
+                       
                        placeholder="参数选择">
               <el-option v-for="(x,num) in beforeParamsData"
                          :key="num"
@@ -50,8 +51,8 @@
         <colums-setting  :tableData="items.otherModuleConfig"
                          :tableCloums="tableCloums"></colums-setting>
         </div>
-        <div class="icon">
-          <i class="el-icon-delete remove" />
+        <div class="icon icon2">
+          <i class="el-icon-delete remove" @click="removeInteractive(index)" />
         </div>
       </li>
     </ul>
@@ -80,7 +81,7 @@ export default {
 <style lang="scss" scoped>
 .interactive-setting-dialog {
   >>> .el-dialog {
-    width: 1200px;
+    width: 1005px;
     .dialog-box {
       border-top: 1px solid #0000004d;
       border-left: 1px solid #0000004d;
@@ -90,6 +91,7 @@ export default {
         font-size: 16px;
         line-height: 40px;
         text-align: center;
+        
       }
       .list {
         display: flex;
@@ -104,7 +106,6 @@ export default {
           > div {
             margin: 10px;
             display: flex;
-            line-height:40px;
             span{
               padding-right: 5px;
             }
@@ -119,9 +120,13 @@ export default {
         .icon {
           width: 50px;
           text-align: center;
+          line-height:20px;
           i {
             font-size: 20px;
             cursor: pointer;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
           }
           .remove {
             color: red;

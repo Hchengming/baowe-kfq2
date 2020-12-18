@@ -66,7 +66,7 @@
                  title="模块设置"
                  class="el-icon-setting"
                  @click="settingClick" />
-                 <i class="el-icon-set-up" title="模块数据交互"></i>
+                 <i class="el-icon-set-up" title="模块数据交互" @click="Interactive()"></i>
               <el-popconfirm v-if="isAdmin && settingForm.moduleType !== '1'"
                              icon="el-icon-info"
                              class="copy-template-popconfirm"
@@ -340,6 +340,11 @@ export default {
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
+    //交互按钮点击事件
+    Interactive(){
+        console.log(this.statisticsAll)
+       this.$emit('interactive',this.statisticsAll)
+    },
     //详情列表模块数据
     detailsTableData() {
       let data = this.statisticsAll.data

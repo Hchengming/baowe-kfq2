@@ -26,6 +26,7 @@
                     size="mini"
                      :title="items[item.key]"
                      :rows="item.rows"
+                      :disabled="item.disabled"
                     :placeholder="placeholder(item)" />
           <!-- 下拉框 -->
           <el-select v-if="item.formType == 'select'"
@@ -43,6 +44,7 @@
           <!-- 数字框 -->
           <el-input-number v-if="item.formType == 'number'"
                            v-model="items[item.key]"
+                            :disabled="item.disabled"
                            :placeholder="placeholder(item)"
                            size="small"
                            :min="0"
@@ -53,6 +55,7 @@
           <el-checkbox v-if="item.formType === 'checkbox'"
                        v-model="items[item.key]"
                        size="mini"
+                        :disabled="item.disabled"
                        @change="checkboxChange(items,index, item)" />
           <!-- 带右侧按钮输入框 -->
           <el-input v-if="item.formType === 'inputButton'"
@@ -60,9 +63,11 @@
                     :placeholder="placeholder(item)"
                     size="small"
                     class="input-with-select"
+                     :disabled="item.disabled"
                      :title="items[item.key]">
             <el-button slot="append"
                        icon="el-icon-search"
+                        :disabled="item.disabled"
                        @click.native="inputClick(items,index,item)" />
           </el-input>
            <!-- 颜色选择器 -->

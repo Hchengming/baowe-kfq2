@@ -5,27 +5,6 @@ export const childMixins = {
             nowRowId: '',
             nowCellKey: '',
             childSettingForm: {},
-            // childSettingForm: {
-            //   title: '', // 标题
-            //   subtitle1: '', // 副标题1
-            //   subtitle2: '', // 副标题2
-            //   moduleType: '0',//模块内容  0:图表 1:iframe地图 2:详情表格展示
-            //   url: '', // 接口
-            //   keyArr: [],
-            //   height: 300,
-            //   width: 27.69,
-            //   top: 32.02,
-            //   left: 0.78,
-            //   defaultParameters: '', // 接口默认参数
-            //   zindex: '100', // 模块z-index
-            //   displayMode: 'table', // 数据展现方式
-            //   submodule: '1', // 是否含有子页面 1:有 0:没有
-            //   clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
-            //   isPage: '0', // 数据是否添加分页
-            //   pageSize: 10, // 每页显示数据条数
-            //   mask: '0', // 是否添加遮罩层  1:是 0:否
-            //   isDestail: '0' // 是否添加详情弹窗
-            // },
             childAddType: '1' // 0：同级新增  1：子级新增
         }
     },

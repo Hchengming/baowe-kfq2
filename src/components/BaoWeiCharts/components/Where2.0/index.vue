@@ -4,6 +4,7 @@
       <el-form ref="form" class="where-form" :model="whereAll.form">
         <el-form-item
           v-for="(item, index) in whereAll.data"
+          v-show="item.isShow!=='0'"
           :key="index"
           :label="label(item)"
           :style="formItemStyle(item)"

@@ -17,6 +17,7 @@
          @statisticsMore  头部右侧更多按钮点击事件
          @operateButtonClick  表格、列表右侧其他按钮点击事件
          @setOptions    图表配置数据暴露，外层定制化配置事件
+         @interactive  图表交互按钮点击事件
     -->
     <section v-for="(item, index) in pageData"
              :key="index">
@@ -45,7 +46,8 @@
                   @whereOtherBtnClick="whereOtherBtnClick"
                   @operateButtonClick="operateButtonClick"
                   @statisticsMore="statisticsMore"
-                  @settingClick="settingClick">
+                  @settingClick="settingClick"
+                  @interactive="interactive">
         <div v-if="item.contentAreaConfig.blankTemplateConfig"
              :slot="item.contentAreaConfig.blankTemplateConfig.slot"
              style="width: 100%; height: 100%">
@@ -101,7 +103,7 @@ export default {
         elementId: '', // 模块元素id
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
-        moduleType: '0', // 模块内容  0:图表 1:iframe地图 2:详情表格展示 3：空白模板
+        moduleType: '0', // 模块内容  0:图表 1:iframe地图  3：空白模板
         barHisShowType: '0', // 条形图、柱状图显示类型  0：默认  1：堆叠显示
         moduleCode: '', // 模板编码  当前模板唯一编码
         blankTemplateConfig: {
@@ -156,7 +158,7 @@ export default {
         isModuleClose: false, // 模块是否可关闭
         filterConfig: {
           //筛选项配置信息
-          screenData: [{}], //查询项配置
+          screenData: [], //查询项配置
           btnSettingData: [], //查询按钮配置
           isShowInsertButton: '1', //查询按钮是否显示配置
         },
@@ -168,6 +170,15 @@ export default {
     this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
+    //图表组件集交互按钮点击事件
+    interactive(statisticsAll) {
+      this.$emit('chartsMethods', {
+        statisticsAll,
+        methodsName: 'interactive',
+        pageData:this.pageData,
+        name:"图表组件集"
+      })
+    },
     // 通过模块id改变模块渲染数据事件
     changePageData(moduleId, viewchange) {
       this.pageData.forEach((item) => {
@@ -312,11 +323,11 @@ export default {
       }
       // console.log()
       // 筛选配置数据格式转换
-     
+
       if (item.conditionAreaConfig) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
-      }else{
-         item.conditionAreaConfig = {}
+      } else {
+        item.conditionAreaConfig = {}
       }
       let filterConfig = item.contentAreaConfig.filterConfig
       if (filterConfig) {
@@ -334,7 +345,7 @@ export default {
                 offon = false
               }
             })
-            if(offon){
+            if (offon) {
               item.conditionAreaConfig.screenData.push(items)
             }
           })
@@ -343,7 +354,7 @@ export default {
         }
       }
 
-      //  console.log(item.conditionAreaConfig)
+       console.log(item.conditionAreaConfig.screenData)
     },
     // 页面加载状态变化
     pageLoding(offon) {

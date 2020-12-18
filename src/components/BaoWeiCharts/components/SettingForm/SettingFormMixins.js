@@ -329,11 +329,16 @@ export const otherMixins = {
         },
         // 表单确认事件
         onSubmit() {
-            this.$refs["chartsDataSettting"].screenSubmit(() => {
-                // this.form.conditionAreaConfig = conditionAreaConfig
-                console.log(this.form);
+            if (!this.form.moduleType || this.form.moduleType === '0') {
+                this.$refs["chartsDataSettting"].screenSubmit(() => {
+                    // this.form.conditionAreaConfig = conditionAreaConfig
+                    // console.log(this.form);
+                    this.$emit("submit", this.form);
+                });
+            } else {
                 this.$emit("submit", this.form);
-            });
+            }
+
         },
         // 接口名称变化事件
         urlNameChange(val) {

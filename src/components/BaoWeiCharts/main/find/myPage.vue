@@ -99,7 +99,13 @@
     </el-drawer>
 
     <!-- 交互配置组件 -->
-    <interactive-setting ref="InteractiveSetting" :beforeParamsData="beforeParamsData"></interactive-setting>   
+    <interactive-setting
+     ref="InteractiveSetting" 
+     :interactiveModuleAll="interactiveModuleAll"
+      :beforeParamsData="beforeParamsData"
+       :interactiveData="interactiveData"
+       @interactiveSubmit="interactiveDataEmit"
+       ></interactive-setting>   
   </div>
 </template>
 <script>
@@ -186,7 +192,10 @@ export default {
     // 组件事件暴露
     elementMethods(reqObj) {
       this.$emit('elementMethods', reqObj)
-      // this.chartsMethods(reqObj)
+      //图表组件集配置按钮点击事件获取
+      if(reqObj.methodsName==='interactive'){
+        this.interactiveSetting(reqObj)
+      }
     },
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {
