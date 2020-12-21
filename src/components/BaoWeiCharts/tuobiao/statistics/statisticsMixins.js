@@ -41,6 +41,10 @@ export const childMixins = {
                 }
             }
         },
+        //详情表格组件--单元格点击事件
+        destailTableCellClick(rowData, key) {
+            this.$emit('cellClick', rowData, this.statisticsAll, key)
+        },
         // 表格行点击事件
         rowClick(rowData) {
             this.$emit('rowClick', rowData, this.statisticsAll)
@@ -80,11 +84,13 @@ export const childMixins = {
 
             // this.nowRowId = rowData.id
         },
+
+
         // 表格/列表单元格点击事件
         cellClick(rowData, key, rowIndex) {
             // 详情页面点击弹出事件
             this.destailDialogShow(rowData, key, rowIndex)
-            this.$emit('cellClick', rowData, this.statisticsAll, key, this.whereForm)
+            this.$emit('cellClick', rowData, this.statisticsAll, key)
             if (
                 this.settingForm.submodule !== '1' ||
                 this.settingForm.clickToShow !== 'cell'

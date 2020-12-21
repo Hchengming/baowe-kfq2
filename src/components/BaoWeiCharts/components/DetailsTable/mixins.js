@@ -30,7 +30,10 @@ export default {
         }
     },
     methods: {
-        //
+        //单元格点击事件
+        cellClick(colums) {
+            this.$emit('cellClick', this.tableData, colums.key)
+        },
         // 展示数据配置事件
         setDestailSetting() {
             const tableItem = this.tableData

@@ -19,22 +19,22 @@
             :key="num"
             :style="{ width: item.width?item.width + 'px':'100px' }">
           <!-- 输入框 多行文本框-->
-          <el-input v-if="item.formType === 'input'"
+          <el-input v-if="setFormType(items,index,item) === 'input'"
                     :type="item.inputType"
                     v-model="items[item.key]"
-                   @click.native="inputClick(items,index,item)"
+                    @click.native="inputClick(items,index,item)"
                     size="mini"
-                     :title="items[item.key]"
-                     :rows="item.rows"
-                      :disabled="setDisabled(items,index,item)"
+                    :title="items[item.key]"
+                    :rows="item.rows"
+                    :disabled="setDisabled(items,index,item)"
                     :placeholder="placeholder(item)" />
           <!-- 下拉框 -->
-          <el-select v-if="item.formType == 'select'"
+          <el-select v-if="setFormType(items,index,item) == 'select'"
                      v-model="items[item.key]"
                      :disabled="setDisabled(items,index,item)"
                      :placeholder="placeholder(item)"
                      size="small"
-                      :title="items[item.key]"
+                     :title="items[item.key]"
                      @change="selectChange(items,index, item)">
             <el-option v-for="x in item.selectArr"
                        :key="x.val"
@@ -42,9 +42,9 @@
                        :label="x.lab" />
           </el-select>
           <!-- 数字框 -->
-          <el-input-number v-if="item.formType == 'number'"
+          <el-input-number v-if="setFormType(items,index,item) == 'number'"
                            v-model="items[item.key]"
-                            :disabled="item.disabled"
+                           :disabled="item.disabled"
                            :placeholder="placeholder(item)"
                            size="small"
                            :min="0"
@@ -52,37 +52,39 @@
                            :precision="0"
                            controls-position="right" />
           <!-- 多选 -->
-          <el-checkbox v-if="item.formType === 'checkbox'"
+          <el-checkbox v-if="setFormType(items,index,item) === 'checkbox'"
                        v-model="items[item.key]"
                        size="mini"
-                        :disabled="setDisabled(items,index,item)"
+                       :disabled="setDisabled(items,index,item)"
                        @change="checkboxChange(items,index, item)" />
           <!-- 带右侧按钮输入框 -->
-          <el-input v-if="item.formType === 'inputButton'"
+          <el-input v-if="setFormType(items,index,item) === 'inputButton'"
                     v-model="items[item.key]"
                     :placeholder="placeholder(item)"
                     size="small"
                     class="input-with-select"
-                     :disabled="setDisabled(items,index,item)"
-                     :title="items[item.key]">
+                    :disabled="setDisabled(items,index,item)"
+                    :title="items[item.key]">
             <el-button slot="append"
                        icon="el-icon-search"
-                        :disabled="setDisabled(items,index,item)"
+                       :disabled="setDisabled(items,index,item)"
                        @click.native="inputClick(items,index,item)" />
           </el-input>
-           <!-- 颜色选择器 -->
-          <el-color-picker v-if="item.formType === 'color'" size="small"  v-model="items[item.key]">
-            
+          <!-- 颜色选择器 -->
+          <el-color-picker v-if="setFormType(items,index,item) === 'color'"
+                           size="small"
+                           v-model="items[item.key]">
+
           </el-color-picker>
           <!-- 其他配置 -->
-          <el-button v-if="item.formType === 'other'"
+          <el-button v-if="setFormType(items,index,item) === 'other'"
                      type="primary"
                      size="mini"
                      icon="el-icon-edit"
                      circle
                      @click="otherKeySettingClick(items, index,item)" />
           <!-- 特殊情况 slot嵌入 -->
-          <slot v-if="item.formType==='slot'"
+          <slot v-if="setFormType(items,index,item)==='slot'"
                 :name="item.slot" />
         </td>
         <td>
@@ -101,8 +103,7 @@
         </td>
       </tr>
     </table>
-    <other-key-setting 
-                       ref="OtherKeySetting"
+    <other-key-setting ref="OtherKeySetting"
                        @inputClick="otherInputClick">
     </other-key-setting>
   </div>
@@ -147,19 +148,28 @@ export default {
     }
   },
   methods: {
-    setDisabled(items,index,item){
-       if(!item.disabled||item.disabled===true){
-          return item.disabled
-       }else{
-         return item.disabled(items,index,item)
-       }  
+    //动态当前表单类型获取
+    setFormType(items, index, item) {
+      if (typeof item.formType === 'string') {
+        return item.formType
+      } else {
+        return item.formType(items, index, item)
+      }
+    },
+    //动态是否不可点击数据获取
+    setDisabled(items, index, item) {
+      if (!item.disabled || item.disabled === true) {
+        return item.disabled
+      } else {
+        return item.disabled(items, index, item)
+      }
     },
     //其他项配置点击事件
     otherInputClick(form, item, index) {
       this.tableCloums.forEach((x) => {
         if (x.formType === 'other') {
           if (x.children[index].click) {
-            x.children[index].click(form,this.nowIndex, item)
+            x.children[index].click(form, this.nowIndex, item)
           }
         }
       })
@@ -180,15 +190,15 @@ export default {
       }
     },
     // 下拉框变化事件
-    selectChange(items,index, item) {
+    selectChange(items, index, item) {
       if (item.change) {
-        item.change(items,index, item)
+        item.change(items, index, item)
       }
     },
     //多选变化事件
-    checkboxChange(items,index, item) {
+    checkboxChange(items, index, item) {
       if (item.change) {
-        item.change(items,index, item)
+        item.change(items, index, item)
       }
     },
     // 获取新增默认列值
@@ -261,12 +271,12 @@ export default {
     .el-input-number {
       width: 100%;
     }
-    >>>.el-textarea .el-textarea__inner{
+    >>> .el-textarea .el-textarea__inner {
       padding: 6px 3px;
-      min-height:20px !important;
-      line-height:20px
+      min-height: 20px !important;
+      line-height: 20px;
     }
-    
+
     > i {
       font-size: 18px;
       cursor: pointer;

@@ -27,7 +27,7 @@ export default {
                 this.warn = '默认参数colums为当前字段配置数据,rowData为当前行数据。例:function(colums,rowData){return:""}'
             } else if (this.settingType === '4') {
                 this.warn = '默认参数params为当前模块选择参数键值对'
-                this.jsMethods = `function(params){} `
+                this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(params){} `
             }
 
             this.isShow = true

@@ -37,6 +37,7 @@
       @delete="topBarDelete"
       @update="topBarUpdate"
       @topBarClick="topBarClick"
+      @interactive="topBarInteractiveIconClick"
     />
     <top-bar-setting
       ref="topBarSetting"

@@ -175,6 +175,7 @@ body {
 }
 .KFQ_wrap .el-aside .el-menu-vertical-demo {
   height: 100%;
+  overflow: auto;
 }
 .KFQ_wrap .el-aside .el-menu-vertical-demo .el-menu-item,
 .KFQ_wrap .el-aside .el-menu-vertical-demo .el-submenu__title {

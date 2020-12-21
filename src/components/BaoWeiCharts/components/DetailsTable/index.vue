@@ -15,6 +15,7 @@
           :key="index"
           :span="item.proportion?item.proportion:24"
           class="detail_col"
+          @click.native="cellClick(item)"
         >
           <!--主题 默认展示 -->
           <div

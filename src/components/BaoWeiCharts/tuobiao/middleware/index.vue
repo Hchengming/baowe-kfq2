@@ -201,7 +201,6 @@ export default {
           }
         }
       })
-      console.log('................')
       const obj = {}
       // let currentPage=pageAll.currentPage?
       let nowItem = {}
@@ -217,7 +216,6 @@ export default {
           nowItem = item
         }
       })
-       console.log('======')
       this.getTableData(obj, reqObj, nowItem)
     },
     //图表组件集交互按钮点击事件

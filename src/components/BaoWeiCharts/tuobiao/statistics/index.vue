@@ -66,7 +66,7 @@
                  title="模块设置"
                  class="el-icon-setting"
                  @click="settingClick" />
-                 <i class="el-icon-set-up" title="模块数据交互" @click="Interactive()"></i>
+                 <i class="el-icon-set-up" v-if="isAdmin" title="模块数据交互" @click="Interactive()"></i>
               <el-popconfirm v-if="isAdmin && settingForm.moduleType !== '1'"
                              icon="el-icon-info"
                              class="copy-template-popconfirm"
@@ -180,6 +180,7 @@
           <details-table v-if="settingForm.displayMode === 'destailTable'"
                          :label-width="settingForm.destailsTableLabelWidth"
                          :setting-form="settingForm"
+                         @cellClick="destailTableCellClick"
                          :table-data="detailsTableData()"
                          :height="boxHeight()" />
           <!-- iframe嵌入组件 -->

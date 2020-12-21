@@ -1,67 +1,55 @@
 <template>
-  <div class="top-bar-wrap" :style="{height: liHeight(),background:wrapBg(),width:wrapWidth()}">
-    <div class="operation">
-      <i
-        v-if="settingConfig.systemPermissions === 'admin'"
-        class="iconfont iconxiugai theme-color"
-        @click="emit"
-      />
-      <el-popconfirm
-        icon="el-icon-info"
-        class="delete-template-popconfirm"
-        icon-color="red"
-        title="确认删除顶部栏？"
-        @confirm="deleteTemplate"
-      >
-        <i
-          v-if="settingConfig.systemPermissions === 'admin'"
-          slot="reference"
-          title="删除"
-          class="el-icon-delete"
-        />
+  <div class="top-bar-wrap"
+       :style="{height: liHeight(),background:wrapBg(),width:wrapWidth()}">
+    <div class="operation"
+         v-if="settingConfig.systemPermissions === 'admin'">
+      <i class="iconfont iconxiugai theme-color"
+         @click="emit" />
+      <i class="el-icon-set-up theme-color"
+         title="模块数据交互"
+         @click="Interactive()"></i>
+      <el-popconfirm icon="el-icon-info"
+                     class="delete-template-popconfirm"
+                     icon-color="red"
+                     title="确认删除顶部栏？"
+                     @confirm="deleteTemplate">
+        <i slot="reference"
+           title="删除"
+           class="el-icon-delete" />
       </el-popconfirm>
     </div>
     <ul id="top-bar-box">
-      <li
-        v-for="(obj, indexs) in topBarAll.data"
-        :key="indexs"
-        class="theme-bg-color"
-        :style="{ height: liHeight(), background: listBackground(obj, indexs) }"
-        @click="topBarClick(obj)"
-      >
+      <li v-for="(obj, indexs) in topBarAll.data"
+          :key="indexs"
+          class="theme-bg-color"
+          :style="{ height: liHeight(), background: listBackground(obj, indexs) }"
+          @click="topBarClick(obj)">
         <div class="top-bar-boxs">
           <div :class="['list-box', { 'list-box-2': obj.data.length > 1 }]">
             <p class="txt1">
               {{ obj.title }}
             </p>
             <div class="test">
-              <p
-                v-for="(item, index) in obj.data"
-                :key="index"
-                :class="[obj.data.length > 1 ? 'txt3' : 'txt2']"
-              >
+              <p v-for="(item, index) in obj.data"
+                 :key="index"
+                 :class="[obj.data.length > 1 ? 'txt3' : 'txt2']">
                 <!-- <span v-show="obj.data.length<=1"
                     class="t1"
                     v-html="item.label" /> -->
-                {{ item.value }}<span class="t2">{{ item.dw }}</span><span
-                  v-show="obj.data.length > 1"
-                  class="t3"
-                  v-html="item.label"
-                />
+                {{ item.value }}<span class="t2">{{ item.dw }}</span><span v-show="obj.data.length > 1"
+                      class="t3"
+                      v-html="item.label" />
               </p>
             </div>
           </div>
         </div>
       </li>
     </ul>
-    <top-bar-setting
-      ref="topBarSetting"
-      :data-view-list="dataViewList"
-      :item-api-data="itemApiData"
-      :setting-config="settingConfig"
-
-      @submit="settingSubmit"
-    />
+    <top-bar-setting ref="topBarSetting"
+                     :data-view-list="dataViewList"
+                     :item-api-data="itemApiData"
+                     :setting-config="settingConfig"
+                     @submit="settingSubmit" />
   </div>
 </template>
 <script>
@@ -71,28 +59,35 @@ export default {
   props: {
     topBarAll: {
       type: Object,
-      default: null
+      default: null,
     },
     itemApiData: {
       type: Array,
-      default: null
+      default: null,
     },
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: {},
     },
     dataViewList: {
       type: Array,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {}
   },
   methods: {
+    //顶部栏交互按钮点击事件
+    Interactive(object){
+      console.log(this.topBarAll)
+       this.$emit('interactive',object)
+    },
     wrapWidth() {
-      return this.topBarAll.form && this.topBarAll.form.width ? this.topBarAll.form.width + '%' : '100%'
+      return this.topBarAll.form && this.topBarAll.form.width
+        ? this.topBarAll.form.width + '%'
+        : '100%'
     },
     // 获取数据失败后背景颜色设置
     wrapBg() {
@@ -150,7 +145,7 @@ export default {
     // 顶部菜单点击事件
     topBarClick(obj) {
       this.$emit('topBarClick', obj)
-    }
-  }
+    },
+  },
 }
 </script>

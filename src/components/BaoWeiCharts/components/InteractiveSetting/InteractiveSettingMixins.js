@@ -45,9 +45,8 @@ export default {
                     key: "corParams",
                     label: "交互对应参数",
                     width: 180,
-                    formType: "select",
-                    disabled(items) {
-                        return items.moduleType === 'iframe' ? true : false
+                    formType(items) {
+                        return items.moduleType === 'iframe' ? 'input' : 'select'
                     },
                     selectArr: []
                 }, {
@@ -60,12 +59,12 @@ export default {
                     disabled(items) {
                         return items.moduleType === 'iframe' ? false : true
                     },
-                    click(items, index, item) {
-                        if (!item.disabled) {
+                    click(items, index) {
+                        if (items.moduleType === 'iframe') {
                             _this.nowIndex = index
+
                             _this.$refs['jsMethodsSetting'].show(items)
                         }
-
                     }
                 }
             ],
@@ -114,7 +113,6 @@ export default {
                         val: item.moduleId
                     })
                 })
-                console.log(this.interactiveModuleAll)
                 this.tableCloums[0].selectArr = arr
             })
 
@@ -129,7 +127,13 @@ export default {
             this.interactiveModuleAll.forEach(obj => {
                 if (items.moduleId === obj.moduleId) {
                     items.moduleType = obj.type
-                    this.tableCloums[2].selectArr = obj.interactiveParams
+                    if (['iframe'].indexOf(items.moduleType) !== -1) {
+                        this.tableCloums[2].formType = 'input'
+                    } else {
+                        this.tableCloums[2].formType = 'select'
+                        this.tableCloums[2].selectArr = obj.interactiveParams
+                    }
+
                 }
             })
         },
