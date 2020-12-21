@@ -799,7 +799,6 @@ body {
 .fieldset-list {
   display: flex;
   overflow: auto;
-  width: 1250px;
 }
 /*iframe配置*/
 .iframe-dy-box .fieldset-list {
@@ -1414,6 +1413,10 @@ body {
 }
 .top-bar-setting .el-dialog .setting-box {
   width: 100%;
+}
+.top-bar-setting .el-dialog .content-setting {
+  display: flex;
+  justify-content: flex-start;
 }
 .top-bar-setting .el-dialog .top-bar-setting-box {
   display: block;

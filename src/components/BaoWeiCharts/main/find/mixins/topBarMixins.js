@@ -69,7 +69,7 @@ export default {
                             this.topListShow = true
                             this.nowElementId = resData[0].elementId
                             const elementConfig = JSON.parse(resData[0].elementConfigs)
-                                // console.log(elementConfig)
+                            this.topBarAll.bgColorSettingData = elementConfig.bgColorSettingData
                             this.topBarAll.configData = elementConfig.topBarSettingData
                             this.topBarAll.moduleId = resData[0].moduleId
                             this.topBarAll.form = elementConfig.form
@@ -199,6 +199,7 @@ export default {
                 methodsName: 'topBarClick',
                 item
             })
+            this.topBarInteractive(item)
         }
     }
 }

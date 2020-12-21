@@ -101,24 +101,26 @@ export default {
     },
     // 背景颜色设置
     listBackground(obj, index) {
-      const form = this.topBarAll.form
-      let bgColor = ''
-      switch (form.bgType) {
-        case '0':
-          bgColor = form.bg1
-          break
-        case '1':
-          bgColor = index % 2 === 0 ? form.bg1 : form.bg2
-          break
-        case '2':
-          bgColor = obj[form.bgKey]
-
-          break
-        default:
-          bgColor = undefined
+      const bgColorSettingData = this.topBarAll.bgColorSettingData
+      let bgColor = '#3b85d8'
+      if(bgColorSettingData&&bgColorSettingData[index]){
+        bgColor=bgColorSettingData[index].background
       }
-      // console.log(data)
-      // console.log(index)
+      // switch (form.bgType) {
+      //   case '0':
+      //     bgColor = form.bg1
+      //     break
+      //   case '1':
+      //     bgColor = index % 2 === 0 ? form.bg1 : form.bg2
+      //     break
+      //   case '2':
+      //     bgColor = obj[form.bgKey]
+
+      //     break
+      //   default:
+      //     bgColor = undefined
+      // }
+    
       return bgColor + '!important'
     },
     // 列高度计算

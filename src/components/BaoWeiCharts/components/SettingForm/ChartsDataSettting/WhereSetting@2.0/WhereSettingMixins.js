@@ -199,7 +199,7 @@ export default {
             if (['date', 'dateTime'].indexOf(item.type) === -1) {
                 item.sfjssj = ''
             }
-            console.log(item)
+            // console.log(item)
             switch (item.type) {
                 case 'input':
                     delete item.dataUrl

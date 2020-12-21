@@ -228,7 +228,8 @@ export default {
     // 列新增事件
     cloumsAdd() {
       this.tableData.push(this.setColums())
-      // console.log(this.tableData)
+      // console.log('add')
+      this.$emit('add')
     },
     // 列删除事件
     cloumsDelete(index) {

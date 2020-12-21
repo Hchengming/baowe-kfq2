@@ -73,7 +73,6 @@ export default {
                     this.offon = false
                     setTimeout(() => {
                         this.offon = true
-                        console.log(this.offon)
                     }, 100)
                     const myChart = this.$echarts.init(this.$refs['myCharts'])
                     myChart.resize()

@@ -27,7 +27,7 @@
                         setting-type="2" />
       </fieldset>
     </div>
-    <span slot="footer"
+    <!-- <span slot="footer"
           class="dialog-footer">
       <div />
       <div class="right">
@@ -37,7 +37,7 @@
                    size="small"
                    @click="onSubmit">确 定</el-button>
       </div>
-    </span>
+    </span> -->
 
     <settingData ref="settingData"
                  :form="form"
