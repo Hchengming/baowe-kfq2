@@ -23,7 +23,6 @@ export default {
             this.getInteractiveData(() => {
                 this.$refs["InteractiveSetting"].show();
             });
-
         },
         //图表组件集交互数据配置---图表、iframe
         chartsInteractive(statisticsAll) {
@@ -51,7 +50,6 @@ export default {
                     if (!config.contentAreaConfig.moduleType ||
                         config.contentAreaConfig.moduleType === "0"
                     ) {
-
                         let interactiveParams = [];
                         //01-获取交付对应字段参数集合
                         config.conditionAreaConfig.screenData.forEach(item => {
@@ -86,9 +84,9 @@ export default {
                     moduleId: this.interactiveModuleId
                 })
                 .then(res => {
-                    this.interactiveData = res.data ? JSON.parse(res.data[0].interactiveData) : []
-                    fn()
-
+                    this.interactiveData = res.data ?
+                        JSON.parse(res.data.interactiveData) : [];
+                    fn();
                 });
         },
         //模块交互配置数据保存事件
@@ -120,26 +118,29 @@ export default {
         },
         //表格、列表、图表、详情表格单元格点击触发交互事件
         chartsCellClick(reqObj) {
-            this.interactiveModuleId = reqObj.moduleId
-                // this.$refs['middleware'].interactive()
+            this.interactiveModuleId = reqObj.moduleId;
+            // console.log(reqObj);
+            // this.$refs['middleware'].interactive()
             this.getInteractiveData(() => {
                 this.interactiveData.forEach(items => {
-                    if (items.otherModuleConfig.length > 0) {
-                        let chartsTypeArr = []
+                    if (
+                        items.otherModuleConfig.length > 0 &&
+                        reqObj.key === items.paramsChoose
+                    ) {
+                        let chartsTypeArr = [];
                         dataPresentation.forEach(obj => {
-                            chartsTypeArr.push(obj.type)
-                        })
+                            chartsTypeArr.push(obj.type);
+                        });
                         items.otherModuleConfig.forEach(item => {
                             if (chartsTypeArr.indexOf(item.moduleType) > -1) {
                                 //01-交互表格、列表、图表、详情表格单元格
-                                let params = {}
-                                params[item.corParams] = reqObj.rowItem[items.paramsChoose]
-                                console.log(params)
+                                let params = reqObj.whereForm;
+                                params[item.corParams] = reqObj.rowItem[items.paramsChoose];
+                                this.$refs["middleware"].interactiveCover(params, item.moduleId);
                             }
-                        })
+                        });
                     }
-                })
-
+                });
             });
         }
     }

@@ -17,7 +17,8 @@
          @statisticsMore  头部右侧更多按钮点击事件
          @operateButtonClick  表格、列表右侧其他按钮点击事件
          @setOptions    图表配置数据暴露，外层定制化配置事件
-         @interactive  图表交互按钮点击事件
+         @interactive  图表交互按钮点击事件  
+         @whereFormKeep  筛选数据缓存
     -->
     <section v-for="(item, index) in pageData"
              :key="index">
@@ -47,6 +48,7 @@
                   @operateButtonClick="operateButtonClick"
                   @statisticsMore="statisticsMore"
                   @settingClick="settingClick"
+                  @whereFormKeep="whereFormKeep"
                   @interactive="interactive">
         <div v-if="item.contentAreaConfig.blankTemplateConfig"
              :slot="item.contentAreaConfig.blankTemplateConfig.slot"
@@ -164,12 +166,60 @@ export default {
         },
       },
       addSettingFormClone: {},
+      whereData: [], //所有模块筛选数据
     }
   },
   mounted() {
     this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
+    //所有模块筛选数据缓存
+    whereFormKeep(form, moduleId) {
+      let offon = true
+      this.whereData.forEach((item) => {
+        if (item.moduleId === moduleId) {
+          offon = false
+          item.form = form
+        }
+      })
+      if (offon) {
+        this.whereData.push({
+          form,
+          moduleId,
+        })
+      }
+      //  console.log(form, moduleId,'reqObj')
+    },
+    //图表组件被交互事件
+    interactiveCover(params, moduleId) {
+      let reqObj = {}
+      this.whereData.forEach((item) => {
+        if (item.moduleId === moduleId) {
+          for (let key in params) {
+            reqObj = item.form
+            reqObj[key] = params[key]
+          }
+        }
+      })
+      console.log('................')
+      const obj = {}
+      // let currentPage=pageAll.currentPage?
+      let nowItem = {}
+      this.pageData.forEach((item, index) => {
+        if (item.moduleId === moduleId) {
+          obj.index = index
+          if (item.contentAreaConfig.isPage === '1') {
+            obj.pageSize = item.contentAreaConfig.pageSize
+            obj.currentPage = 1
+          }
+
+          obj.url = item.contentAreaConfig.url
+          nowItem = item
+        }
+      })
+       console.log('======')
+      this.getTableData(obj, reqObj, nowItem)
+    },
     //图表组件集交互按钮点击事件
     interactive(statisticsAll) {
       this.$emit('chartsMethods', {

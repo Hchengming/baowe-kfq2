@@ -185,6 +185,8 @@ export default {
     'whereAll.form': {
       handler() {
         this.getWhereHeight()
+        console.log(this.whereAll.form,'this.whereAll.form')
+        this.$emit('whereFormKeep',this.whereAll.form)
       },
       deep: true
     }

@@ -129,6 +129,7 @@
                  :condition-area-config="statisticsAll.conditionAreaConfig"
                  :where-height.sync="whereHeight"
                  @whereOtherBtnClick="whereOtherBtnClick"
+                 @whereFormKeep="whereFormKeep"
                  @whereSubmit="whereSubmit" />
           <!-- 空白模板嵌入 -->
           <div v-if="settingForm.moduleType === '3'"

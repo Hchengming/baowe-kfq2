@@ -51,13 +51,14 @@ export default {
                 // this.iframeMapChange(item, statisticsAll)
         },
         // 单元格点击事件
-        cellClick(item, statisticsAll, key) {
+        cellClick(item, statisticsAll, key, whereForm) {
             this.chartsMethods({
                 methodsName: 'cellClick',
                 rowItem: item,
                 name: '单元格点击事件',
                 statisticsAll,
                 moduleId: statisticsAll.moduleId,
+                whereForm,
                 key
             })
             this.iframeMapChange(item, statisticsAll)

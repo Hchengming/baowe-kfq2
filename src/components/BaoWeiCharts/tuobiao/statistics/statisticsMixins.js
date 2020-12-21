@@ -84,7 +84,7 @@ export const childMixins = {
         cellClick(rowData, key, rowIndex) {
             // 详情页面点击弹出事件
             this.destailDialogShow(rowData, key, rowIndex)
-            this.$emit('cellClick', rowData, this.statisticsAll, key)
+            this.$emit('cellClick', rowData, this.statisticsAll, key, this.whereForm)
             if (
                 this.settingForm.submodule !== '1' ||
                 this.settingForm.clickToShow !== 'cell'
@@ -102,7 +102,6 @@ export const childMixins = {
                     this.statisticsAll.drillDownKeyAll &&
                     this.statisticsAll.drillDownKeyAll.indexOf(key) > -1
                 ) {
-                    // this.$emit('cellClick', rowData, this.statisticsAll)
                     const subtitle1 = rowData[this.settingForm.keyArr[0].key]
                         // 下钻代入参数-值获取
                     const childKV = this.getChildKeyValue(
@@ -270,14 +269,21 @@ export const screenMixins = {
         // 筛选保存事件
         whereSubmit(form) {
             // this.whereOffon = false
-            for (const key in form) {
-                this.whereForm[key] = form[key]
-            }
+            // for (const key in form) {
+            //     this.whereForm[key] = form[key]
+            // }
             this.$emit('whereSubmit', this.statisticsAll.moduleId, form)
         },
         // 查询模块其他按钮点击事件
         whereOtherBtnClick(item) {
             this.$emit('whereOtherBtnClick', item, this.statisticsAll.moduleId)
+        },
+        //当前筛选数据缓存
+        whereFormKeep(form) {
+            this.$emit('whereFormKeep',
+                form,
+                this.statisticsAll.moduleId
+            )
         }
     }
 }
