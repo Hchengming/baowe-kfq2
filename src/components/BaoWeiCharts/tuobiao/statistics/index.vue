@@ -115,9 +115,9 @@
             </div>
           </div>
         </div>
-
+               
         <div v-loading="
-            !statisticsAll.data &&
+           statisticsAll.isLoading&&
               settingForm.moduleType === '0' 
           "
              class="statistics-content"

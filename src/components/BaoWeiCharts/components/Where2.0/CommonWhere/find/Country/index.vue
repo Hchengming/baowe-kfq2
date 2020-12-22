@@ -113,7 +113,7 @@ export default {
     .el-radio-group {
       display: block;
     }
-    ::v-deep .el-radio-group.country-2{
+   >>>.el-radio-group.country-2{
       .el-radio-button .el-radio-button__inner{
         border: none;
       }

@@ -88,7 +88,7 @@
           <slot v-if="setFormType(items,index,item)==='slot'"
                 :name="item.slot" />
         </td>
-        <td>
+        <td style="width:100px"> 
           <i :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"
              @click="sortChange(index, 'prev')" />
           <i :class="[
