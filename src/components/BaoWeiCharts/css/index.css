@@ -459,10 +459,6 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#bw_list .el-pagination,
-#bw_table .el-pagination {
-  margin-top: 5px;
-}
 #bw_list thead .cell,
 #bw_table thead .cell {
   text-align: center;
@@ -1005,7 +1001,7 @@ body {
 }
 /*表格、列表右侧按钮配置模块*/
 .operate-button-setting-dialog .el-dialog {
-  width: 600px;
+  width: 1200px;
 }
 .operate-button-setting-dialog .el-dialog .operate-button-table {
   width: auto;

@@ -51,14 +51,14 @@ export default {
                     label: '参数名称',
                     key: 'key',
                     formType: "input",
-                    width: 80
+                    width: 200
                 },
                 {
                     label: '标签',
                     key: 'label',
                     formType: "input",
                     width: 100,
-                    click(items, index, item) {
+                    change(items, index, item) {
                         _this.labelChange(items, index, item)
                     }
                 },

@@ -22,6 +22,7 @@
           <el-input v-if="setFormType(items,index,item) === 'input'"
                     :type="item.inputType"
                     v-model="items[item.key]"
+                    @change.native="inputChange(items,index,item)"
                     @click.native="inputClick(items,index,item)"
                     size="mini"
                     :title="items[item.key]"
@@ -35,7 +36,7 @@
                      :placeholder="placeholder(item)"
                      size="small"
                      :title="items[item.key]"
-                     @change="selectChange(items,index, item)">
+                     @change="inputChange(items,index, item)">
             <el-option v-for="x in item.selectArr"
                        :key="x.val"
                        :value="x.val"
@@ -189,8 +190,8 @@ export default {
         item.click(items, index, item)
       }
     },
-    // 下拉框变化事件
-    selectChange(items, index, item) {
+    // 下拉框、文本框变化事件
+    inputChange(items, index, item) {
       if (item.change) {
         item.change(items, index, item)
       }

@@ -124,18 +124,26 @@ export default {
                         }
                         const obj = {}
                         let newItem = {}
-                        this.pageData.forEach((item, index) => {
+                        let pageDataClone = JSON.parse(JSON.stringify(this.pageData))
+                        pageDataClone.forEach((item, index) => {
                             if (item.moduleId === moduleId) {
                                 obj.index = index
                                 newItem = item
+                                    //筛选数据整合
+                                this.compatible1(item, contentAreaConfig)
+                                item.contentAreaConfig = contentAreaConfig
                             }
                         })
+                        this.pageData = pageDataClone
                         obj.url = contentAreaConfig.url
                         if (contentAreaConfig.isPage === '1') {
                             obj.pageSize = contentAreaConfig.pageSize
                             obj.currentPage = 1
                         }
-                        if (contentAreaConfig.moduleType !== '1' && contentAreaConfig.moduleType !== '3') {
+                        if (
+                            contentAreaConfig.moduleType !== '1' &&
+                            contentAreaConfig.moduleType !== '3'
+                        ) {
                             this.getTableData(obj, whereForm, newItem)
                         }
                     } else {
@@ -146,9 +154,33 @@ export default {
                     }
                 })
         },
+        //配置数据修改后更新-兼容旧版
+        compatible1(item, contentAreaConfig) {
+            let filterConfig = item.contentAreaConfig.filterConfig
+            let conditionAreaConfig = item.conditionAreaConfig
+            let arr = []
+            if (conditionAreaConfig.screenData.length > 0 && filterConfig) {
+                conditionAreaConfig.screenData.forEach(items => {
+                    let offon = true
+                    filterConfig.screenData.forEach(item => {
+                        if (item.key === items.key) {
+                            offon = false
+                        }
+                    })
+                    if (offon) {
+                        arr.push(items)
+                    }
+                })
+
+                conditionAreaConfig.screenData = arr.concat(contentAreaConfig.filterConfig.screenData)
+                conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
+                conditionAreaConfig.isShowInsertButton =
+                    filterConfig.isShowInsertButton
+            }
+        },
         // statistics组件--模块删除事件
         deleteMoule(moduleId, menuId, parentModuleId) {
-            console.log('删除')
+            // console.log('删除')
             let reqUrl
             if (menuId) {
                 reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
@@ -286,7 +318,10 @@ export default {
                             }
 
                             // 判断下钻子级是否是iframe嵌入类型
-                            if (items.contentAreaConfig.moduleType !== '1' && items.contentAreaConfig.moduleType !== '3') {
+                            if (
+                                items.contentAreaConfig.moduleType !== '1' &&
+                                items.contentAreaConfig.moduleType !== '3'
+                            ) {
                                 this.getTableData(reqObj, defaultReqData, items)
                             }
                         })

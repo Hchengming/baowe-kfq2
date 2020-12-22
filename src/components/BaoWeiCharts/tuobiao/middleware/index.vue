@@ -188,7 +188,7 @@ export default {
           moduleId,
         })
       }
-      //  console.log(form, moduleId,'reqObj')
+
     },
     //图表组件被交互事件
     interactiveCover(params, moduleId) {
@@ -247,7 +247,7 @@ export default {
     },
     // 图表方法暴露
     chartsMethods(reqObj) {
-      // console.log(reqObj)
+    
       // let obj = {
       //   moduleId: reqObj.moduleId,
       //   methodsName: reqObj.methodsName,
@@ -369,19 +369,22 @@ export default {
           menuCodeKey: '', // 菜单编码字段
         }
       }
-      // console.log()
       // 筛选配置数据格式转换
-
       if (item.conditionAreaConfig) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
       } else {
         item.conditionAreaConfig = {}
       }
+      this.filterConfigZH(item)
+      
+    },
+    //筛选数据整合
+    filterConfigZH(item){
       let filterConfig = item.contentAreaConfig.filterConfig
       if (filterConfig) {
         filterConfig.screenData.forEach((item) => {
           if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
-            item.arr = JSON.parse(item.changeData)
+            item.arr =item.changeData?JSON.parse(item.changeData):[]
           }
         })
         //新旧筛选内容整合
@@ -400,14 +403,11 @@ export default {
         } else {
           item.conditionAreaConfig.screenData = filterConfig.screenData
         }
-
+        
         item.conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
         item.conditionAreaConfig.isShowInsertButton =
           filterConfig.isShowInsertButton
       }
-      //  console.log(filterConfig,filterConfig)
-      //        console.log(item.conditionAreaConfig,'item.conditionAreaConfig')
-      //        console.log('========================')
     },
     // 页面加载状态变化
     pageLoding(offon) {
@@ -434,7 +434,8 @@ export default {
             }
             this.pageData = []
             resData.forEach((item, index) => {
-              this.itemGSH(item)
+           
+              this.itemGSH(item,index)
               // 配置数据字段集获取
 
               const keys = []
@@ -442,6 +443,7 @@ export default {
               item.contentAreaConfig.keyArr.forEach((obj) => {
                 keys.push(obj.key)
               })
+            
               // 数据请求参数
               const obj = {
                 url: item.contentAreaConfig.url,
@@ -461,7 +463,9 @@ export default {
               ) {
                 this.getTableData(obj, {}, item, index)
               }
+              
             })
+          
             this.chartsMethods({
               methodsName: 'getPageData',
               name: '页面模块渲染数据加载完成事件',
@@ -528,6 +532,7 @@ export default {
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
+      this.pageData[obj.index].data=null
       //返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
       if (!sftsqk) {
@@ -543,7 +548,7 @@ export default {
           })
         }
         // 判断当前接口是否为数据视图
-        // console.log(reqData)
+       
         if (config.contentAreaConfig.apiType === '0') {
           const queryParamList = []
           for (const key in reqData) {
@@ -565,7 +570,7 @@ export default {
           }
           nowIndex *= 200
         }
-        // console.log(reqData)
+        
         if (options === 'get') {
           reqData = {
             params: reqData,
@@ -598,7 +603,7 @@ export default {
         setTimeout(() => {
           serviceAxios[options](nowUrl, reqData)
             .then((res) => {
-              // console.log(res)
+              
               if (res.code === 20000 || res.code === 200) {
                 const resData = res.data
                 this.viewDataTranslation(resData, obj, config)
@@ -606,10 +611,10 @@ export default {
             })
             .catch((msg) => {
               this.$message({
-                message: '请求失败' + msg,
+                message: '数据请求失败' + msg,
                 type: 'error',
               })
-
+              this.pageData[obj.index].data=[]
               return false
             })
         }, nowIndex)
@@ -640,7 +645,6 @@ export default {
     },
     //图表渲染数据处理
     viewDataTranslation(resData, obj, config) {
-      // console.log(JSON.stringify(resData) )
       if (
         !config.contentAreaConfig.moduleType ||
         config.contentAreaConfig.moduleType === '0'
@@ -680,7 +684,7 @@ export default {
         })
         arr.push(obj)
       }
-      // console.log(arr)
+
       if (settingForm.isPage === '1') {
         return {
           list: arr,
@@ -695,7 +699,7 @@ export default {
       let colClums = config.contentAreaConfig.keyArr
       colClums.forEach((item) => {
         if (item.colDataformat) {
-          console.log(item.colDataformat)
+ 
           // eslint-disable-next-line no-eval
           const test = eval('(false || ' + item.colDataformat + ')')
 

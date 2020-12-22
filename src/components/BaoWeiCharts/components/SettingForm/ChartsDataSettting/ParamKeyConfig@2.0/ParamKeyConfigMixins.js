@@ -9,17 +9,17 @@ export default {
             tableCloums: [{
                 key: "paramKey",
                 label: "参数名",
-                width: 100,
+                width: 250,
                 formType: "input"
             }, {
                 key: "description",
                 label: "释义",
-                width: 100,
+                width: 250,
                 formType: "input"
             }, {
                 key: "paramValue",
                 label: "值",
-                width: 150,
+                width: 250,
                 formType: "inputButton",
                 click(items, index) {
                     _this.treeShow(items, index)
@@ -27,12 +27,12 @@ export default {
             }, {
                 key: "dataType",
                 label: "数据类型",
-                width: 100,
+                width: 250,
                 formType: "input"
             }, {
                 key: "isUse",
                 label: "是否使用",
-                width: 100,
+                width: 130,
                 formType: "checkbox"
             }]
         }

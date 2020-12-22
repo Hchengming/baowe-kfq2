@@ -187,7 +187,7 @@ export default {
                                 // console.log(item.jsMethods)
                                 const fnc = eval(`(false || ${item.jsMethods})`);
                                 fnc({
-                                    [item.corParams]: items.paramsChoose
+                                    [item.corParams]: reqObj.rowItem[items.paramsChoose]
                                 });
                             }
                         });

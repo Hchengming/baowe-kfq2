@@ -115,12 +115,16 @@
                           ['bar', 'histogram'].indexOf(form.displayMode) > -1
                       "
               class="hTxt83 hTxt">
-          <el-input v-if="item.ischartsShow"
+            <el-color-picker  v-if="item.ischartsShow"
+                           size="mini"
+                           :disabled="item.key === 'operationButton'"
+                           v-model="item.zBgColor">  </el-color-picker>
+          <!-- <el-input v-if="item.ischartsShow"
                     v-model="item.zBgColor"
                     size="mini"
                     placeholder="背景颜色"
                     type="color"
-                    :disabled="item.key === 'operationButton'" />
+                    :disabled="item.key === 'operationButton'" /> -->
         </span>
         <!-- 图表标题字段 -->
         <span class="hTxt82 hTxt">
