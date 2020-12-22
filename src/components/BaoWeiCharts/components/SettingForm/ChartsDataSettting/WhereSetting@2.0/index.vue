@@ -17,28 +17,12 @@
 
         </colums-setting>
       </fieldset>
-      <!-- <fieldset>
-          <legend class="theme-color">常用筛选项</legend>
-          <common-filter :table-data="commonFilterData"></common-filter>
-        </fieldset> -->
       <fieldset>
         <legend class="theme-color">右侧其他按钮配置</legend>
         <button-setting :operate-button="form.filterConfig.btnSettingData"
                         setting-type="2" />
       </fieldset>
     </div>
-    <!-- <span slot="footer"
-          class="dialog-footer">
-      <div />
-      <div class="right">
-        <el-button size="small"
-                   @click="isShow = false">取 消</el-button>
-        <el-button type="primary"
-                   size="small"
-                   @click="onSubmit">确 定</el-button>
-      </div>
-    </span> -->
-
     <settingData ref="settingData"
                  :form="form"
                  @itemDataConfig="itemDataConfig" />

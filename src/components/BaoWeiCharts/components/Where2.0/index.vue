@@ -22,6 +22,7 @@
             v-model="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
             size="small"
+            :title="whereAll.form[item.key]"
             @change="onSubmit(item.isInsert == '1')"
           />
           <!-- 下拉框 -->
@@ -29,6 +30,7 @@
             v-if="item.type == 'select'"
             v-model="whereAll.form[item.key]"
             size="small"
+            :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
             placeholder="请选择"
             @change="onSubmit(item.isInsert == '1')"
@@ -97,6 +99,7 @@
           <el-input-number
             v-if="item.type == 'number'"
             v-model="whereAll.form[item.key]"
+            :title="whereAll.form[item.key]"
             size="small"
             @change="onSubmit(item.isInsert == '1')"
           />
@@ -104,23 +107,26 @@
           <el-date-picker
             v-if="item.type === 'date'"
             v-model="whereAll.form[item.key]"
+            :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
             :type="item.styleType ? item.styleType : 'date'"
             size="small"
             :placeholder="datePlaceholder(item, index)"
             @change="onSubmit(item.isInsert == '1', item)"
           />
-
+          <time-slot v-if="item.type === 'date'&&item.iSaddTimeSlot" :whereData="whereAll.data" :nowIndex="index" :form="whereAll.form" @timeSlotChange="onSubmit"></time-slot>
           <!-- 日期时间框  -->
           <el-date-picker
             v-if="item.type === 'dateTime'"
             v-model="whereAll.form[item.key]"
+            :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
             type="datetime"
+             size="small"
             :placeholder="dateTimePlaceholder(item, index)"
             @change="onSubmit(item.isInsert == '1', item)"
           />
-
+          
           <!-- 其他 通用配置项 -->
           <div v-if="['country-radio'].indexOf(item.type)>-1">
             <common-where
@@ -155,8 +161,10 @@
 <script>
 import '../../utils/utils.js'
 import CommonWhere from './CommonWhere'
+// 时间段选择组件
+import TimeSlot from './TimeSlot'
 export default {
-  components: { CommonWhere },
+  components: { CommonWhere,TimeSlot },
   props: {
     conditionAreaConfig: {
       type: Object,
@@ -295,6 +303,7 @@ export default {
       this.whereAll.form = {}
 
       whereData.forEach((item) => {
+        //01-默认值添加
         if (item.defaultValue) {
           if (item.type === 'checkbox') {
             this.$set(
@@ -313,6 +322,15 @@ export default {
             this.$set(this.whereAll.form, item.key, [])
           } else {
             this.$set(this.whereAll.form, item.key, '')
+          }
+        }
+        //02-时间类型默认时间设置为当前时间
+        if(item.isNewDate){
+          let date=new Date()
+         if (item.type === 'date') {
+            this.$set(this.whereAll.form, item.key, date.Format('yyyy-MM-dd'))
+          }else{
+            this.$set(this.whereAll.form, item.key, date.Format('yyyy-MM-dd hh:mm:ss'))
           }
         }
       })

@@ -54,7 +54,7 @@ export default {
                 projectConfig: projectConfig
             }).then(() => {
                 this.$message({
-                    type: 'syccess',
+                    type: 'success',
                     message: '项目主题修改成功'
                 })
                 this.getProjectConfig()

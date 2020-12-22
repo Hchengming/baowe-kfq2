@@ -7,15 +7,15 @@
                :visible.sync="isShow">
       <el-form ref="otherKeySettingForm"
                :model="form"
-               label-width="110px">
+               label-width="180px">
         <el-form-item v-for="(item,index) in otherFormConfig"
                       :key='index'
+                      v-show="!isHide(form,item)"
                       class="row-textarea"
                       :label="item.label">
           <!-- 输入框 -->
           <el-input v-if="item.formType === 'input'"
                     v-model="form[item.key]"
-                    v-show="!item.isHide"
                     :type="item.inputType"
                     :rows="item.rows"
                     :title="form[item.key]"
@@ -27,30 +27,34 @@
           <el-select v-if="item.formType == 'select'"
                      v-model="form[item.key]"
                      :disabled="item.disabled"
-                      v-show="!item.isHide"
-                       :title="form[item.key]"
+                     :title="form[item.key]"
                      :placeholder="placeholder(item)"
-                     size="small"
-                     >
+                     size="small">
             <el-option v-for="x in item.selectArr"
                        :key="x.val"
                        :value="x.val"
                        :label="x.lab" />
           </el-select>
-           <!-- 带右侧按钮输入框 -->
+          <!-- 带右侧按钮输入框 -->
           <el-input v-if="item.formType === 'inputButton'"
-           v-show="!item.isHide"
                     v-model="form[item.key]"
                     :placeholder="placeholder(item)"
-                     :title="form[item.key]"
+                    :title="form[item.key]"
                     size="small"
-                    class="input-with-select"
-                    >
+                    class="input-with-select">
             <el-button slot="append"
                        icon="el-icon-search"
-                       @click.native="inputClick(form,item,index)" />
+                       @click.native="inputClick(form,item)" />
           </el-input>
-         
+          <!-- 开关 -->
+          <el-switch v-if="item.formType === 'switch'"
+                     v-model="form[item.key]"
+                     active-color="#13ce66"
+                     inactive-color="#ff4949"
+                     active-value="是"
+                     inactive-value="否">
+          </el-switch>
+          
         </el-form-item>
 
       </el-form>
