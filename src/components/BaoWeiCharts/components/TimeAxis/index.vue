@@ -85,7 +85,8 @@ export default {
               zindex: this.settingForm.zindex, // 视图层级
               isDrafting: this.settingForm.isDrafting,// 是否启用拖拽功能
               start: this.settingForm.start,
-              end: this.settingForm.end
+              end: this.settingForm.end,
+              width: this.settingForm.width
           }
           this.$refs['TimeAxisSetting'].show()
       },
@@ -96,6 +97,7 @@ export default {
           this.settingForm.isDrafting = config.isDrafting
           this.settingForm.start = config.start
           this.settingForm.end = config.end
+          this.settingForm.width = config.width
           this.setDemos()
           this.setyear()
       }
