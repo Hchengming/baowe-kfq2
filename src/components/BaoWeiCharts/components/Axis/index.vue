@@ -1,5 +1,5 @@
 <template>
-  <div :style="{
+  <div id="category-axis" :style="{
         left: modelStyle.left + 'px',
         top: modelStyle.top + 'px',
         cursor: 'defalut',

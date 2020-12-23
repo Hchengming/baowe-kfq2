@@ -230,7 +230,9 @@ export default {
     changePageData(moduleId, viewchange) {
       this.pageData.forEach((item) => {
         if (item.moduleId === moduleId) {
-          viewchange(item)
+          let nowItem=JSON.parse(JSON.stringify(item))
+          viewchange(nowItem)
+          item=nowItem
         }
       })
     },

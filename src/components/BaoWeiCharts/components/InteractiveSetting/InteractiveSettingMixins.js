@@ -137,9 +137,13 @@ export default {
                 }
             })
         },
-        //交互配置删除事件
+        //交互配置新增事件
         addInteractive() {
-            this.interactiveData.push(this.interactiveObj)
+            this.interactiveData.push({
+                paramsChoose: "", //已选择参数
+                triggerEvent: "click", //触发事件
+                otherModuleConfig: [] //其他模板交互数据
+            })
         },
         //配置删除事件
         removeInteractive(index) {

@@ -1400,7 +1400,7 @@ body {
 }
 /*顶部栏编辑弹窗样式*/
 .top-bar-setting .el-dialog {
-  width: 1200px;
+  width: 1300px;
   margin-top: 200px;
 }
 .top-bar-setting .el-dialog .el-form {
