@@ -11,6 +11,7 @@ export default {
       timeConfig:{
         left: 1,
         top: 1,
+        width:20,
         zindex: '8', // 视图层级
         isDrafting: false, // 是否启用拖拽功能
         start: '',

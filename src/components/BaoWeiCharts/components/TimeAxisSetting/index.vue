@@ -10,7 +10,7 @@
     <div slot="title" class="headerTitle">时间配置信息</div>
     <el-form ref="timeConfig" :model="timeConfig" label-width="130px">
       <el-row type="flex" class="row-bg">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="位置X轴(页面占比)" prop="left">
             <el-input-number
               v-model="timeConfig.left"
@@ -21,10 +21,21 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="位置Y轴(页面占比)" prop="top">
             <el-input-number
               v-model="timeConfig.top"
+              size="small"
+              :min="0"
+              :max="100"
+              :precision="2"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="宽度(页面占比)" prop="top">
+            <el-input-number
+              v-model="timeConfig.width"
               size="small"
               :min="0"
               :max="100"
