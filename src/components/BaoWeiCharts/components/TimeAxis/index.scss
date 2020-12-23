@@ -5,10 +5,11 @@ $--color-primary: #4472c4;
     //padding: 0;
     list-style: none;
     background: linear-gradient(90deg, #2D91FF,#7EF2BB);
+    padding-inline-start: 20px;
   li {
-    padding-right: 40px;
+    //padding-right: 40px;
     //background: url(./images/t1.png) no-repeat right center;
-    margin-right: 8px;
+    //margin-right: 8px;
     cursor: pointer;
     list-style: none;
     .text {

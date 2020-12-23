@@ -4,6 +4,7 @@
         top: modelStyle.top + 'px',
         cursor: 'defalut',
         'z-index': modelStyle.zindex,
+        width: modelStyle.width+'px'
       }" class="time-out"
        :ref="'listWrap'">
     <div class="operation">
@@ -26,7 +27,9 @@
       </el-popconfirm>
     </div>
     <ul class="time-list"  @mousedown="mousedown_tz">
-      <li v-for="(item,index) in listData" :key="index">
+      <li v-for="(item,index) in listData" :key="index" :style="{
+        'padding-right': modelStyle.liP + 'px'
+      }">
         <span :class="['text',{'active':listChooseIndex==index}]" @click="listClick(item,index)">
             <span>{{item.time}}</span>
         </span>

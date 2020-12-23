@@ -45,6 +45,9 @@ export default {
           (this.settingForm.left * this.mainStyle.width) / 100
         )
         this.modelStyle.zindex = this.settingForm.zindex
+        this.modelStyle.width = parseFloat(
+          (this.settingForm.width * this.mainStyle.width) / 100
+        )
         },
       // 获取模块初始位置和宽高
       getDemos() {
@@ -60,6 +63,11 @@ export default {
             time:i.toString()
           })
         }
+        let li_size = this.listData.length;
+        let ul_w = this.modelStyle.width;
+        let li_w_all = ul_w - 50;
+        let li_w = parseFloat(li_w_all / li_size );
+        this.modelStyle.liP = parseFloat(li_w - 22);
       },
       // 模块拖拽事件e
       mousedown_tz(e) {
