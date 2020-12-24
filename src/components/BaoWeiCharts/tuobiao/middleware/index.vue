@@ -391,6 +391,7 @@ export default {
     //筛选数据整合
     filterConfigZH (item) {
       let filterConfig = item.contentAreaConfig.filterConfig
+      console.log(filterConfig,'filterConfig')
       if (filterConfig) {
         filterConfig.screenData.forEach((item) => {
           if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
@@ -398,21 +399,22 @@ export default {
           }
         })
         //新旧筛选内容整合
-        if (item.conditionAreaConfig.screenData) {
-          filterConfig.screenData.forEach((items) => {
-            let offon = true
-            item.conditionAreaConfig.screenData.forEach((item) => {
-              if (item.key === items.key) {
-                offon = false
-              }
-            })
-            if (offon) {
-              item.conditionAreaConfig.screenData.push(items)
-            }
-          })
-        } else {
-          item.conditionAreaConfig.screenData = filterConfig.screenData
-        }
+        // if (item.conditionAreaConfig.screenData) {
+        //   filterConfig.screenData.forEach((items) => {
+        //     let offon = true
+        //     item.conditionAreaConfig.screenData.forEach((item) => {
+        //       if (item.key === items.key) {
+        //         offon = false
+        //       }
+        //     })
+        //     if (offon) {
+        //       item.conditionAreaConfig.screenData.push(items)
+        //     }
+        //   })
+        // } else {
+        //   item.conditionAreaConfig.screenData = filterConfig.screenData
+        // }
+        item.conditionAreaConfig.screenData = filterConfig.screenData
         item.conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
         item.conditionAreaConfig.isShowInsertButton =
           filterConfig.isShowInsertButton

@@ -404,6 +404,7 @@ export default {
       // 判断是否有查询模块
       if (
         this.statisticsAll.conditionAreaConfig &&
+        this.statisticsAll.conditionAreaConfig.screenData&&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
         Height = this.modelStyle.height - 56 - this.whereHeight

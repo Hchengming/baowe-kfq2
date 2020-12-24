@@ -51,8 +51,7 @@
                      v-model="form[item.key]"
                      active-color="#13ce66"
                      inactive-color="#ff4949"
-                     active-value="是"
-                     inactive-value="否">
+                    >
           </el-switch>
           
         </el-form-item>

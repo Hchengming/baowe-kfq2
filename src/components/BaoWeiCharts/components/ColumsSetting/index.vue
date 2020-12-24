@@ -113,6 +113,7 @@
     </table>
     <other-key-setting ref="OtherKeySetting"
                        @isHide="isHide"
+                       @otherKeySettingSubmit="otherKeySettingSubmit"
                        @inputClick="otherInputClick">
     </other-key-setting>
   </div>
@@ -150,15 +151,18 @@ export default {
       default: null,
     },
   },
-  data() {
+  data () {
     return {
       otherForm: {}, //其他配置项数据
       nowIndex: null, //当前点击索引
     }
   },
   methods: {
+    otherKeySettingSubmit (form, index) {
+      this.tableData[index] = Object.assign(this.tableData[index], form)
+    },
     //是否隐藏控制
-    isHide(form,index, item, fn) {
+    isHide (form, index, item, fn) {
       // index=index==null?this.nowIndex:index
       let offon
       if (!item.isHide) {
@@ -167,7 +171,7 @@ export default {
         if (typeof item.isHide === Boolean) {
           offon = item.isHide
         } else {
-          offon = item.isHide(form,index, item)
+          offon = item.isHide(form, index, item)
         }
       }
       if (fn) {
@@ -177,7 +181,7 @@ export default {
       return offon
     },
     //动态当前表单类型获取
-    setFormType(items, index, item) {
+    setFormType (items, index, item) {
       if (typeof item.formType === 'string') {
         return item.formType
       } else {
@@ -185,7 +189,7 @@ export default {
       }
     },
     //动态是否不可点击数据获取
-    setDisabled(items, index, item) {
+    setDisabled (items, index, item) {
       if (!item.disabled || item.disabled === true) {
         return item.disabled
       } else {
@@ -193,7 +197,7 @@ export default {
       }
     },
     //其他项配置点击事件
-    otherInputClick(form, item, index) {
+    otherInputClick (form, item, index) {
       this.tableCloums.forEach((x) => {
         if (x.formType === 'other') {
           if (x.children[index].click) {
@@ -203,35 +207,35 @@ export default {
       })
     },
     //其他配置按钮点击事件
-    otherKeySettingClick(items, index, item) {
+    otherKeySettingClick (items, index, item) {
       this.nowIndex = index
-      this.$refs['OtherKeySetting'].show(items,index, item.children)
+      this.$refs['OtherKeySetting'].show(items, index, item.children)
     },
     //placeholder设置
-    placeholder(item) {
+    placeholder (item) {
       return item.placeholder ? item.placeholder : item.label
     },
     //带按钮输入框按钮点击事件
-    inputClick(items,index,item) {
+    inputClick (items, index, item) {
       // index=index==null?this.nowIndex:index
       if (item.click) {
         item.click(items, index, item)
       }
     },
     // 下拉框、文本框变化事件
-    inputChange(items, index, item) {
+    inputChange (items, index, item) {
       if (item.change) {
         item.change(items, index, item)
       }
     },
     //多选变化事件
-    checkboxChange(items, index, item) {
+    checkboxChange (items, index, item) {
       if (item.change) {
         item.change(items, index, item)
       }
     },
     // 获取新增默认列值
-    setColums() {
+    setColums () {
       const obj = {}
       this.tableCloums.forEach((item) => {
         //判断是否为其他配置项
@@ -255,19 +259,21 @@ export default {
       return obj
     },
     // 列新增事件
-    cloumsAdd() {
-      this.tableData.push(this.setColums())
-      // console.log('add')
+    cloumsAdd () {
+      let data = JSON.parse(JSON.stringify(this.tableData))
+      data.push(this.setColums())
+      this.tableData = data
       this.$emit('add')
     },
     // 列删除事件
-    cloumsDelete(index) {
-      this.tableData.splice(index, 1)
+    cloumsDelete (index) {
+      let data = JSON.parse(JSON.stringify(this.tableData))
+      data.splice(index, 1)
+      this.tableData = data
     },
     // 序号变化事件
-    sortChange(index, type) {
+    sortChange (index, type) {
       const obj = this.tableData[index]
-
       if (type === 'prev') {
         if (index === 0) return
         this.tableData.splice(index, 1)

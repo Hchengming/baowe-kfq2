@@ -12,6 +12,9 @@
     <div class="screenBox">
       <fieldset class="form-setting">
         <legend class="theme-color">表单配置</legend>
+         <el-button 
+                 size="small"
+                 @click="getmrParams">默认参数获取</el-button>
         <colums-setting :tableData="form.filterConfig.screenData"
                         :tableCloums="tableCloums">
 

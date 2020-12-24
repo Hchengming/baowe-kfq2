@@ -122,7 +122,10 @@ export default {
       } else {
         // 02 普通表格
         tableColums =this.colums
-        this.customSetting(tableColums)
+        if(tableColums.length>0){
+this.customSetting(tableColums)
+        }
+        
       }
       //  console.log(tableColums)
       return tableColums
@@ -139,6 +142,7 @@ export default {
 
         })
         if (tableWidth > sjWidth) {
+          console.log(colums,tableWidth,sjWidth)
           colums[0].width = Number(colums[0].width) + tableWidth - sjWidth - 2
         }
 

@@ -31,7 +31,6 @@ export default {
         //是否隐藏控制
         isHide(form, item) {
             let offon = false
-                // console.log(this.$emit("isHide", form, item), 'this.$emit("isHide", form, item)')
             this.$emit("isHide", form, this.fatherIndex, item, (val) => {
                 offon = val
             })
@@ -54,6 +53,7 @@ export default {
         },
         // 配置确认事件
         onSubmit() {
+            this.$emit('otherKeySettingSubmit', this.form, this.fatherIndex)
             this.isShow = false;
         },
         // textarea放大事件---js脚本

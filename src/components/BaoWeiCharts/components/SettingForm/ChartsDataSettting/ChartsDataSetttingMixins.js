@@ -7,11 +7,9 @@ export default {
     methods: {
         //tabs切换点击事件
         handleClick() {
-            if (this.activeName === 'second') {
-                this.$refs['screenSetting'].setScreenDefaultData()
-            } else if (this.activeName === 'first') {
-                this.$refs['paramKeyConfig'].paramKeyConfigHenx()
-            }
+            // if (this.activeName === 'first') {
+            //     this.$refs['paramKeyConfig'].paramKeyConfigHenx()
+            // }
         },
         //筛选项配置数据保存事件
         screenSubmit(fn) {

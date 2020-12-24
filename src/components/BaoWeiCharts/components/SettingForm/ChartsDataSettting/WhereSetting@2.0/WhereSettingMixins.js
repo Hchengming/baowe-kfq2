@@ -2,14 +2,14 @@ import filterDataDefault from './commonWhere.json'
 
 export default {
     data() {
-        let _this = this;
+        let _this = this
         return {
             dialogRef: 'screenFormDialog',
             tableCloums: [{
                     label: '表单类型',
                     key: 'type',
                     width: 120,
-                    formType: "select",
+                    formType: 'select',
                     change(items) {
                         _this.typeChange(items)
                     },
@@ -50,13 +50,13 @@ export default {
                 {
                     label: '参数名称',
                     key: 'key',
-                    formType: "input",
+                    formType: 'input',
                     width: 200
                 },
                 {
                     label: '标签',
                     key: 'label',
-                    formType: "input",
+                    formType: 'input',
                     width: 100,
                     change(items, index, item) {
                         _this.labelChange(items, index, item)
@@ -65,13 +65,13 @@ export default {
                 {
                     label: '左侧标签宽度',
                     key: 'labelWidth',
-                    formType: "number",
+                    formType: 'number',
                     width: 100
                 },
                 {
                     label: '右侧宽度',
                     key: 'rightWidth',
-                    formType: "number",
+                    formType: 'number',
                     width: 100,
                     defaultValue: 100
                 },
@@ -79,30 +79,40 @@ export default {
                 {
                     label: '默认值',
                     key: 'defaultValue',
-                    formType: "input",
+                    formType: 'input',
                     width: 100
                 },
                 {
                     key: 'isInsert',
                     label: '是否直接查询',
-                    formType: "select",
-                    selectArr: [{ lab: "是", val: "1" }, { lab: "否", val: "0" }],
-                    defaultValue: "0",
+                    formType: 'select',
+                    selectArr: [
+                        { lab: '是', val: '1' },
+                        { lab: '否', val: '0' }
+                    ],
+                    defaultValue: '0',
                     width: 100
                 },
                 {
                     key: 'isLineFeed',
                     label: '是否换行',
-                    formType: "select",
-                    selectArr: [{ lab: "是", val: "1" }, { lab: "否", val: "0" }],
-                    defaultValue: "0",
+                    formType: 'select',
+                    selectArr: [
+                        { lab: '是', val: '1' },
+                        { lab: '否', val: '0' }
+                    ],
+                    defaultValue: '0',
                     width: 80
-                }, {
+                },
+                {
                     key: 'isShow',
                     label: '是否显示',
-                    formType: "select",
-                    selectArr: [{ lab: "是", val: "1" }, { lab: "否", val: "0" }],
-                    defaultValue: "1",
+                    formType: 'select',
+                    selectArr: [
+                        { lab: '是', val: '1' },
+                        { lab: '否', val: '0' }
+                    ],
+                    defaultValue: '1',
                     width: 80
                 },
                 // {
@@ -112,11 +122,11 @@ export default {
                 // },
                 {
                     label: '其他配置',
-                    formType: "other",
+                    formType: 'other',
                     children: [{
                             label: '配置数据/接口',
                             key: 'changeData',
-                            formType: "inputButton",
+                            formType: 'inputButton',
                             isHide(form) {
                                 return ['radio', 'checkbox', 'select'].indexOf(form.type) == -1
                             },
@@ -124,29 +134,37 @@ export default {
                                 _this.itemDataChange(form, fatherIndex, item)
                                     // console.log('配置数据/接口')
                             }
-                        }, {
+                        },
+                        {
                             label: '显示样式',
                             key: 'styleType',
-                            formType: "select",
+                            formType: 'select',
                             isHide(form) {
                                 return ['checkbox'].indexOf(form.type) == -1
                             },
-                            selectArr: [{ lab: "默认样式", val: "0" }, { lab: "带有边框", val: "1" }, { lab: "按钮组", val: "2" }]
+                            selectArr: [
+                                { lab: '默认样式', val: '0' },
+                                { lab: '带有边框', val: '1' },
+                                { lab: '按钮组', val: '2' }
+                            ]
                         },
                         {
                             label: '是否结束时间',
                             key: 'sfjssj',
-                            formType: "select",
+                            formType: 'select',
                             isHide(form) {
                                 return ['date', 'dateTime'].indexOf(form.type) == -1
                             },
-                            selectArr: [{ lab: "是", val: "1" }, { lab: "否", val: "0" }],
-                            defaultValue: "0"
+                            selectArr: [
+                                { lab: '是', val: '1' },
+                                { lab: '否', val: '0' }
+                            ],
+                            defaultValue: '0'
                         },
                         {
                             label: '是否设置默认值为当前时间',
                             key: 'isNewDate',
-                            formType: "switch",
+                            formType: 'switch',
                             isHide(form) {
                                 return ['date', 'dateTime'].indexOf(form.type) == -1
                             },
@@ -155,10 +173,10 @@ export default {
                         {
                             label: '是否添加时间段选择器',
                             key: 'iSaddTimeSlot',
-                            formType: "switch",
-                            //显示条件1、type类型为'date', 'dateTime' 2、前面一个筛选项类型也必须为'date', 'dateTime' 
+                            formType: 'switch',
+                            //显示条件1、type类型为'date', 'dateTime' 2、前面一个筛选项类型也必须为'date', 'dateTime'
                             isHide(form, index) {
-                                let offon = true;
+                                let offon = true
                                 if (['date'].indexOf(form.type) > -1) {
                                     let kvp = _this.form.filterConfig.screenData[index - 1]
                                     if (kvp && ['date'].indexOf(kvp.type) > -1) {
@@ -179,14 +197,13 @@ export default {
             otherNowIndex: null
         }
     },
-    mounted() {
-
-    },
+    mounted() {},
     methods: {
         //默认参数传递
-        setScreenDefaultData() {
-            let screenData = this.form.filterConfig.screenData;
+        getmrParams() {
+            let screenData = this.form.filterConfig.screenData
             let paramConfig = this.form.paramConfig
+            if (!this.form.paramConfig || this.form.paramConfig.length === 0) return
             paramConfig.forEach(item => {
                 let offon = true
                 if (item.isUse) {
@@ -198,18 +215,27 @@ export default {
                         }
                     })
                     if (offon) {
-                        screenData.push({
+                        let obj = {}
+                        this.tableCloums.forEach(xx => {
+                            if (xx.children) {
+                                xx.children.forEach(yy => {
+                                    obj[yy.key] = null
+                                })
+                            } else {
+                                obj[xx.key] = null
+                            }
+                        })
+                        let obj2 = {
                             label: item.description,
                             key: item.paramKey,
                             defaultValue: item.paramValue,
-                            isInsert: "0",
+                            isInsert: '0',
                             isLineFeed: '0',
                             type: 'input'
-                        })
+                        }
+                        screenData.push(Object.assign(obj, obj2))
                     }
                 }
-
-
             })
         },
         // 是否结束时间变化事件
@@ -230,7 +256,7 @@ export default {
         // 表单类型变化事件
         typeChange(item) {
             if (['date', 'dateTime'].indexOf(item.type) === -1) {
-                item.sfjssj = ''
+                item.sfjssj = '0'
             }
             // console.log(item)
             switch (item.type) {
@@ -264,7 +290,7 @@ export default {
         },
         // 区县，单选项选中事件
         checkCountryRadio(item) {
-            filterDataDefault.forEach((obj) => {
+            filterDataDefault.forEach(obj => {
                 if (obj.type === item.type) {
                     for (const key in obj) {
                         item[key] = obj[key]
@@ -276,11 +302,8 @@ export default {
         onSubmit(fn) {
             let offon = false
                 // 筛选表单配置数据校验
-                // console.log(this.form.filterConfig.screenData)
-                // if (!offon) return
-            let conditionAreaConfig = JSON.parse(JSON.stringify(this.form.filterConfig.screenData))
-            conditionAreaConfig.forEach((item) => {
-
+            let conditionAreaConfig = this.form.filterConfig.screenData
+            conditionAreaConfig.forEach(item => {
                     if (!item.key || !item.type) {
                         offon = true
                     }
@@ -292,7 +315,7 @@ export default {
                 })
                 // 其他按钮配置数据校验
             let offon2 = false
-            this.btnSettingData.forEach((item) => {
+            this.btnSettingData.forEach(item => {
                 if (!item.name || !item.methodsName || !item.type) {
                     offon2 = true
                 }
@@ -318,6 +341,7 @@ export default {
                 //         isShowInsertButton: this.isShowInsertButton
                 //     })
                 // )
+                // console.log(conditionAreaConfig, 'conditionAreaConfig')
                 fn()
                     // this.$emit('screenKeep', datas)
             }

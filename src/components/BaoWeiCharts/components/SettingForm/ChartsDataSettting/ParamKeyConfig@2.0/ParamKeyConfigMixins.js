@@ -42,16 +42,16 @@ export default {
     },
     methods: {
         //字段更新
-        paramKeyConfigHenx() {
-            this.form.filterConfig.screenData.forEach(item => {
-                this.form.paramConfig.forEach(x => {
-                    if (item.key === x.paramKey) {
-                        x.description = item.label
-                        x.paramValue = item.defaultValue
-                    }
-                })
-            })
-        },
+        // paramKeyConfigHenx() {
+        //     this.form.filterConfig.screenData.forEach(item => {
+        //         this.form.paramConfig.forEach(x => {
+        //             if (item.key === x.paramKey) {
+        //                 x.description = item.label
+        //                 x.paramValue = item.defaultValue
+        //             }
+        //         })
+        //     })
+        // },
         // 视图参数获取事件
         getViewParams() {
             let url = ''
