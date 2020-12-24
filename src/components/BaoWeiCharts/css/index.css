@@ -187,6 +187,15 @@ body {
 .KFQ_wrap .el-aside .el-menu-vertical-demo .el-submenu__title .iconfont {
   padding-right: 2px;
 }
+.KFQ_wrap .el-aside .el-menu-vertical-demo > .el-submenu > .el-submenu__title {
+  padding-left: 15px !important;
+}
+.KFQ_wrap .el-aside .el-menu-vertical-demo > .el-submenu > .el-menu > .el-submenu > .el-submenu__title {
+  padding-left: 25px !important;
+}
+.KFQ_wrap .el-aside .el-menu-vertical-demo > .el-submenu > .el-menu > .el-submenu > .el-menu > .el-menu-item {
+  padding-left: 35px !important;
+}
 .KFQ_wrap .el-main {
   height: 100%;
   position: relative;

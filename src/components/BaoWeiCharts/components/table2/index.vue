@@ -1,8 +1,9 @@
 <template>
-  <div id="bw_table">
+  <div ref="bw-table" id="bw_table">
     <el-table
       :border="true"
       :data="tabledata"
+      :fit="true"
       :row-class-name="tableRowClassName"
       stripe
       :height="nowHieght()"
@@ -125,8 +126,24 @@ export default {
       } else {
         // 02 普通表格
         tableColums = this.colums
+        this.customSetting(this.colums)
       }
       return tableColums
+    },
+    //表格列自适应配置
+    customSetting(colums){
+      this.$nextTick(()=>{
+        let tableWidth=this.$refs['bw-table'].scrollWidth
+        let sjWidth=0;
+        colums.forEach(item=>{
+          sjWidth+=Number(item.width)
+        })
+        if(tableWidth>sjWidth){
+          colums[0].width=Number(colums[0].width)+tableWidth-sjWidth-2
+        }
+        // console.log(tableWidth,sjWidth)
+      })
+        
     },
     // 获取行索引
     tableRowClassName({ row, rowIndex }) {

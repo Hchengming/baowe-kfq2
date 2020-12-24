@@ -23,6 +23,7 @@
     <section v-for="(item, index) in pageData"
              :key="index">
       <statistics :statistics-all="item"
+                  ref="statisticsAll"
                   :browser-x-y="browserXY"
                   :data-url="settingConfig.dataUrl"
                   :setting-config="settingConfig"
@@ -92,7 +93,7 @@ export default {
       default: null,
     },
   },
-  data() {
+  data () {
     return {
       // systemPermissions: 'admin', // 系统权限控制
       templateArr: ['baowei_1'],
@@ -169,12 +170,12 @@ export default {
       whereData: [], //所有模块筛选数据
     }
   },
-  mounted() {
+  mounted () {
     this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
     //所有模块筛选数据缓存
-    whereFormKeep(form, moduleId) {
+    whereFormKeep (form, moduleId) {
       let offon = true
       this.whereData.forEach((item) => {
         if (item.moduleId === moduleId) {
@@ -190,7 +191,7 @@ export default {
       }
     },
     //图表组件被交互事件
-    interactiveCover(params, moduleId) {
+    interactiveCover (params, moduleId) {
       let reqObj = {}
       this.whereData.forEach((item) => {
         if (item.moduleId === moduleId) {
@@ -218,7 +219,7 @@ export default {
       this.getTableData(obj, reqObj, nowItem)
     },
     //图表组件集交互按钮点击事件
-    interactive(statisticsAll) {
+    interactive (statisticsAll) {
       this.$emit('chartsMethods', {
         statisticsAll,
         methodsName: 'interactive',
@@ -227,17 +228,24 @@ export default {
       })
     },
     // 通过模块id改变模块渲染数据事件
-    changePageData(moduleId, viewchange) {
-      this.pageData.forEach((item) => {
+    changePageData (moduleId,viewchange,wh) {
+      this.pageData.forEach((item, index) => {
         if (item.moduleId === moduleId) {
-          let nowItem=JSON.parse(JSON.stringify(item))
-          viewchange(nowItem)
-          item=nowItem
+          this.$refs['statisticsAll'][index].statisticsAllChange(moduleId,viewchange,wh)
+          // viewchange(item, () => {
+          //   this.$nextTick(() => {
+          //     console.log(item, 'item')
+          //     console.log(this.$refs['statisticsAll'][index])
+          //     this.$refs['statisticsAll'][index].statisticsAllChange(moduleId, item)
+          //   })
+          // })
+
+
         }
       })
     },
     // 图表模块显示隐藏控制事件
-    modeuleShow(obj) {
+    modeuleShow (obj) {
       const data = JSON.parse(JSON.stringify(this.pageData))
       data.forEach((item) => {
         if (item.moduleId === obj.moduleId) {
@@ -247,7 +255,7 @@ export default {
       this.pageData = data
     },
     // 图表方法暴露
-    chartsMethods(reqObj) {
+    chartsMethods (reqObj) {
       // let obj = {
       //   moduleId: reqObj.moduleId,
       //   methodsName: reqObj.methodsName,
@@ -257,7 +265,7 @@ export default {
       this.$emit('chartsMethods', reqObj)
     },
     // 查询模块其他按钮点击事件(按钮配置数据，模块id)
-    whereOtherBtnClick(setttingItem, moduleId) {
+    whereOtherBtnClick (setttingItem, moduleId) {
       this.chartsMethods({
         moduleId: moduleId,
         name: '查询模块其他按钮点击事件',
@@ -266,7 +274,7 @@ export default {
       })
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
-    operateButtonClick(buttonSetting, rowItem, moduleId) {
+    operateButtonClick (buttonSetting, rowItem, moduleId) {
       this.chartsMethods({
         moduleId: moduleId,
         name: '表格、列表右侧其他按钮点击事件',
@@ -276,7 +284,7 @@ export default {
       })
     },
     // 头部右侧更多按钮点击事件
-    statisticsMore(statisticsAll) {
+    statisticsMore (statisticsAll) {
       this.chartsMethods({
         moduleId: statisticsAll.moduleId,
         name: '头部右侧更多按钮点击事件',
@@ -284,12 +292,12 @@ export default {
       })
     },
     // 菜单点击事件
-    menuClick(menuItem, menuTypes, fn) {
+    menuClick (menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
       this.getData(menuTypes, fn)
     },
     // 子级弹窗关闭事件--同级子弹窗全部关闭
-    statisticsClose(moduleId, parentModuleId) {
+    statisticsClose (moduleId, parentModuleId) {
       this.chartsMethods({
         moduleId: moduleId,
         parentModuleId: parentModuleId,
@@ -313,7 +321,7 @@ export default {
       this.pageData = datas
     },
     // 自定义空白模板关闭事件
-    blankTemplateClose(moduleId) {
+    blankTemplateClose (moduleId) {
       // const datas = []
       this.pageData.forEach((item) => {
         if (item.moduleId === moduleId) {
@@ -324,7 +332,7 @@ export default {
       //  this.pageData = datas
     },
     // 表格分页点击事件
-    tablePageSort(moduleId, paginationAll, whereForm) {
+    tablePageSort (moduleId, paginationAll, whereForm) {
       let offon = true
       // eslint-disable-next-line no-unused-vars
       const obj = {}
@@ -353,7 +361,7 @@ export default {
       }
     },
     // 配置数据格式转换
-    itemGSH(item) {
+    itemGSH (item) {
       // 详情配置数据格式转换
       if (item.detailsAreaConfig) {
         item.detailsAreaConfig = JSON.parse(item.detailsAreaConfig)
@@ -378,7 +386,7 @@ export default {
       this.filterConfigZH(item)
     },
     //筛选数据整合
-    filterConfigZH(item) {
+    filterConfigZH (item) {
       let filterConfig = item.contentAreaConfig.filterConfig
       if (filterConfig) {
         filterConfig.screenData.forEach((item) => {
@@ -409,16 +417,16 @@ export default {
       }
     },
     // 页面加载状态变化
-    pageLoding(offon) {
+    pageLoding (offon) {
       this.$emit('pageLoading', offon)
     },
     // 模块图表配置数据获取
-    getData(menuTypes, fn) {
+    getData (menuTypes, fn) {
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](
         this.settingConfig.commonUrl +
-          '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
+        '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
         {
           menuId: this.menuId,
         }
@@ -483,7 +491,7 @@ export default {
         })
     },
     // 自定义参数-值获取
-    getParamValue(val, item) {
+    getParamValue (val, item) {
       let paramValue = ''
       if (val && typeof val === 'string' && val.indexOf('${') === 0) {
         const num = val.length - 1
@@ -507,14 +515,14 @@ export default {
       return paramValue
     },
     // 数据获取参数配置
-    setParams(config, reqData) {
+    setParams (config, reqData) {
       let screenData = config.contentAreaConfig.filterConfig.screenData
       screenData.forEach((item) => {
         reqData[item.key] = item.defaultValue
       })
     },
     // 图表数据获取
-    getTableData(obj, whereReqData, config, nowIndex) {
+    getTableData (obj, whereReqData, config, nowIndex) {
       nowIndex ? nowIndex : 1
       let reqData = {
         currentPage: obj.currentPage,
@@ -529,7 +537,7 @@ export default {
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
-      this.pageData[obj.index].isLoading=true
+      this.pageData[obj.index].isLoading = true
       //返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
       if (!sftsqk) {
@@ -594,13 +602,14 @@ export default {
         }
         // 数据请求
         if (!obj.url) {
+          this.pageData[obj.index].isLoading = false
           this.$set(this.pageData[obj.index], 'data', [])
           return
         }
         setTimeout(() => {
           serviceAxios[options](nowUrl, reqData)
             .then((res) => {
-               this.pageData[obj.index].isLoading=false
+              this.pageData[obj.index].isLoading = false
               const resData = res.data
               this.viewDataTranslation(resData, obj, config)
             })
@@ -615,7 +624,7 @@ export default {
       }
     },
     //特殊请求二次开发暴露
-    specialRequest(reqData, config, obj) {
+    specialRequest (reqData, config, obj) {
       const reqObj = JSON.parse(JSON.stringify(reqData))
       reqObj.methodsName = 'getchartsList'
       reqObj.name = '图表数据请求事件'
@@ -631,6 +640,7 @@ export default {
 
       reqObj.tsqkData = (data) => {
         // 特殊情况数据处理后返回
+        this.pageData[obj.index].isLoading = false
         this.viewDataTranslation(data, obj, config)
       }
 
@@ -638,7 +648,7 @@ export default {
       return sftsqk
     },
     //图表渲染数据处理
-    viewDataTranslation(resData, obj, config) {
+    viewDataTranslation (resData, obj, config) {
       if (
         !config.contentAreaConfig.moduleType ||
         config.contentAreaConfig.moduleType === '0'
@@ -670,7 +680,7 @@ export default {
     },
 
     // 测试数据生产
-    setCSdata(settingForm) {
+    setCSdata (settingForm) {
       const arr = []
       for (let i = 0; i < 10; i++) {
         const obj = {}
@@ -690,7 +700,7 @@ export default {
       }
     },
     //返回数据格式化
-    dataFormat(config, resData) {
+    dataFormat (config, resData) {
       let colClums = config.contentAreaConfig.keyArr
       colClums.forEach((item) => {
         if (item.colDataformat) {

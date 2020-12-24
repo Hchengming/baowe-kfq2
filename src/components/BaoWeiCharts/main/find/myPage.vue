@@ -204,8 +204,8 @@ export default {
       this.$emit('projectConfigSubmit', obj)
     },
     // 通过模块id改变模块渲染数据事件
-    changePageData(moduleId, viewchange) {
-      this.$refs['middleware'].changePageData(moduleId, viewchange)
+    changePageData(moduleId, viewchange,wh) {
+      this.$refs['middleware'].changePageData(moduleId, viewchange,wh)
     },
     // 图表模块显示隐藏控制事件
     modeuleShow(obj) {

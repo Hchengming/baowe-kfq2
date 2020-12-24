@@ -343,9 +343,25 @@ export default {
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
+    //模块数据变化事件
+    statisticsAllChange (moduleId,viewchange,wh) {
+      // viewchange(this.statisticsAll)
+       if(this.statisticsAll.moduleId===moduleId){
+         viewchange(this.statisticsAll)
+        this.whereHeight=wh
+        //  if(otherParams&&otherParams.wh){
+        //    this.whereHeight=otherParams.wh
+        //  }
+        //  if(otherParams&&otherParams.whereForm){
+        //     for(let key in otherParams.whereForm){
+        //       this.whereForm[key]=otherParams.whereForm[key]
+        //     }
+        //  }
+       }
+    },
     //交互按钮点击事件
     Interactive () {
-      console.log(this.statisticsAll)
+      // console.log(this.statisticsAll)
       this.$emit('interactive', this.statisticsAll)
     },
     //详情列表模块数据
@@ -462,7 +478,7 @@ export default {
     // 模块设置表单保存事件
     settingKeep (contentAreaConfig) {
       // this.statisticsAll.conditionAreaConfig =
-        this.setDemos()
+      this.setDemos()
       this.$emit(
         'updateMoule',
         contentAreaConfig,
@@ -473,7 +489,7 @@ export default {
         this.whereForm
       )
       //筛选数据旧版本兼容
-      this.compatible1(this.statisticsAll,contentAreaConfig)
+      this.compatible1(this.statisticsAll, contentAreaConfig)
     },
     //配置数据修改后更新-兼容旧版
     compatible1 (item, contentAreaConfig) {
@@ -497,7 +513,7 @@ export default {
         conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
         conditionAreaConfig.isShowInsertButton =
           filterConfig.isShowInsertButton
-          console.log(conditionAreaConfig.screenData[1])
+        // console.log(conditionAreaConfig.screenData[1])
       }
     },
     // 设置按钮点击事件
