@@ -53,16 +53,15 @@ export default {
         type: 'topBar',
         name: '顶部栏组件',
         icon: 'icondingbulan'
-      },
-      // {
-      //     type: 'axis',
-      //     name: '类目轴',
-      //     icon: 'icondangan'
-      // },{
-      //      type: 'timeAxis',
-      //      name: '时间轴',
-      //      icon: 'icondangan'
-      // }
+      },{
+          type: 'axis',
+          name: '类目轴',
+          icon: 'icondangan'
+      },{
+           type: 'timeAxis',
+           name: '时间轴',
+           icon: 'icondangan'
+      }
       // , {
       //   type: 'tabs',
       //   name: 'Tabs切换',
