@@ -98,8 +98,30 @@ export default {
                     // console.log(this.pageData)
             }
         },
+        //旧的筛选数据删除事件
+        oldConditionAreaConfigUpdate(filterConfig, moduleId) {
+            if (!filterConfig || !filterConfig.screenData) return
+            if (this.conditionAreaConfigClone.screenData && this.conditionAreaConfigClone.screenData.length > 0) {
+                let screenData = []
+                this.conditionAreaConfigClone.screenData.forEach(items => {
+                    let offon = true;
+                    filterConfig.screenData.forEach(item => {
+                        if (item.key === items.key) {
+                            offon = false
+                        }
+                    })
+                    if (offon) {
+                        screenData.push(items)
+                    }
+                })
+                this.conditionAreaConfigClone.screenData = screenData
+                this.screenKeep(this.conditionAreaConfigClone, moduleId)
+            }
+
+        },
         // statistics组件--模块修改保存事件
         updateMoule(contentAreaConfig, moduleId, fn, whereForm) {
+            this.oldConditionAreaConfigUpdate(contentAreaConfig.filterConfig, moduleId)
             const reqData = {
                 secondMasterPageConfigPOS: [{
                     contentAreaConfig: contentAreaConfig,

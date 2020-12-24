@@ -1,18 +1,17 @@
 <template>
-  <div ref="bw-table" id="bw_table">
-    <el-table
-      :border="true"
-      :data="tabledata"
-      :fit="true"
-      :row-class-name="tableRowClassName"
-      stripe
-      :height="nowHieght()"
-      :row-key="settingForm.tableOtherConfig?settingForm.tableOtherConfig.onlyKey:undefined"
-      :tree-props="{children: settingForm.tableOtherConfig?settingForm.tableOtherConfig.childKey:'children', hasChildren: 'hasChildren'}"
-      :style="{width: '100%'}"
-      @cell-click="cellClick"
-      @row-click="rowClick"
-    >
+  <div ref="bw-table"
+       id="bw_table">
+    <el-table :border="true"
+              :data="tabledata"
+              :fit="true"
+              :row-class-name="tableRowClassName"
+              stripe
+              :height="nowHieght()"
+              :row-key="settingForm.tableOtherConfig?settingForm.tableOtherConfig.onlyKey:undefined"
+              :tree-props="{children: settingForm.tableOtherConfig?settingForm.tableOtherConfig.childKey:'children', hasChildren: 'hasChildren'}"
+              :style="{width: '100%'}"
+              @cell-click="cellClick"
+              @row-click="rowClick">
       <!-- <el-table-column v-for="(item,index) in colums"
                        :key="index"
                        :class-name="item.className+' '+cellCursorClass(item.key)"
@@ -38,25 +37,21 @@
         </template>
 
       </el-table-column> -->
-      <table-column
-        v-for="(item,index) in tableColums()"
-        :key="index"
-        :item="item"
-        :statistics-all="statisticsAll"
-        :setting-form="settingForm"
-        :colums="colums"
-      />
+      <table-column v-for="(item,index) in tableColums()"
+                    :key="index"
+                    :item="item"
+                    :statistics-all="statisticsAll"
+                    :setting-form="settingForm"
+                    :colums="tableColums()" />
     </el-table>
-    <el-pagination
-      v-if="paginationAll"
-      :current-page="paginationAll.currentPage"
-      :page-size="paginationAll.pageSize"
-      :page-sizes="pageSizes"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="paginationAll.total"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
-    />
+    <el-pagination v-if="paginationAll"
+                   :current-page="paginationAll.currentPage"
+                   :page-size="paginationAll.pageSize"
+                   :page-sizes="pageSizes"
+                   layout="total, sizes, prev, pager, next, jumper"
+                   :total="paginationAll.total"
+                   @current-change="handleCurrentChange"
+                   @size-change="handleSizeChange" />
   </div>
 </template>
 <script>
@@ -93,15 +88,16 @@ export default {
       type: Boolean, default: null
     }
   },
-  data() {
+  data () {
     return {
-      cellCursor: ''
+      cellCursor: '',
+      newClums:[]
     }
   },
   computed: {},
   methods: {
     // 递归遍历树形数据
-    reduiction(data, fn) {
+    reduiction (data, fn) {
       data.forEach((item, index) => {
         fn(item, index)
         if (item.children && item.children.length > 0) {
@@ -110,7 +106,7 @@ export default {
       })
     },
     // 表格表头配置
-    tableColums() {
+    tableColums () {
       let tableColums = []
       // 判断是否为多表头表格
       if (this.settingForm.tableHeaderConfig && this.settingForm.tableHeaderConfig.hierarchy > 1) {
@@ -125,40 +121,45 @@ export default {
         })
       } else {
         // 02 普通表格
-        tableColums = this.colums
-        this.customSetting(this.colums)
+        tableColums =this.colums
+        this.customSetting(tableColums)
       }
+      //  console.log(tableColums)
       return tableColums
     },
     //表格列自适应配置
-    customSetting(colums){
-      this.$nextTick(()=>{
-        let tableWidth=this.$refs['bw-table'].scrollWidth
-        let sjWidth=0;
-        colums.forEach(item=>{
-          sjWidth+=Number(item.width)
+    customSetting (colums) {
+      this.$nextTick(() => {
+        let tableWidth = this.$refs['bw-table'].scrollWidth
+        let sjWidth = 0;
+        colums.forEach(item => {
+          if (item.width) {
+            sjWidth += Number(item.width)
+          }
+
         })
-        if(tableWidth>sjWidth){
-          colums[0].width=Number(colums[0].width)+tableWidth-sjWidth-2
+        if (tableWidth > sjWidth) {
+          colums[0].width = Number(colums[0].width) + tableWidth - sjWidth - 2
         }
-        // console.log(tableWidth,sjWidth)
+
+       
       })
-        
+
     },
     // 获取行索引
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       // 把每一行的索引放进row
       row.rowIndex = rowIndex
     },
     // 数字转字符串
-    NumStrTransformation(val) {
+    NumStrTransformation (val) {
       if (typeof val === 'number') {
         val = val.toString()
       }
       return val
     },
 
-    nowHieght() {
+    nowHieght () {
       if (this.paginationAll) {
         return this.height - 35
       } else {
@@ -166,11 +167,11 @@ export default {
       }
     },
     // headername 获取
-    colLabel(item) {
+    colLabel (item) {
       return item.dw ? item.explain + `(${item.dw})` : item.explain
     },
     // 动态获取宽度
-    colWidth(item, index) {
+    colWidth (item, index) {
       let widths = item.width
       if (index === 0) {
         let maxWidth = 0
@@ -186,11 +187,11 @@ export default {
       return widths
     },
     // 行点击事件
-    rowClick(row) {
+    rowClick (row) {
       this.$emit('rowClick', row, row.rowIndex)
     },
     // 表格单元格点击事件
-    cellClick(row, column) {
+    cellClick (row, column) {
       this.$emit('cellClick', row, column.property)
     }
 

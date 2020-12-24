@@ -159,6 +159,7 @@ export default {
         isDrafting: false, // 是否给用户启用模块拖拽功能
         isHeaderHide: false, // 模块头部是否显示
         isModuleClose: false, // 模块是否可关闭
+        
         filterConfig: {
           //筛选项配置信息
           screenData: [], //查询项配置
@@ -167,6 +168,7 @@ export default {
         },
       },
       addSettingFormClone: {},
+      conditionAreaConfigClone:{},//旧的筛选数据克隆
       whereData: [], //所有模块筛选数据
     }
   },
@@ -380,7 +382,8 @@ export default {
       // 筛选配置数据格式转换
       if (item.conditionAreaConfig) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
-      } else {
+        this.conditionAreaConfigClone=JSON.parse(JSON.stringify(item.conditionAreaConfig))
+     } else {
         item.conditionAreaConfig = {}
       }
       this.filterConfigZH(item)
@@ -410,7 +413,6 @@ export default {
         } else {
           item.conditionAreaConfig.screenData = filterConfig.screenData
         }
-
         item.conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
         item.conditionAreaConfig.isShowInsertButton =
           filterConfig.isShowInsertButton

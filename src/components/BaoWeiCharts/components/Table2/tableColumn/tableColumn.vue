@@ -4,7 +4,7 @@
     :class-name="item.className + ' ' + cellCursorClass(item.key)"
     :prop="item.key"
     :label="colLabel(item)"
-    :width="colWidth(item)"
+    :width="item.width"
     :sortable="item.colSort=='1'"
     :fixed="item.colFixed==='left'||item.colFixed==='right'?item.colFixed:undefined"
   >
@@ -36,7 +36,7 @@
     <table-column
       v-for="(val, num) in item.children"
       :key="num"
-      :colums="colums"
+     
       :setting-form="settingForm"
       :statistics-all="statisticsAll"
       :item="val"
