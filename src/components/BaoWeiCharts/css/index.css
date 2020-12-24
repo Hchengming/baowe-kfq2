@@ -125,6 +125,7 @@ body {
   overflow: visible;
   padding: 0;
   margin-bottom: 0;
+  box-sizing: content-box;
 }
 .KFQ_wrap .el-aside .el-menu {
   background: transparent;
@@ -353,14 +354,6 @@ body {
   padding: 10px 20px 0;
   color: white;
 }
-.statistics_title .el-icon-close {
-  position: absolute;
-  font-size: 20px;
-  right: 2px;
-  top: 2px;
-  color: white;
-  cursor: pointer;
-}
 .statistics_title .more {
   font-size: 14px;
   display: inline-block;
@@ -551,6 +544,15 @@ body {
 }
 .statisticsWrapCase2 .statisticsBox .statistics-content {
   padding: 5px;
+}
+.statisticsWrapCase2 .statisticsBox .el-icon-close {
+  position: absolute;
+  font-size: 22px;
+  right: 2px;
+  top: 2px;
+  color: white;
+  cursor: pointer;
+  z-index: 9999999999;
 }
 .statisticsWrapCase2 .suofang {
   position: absolute;

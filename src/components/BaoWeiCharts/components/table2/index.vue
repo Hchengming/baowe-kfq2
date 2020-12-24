@@ -42,7 +42,7 @@
                     :item="item"
                     :statistics-all="statisticsAll"
                     :setting-form="settingForm"
-                    :colums="tableColums()" />
+                    :colums="colums" />
     </el-table>
     <el-pagination v-if="paginationAll"
                    :current-page="paginationAll.currentPage"

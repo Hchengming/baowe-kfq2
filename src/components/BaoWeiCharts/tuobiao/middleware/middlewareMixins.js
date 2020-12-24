@@ -100,20 +100,22 @@ export default {
         },
         //旧的筛选数据删除事件
         oldConditionAreaConfigUpdate(filterConfig, moduleId) {
+
             if (!filterConfig || !filterConfig.screenData) return
             if (this.conditionAreaConfigClone.screenData && this.conditionAreaConfigClone.screenData.length > 0) {
                 let screenData = []
                 this.conditionAreaConfigClone.screenData.forEach(items => {
-                    let offon = true;
-                    filterConfig.screenData.forEach(item => {
-                        if (item.key === items.key) {
-                            offon = false
+                        let offon = true;
+                        filterConfig.screenData.forEach(item => {
+                            if (item.key === items.key) {
+                                offon = false
+                            }
+                        })
+                        if (offon) {
+                            screenData.push(items)
                         }
                     })
-                    if (offon) {
-                        screenData.push(items)
-                    }
-                })
+                    // console.log(screenData, 'screenData')
                 this.conditionAreaConfigClone.screenData = screenData
                 this.screenKeep(this.conditionAreaConfigClone, moduleId)
             }

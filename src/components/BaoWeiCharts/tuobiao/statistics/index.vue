@@ -24,14 +24,17 @@
         { 'title-hide': settingForm.isHeaderHide },
       ]">
       <div class="statisticsBox">
+         <i v-if="isModuleClose()"
+             class="el-icon-close"
+             @click="statisticsClose" />
         <div v-if=" systemPermissions === 'admin' ||
             (settingForm.moduleType !== '1' && !settingForm.isHeaderHide)
           "
              class="statistics_title theme-bg-color"
              @mousedown="mousedown_tz">
-          <i v-if="isModuleClose()"
+          <!-- <i v-if="isModuleClose()"
              class="el-icon-close"
-             @click="statisticsClose" />
+             @click="statisticsClose" /> -->
           <div class="box">
             <div class="left">
               <span class="txt1">{{ settingForm.title }}</span>

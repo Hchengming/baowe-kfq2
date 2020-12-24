@@ -36,7 +36,7 @@
     <table-column
       v-for="(val, num) in item.children"
       :key="num"
-     
+      :colums="colums"
       :setting-form="settingForm"
       :statistics-all="statisticsAll"
       :item="val"

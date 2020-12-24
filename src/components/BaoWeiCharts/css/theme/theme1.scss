@@ -189,6 +189,11 @@
                     padding: 10px;
                     text-align: center;
                 }
+                .statisticsBox {
+                    .el-icon-close {
+                        color: $--color-primary;
+                    }
+                }
                 .statistics_title {
                     line-height: 42px;
                     height: 42px;
@@ -201,9 +206,6 @@
                     font-weight: 700;
                     padding: 0;
                     padding-left: 14px;
-                    .el-icon-close {
-                        color: $--color-primary;
-                    }
                     .box {
                         height: 100%;
                         line-height: inherit;
