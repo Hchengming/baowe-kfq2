@@ -303,14 +303,19 @@ export const otherMixins = {
         // 配置数据旧版本兼容处理
         compatibleProcessing() {
             //01-筛选项配置初始化--旧版本兼容
-            if (!this.form.filterConfig) {
-                this.$set(this.form, 'filterConfig', {
-                    //筛选项配置信息
-                    screenData: [], //查询项配置
-                    btnSettingData: [], //查询按钮配置
-                    isShowInsertButton: '1' //查询按钮是否显示配置
-                })
+            if (this.statisticsAll) {
+                this.form.filterConfig = this.statisticsAll.conditionAreaConfig
+            } else {
+                if (!this.form.filterConfig) {
+                    this.$set(this.form, 'filterConfig', {
+                        //筛选项配置信息
+                        screenData: [], //查询项配置
+                        btnSettingData: [], //查询按钮配置
+                        isShowInsertButton: '1' //查询按钮是否显示配置
+                    })
+                }
             }
+
         },
         // 图表、列表全选按钮控制
         keyChooseAllShow() {
