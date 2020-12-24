@@ -22,6 +22,7 @@
           <el-input v-if="setFormType(items,index,item) === 'input'"
                     :type="item.inputType"
                     v-model="items[item.key]"
+                    v-show="!isHide(items,index,item)"
                     @change.native="inputChange(items,index,item)"
                     @click.native="inputClick(items,index,item)"
                     size="mini"
@@ -32,6 +33,7 @@
           <!-- 下拉框 -->
           <el-select v-if="setFormType(items,index,item) == 'select'"
                      v-model="items[item.key]"
+                     v-show="!isHide(items,index,item)"
                      :disabled="setDisabled(items,index,item)"
                      :placeholder="placeholder(item)"
                      size="small"
@@ -44,6 +46,7 @@
           </el-select>
           <!-- 数字框 -->
           <el-input-number v-if="setFormType(items,index,item) == 'number'"
+                           v-show="!isHide(items,index,item)"
                            v-model="items[item.key]"
                            :disabled="item.disabled"
                            :placeholder="placeholder(item)"
@@ -54,12 +57,14 @@
                            controls-position="right" />
           <!-- 多选 -->
           <el-checkbox v-if="setFormType(items,index,item) === 'checkbox'"
+                       v-show="!isHide(items,index,item)"
                        v-model="items[item.key]"
                        size="mini"
                        :disabled="setDisabled(items,index,item)"
                        @change="checkboxChange(items,index, item)" />
           <!-- 带右侧按钮输入框 -->
           <el-input v-if="setFormType(items,index,item) === 'inputButton'"
+                    v-show="!isHide(items,index,item)"
                     v-model="items[item.key]"
                     :placeholder="placeholder(item)"
                     size="small"
@@ -73,12 +78,14 @@
           </el-input>
           <!-- 颜色选择器 -->
           <el-color-picker v-if="setFormType(items,index,item) === 'color'"
+                           v-show="!isHide(items,index,item)"
                            size="small"
                            v-model="items[item.key]">
 
           </el-color-picker>
           <!-- 其他配置 -->
           <el-button v-if="setFormType(items,index,item) === 'other'"
+                     v-show="!isHide(items,index,item)"
                      type="primary"
                      size="mini"
                      icon="el-icon-edit"
@@ -88,7 +95,7 @@
           <slot v-if="setFormType(items,index,item)==='slot'"
                 :name="item.slot" />
         </td>
-        <td style="width:100px"> 
+        <td style="width:100px">
           <i :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"
              @click="sortChange(index, 'prev')" />
           <i :class="[
@@ -105,6 +112,7 @@
       </tr>
     </table>
     <other-key-setting ref="OtherKeySetting"
+                       @isHide="isHide"
                        @inputClick="otherInputClick">
     </other-key-setting>
   </div>
@@ -149,6 +157,25 @@ export default {
     }
   },
   methods: {
+    //是否隐藏控制
+    isHide(form,index, item, fn) {
+      // index=index==null?this.nowIndex:index
+      let offon
+      if (!item.isHide) {
+        offon = false
+      } else {
+        if (typeof item.isHide === Boolean) {
+          offon = item.isHide
+        } else {
+          offon = item.isHide(form,index, item)
+        }
+      }
+      if (fn) {
+        fn(offon)
+      }
+
+      return offon
+    },
     //动态当前表单类型获取
     setFormType(items, index, item) {
       if (typeof item.formType === 'string') {
@@ -178,14 +205,15 @@ export default {
     //其他配置按钮点击事件
     otherKeySettingClick(items, index, item) {
       this.nowIndex = index
-      this.$refs['OtherKeySetting'].show(items, item.children)
+      this.$refs['OtherKeySetting'].show(items,index, item.children)
     },
     //placeholder设置
     placeholder(item) {
       return item.placeholder ? item.placeholder : item.label
     },
     //带按钮输入框按钮点击事件
-    inputClick(items, index, item) {
+    inputClick(items,index,item) {
+      // index=index==null?this.nowIndex:index
       if (item.click) {
         item.click(items, index, item)
       }

@@ -54,7 +54,7 @@ export default {
                 projectConfig: projectConfig
             }).then(() => {
                 this.$message({
-                    type: 'syccess',
+                    type: 'success',
                     message: '项目主题修改成功'
                 })
                 this.getProjectConfig()
@@ -69,8 +69,9 @@ export default {
             this.$refs['myPage'].changTopAll(viewChange)
         },
         // 通过模块id改变模块渲染数据事件
-        changePageData(moduleId, viewchange) {
-            this.$refs['myPage'].changePageData(moduleId, viewchange)
+        changePageData(moduleId, viewchange, wh) {
+
+            this.$refs['myPage'].changePageData(moduleId, viewchange, wh)
         },
         // 图表模块显示隐藏控制事件
         modeuleShow(obj) {

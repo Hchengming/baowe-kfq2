@@ -61,12 +61,15 @@
                  title="详情配置"
                  class="iconxiangqingpeizhi iconfont"
                  @click="destailSettingShow" />
-              
+
               <i v-if="isAdmin"
                  title="模块设置"
                  class="el-icon-setting"
                  @click="settingClick" />
-                 <i class="el-icon-set-up" v-if="isAdmin" title="模块数据交互" @click="Interactive()"></i>
+              <i class="el-icon-set-up"
+                 v-if="isAdmin"
+                 title="模块数据交互"
+                 @click="Interactive()"></i>
               <el-popconfirm v-if="isAdmin && settingForm.moduleType !== '1'"
                              icon="el-icon-info"
                              class="copy-template-popconfirm"
@@ -115,7 +118,7 @@
             </div>
           </div>
         </div>
-               
+
         <div v-loading="
            statisticsAll.isLoading&&
               settingForm.moduleType === '0' 
@@ -208,7 +211,6 @@
         <settingForm ref="settingForm"
                      :form="settingForm"
                      :data-url="dataUrl"
-                   
                      :statistics-all="statisticsAll"
                      :item-api-data="itemApiData"
                      :data-view-list="dataViewList"
@@ -221,7 +223,6 @@
                      :data-url="dataUrl"
                      :setting-config="settingConfig"
                      :item-api-data="itemApiData"
-                      
                      :data-view-list="dataViewList"
                      @submit="childSettingKeep" />
         <!-- 筛选配置弹出层 -->
@@ -300,7 +301,7 @@ export default {
       default: null,
     },
   },
-  data() {
+  data () {
     return {
       statisticsShow: true,
       bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line', 'radar'],
@@ -312,11 +313,11 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
+    isAdmin () {
       return this.systemPermissions === 'admin'
     },
     // 删除判断弹出文字
-    deleteTitle() {
+    deleteTitle () {
       let title = ''
       if (
         this.statisticsAll.isRowDrillDown === '1' ||
@@ -331,54 +332,70 @@ export default {
   },
   watch: {
     browserXY: {
-      handler() {
+      handler () {
         this.getMainStyle()
         this.setDemos()
       },
       deep: true,
     },
   },
-  mounted() {
+  mounted () {
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
+    //模块数据变化事件
+    statisticsAllChange (moduleId,viewchange,wh) {
+      // viewchange(this.statisticsAll)
+       if(this.statisticsAll.moduleId===moduleId){
+         viewchange(this.statisticsAll)
+        this.whereHeight=wh
+        //  if(otherParams&&otherParams.wh){
+        //    this.whereHeight=otherParams.wh
+        //  }
+        //  if(otherParams&&otherParams.whereForm){
+        //     for(let key in otherParams.whereForm){
+        //       this.whereForm[key]=otherParams.whereForm[key]
+        //     }
+        //  }
+       }
+    },
     //交互按钮点击事件
-    Interactive(){
-        console.log(this.statisticsAll)
-       this.$emit('interactive',this.statisticsAll)
+    Interactive () {
+      // console.log(this.statisticsAll)
+      this.$emit('interactive', this.statisticsAll)
     },
     //详情列表模块数据
-    detailsTableData() {
+    detailsTableData () {
       let data = this.statisticsAll.data
-      if(!data) return 
+      if (!data) return
       let contentAreaConfig = this.statisticsAll.contentAreaConfig
       if (contentAreaConfig.apiType === '1') {
         if (data.constructor == Array) {
-          data=data[0]
+          data = data[0]
         }
-      }else if (contentAreaConfig.apiType === '0'){
-        data=data[0]
+      } else if (contentAreaConfig.apiType === '0') {
+        data = data[0]
       }
       return data
     },
     //标题二
-    settingFormSubtitle1() {
+    settingFormSubtitle1 () {
       let contentAreaConfig = this.statisticsAll.contentAreaConfig
       return contentAreaConfig.subtitle1
     },
     // 模块是否可关闭
-    isModuleClose() {
+    isModuleClose () {
       return this.statisticsAll.parentModuleId || this.settingForm.isModuleClose
     },
     // 当前模块是否为图表组件判断
-    isCharts() {
+    isCharts () {
       const offon = !!(
         !this.settingForm.moduleType || this.settingForm.moduleType === '0'
       )
       return offon
     },
     // 表单内容区域高度
-    boxHeight() {
+    boxHeight () {
       let Height = null
 
       // 判断是否有查询模块
@@ -403,14 +420,14 @@ export default {
       return Height
     },
     // 更多按钮点击事件
-    moduleMore() {
+    moduleMore () {
       if (this.settingForm.moreUrl.replace(/\s*/g, '') !== '') {
         window.open(this.settingForm.moreUrl, '_blank')
       }
       this.$emit('statisticsMore', this.statisticsAll)
     },
     // 模板克隆事件
-    copyTemplate() {
+    copyTemplate () {
       // 克隆当前模块配置数据
       const contentAreaConfigCopy = JSON.parse(JSON.stringify(this.settingForm))
       contentAreaConfigCopy.title = contentAreaConfigCopy.title + '-copy'
@@ -428,7 +445,7 @@ export default {
       }
     },
     // 配置字段筛选
-    nowClums() {
+    nowClums () {
       const data = []
       this.settingForm.keyArr.forEach((item) => {
         if (item.isShow === true) {
@@ -438,7 +455,7 @@ export default {
       return data
     },
     // 弹窗关闭事件
-    statisticsClose() {
+    statisticsClose () {
       if (this.settingForm.moduleType === '3') {
         this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
       } else {
@@ -450,7 +467,7 @@ export default {
       }
     },
     // 模块删除按钮点击事件
-    deleteTemplate() {
+    deleteTemplate () {
       this.$emit(
         'deleteMoule',
         this.statisticsAll.moduleId,
@@ -459,7 +476,8 @@ export default {
       )
     },
     // 模块设置表单保存事件
-    settingKeep(contentAreaConfig) {
+    settingKeep (contentAreaConfig) {
+      // this.statisticsAll.conditionAreaConfig =
       this.setDemos()
       this.$emit(
         'updateMoule',
@@ -470,9 +488,36 @@ export default {
         },
         this.whereForm
       )
+      //筛选数据旧版本兼容
+      this.compatible1(this.statisticsAll, contentAreaConfig)
+    },
+    //配置数据修改后更新-兼容旧版
+    compatible1 (item, contentAreaConfig) {
+      let filterConfig = item.contentAreaConfig.filterConfig
+      let conditionAreaConfig = item.conditionAreaConfig
+      let arr = []
+      if (conditionAreaConfig.screenData.length > 0 && filterConfig) {
+        conditionAreaConfig.screenData.forEach(items => {
+          let offon = true
+          filterConfig.screenData.forEach(item => {
+            if (item.key === items.key) {
+              offon = false
+            }
+          })
+          if (offon) {
+            arr.push(items)
+          }
+        })
+
+        conditionAreaConfig.screenData = arr.concat(contentAreaConfig.filterConfig.screenData)
+        conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
+        conditionAreaConfig.isShowInsertButton =
+          filterConfig.isShowInsertButton
+        console.log(conditionAreaConfig.screenData[1])
+      }
     },
     // 设置按钮点击事件
-    settingClick() {
+    settingClick () {
       this.$emit('settingClick', this.statisticsAll, (keyArr) => {
         this.$refs['settingForm'].show({
           keyArr,
@@ -480,20 +525,20 @@ export default {
       })
     },
     // 展示方式选择点击事件
-    chooseType(chartType) {
+    chooseType (chartType) {
       this.settingForm.displayMode = chartType
       if (this.isAdmin) {
         this.$emit(
           'updateMoule',
           this.settingForm,
           this.statisticsAll.moduleId,
-          () => {},
+          () => { },
           this.whereForm
         )
       }
     },
     // 分页事件
-    tablePageSort(pageAll) {
+    tablePageSort (pageAll) {
       this.$emit(
         'tablePageSort',
         this.statisticsAll.moduleId,
@@ -502,7 +547,7 @@ export default {
       )
     },
     // 图表点击事件
-    eventClick(e) {
+    eventClick (e) {
       this.statisticsAll.data.forEach((items, index) => {
         let offon = false
         if (this.settingForm.displayMode === 'bar') {
@@ -521,7 +566,7 @@ export default {
       })
     },
     // 图表配置数据暴露，外层定制化
-    setOptions(options, chartType, data) {
+    setOptions (options, chartType, data) {
       this.$emit(
         'setOptions',
         options,

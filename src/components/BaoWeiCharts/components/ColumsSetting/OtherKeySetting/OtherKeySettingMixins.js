@@ -3,6 +3,7 @@ export default {
         return {
             isShow: false,
             keyNowIndex: null, // 当前配置字段索引
+            fatherIndex: null, //父级行索引
             nowKey: "", // 当前选中key值
             otherKeySetting: {
                 cellRenderer: null, // 单元格数据自定义js脚本渲染
@@ -27,17 +28,26 @@ export default {
         }
     },
     methods: {
+        //是否隐藏控制
+        isHide(form, item) {
+            let offon = false
+                // console.log(this.$emit("isHide", form, item), 'this.$emit("isHide", form, item)')
+            this.$emit("isHide", form, this.fatherIndex, item, (val) => {
+                offon = val
+            })
+            return offon
+        },
         //带右侧按钮模块点击事件
-        inputClick(form, item, index) {
-            this.$emit("inputClick", form, item, index)
-
+        inputClick(form, item) {
+            this.$emit("inputClick", form, this.fatherIndex, item)
         },
         //placeholder设置
         placeholder(item) {
             return item.placeholder ? item.placeholder : item.label;
         },
         // 弹窗显示事件
-        show(form, otherFormConfig) {
+        show(form, fatherIndex, otherFormConfig) {
+            this.fatherIndex = fatherIndex
             this.isShow = true;
             this.form = form;
             this.otherFormConfig = otherFormConfig

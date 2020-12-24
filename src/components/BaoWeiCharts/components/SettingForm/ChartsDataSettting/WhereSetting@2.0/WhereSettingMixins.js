@@ -72,7 +72,8 @@ export default {
                     label: '右侧宽度',
                     key: 'rightWidth',
                     formType: "number",
-                    width: 100
+                    width: 100,
+                    defaultValue: 100
                 },
 
                 {
@@ -116,7 +117,9 @@ export default {
                             label: '配置数据/接口',
                             key: 'changeData',
                             formType: "inputButton",
-                            isHide: false,
+                            isHide(form) {
+                                return ['radio', 'checkbox', 'select'].indexOf(form.type) == -1
+                            },
                             click(form, fatherIndex, item) {
                                 _this.itemDataChange(form, fatherIndex, item)
                                     // console.log('配置数据/接口')
@@ -125,16 +128,46 @@ export default {
                             label: '显示样式',
                             key: 'styleType',
                             formType: "select",
-                            selectArr: [{ lab: "默认样式", val: "0" }, { lab: "带有边框", val: "1" }, { lab: "按钮组", val: "2" }],
-                            isHide: false
+                            isHide(form) {
+                                return ['checkbox'].indexOf(form.type) == -1
+                            },
+                            selectArr: [{ lab: "默认样式", val: "0" }, { lab: "带有边框", val: "1" }, { lab: "按钮组", val: "2" }]
                         },
                         {
                             label: '是否结束时间',
                             key: 'sfjssj',
                             formType: "select",
+                            isHide(form) {
+                                return ['date', 'dateTime'].indexOf(form.type) == -1
+                            },
                             selectArr: [{ lab: "是", val: "1" }, { lab: "否", val: "0" }],
-                            defaultValue: "0",
-                            isHide: false
+                            defaultValue: "0"
+                        },
+                        {
+                            label: '是否设置默认值为当前时间',
+                            key: 'isNewDate',
+                            formType: "switch",
+                            isHide(form) {
+                                return ['date', 'dateTime'].indexOf(form.type) == -1
+                            },
+                            defaultValue: false
+                        },
+                        {
+                            label: '是否添加时间段选择器',
+                            key: 'iSaddTimeSlot',
+                            formType: "switch",
+                            //显示条件1、type类型为'date', 'dateTime' 2、前面一个筛选项类型也必须为'date', 'dateTime' 
+                            isHide(form, index) {
+                                let offon = true;
+                                if (['date'].indexOf(form.type) > -1) {
+                                    let kvp = _this.form.filterConfig.screenData[index - 1]
+                                    if (kvp && ['date'].indexOf(kvp.type) > -1) {
+                                        offon = false
+                                    }
+                                }
+                                return offon
+                            },
+                            defaultValue: false
                         }
                     ],
                     width: 80

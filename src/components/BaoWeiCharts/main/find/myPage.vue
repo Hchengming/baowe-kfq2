@@ -97,16 +97,31 @@
         :tabs-form="tabsConfig"
         @tabsAdd="tabsAdd"
       />
+
+      <Axis-setting
+        ref="AxisSetting"
+        :axis-config="axisConfig"
+        @axisAdd="axisAdd"
+      />
+      <Time-Axis-Setting
+        ref="TimeAxisSetting"
+        :time-config="timeConfig"
+        @axisAdd="timeAxisAdd"
+      />
     </el-drawer>
 
     <!-- 交互配置组件 -->
     <interactive-setting
-     ref="InteractiveSetting" 
+     ref="InteractiveSetting"
      :interactiveModuleAll="interactiveModuleAll"
       :beforeParamsData="beforeParamsData"
        :interactiveData="interactiveData"
        @interactiveSubmit="interactiveDataEmit"
-       ></interactive-setting>   
+       ></interactive-setting>
+      <axis :data-source="item.axisData" :config="item.axisConfig" v-for="(item, index) in axisSource"
+          :key="index" @delete="deleteAxis(index)" @axisClick="axisClick"/>
+      <time-axis :config-info="item" v-for="(item, index) in timeSource" :key="index"
+               @delete="deleteTimeAxis(index)" @timeClick="timeClick"/>
   </div>
 </template>
 <script>
@@ -121,6 +136,12 @@ import myPageMixins from './mixins/myPageMixins.js'
 import TabSetting from '../../components/TabSetting'
 import ProjectConfig from './ProjectConfig'
 import interactiveMixins from './mixins/interactiveMixins'
+/* 类目轴导入 */
+import AxisSetting from "../../components/AxisSetting";
+import Axis from "../../components/Axis"
+import axisMixins from "./mixins/axisMixins";
+import TimeAxisSetting from "../../components/TimeAxisSetting"
+import TimeAxis from "../../components/TimeAxis"
 // 交互配置组件
 import InteractiveSetting from '../../components/InteractiveSetting'
 /* ====end==== */
@@ -134,10 +155,14 @@ export default {
     MenuSetting,
     TabSetting,
     ProjectConfig,
-    InteractiveSetting
+    InteractiveSetting,
+    AxisSetting,
+    Axis,
+    TimeAxisSetting,
+    TimeAxis
     // myMap
   },
-  mixins: [topBarMixins, myPageMixins,interactiveMixins],
+  mixins: [topBarMixins, myPageMixins,interactiveMixins,axisMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -179,8 +204,8 @@ export default {
       this.$emit('projectConfigSubmit', obj)
     },
     // 通过模块id改变模块渲染数据事件
-    changePageData(moduleId, viewchange) {
-      this.$refs['middleware'].changePageData(moduleId, viewchange)
+    changePageData(moduleId, viewchange,wh) {
+      this.$refs['middleware'].changePageData(moduleId, viewchange,wh)
     },
     // 图表模块显示隐藏控制事件
     modeuleShow(obj) {
@@ -195,7 +220,7 @@ export default {
       this.$emit('elementMethods', reqObj)
       //模块交互触发
       this.interactiveElementMethods(reqObj)
-      
+
     },
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {
@@ -250,6 +275,12 @@ export default {
         case 'tabs': // tabs切换
           this.$refs['tabsSetting'].show()
           break
+        case 'axis': // 类目轴
+           this.$refs['AxisSetting'].show()
+           break
+        case 'timeAxis':
+           this.$refs['TimeAxisSetting'].show()
+           break
       }
       this.settingDrawer = false
     }
