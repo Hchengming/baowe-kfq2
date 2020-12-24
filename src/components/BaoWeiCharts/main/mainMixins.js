@@ -186,7 +186,7 @@ export default {
         // 左侧菜单点击事件
         leftMenuClick(menuItem) {
             this.menuJS(menuItem.menuId)
-
+            this.defaultActive = menuItem.menuCode
             this.$refs['myPage'].menuClick(menuItem)
             this.$emit('elementMethods', {
                 name: '左侧菜单点击事件',
