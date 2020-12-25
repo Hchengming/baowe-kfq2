@@ -97,16 +97,18 @@
         :tabs-form="tabsConfig"
         @tabsAdd="tabsAdd"
       />
-
-      <Axis-setting
+       <!-- 类目轴配置 -->
+      <axis-setting
         ref="AxisSetting"
         :axis-config="axisConfig"
+        @timeAxisEmit="timeAxisEmit"
         @axisAdd="axisAdd"
       />
-      <Time-Axis-Setting
+      <!-- 时间轴配置 -->
+      <time-axis-setting
         ref="TimeAxisSetting"
         :time-config="timeConfig"
-        @axisAdd="timeAxisAdd"
+        @timeAxisEmit="timeAxisEmit"
       />
     </el-drawer>
 
@@ -118,9 +120,11 @@
        :interactiveData="interactiveData"
        @interactiveSubmit="interactiveDataEmit"
        ></interactive-setting>
+       <!-- 类目轴 -->
       <axis :data-source="item.axisData" :config="item.axisConfig" v-for="(item, index) in axisSource"
           :key="index" @delete="deleteAxis(index)" @axisClick="axisClick"/>
-      <time-axis :config-info="item" v-for="(item, index) in timeSource" :key="index"
+      <!-- 时间轴 -->
+      <time-axis :config-info="item.timeAxisConfig" :moduleId="item.moduleId" v-for="(item, index) in timeSource" :key="index"
                @delete="deleteTimeAxis(index)" @timeClick="timeClick"/>
   </div>
 </template>
@@ -139,7 +143,7 @@ import interactiveMixins from './mixins/interactiveMixins'
 /* 类目轴导入 */
 import AxisSetting from "../../components/AxisSetting";
 import Axis from "../../components/Axis"
-import axisMixins from "./mixins/axisMixins";
+import timeAxisMixins from "./mixins/timeAxisMixins";
 import TimeAxisSetting from "../../components/TimeAxisSetting"
 import TimeAxis from "../../components/TimeAxis"
 // 交互配置组件
@@ -162,7 +166,7 @@ export default {
     TimeAxis
     // myMap
   },
-  mixins: [topBarMixins, myPageMixins,interactiveMixins,axisMixins],
+  mixins: [topBarMixins, myPageMixins,interactiveMixins,timeAxisMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -227,11 +231,8 @@ export default {
       this.nowMenuItem = menuItem
       this.$refs['middleware'].menuClick(menuItem, menuTypes, fn)
       this.getTopBarConfig()
-      // this.elementMethods({
-      //   name: '菜单点击事件',
-      //   methodsName: 'menuClick',
-      //   menuItem
-      // })
+       //时间轴配置数据查询
+       this.timeAxisSelect()
       sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
@@ -278,7 +279,7 @@ export default {
         case 'axis': // 类目轴
            this.$refs['AxisSetting'].show()
            break
-        case 'timeAxis':
+        case 'timeAxis'://时间轴
            this.$refs['TimeAxisSetting'].show()
            break
       }

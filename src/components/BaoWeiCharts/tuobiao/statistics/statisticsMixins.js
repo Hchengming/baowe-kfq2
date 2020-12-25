@@ -286,6 +286,7 @@ export const screenMixins = {
         },
         //当前筛选数据缓存
         whereFormKeep(form) {
+            this.whereForm = form
             this.$emit('whereFormKeep',
                 form,
                 this.statisticsAll.moduleId

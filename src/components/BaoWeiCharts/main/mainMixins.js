@@ -201,8 +201,9 @@ export default {
             this.leftMenu = item.children
             this.$refs['myPage'].mainStyleChange()
             this.$refs['myPage'].menuClick(item, 'top', offon => {
-                if (offon && item.children && item.children.length > 0) {
-                    this.menuJump(item.children[0].menuCode)
+                if (offon && this.settingConfig.systemPermissions === 'user') {
+                    // this.menuJump(item.children[0].menuCode)
+                    this.redusion(item)
                 }
             })
             this.$emit('elementMethods', {
@@ -210,6 +211,14 @@ export default {
                 methodsName: 'menuClick',
                 menuItem: item
             })
+        },
+        //顶部栏点击为配置页面跳转
+        redusion(item) {
+            if (item.children && item.children.length > 0) {
+                this.redusion(item.children[0])
+            } else {
+                this.menuJump(item.menuCode)
+            }
         },
         // 菜单树数据查询事件
         getTreeMenu() {

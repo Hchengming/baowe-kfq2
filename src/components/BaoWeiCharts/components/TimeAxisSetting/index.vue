@@ -49,7 +49,7 @@
           <el-form-item label="开始时间" prop="filed">
             <el-date-picker
               v-model="timeConfig.start"
-              value-format="yyyy-MM-dd"
+              value-format="yyyy"
               :style="{ width: '130px' }"
               type="year"
               size="small"
@@ -61,7 +61,7 @@
           <el-form-item label="结束时间" prop="filed">
             <el-date-picker
               v-model="timeConfig.end"
-              value-format="yyyy-MM-dd"
+              value-format="yyyy"
               :style="{ width: '130px' }"
               type="year"
               size="small"
@@ -79,11 +79,6 @@
               style="width: 70px"
               placeholder="若模块重叠,低层级模块会被高层级覆盖"
             />
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="是否启用拖拽功能" prop="isDrafting">
-            <el-switch v-model="timeConfig.isDrafting" />
           </el-form-item>
         </el-col>
       </el-row>
