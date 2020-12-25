@@ -10,8 +10,18 @@
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item v-if="form.apiType==='0'" label="视图名称" label-width="65px">
-          <el-select v-model="form.viewId" size="small" filterable placeholder="视图名称" @change="viewIdChange">
+        <el-form-item
+          v-if="form.apiType === '0'"
+          label="视图名称"
+          label-width="65px"
+        >
+          <el-select
+            v-model="form.viewId"
+            size="small"
+            filterable
+            placeholder="视图名称"
+            @change="viewIdChange"
+          >
             <el-option
               v-for="option in dataViewList"
               :key="option.id"
@@ -21,7 +31,11 @@
           </el-select>
         </el-form-item>
         <!-- {{form.viewId}} -->
-        <el-form-item v-if="form.apiType!=='0'" label="服务名称" label-width="65px">
+        <el-form-item
+          v-if="form.apiType !== '0'"
+          label="服务名称"
+          label-width="65px"
+        >
           <el-select
             v-model="form.urlName"
             size="small"
@@ -55,7 +69,7 @@ export default {
       type: Array,
       default: null
     },
-    itemApiData:{
+    itemApiData: {
       type: Array,
       default: null
     },

@@ -96,7 +96,7 @@ import ListsSettingMixins from './TimeAxisSettingMixins'
 export default {
   mixins: [ListsSettingMixins],
   props: {
-     timeConfig: {
+    timeConfig: {
       type: Object,
       default: null
     }

@@ -53,10 +53,11 @@
       <fieldset class="param-config-setting">
         <!-- 请求参数配置 -->
         <legend class="theme-color">数据配置</legend>
-        <colums-setting :tableData='axisData'
-                        @add="axisAdd"
-                        :tableCloums="tableCloums">
-        </colums-setting>
+        <colums-setting
+          :table-data="axisData"
+          :table-cloums="tableCloums"
+          @add="axisAdd"
+        />
       </fieldset>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -74,25 +75,25 @@ export default {
   components: { columsSetting },
   mixins: [ListsSettingMixins],
   props: {
-   axisConfig: {
+    axisConfig: {
       type: Object,
       default: null
-   }
+    }
   }
 }
 </script>
 <style scoped>
-  .axis-field{
-    width: 98%;
-  }
-  .axis-field-set{
-    width: 100%;
-    margin-right: 0px;
-  }
-  .axis-ul{
-    width: 98%;
-  }
-  .axis-center{
-    width: calc( calc(100% - 100px) /2 ) !important;
-  }
+.axis-field {
+  width: 98%;
+}
+.axis-field-set {
+  width: 100%;
+  margin-right: 0px;
+}
+.axis-ul {
+  width: 98%;
+}
+.axis-center {
+  width: calc(calc(100% - 100px) / 2) !important;
+}
 </style>

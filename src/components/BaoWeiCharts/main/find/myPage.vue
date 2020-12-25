@@ -90,14 +90,19 @@
         @addAssembly="addAssembly"
       />
       <!-- 项目配置  主题配置 -->
-      <project-config v-if="rightDrawerType == 'theme'" :now-project-config="nowProjectConfig" @projectConfigChange="projectConfigChange" @projectConfigSubmit="projectConfigSubmit" />
+      <project-config
+        v-if="rightDrawerType == 'theme'"
+        :now-project-config="nowProjectConfig"
+        @projectConfigChange="projectConfigChange"
+        @projectConfigSubmit="projectConfigSubmit"
+      />
       <!-- tabs切换组件 -->
       <tab-setting
         ref="tabsSetting"
         :tabs-form="tabsConfig"
         @tabsAdd="tabsAdd"
       />
-       <!-- 类目轴配置 -->
+      <!-- 类目轴配置 -->
       <axis-setting
         ref="AxisSetting"
         :axis-config="axisConfig"
@@ -114,18 +119,30 @@
 
     <!-- 交互配置组件 -->
     <interactive-setting
-     ref="InteractiveSetting"
-     :interactiveModuleAll="interactiveModuleAll"
-      :beforeParamsData="beforeParamsData"
-       :interactiveData="interactiveData"
-       @interactiveSubmit="interactiveDataEmit"
-       ></interactive-setting>
-       <!-- 类目轴 -->
-      <axis :data-source="item.axisData" :config="item.axisConfig" v-for="(item, index) in axisSource"
-          :key="index" @delete="deleteAxis(index)" @axisClick="axisClick"/>
-      <!-- 时间轴 -->
-      <time-axis :config-info="item.timeAxisConfig" :moduleId="item.moduleId" v-for="(item, index) in timeSource" :key="index"
-               @delete="deleteTimeAxis(index)" @timeClick="timeClick"/>
+      ref="InteractiveSetting"
+      :interactive-module-all="interactiveModuleAll"
+      :before-params-data="beforeParamsData"
+      :interactive-data="interactiveData"
+      @interactiveSubmit="interactiveDataEmit"
+    />
+    <!-- 类目轴 -->
+    <axis
+      v-for="(item, index) in axisSource"
+      :key="index"
+      :data-source="item.axisData"
+      :config="item.axisConfig"
+      @delete="deleteAxis(index)"
+      @axisClick="axisClick"
+    />
+    <!-- 时间轴 -->
+    <time-axis
+      v-for="(item, index) in timeSource"
+      :key="index"
+      :config-info="item.timeAxisConfig"
+      :module-id="item.moduleId"
+      @delete="deleteTimeAxis(index)"
+      @timeClick="timeClick"
+    />
   </div>
 </template>
 <script>
@@ -141,11 +158,11 @@ import TabSetting from '../../components/TabSetting'
 import ProjectConfig from './ProjectConfig'
 import interactiveMixins from './mixins/interactiveMixins'
 /* 类目轴导入 */
-import AxisSetting from "../../components/AxisSetting";
-import Axis from "../../components/Axis"
-import timeAxisMixins from "./mixins/timeAxisMixins";
-import TimeAxisSetting from "../../components/TimeAxisSetting"
-import TimeAxis from "../../components/TimeAxis"
+import AxisSetting from '../../components/AxisSetting'
+import Axis from '../../components/Axis'
+import timeAxisMixins from './mixins/timeAxisMixins'
+import TimeAxisSetting from '../../components/TimeAxisSetting'
+import TimeAxis from '../../components/TimeAxis'
 // 交互配置组件
 import InteractiveSetting from '../../components/InteractiveSetting'
 /* ====end==== */
@@ -166,7 +183,7 @@ export default {
     TimeAxis
     // myMap
   },
-  mixins: [topBarMixins, myPageMixins,interactiveMixins,timeAxisMixins],
+  mixins: [topBarMixins, myPageMixins, interactiveMixins, timeAxisMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -179,7 +196,8 @@ export default {
       default: null
     },
     nowProjectConfig: {
-      type: Object, default: null
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -208,8 +226,8 @@ export default {
       this.$emit('projectConfigSubmit', obj)
     },
     // 通过模块id改变模块渲染数据事件
-    changePageData(moduleId, viewchange,wh) {
-      this.$refs['middleware'].changePageData(moduleId, viewchange,wh)
+    changePageData(moduleId, viewchange, wh) {
+      this.$refs['middleware'].changePageData(moduleId, viewchange, wh)
     },
     // 图表模块显示隐藏控制事件
     modeuleShow(obj) {
@@ -222,17 +240,16 @@ export default {
     // 组件事件暴露
     elementMethods(reqObj) {
       this.$emit('elementMethods', reqObj)
-      //模块交互触发
+      // 模块交互触发
       this.interactiveElementMethods(reqObj)
-
     },
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {
       this.nowMenuItem = menuItem
       this.$refs['middleware'].menuClick(menuItem, menuTypes, fn)
       this.getTopBarConfig()
-       //时间轴配置数据查询
-       this.timeAxisSelect()
+      // 时间轴配置数据查询
+      //  this.timeAxisSelect()
       sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
@@ -277,11 +294,11 @@ export default {
           this.$refs['tabsSetting'].show()
           break
         case 'axis': // 类目轴
-           this.$refs['AxisSetting'].show()
-           break
-        case 'timeAxis'://时间轴
-           this.$refs['TimeAxisSetting'].show()
-           break
+          this.$refs['AxisSetting'].show()
+          break
+        case 'timeAxis': // 时间轴
+          this.$refs['TimeAxisSetting'].show()
+          break
       }
       this.settingDrawer = false
     }

@@ -10,20 +10,14 @@
         :data="data"
         show-checkbox
         node-key="id"
-        :default-expanded-keys="[1,2, 3]"
+        :default-expanded-keys="[1, 2, 3]"
         :default-checked-keys="[]"
         :props="defaultProps"
       />
-      <span
-        slot="footer"
-        class="dialog-footer"
-      >
+      <span slot="footer" class="dialog-footer">
         <div class="right">
-          <el-button @click="isShow=false">取 消</el-button>
-          <el-button
-            type="primary"
-            @click="onSubmit"
-          >确 定</el-button>
+          <el-button @click="isShow = false">取 消</el-button>
+          <el-button type="primary" @click="onSubmit">确 定</el-button>
         </div>
       </span>
     </el-dialog>
@@ -103,7 +97,7 @@ export default {
       let str
       data.forEach(item => {
         if (!item.children || item.children.length === 0) {
-          str ? str = str + ',' + item.label : str = item.label
+          str ? (str = str + ',' + item.label) : (str = item.label)
         }
       })
       this.$emit('treeModelSubmit', str, this.fatherItem)

@@ -3,8 +3,10 @@
   <div>
     <div class="screenForm-top">
       <span>是否显示查询按钮</span>
-      <el-radio-group v-model="form.filterConfig.isShowInsertButton"
-                      size="small">
+      <el-radio-group
+        v-model="form.filterConfig.isShowInsertButton"
+        size="small"
+      >
         <el-radio label="1">是</el-radio>
         <el-radio label="0">否</el-radio>
       </el-radio-group>
@@ -12,23 +14,25 @@
     <div class="screenBox">
       <fieldset class="form-setting">
         <legend class="theme-color">表单配置</legend>
-         <el-button 
-                 size="small"
-                 @click="getmrParams">默认参数获取</el-button>
-        <colums-setting :tableData="form.filterConfig.screenData"
-                        :tableCloums="tableCloums">
-
-        </colums-setting>
+        <el-button size="small" @click="getmrParams">默认参数获取</el-button>
+        <colums-setting
+          :table-data="form.filterConfig.screenData"
+          :table-cloums="tableCloums"
+        />
       </fieldset>
       <fieldset>
         <legend class="theme-color">右侧其他按钮配置</legend>
-        <button-setting :operate-button="form.filterConfig.btnSettingData"
-                        setting-type="2" />
+        <button-setting
+          :operate-button="form.filterConfig.btnSettingData"
+          setting-type="2"
+        />
       </fieldset>
     </div>
-    <settingData ref="settingData"
-                 :form="form"
-                 @itemDataConfig="itemDataConfig" />
+    <settingData
+      ref="settingData"
+      :form="form"
+      @itemDataConfig="itemDataConfig"
+    />
   </div>
 </template>
 <script>
@@ -43,8 +47,8 @@ export default {
   props: {
     form: {
       type: Object,
-      default: null,
-    },
-  },
+      default: null
+    }
+  }
 }
 </script>

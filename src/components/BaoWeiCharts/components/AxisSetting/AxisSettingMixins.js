@@ -2,30 +2,29 @@ export default {
   data() {
     return {
       isShow: false,
-      axisData:[],
+      axisData: [],
       tableCloums: [{
         label: '索引',
         key: 'index',
-        formType: "number",
+        formType: 'number',
         width: 100
-      }, {
+      },
+      {
         label: '值',
         key: 'value',
         disabled: false,
-        formType: "input",
+        formType: 'input',
         width: 700
-      }],
+      }
+      ]
     }
-  },
-  watch: {
-
   },
   methods: {
     // 弹窗显示事件
     show() {
       this.isShow = true
     },
-    initData(data){
+    initData(data) {
       this.axisData = data.map(value => value)
     },
     // 弹窗关闭事件

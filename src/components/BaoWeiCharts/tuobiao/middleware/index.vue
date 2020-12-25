@@ -17,57 +17,62 @@
          @statisticsMore  头部右侧更多按钮点击事件
          @operateButtonClick  表格、列表右侧其他按钮点击事件
          @setOptions    图表配置数据暴露，外层定制化配置事件
-         @interactive  图表交互按钮点击事件  
+         @interactive  图表交互按钮点击事件
          @whereFormKeep  筛选数据缓存
     -->
-    <section v-for="(item, index) in pageData"
-             :key="index">
-      <statistics :statistics-all="item"
-                  ref="statisticsAll"
-                  :browser-x-y="browserXY"
-                  :data-url="settingConfig.dataUrl"
-                  :setting-config="settingConfig"
-                  :add-setting-form="addSettingForm"
-                  :item-api-data="itemApiData"
-                  :data-view-list="dataViewList"
-                  :system-permissions="settingConfig.systemPermissions"
-                  @setOptions="setOptions"
-                  @firstAddKeep="addKeep"
-                  @deleteMoule="deleteMoule"
-                  @rowClick="rowClick"
-                  @cellClick="cellClick"
-                  @updateMoule="updateMoule"
-                  @childSettingAdd="childSettingAdd"
-                  @childInsertData="childInsertData"
-                  @statisticsClose="statisticsClose"
-                  @blankTemplateClose="blankTemplateClose"
-                  @screenKeep="screenKeep"
-                  @tablePageSort="tablePageSort"
-                  @whereSubmit="whereSubmit"
-                  @detailsAreaConfigEmit="detailsAreaConfigEmit"
-                  @whereOtherBtnClick="whereOtherBtnClick"
-                  @operateButtonClick="operateButtonClick"
-                  @statisticsMore="statisticsMore"
-                  @settingClick="settingClick"
-                  @whereFormKeep="whereFormKeep"
-                  @interactive="interactive">
-        <div v-if="item.contentAreaConfig.blankTemplateConfig"
-             :slot="item.contentAreaConfig.blankTemplateConfig.slot"
-             style="width: 100%; height: 100%">
+    <section v-for="(item, index) in pageData" :key="index">
+      <statistics
+        ref="statisticsAll"
+        :statistics-all="item"
+        :browser-x-y="browserXY"
+        :data-url="settingConfig.dataUrl"
+        :setting-config="settingConfig"
+        :add-setting-form="addSettingForm"
+        :item-api-data="itemApiData"
+        :data-view-list="dataViewList"
+        :system-permissions="settingConfig.systemPermissions"
+        @setOptions="setOptions"
+        @firstAddKeep="addKeep"
+        @deleteMoule="deleteMoule"
+        @rowClick="rowClick"
+        @cellClick="cellClick"
+        @updateMoule="updateMoule"
+        @childSettingAdd="childSettingAdd"
+        @childInsertData="childInsertData"
+        @statisticsClose="statisticsClose"
+        @blankTemplateClose="blankTemplateClose"
+        @screenKeep="screenKeep"
+        @tablePageSort="tablePageSort"
+        @whereSubmit="whereSubmit"
+        @detailsAreaConfigEmit="detailsAreaConfigEmit"
+        @whereOtherBtnClick="whereOtherBtnClick"
+        @operateButtonClick="operateButtonClick"
+        @statisticsMore="statisticsMore"
+        @settingClick="settingClick"
+        @whereFormKeep="whereFormKeep"
+        @interactive="interactive"
+      >
+        <div
+          v-if="item.contentAreaConfig.blankTemplateConfig"
+          :slot="item.contentAreaConfig.blankTemplateConfig.slot"
+          style="width: 100%; height: 100%"
+        >
           <slot :name="item.contentAreaConfig.blankTemplateConfig.slot" />
         </div>
       </statistics>
     </section>
 
     <!-- 新增弹窗模块 -->
-    <settingForm ref="settingForm"
-                 :data-view-list="dataViewList"
-                 :form="addSettingForm"
-                 :data-url="settingConfig.dataUrl"
-                 :item-api-data="itemApiData"
-                 :setting-config="settingConfig"
-                 @screenKeep="addScreenKeep"
-                 @submit="addKeep" />
+    <settingForm
+      ref="settingForm"
+      :data-view-list="dataViewList"
+      :form="addSettingForm"
+      :data-url="settingConfig.dataUrl"
+      :item-api-data="itemApiData"
+      :setting-config="settingConfig"
+      @screenKeep="addScreenKeep"
+      @submit="addKeep"
+    />
   </div>
 </template>
 <script>
@@ -82,18 +87,18 @@ export default {
   props: {
     settingConfig: {
       type: Object,
-      default: null,
+      default: null
     },
     dataViewList: {
       type: Array,
-      default: null,
+      default: null
     },
     itemApiData: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
-  data () {
+  data() {
     return {
       // systemPermissions: 'admin', // 系统权限控制
       templateArr: ['baowei_1'],
@@ -111,7 +116,7 @@ export default {
         moduleCode: '', // 模板编码  当前模板唯一编码
         blankTemplateConfig: {
           // 空白模板配置项
-          slot: '', // slot嵌入字段
+          slot: '' // slot嵌入字段
         },
         destailTypeTheme: '0', // 详情表格展示组题样式选则 0：默认表格  1：主题一
         apiType: '1', // 0：数据视图 1：应用接口
@@ -123,7 +128,7 @@ export default {
         tableOtherConfig: {
           tableType: '0', // 表格类型 0:普通表格 1:树形表格
           onlyKey: '', // 行数据唯一字段
-          childKey: 'children', // 树形表格子级字段名
+          childKey: 'children' // 树形表格子级字段名
         },
 
         operateButton: [], // 列表、表格右侧操作按钮配置数据
@@ -133,7 +138,7 @@ export default {
         iframeAll: {
           iframeType: '0', // 0-map地图  1-其他类型
           iframeId: '', // 自定义iframe框id名
-          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129', // iframe嵌入路径,
+          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129' // iframe嵌入路径,
         },
         height: 30,
         width: 30,
@@ -147,7 +152,7 @@ export default {
         menuTapAll: {
           isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
           menuTapKey: '', // 点击触发跳转字段
-          menuCodeKey: '', // 菜单编码字段
+          menuCodeKey: '' // 菜单编码字段
         },
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
         isLinkMap: '0', // 是否链接iframe地图  0:不链接 1:链接
@@ -159,27 +164,27 @@ export default {
         isDrafting: false, // 是否给用户启用模块拖拽功能
         isHeaderHide: false, // 模块头部是否显示
         isModuleClose: false, // 模块是否可关闭
-        
+
         filterConfig: {
-          //筛选项配置信息
-          screenData: [], //查询项配置
-          btnSettingData: [], //查询按钮配置
-          isShowInsertButton: '1', //查询按钮是否显示配置
-        },
+          // 筛选项配置信息
+          screenData: [], // 查询项配置
+          btnSettingData: [], // 查询按钮配置
+          isShowInsertButton: '1' // 查询按钮是否显示配置
+        }
       },
       addSettingFormClone: {},
-      conditionAreaConfigClone:{},//旧的筛选数据克隆
-      whereData: [], //所有模块筛选数据
+      conditionAreaConfigClone: {}, // 旧的筛选数据克隆
+      whereData: [] // 所有模块筛选数据
     }
   },
-  mounted () {
+  mounted() {
     this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
-    //所有模块筛选数据缓存
-    whereFormKeep (form, moduleId) {
+    // 所有模块筛选数据缓存
+    whereFormKeep(form, moduleId) {
       let offon = true
-      this.whereData.forEach((item) => {
+      this.whereData.forEach(item => {
         if (item.moduleId === moduleId) {
           offon = false
           item.form = form
@@ -188,16 +193,16 @@ export default {
       if (offon) {
         this.whereData.push({
           form,
-          moduleId,
+          moduleId
         })
       }
     },
-    //图表组件被交互事件
-    interactiveCover (params, moduleId) {
+    // 图表组件被交互事件
+    interactiveCover(params, moduleId) {
       let reqObj = {}
-      this.whereData.forEach((item) => {
+      this.whereData.forEach(item => {
         if (item.moduleId === moduleId) {
-          for (let key in params) {
+          for (const key in params) {
             reqObj = item.form
             reqObj[key] = params[key]
           }
@@ -220,20 +225,24 @@ export default {
       })
       this.getTableData(obj, reqObj, nowItem)
     },
-    //图表组件集交互按钮点击事件
-    interactive (statisticsAll) {
+    // 图表组件集交互按钮点击事件
+    interactive(statisticsAll) {
       this.$emit('chartsMethods', {
         statisticsAll,
         methodsName: 'interactive',
         pageData: this.pageData,
-        name: '图表组件集',
+        name: '图表组件集'
       })
     },
     // 通过模块id改变模块渲染数据事件
-    changePageData (moduleId,viewchange,wh) {
+    changePageData(moduleId, viewchange, wh) {
       this.pageData.forEach((item, index) => {
         if (item.moduleId === moduleId) {
-          this.$refs['statisticsAll'][index].statisticsAllChange(moduleId,viewchange,wh)
+          this.$refs['statisticsAll'][index].statisticsAllChange(
+            moduleId,
+            viewchange,
+            wh
+          )
           // viewchange(item, () => {
           //   this.$nextTick(() => {
           //     console.log(item, 'item')
@@ -241,15 +250,13 @@ export default {
           //     this.$refs['statisticsAll'][index].statisticsAllChange(moduleId, item)
           //   })
           // })
-
-
         }
       })
     },
     // 图表模块显示隐藏控制事件
-    modeuleShow (obj) {
+    modeuleShow(obj) {
       const data = JSON.parse(JSON.stringify(this.pageData))
-      data.forEach((item) => {
+      data.forEach(item => {
         if (item.moduleId === obj.moduleId) {
           item.isShow = obj.isShow
         }
@@ -257,7 +264,7 @@ export default {
       this.pageData = data
     },
     // 图表方法暴露
-    chartsMethods (reqObj) {
+    chartsMethods(reqObj) {
       // let obj = {
       //   moduleId: reqObj.moduleId,
       //   methodsName: reqObj.methodsName,
@@ -267,48 +274,48 @@ export default {
       this.$emit('chartsMethods', reqObj)
     },
     // 查询模块其他按钮点击事件(按钮配置数据，模块id)
-    whereOtherBtnClick (setttingItem, moduleId) {
+    whereOtherBtnClick(setttingItem, moduleId) {
       this.chartsMethods({
         moduleId: moduleId,
         name: '查询模块其他按钮点击事件',
         methodsName: 'whereOtherBtnClick',
-        otherItem: setttingItem,
+        otherItem: setttingItem
       })
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
-    operateButtonClick (buttonSetting, rowItem, moduleId) {
+    operateButtonClick(buttonSetting, rowItem, moduleId) {
       this.chartsMethods({
         moduleId: moduleId,
         name: '表格、列表右侧其他按钮点击事件',
         methodsName: 'operateButtonClick',
         buttonSetting,
-        rowItem,
+        rowItem
       })
     },
     // 头部右侧更多按钮点击事件
-    statisticsMore (statisticsAll) {
+    statisticsMore(statisticsAll) {
       this.chartsMethods({
         moduleId: statisticsAll.moduleId,
         name: '头部右侧更多按钮点击事件',
-        methodsName: 'statisticsMore',
+        methodsName: 'statisticsMore'
       })
     },
     // 菜单点击事件
-    menuClick (menuItem, menuTypes, fn) {
+    menuClick(menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
       this.getData(menuTypes, fn)
     },
     // 子级弹窗关闭事件--同级子弹窗全部关闭
-    statisticsClose (moduleId, parentModuleId) {
+    statisticsClose(moduleId, parentModuleId) {
       this.chartsMethods({
         moduleId: moduleId,
         parentModuleId: parentModuleId,
         name: '页面关闭事件',
-        methodsName: 'statisticsMore',
+        methodsName: 'statisticsMore'
       })
       if (!parentModuleId) return
       const datas = []
-      this.pageData.forEach((item) => {
+      this.pageData.forEach(item => {
         if (item.parentModuleId) {
           // this.pageData.splice(index, 1)
           if (item.parentModuleId !== parentModuleId) {
@@ -323,9 +330,9 @@ export default {
       this.pageData = datas
     },
     // 自定义空白模板关闭事件
-    blankTemplateClose (moduleId) {
+    blankTemplateClose(moduleId) {
       // const datas = []
-      this.pageData.forEach((item) => {
+      this.pageData.forEach(item => {
         if (item.moduleId === moduleId) {
           this.$set(item, 'isShow', false)
           // item.isShow=false;
@@ -334,7 +341,7 @@ export default {
       //  this.pageData = datas
     },
     // 表格分页点击事件
-    tablePageSort (moduleId, paginationAll, whereForm) {
+    tablePageSort(moduleId, paginationAll, whereForm) {
       let offon = true
       // eslint-disable-next-line no-unused-vars
       const obj = {}
@@ -363,7 +370,7 @@ export default {
       }
     },
     // 配置数据格式转换
-    itemGSH (item) {
+    itemGSH(item) {
       // 详情配置数据格式转换
       if (item.detailsAreaConfig) {
         item.detailsAreaConfig = JSON.parse(item.detailsAreaConfig)
@@ -376,29 +383,31 @@ export default {
         item.contentAreaConfig.menuTapAll = {
           isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
           menuTapKey: '', // 点击触发跳转字段
-          menuCodeKey: '', // 菜单编码字段
+          menuCodeKey: '' // 菜单编码字段
         }
       }
       // 筛选配置数据格式转换
       if (item.conditionAreaConfig) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)
-        this.conditionAreaConfigClone=JSON.parse(JSON.stringify(item.conditionAreaConfig))
-     } else {
+        this.conditionAreaConfigClone = JSON.parse(
+          JSON.stringify(item.conditionAreaConfig)
+        )
+      } else {
         item.conditionAreaConfig = {}
       }
       this.filterConfigZH(item)
     },
-    //筛选数据整合
-    filterConfigZH (item) {
-      let filterConfig = item.contentAreaConfig.filterConfig
-      console.log(filterConfig,'filterConfig')
+    // 筛选数据整合
+    filterConfigZH(item) {
+      const filterConfig = item.contentAreaConfig.filterConfig
+      console.log(filterConfig, 'filterConfig')
       if (filterConfig) {
-        filterConfig.screenData.forEach((item) => {
+        filterConfig.screenData.forEach(item => {
           if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
             item.arr = item.changeData ? JSON.parse(item.changeData) : []
           }
         })
-        //新旧筛选内容整合
+        // 新旧筛选内容整合
         // if (item.conditionAreaConfig.screenData) {
         //   filterConfig.screenData.forEach((items) => {
         //     let offon = true
@@ -421,21 +430,21 @@ export default {
       }
     },
     // 页面加载状态变化
-    pageLoding (offon) {
+    pageLoding(offon) {
       this.$emit('pageLoading', offon)
     },
     // 模块图表配置数据获取
-    getData (menuTypes, fn) {
+    getData(menuTypes, fn) {
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](
         this.settingConfig.commonUrl +
-        '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
+          '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
         {
-          menuId: this.menuId,
+          menuId: this.menuId
         }
       )
-        .then((res) => {
+        .then(res => {
           const code = res.code
           const resData = res.data
 
@@ -450,7 +459,7 @@ export default {
 
               const keys = []
               item.isShow = true
-              item.contentAreaConfig.keyArr.forEach((obj) => {
+              item.contentAreaConfig.keyArr.forEach(obj => {
                 keys.push(obj.key)
               })
 
@@ -458,7 +467,7 @@ export default {
               const obj = {
                 url: item.contentAreaConfig.url,
                 keys: keys,
-                index: index,
+                index: index
               }
 
               if (item.contentAreaConfig.isPage === '1') {
@@ -479,23 +488,23 @@ export default {
               methodsName: 'getPageData',
               name: '页面模块渲染数据加载完成事件',
               data: this.pageData,
-              menuId: this.menuId,
+              menuId: this.menuId
             })
           }
           this.pageLoding(false)
         })
-        .catch((msg) => {
+        .catch(msg => {
           console.log('33333')
           this.$message({
             message: '请求失败' + msg,
-            type: 'error',
+            type: 'error'
           })
           this.pageLoding(false)
           return false
         })
     },
     // 自定义参数-值获取
-    getParamValue (val, item) {
+    getParamValue(val, item) {
       let paramValue = ''
       if (val && typeof val === 'string' && val.indexOf('${') === 0) {
         const num = val.length - 1
@@ -519,30 +528,30 @@ export default {
       return paramValue
     },
     // 数据获取参数配置
-    setParams (config, reqData) {
-      let screenData = config.contentAreaConfig.filterConfig.screenData
-      screenData.forEach((item) => {
+    setParams(config, reqData) {
+      const screenData = config.contentAreaConfig.filterConfig.screenData
+      screenData.forEach(item => {
         reqData[item.key] = item.defaultValue
       })
     },
     // 图表数据获取
-    getTableData (obj, whereReqData, config, nowIndex) {
-      nowIndex ? nowIndex : 1
+    getTableData(obj, whereReqData, config, nowIndex) {
+      nowIndex || 1
       let reqData = {
         currentPage: obj.currentPage,
-        pageSize: obj.pageSize,
+        pageSize: obj.pageSize
         // keys: obj.keys,
       }
-      //默认参数设置
+      // 默认参数设置
       if (config.contentAreaConfig.filterConfig) {
         this.setParams(config, reqData)
       }
-      //查询参数传入
+      // 查询参数传入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
       this.pageData[obj.index].isLoading = true
-      //返回特殊情况数据处理
+      // 返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
       if (!sftsqk) {
         // 根据请求方式的不同进行调整
@@ -550,7 +559,7 @@ export default {
           config.contentAreaConfig.options === 'POST' ? 'post' : 'get'
         // 参数写入
         if (config.contentAreaConfig.paramConfig) {
-          config.contentAreaConfig.paramConfig.forEach((item) => {
+          config.contentAreaConfig.paramConfig.forEach(item => {
             if (!reqData[item.paramKey] && item.isUse) {
               reqData[item.paramKey] = this.getParamValue(item.paramValue, item)
             }
@@ -567,7 +576,7 @@ export default {
               key !== 'viewId'
             ) {
               queryParamList.push({
-                [key]: reqData[key],
+                [key]: reqData[key]
               })
             }
           }
@@ -575,14 +584,14 @@ export default {
             viewId: config.contentAreaConfig.viewId,
             pageSize: reqData.pageSize,
             pageNumber: obj.currentPage,
-            queryParamList: queryParamList,
+            queryParamList: queryParamList
           }
           nowIndex *= 200
         }
 
         if (options === 'get') {
           reqData = {
-            params: reqData,
+            params: reqData
           }
         }
         // 判断当前接口是完全接口还是测试接口
@@ -612,23 +621,23 @@ export default {
         }
         setTimeout(() => {
           serviceAxios[options](nowUrl, reqData)
-            .then((res) => {
+            .then(res => {
               this.pageData[obj.index].isLoading = false
               const resData = res.data
               this.viewDataTranslation(resData, obj, config)
             })
-            .catch((msg) => {
+            .catch(msg => {
               this.$message({
                 message: '数据请求失败' + msg,
-                type: 'error',
+                type: 'error'
               })
               return false
             })
         }, nowIndex)
       }
     },
-    //特殊请求二次开发暴露
-    specialRequest (reqData, config, obj) {
+    // 特殊请求二次开发暴露
+    specialRequest(reqData, config, obj) {
       const reqObj = JSON.parse(JSON.stringify(reqData))
       reqObj.methodsName = 'getchartsList'
       reqObj.name = '图表数据请求事件'
@@ -637,12 +646,12 @@ export default {
       reqObj.url = obj.url
       // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
       let sftsqk = false // 当前是否未特殊情况
-      reqObj.sftsqk = (offon) => {
+      reqObj.sftsqk = offon => {
         // 是否未特殊情况返回
         sftsqk = offon
       }
 
-      reqObj.tsqkData = (data) => {
+      reqObj.tsqkData = data => {
         // 特殊情况数据处理后返回
         this.pageData[obj.index].isLoading = false
         this.viewDataTranslation(data, obj, config)
@@ -651,8 +660,8 @@ export default {
       this.$emit('chartsMethods', reqObj)
       return sftsqk
     },
-    //图表渲染数据处理
-    viewDataTranslation (resData, obj, config) {
+    // 图表渲染数据处理
+    viewDataTranslation(resData, obj, config) {
       if (
         !config.contentAreaConfig.moduleType ||
         config.contentAreaConfig.moduleType === '0'
@@ -666,7 +675,7 @@ export default {
           this.$set(this.pageData[obj.index], 'paginationAll', {
             currentPage: obj.currentPage,
             pageSize: obj.pageSize,
-            total: resData.total,
+            total: resData.total
           })
         } else {
           if (resData.constructor === Object) {
@@ -684,11 +693,11 @@ export default {
     },
 
     // 测试数据生产
-    setCSdata (settingForm) {
+    setCSdata(settingForm) {
       const arr = []
       for (let i = 0; i < 10; i++) {
         const obj = {}
-        settingForm.keyArr.forEach((item) => {
+        settingForm.keyArr.forEach(item => {
           obj[item.key] = item.explain + Math.floor(Math.random() * 10000)
         })
         arr.push(obj)
@@ -697,28 +706,28 @@ export default {
       if (settingForm.isPage === '1') {
         return {
           list: arr,
-          total: 20,
+          total: 20
         }
       } else {
         return arr
       }
     },
-    //返回数据格式化
-    dataFormat (config, resData) {
-      let colClums = config.contentAreaConfig.keyArr
-      colClums.forEach((item) => {
+    // 返回数据格式化
+    dataFormat(config, resData) {
+      const colClums = config.contentAreaConfig.keyArr
+      colClums.forEach(item => {
         if (item.colDataformat) {
           // eslint-disable-next-line no-eval
           const test = eval('(false || ' + item.colDataformat + ')')
 
-          resData.forEach((val) => {
+          resData.forEach(val => {
             val[item.key] = test(item, val)
           })
         }
       })
       return resData
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>

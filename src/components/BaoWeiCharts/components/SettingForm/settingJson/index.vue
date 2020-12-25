@@ -5,7 +5,7 @@
         :class="[
           'setting-json-show',
           'theme-color',
-          { 'setting-json-false': isShow },
+          { 'setting-json-false': isShow }
         ]"
         :style="{ top: `50% + ${scrollTop}px` }"
         @click="settingJsonShow"

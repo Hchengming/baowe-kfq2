@@ -3,121 +3,148 @@
   <div>
     <table class="table-arr-setting">
       <tr>
-        <td v-for="item in tableCloums"
-            :key="item.key"
-            :style="{ width: item.width?item.width + 'px':'100px' }">
+        <td
+          v-for="item in tableCloums"
+          :key="item.key"
+          :style="{ width: item.width ? item.width + 'px' : '100px' }"
+        >
           {{ item.label }}
         </td>
         <td style="width:100px">
-          <i class="el-icon-circle-plus-outline theme-color"
-             @click="cloumsAdd" />
+          <i
+            class="el-icon-circle-plus-outline theme-color"
+            @click="cloumsAdd"
+          />
         </td>
       </tr>
-      <tr v-for="(items, index) in tableData"
-          :key="index">
-        <td v-for="(item,num) in tableCloums"
-            :key="num"
-            :style="{ width: item.width?item.width + 'px':'100px' }">
+      <tr v-for="(items, index) in tableData" :key="index">
+        <td
+          v-for="(item, num) in tableCloums"
+          :key="num"
+          :style="{ width: item.width ? item.width + 'px' : '100px' }"
+        >
           <!-- 输入框 多行文本框-->
-          <el-input v-if="setFormType(items,index,item) === 'input'"
-                    :type="item.inputType"
-                    v-model="items[item.key]"
-                    v-show="!isHide(items,index,item)"
-                    @change.native="inputChange(items,index,item)"
-                    @click.native="inputClick(items,index,item)"
-                    size="mini"
-                    :title="items[item.key]"
-                    :rows="item.rows"
-                    :disabled="setDisabled(items,index,item)"
-                    :placeholder="placeholder(item)" />
+          <el-input
+            v-if="setFormType(items, index, item) === 'input'"
+            v-show="!isHide(items, index, item)"
+            v-model="items[item.key]"
+            :type="item.inputType"
+            size="mini"
+            :title="items[item.key]"
+            :rows="item.rows"
+            :disabled="setDisabled(items, index, item)"
+            :placeholder="placeholder(item)"
+            @change.native="inputChange(items, index, item)"
+            @click.native="inputClick(items, index, item)"
+          />
           <!-- 下拉框 -->
-          <el-select v-if="setFormType(items,index,item) == 'select'"
-                     v-model="items[item.key]"
-                     v-show="!isHide(items,index,item)"
-                     :disabled="setDisabled(items,index,item)"
-                     :placeholder="placeholder(item)"
-                     size="small"
-                     :title="items[item.key]"
-                     @change="inputChange(items,index, item)">
-            <el-option v-for="x in item.selectArr"
-                       :key="x.val"
-                       :value="x.val"
-                       :label="x.lab" />
+          <el-select
+            v-if="setFormType(items, index, item) == 'select'"
+            v-show="!isHide(items, index, item)"
+            v-model="items[item.key]"
+            :disabled="setDisabled(items, index, item)"
+            :placeholder="placeholder(item)"
+            size="small"
+            :title="items[item.key]"
+            @change="inputChange(items, index, item)"
+          >
+            <el-option
+              v-for="x in item.selectArr"
+              :key="x.val"
+              :value="x.val"
+              :label="x.lab"
+            />
           </el-select>
           <!-- 数字框 -->
-          <el-input-number v-if="setFormType(items,index,item) == 'number'"
-                           v-show="!isHide(items,index,item)"
-                           v-model="items[item.key]"
-                           :disabled="item.disabled"
-                           :placeholder="placeholder(item)"
-                           size="small"
-                           :min="0"
-                           :max="10000"
-                           :precision="0"
-                           controls-position="right" />
+          <el-input-number
+            v-if="setFormType(items, index, item) == 'number'"
+            v-show="!isHide(items, index, item)"
+            v-model="items[item.key]"
+            :disabled="item.disabled"
+            :placeholder="placeholder(item)"
+            size="small"
+            :min="0"
+            :max="10000"
+            :precision="0"
+            controls-position="right"
+          />
           <!-- 多选 -->
-          <el-checkbox v-if="setFormType(items,index,item) === 'checkbox'"
-                       v-show="!isHide(items,index,item)"
-                       v-model="items[item.key]"
-                       size="mini"
-                       :disabled="setDisabled(items,index,item)"
-                       @change="checkboxChange(items,index, item)" />
+          <el-checkbox
+            v-if="setFormType(items, index, item) === 'checkbox'"
+            v-show="!isHide(items, index, item)"
+            v-model="items[item.key]"
+            size="mini"
+            :disabled="setDisabled(items, index, item)"
+            @change="checkboxChange(items, index, item)"
+          />
           <!-- 带右侧按钮输入框 -->
-          <el-input v-if="setFormType(items,index,item) === 'inputButton'"
-                    v-show="!isHide(items,index,item)"
-                    v-model="items[item.key]"
-                    :placeholder="placeholder(item)"
-                    size="small"
-                    class="input-with-select"
-                    :disabled="setDisabled(items,index,item)"
-                    :title="items[item.key]">
-            <el-button slot="append"
-                       icon="el-icon-search"
-                       :disabled="setDisabled(items,index,item)"
-                       @click.native="inputClick(items,index,item)" />
+          <el-input
+            v-if="setFormType(items, index, item) === 'inputButton'"
+            v-show="!isHide(items, index, item)"
+            v-model="items[item.key]"
+            :placeholder="placeholder(item)"
+            size="small"
+            class="input-with-select"
+            :disabled="setDisabled(items, index, item)"
+            :title="items[item.key]"
+          >
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              :disabled="setDisabled(items, index, item)"
+              @click.native="inputClick(items, index, item)"
+            />
           </el-input>
           <!-- 颜色选择器 -->
-          <el-color-picker v-if="setFormType(items,index,item) === 'color'"
-                           v-show="!isHide(items,index,item)"
-                           size="small"
-                           v-model="items[item.key]">
-
-          </el-color-picker>
+          <el-color-picker
+            v-if="setFormType(items, index, item) === 'color'"
+            v-show="!isHide(items, index, item)"
+            v-model="items[item.key]"
+            size="small"
+          />
           <!-- 其他配置 -->
-          <el-button v-if="setFormType(items,index,item) === 'other'"
-                     v-show="!isHide(items,index,item)"
-                     type="primary"
-                     size="mini"
-                     icon="el-icon-edit"
-                     circle
-                     @click="otherKeySettingClick(items, index,item)" />
+          <el-button
+            v-if="setFormType(items, index, item) === 'other'"
+            v-show="!isHide(items, index, item)"
+            type="primary"
+            size="mini"
+            icon="el-icon-edit"
+            circle
+            @click="otherKeySettingClick(items, index, item)"
+          />
           <!-- 特殊情况 slot嵌入 -->
-          <slot v-if="setFormType(items,index,item)==='slot'"
-                :name="item.slot" />
+          <slot
+            v-if="setFormType(items, index, item) === 'slot'"
+            :name="item.slot"
+          />
         </td>
         <td style="width:100px">
-          <i :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"
-             @click="sortChange(index, 'prev')" />
-          <i :class="[
-            'iconfont',
-            'iconxiayi',
-            {
-              disabled: tableData.length - 1 == index,
-            },
-          ]"
-             @click="sortChange(index, 'next')" />
-          <i class="el-icon-delete remove"
-             @click="cloumsDelete(index)" />
+          <i
+            :class="['iconfont', 'iconshangyi', { disabled: index == 0 }]"
+            @click="sortChange(index, 'prev')"
+          />
+          <i
+            :class="[
+              'iconfont',
+              'iconxiayi',
+              {
+                disabled: tableData.length - 1 == index
+              }
+            ]"
+            @click="sortChange(index, 'next')"
+          />
+          <i class="el-icon-delete remove" @click="cloumsDelete(index)" />
         </td>
       </tr>
     </table>
-    <other-key-setting ref="OtherKeySetting"
-                       @isHide="isHide"
-                       @otherKeySettingSubmit="otherKeySettingSubmit"
-                       @inputClick="otherInputClick">
-    </other-key-setting>
-  </div>
 
+    <other-key-setting
+      ref="OtherKeySetting"
+      @isHide="isHide"
+      @otherKeySettingSubmit="otherKeySettingSubmit"
+      @inputClick="otherInputClick"
+    />
+  </div>
 </template>
 <script>
 /**
@@ -144,25 +171,25 @@ export default {
   props: {
     tableData: {
       type: Array,
-      default: null,
+      default: null
     },
     tableCloums: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
-  data () {
+  data() {
     return {
-      otherForm: {}, //其他配置项数据
-      nowIndex: null, //当前点击索引
+      otherForm: {}, // 其他配置项数据
+      nowIndex: null // 当前点击索引
     }
   },
   methods: {
-    otherKeySettingSubmit (form, index) {
+    otherKeySettingSubmit(form, index) {
       this.tableData[index] = Object.assign(this.tableData[index], form)
     },
-    //是否隐藏控制
-    isHide (form, index, item, fn) {
+    // 是否隐藏控制
+    isHide(form, index, item, fn) {
       // index=index==null?this.nowIndex:index
       let offon
       if (!item.isHide) {
@@ -180,25 +207,25 @@ export default {
 
       return offon
     },
-    //动态当前表单类型获取
-    setFormType (items, index, item) {
+    // 动态当前表单类型获取
+    setFormType(items, index, item) {
       if (typeof item.formType === 'string') {
         return item.formType
       } else {
         return item.formType(items, index, item)
       }
     },
-    //动态是否不可点击数据获取
-    setDisabled (items, index, item) {
+    // 动态是否不可点击数据获取
+    setDisabled(items, index, item) {
       if (!item.disabled || item.disabled === true) {
         return item.disabled
       } else {
         return item.disabled(items, index, item)
       }
     },
-    //其他项配置点击事件
-    otherInputClick (form, item, index) {
-      this.tableCloums.forEach((x) => {
+    // 其他项配置点击事件
+    otherInputClick(form, item, index) {
+      this.tableCloums.forEach(x => {
         if (x.formType === 'other') {
           if (x.children[index].click) {
             x.children[index].click(form, this.nowIndex, item)
@@ -206,41 +233,41 @@ export default {
         }
       })
     },
-    //其他配置按钮点击事件
-    otherKeySettingClick (items, index, item) {
+    // 其他配置按钮点击事件
+    otherKeySettingClick(items, index, item) {
       this.nowIndex = index
       this.$refs['OtherKeySetting'].show(items, index, item.children)
     },
-    //placeholder设置
-    placeholder (item) {
+    // placeholder设置
+    placeholder(item) {
       return item.placeholder ? item.placeholder : item.label
     },
-    //带按钮输入框按钮点击事件
-    inputClick (items, index, item) {
+    // 带按钮输入框按钮点击事件
+    inputClick(items, index, item) {
       // index=index==null?this.nowIndex:index
       if (item.click) {
         item.click(items, index, item)
       }
     },
     // 下拉框、文本框变化事件
-    inputChange (items, index, item) {
+    inputChange(items, index, item) {
       if (item.change) {
         item.change(items, index, item)
       }
     },
-    //多选变化事件
-    checkboxChange (items, index, item) {
+    // 多选变化事件
+    checkboxChange(items, index, item) {
       if (item.change) {
         item.change(items, index, item)
       }
     },
     // 获取新增默认列值
-    setColums () {
+    setColums() {
       const obj = {}
-      this.tableCloums.forEach((item) => {
-        //判断是否为其他配置项
+      this.tableCloums.forEach(item => {
+        // 判断是否为其他配置项
         if (item.formType === 'other') {
-          item.children.forEach((x) => {
+          item.children.forEach(x => {
             if (x.defaultValue) {
               obj[x.key] = x.defaultValue
             } else {
@@ -259,20 +286,21 @@ export default {
       return obj
     },
     // 列新增事件
-    cloumsAdd () {
-      let data = JSON.parse(JSON.stringify(this.tableData))
-      data.push(this.setColums())
-      this.tableData = data
-      this.$emit('add')
+    cloumsAdd() {
+      // let data = JSON.parse(JSON.stringify(this.tableData))
+      this.tableData.push(this.setColums())
+      // this.tableData = data
+      // this.$emit('add')
     },
     // 列删除事件
-    cloumsDelete (index) {
-      let data = JSON.parse(JSON.stringify(this.tableData))
-      data.splice(index, 1)
-      this.tableData = data
+    cloumsDelete(index) {
+      // console.log(this.tableData)
+      // let data = JSON.parse(JSON.stringify(this.tableData))
+      this.tableData.splice(index, 1)
+      // this.tableData = data
     },
     // 序号变化事件
-    sortChange (index, type) {
+    sortChange(index, type) {
       const obj = this.tableData[index]
       if (type === 'prev') {
         if (index === 0) return
@@ -283,8 +311,8 @@ export default {
         this.tableData.splice(index, 1)
         this.tableData.splice(index + 1, 0, obj)
       }
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -327,4 +355,3 @@ export default {
   }
 }
 </style>
-

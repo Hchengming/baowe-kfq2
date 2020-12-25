@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="bao-wei-charts"
-    :class="themeClass"
-  >
+  <div id="bao-wei-charts" :class="themeClass">
     <el-container class="KFQ_wrap">
       <el-header class="theme-bg-color">
         <div class="logo">
@@ -19,13 +16,16 @@
             v-for="(item, index) in menuData"
             :key="index"
             :class="{
-              'active': menuActiveIndex == index
+              active: menuActiveIndex == index
             }"
           >
-
-            <span @click="topMenuClick(item, index)"> <i :class="['iconfont', item.menuIcon, 'theme-color']" />{{ item.menuName }}</span>
+            <span @click="topMenuClick(item, index)">
+              <i :class="['iconfont', item.menuIcon, 'theme-color']" />{{
+                item.menuName
+              }}
+            </span>
             <i
-              v-if="settingConfig.systemPermissions==='admin'"
+              v-if="settingConfig.systemPermissions === 'admin'"
               title="菜单设置"
               class="el-icon-setting"
               @click="menuSettingClick(item)"
@@ -35,10 +35,7 @@
       </el-header>
       <el-container>
         <!-- 左侧导航栏 -->
-        <el-aside
-          v-if="leftMenu.length > 0"
-          :width="leftMenuWidth"
-        >
+        <el-aside v-if="leftMenu.length > 0" :width="leftMenuWidth">
           <el-menu
             :default-active="defaultActive"
             class="el-menu-vertical-demo menu-bg-color"
@@ -79,10 +76,7 @@
         </el-main>
       </el-container>
     </el-container>
-    <menu-setting
-      :menu-setting="menuSetting"
-      @submit="menuSettingSubmit"
-    />
+    <menu-setting :menu-setting="menuSetting" @submit="menuSettingSubmit" />
   </div>
 </template>
 <script>
@@ -110,15 +104,13 @@ export default {
       default: null
     }
   }
-
 }
-
 </script>
 
 <style lang="scss">
-@import "../css/theme/theme0.scss";
-@import "../css/theme/theme1.scss";
-@import "../css/theme/theme2.scss";
+@import '../css/theme/theme0.scss';
+@import '../css/theme/theme1.scss';
+@import '../css/theme/theme2.scss';
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;

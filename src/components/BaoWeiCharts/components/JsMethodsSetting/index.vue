@@ -13,16 +13,10 @@
       :rows="20"
       placeholder="js脚本"
     />
-    <span
-      slot="footer"
-      class="dialog-footer"
-    >
+    <span slot="footer" class="dialog-footer">
       <div class="right">
         <!-- <el-button @click="isShow=false">取 消</el-button> -->
-        <el-button
-          type="primary"
-          @click="onSubmit"
-        >确 定</el-button>
+        <el-button type="primary" @click="onSubmit">确 定</el-button>
       </div>
     </span>
   </el-dialog>
@@ -38,6 +32,5 @@ export default {
       default: null
     }
   }
-
 }
 </script>
