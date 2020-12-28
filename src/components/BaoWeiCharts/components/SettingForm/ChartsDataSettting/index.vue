@@ -3,7 +3,7 @@
     <!-- <h1>图表默认参数获取、筛选模块配置、字段配置</h1> -->
     <el-tabs
       v-model="activeName"
-      style="min-height:300px"
+      
       @tab-click="handleClick"
     >
       <el-tab-pane label="默认参数获取" name="first">

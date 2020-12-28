@@ -159,7 +159,9 @@ body {
       }
     }
   }
-
+  &>.el-container{
+    height: ~"calc(100% - 38px)";
+  }
   .el-aside {
     height: 100%;
     background: white;
@@ -1729,8 +1731,8 @@ body {
   position: relative;
   z-index: 4;
   padding: 5px 5px 0;
-
-  // box-sizing: content-box;
+   
+  box-sizing: border-box;
   .operation {
     position: absolute;
     top: 0;

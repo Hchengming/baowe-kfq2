@@ -68,8 +68,7 @@ var _default = {
         this.modelStyle.top = this.settingForm.top;
       }
 
-      this.modelStyle.left = parseFloat(this.settingForm.left * this.mainStyle.width / 100);
-      console.log(this.modelStyle);
+      this.modelStyle.left = parseFloat(this.settingForm.left * this.mainStyle.width / 100); // console.log(this.modelStyle)
     },
     // 获取模块初始位置和宽高
     getDemos: function getDemos() {

@@ -74,7 +74,7 @@ export default {
       this.modelStyle.left = parseFloat(
         (this.settingForm.left * this.mainStyle.width) / 100
       )
-      console.log(this.modelStyle)
+      // console.log(this.modelStyle)
     },
     // 获取模块初始位置和宽高
     getDemos() {

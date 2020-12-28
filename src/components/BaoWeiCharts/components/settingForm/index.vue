@@ -76,6 +76,15 @@
                 <el-switch v-model="form.isModuleClose" />
               </el-form-item>
             </el-col>
+            <el-col :span="8" v-if="form.blankTemplateConfig">
+              <el-form-item label="slot嵌入字段" prop="title">
+                <el-input
+                  v-model="form.blankTemplateConfig.slot"
+                  placeholder="slot嵌入字段"
+                  size="small"
+                />
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
@@ -162,7 +171,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row type="flex" class="row-bg">
+            <!-- <el-row type="flex" class="row-bg">
               <el-col :span="8">
                 <el-form-item label="是否有子模块" prop="submodule">
                   <el-radio-group
@@ -213,7 +222,7 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-            </el-row>
+            </el-row> -->
 
             <el-row>
               <el-col :span="8">
@@ -399,7 +408,7 @@
             />
           </div>
           <!-- 空白模板 -->
-          <div
+          <!-- <div
             v-if="form.moduleType === '3'"
             class="content-dy-box blank-template-box"
           >
@@ -414,7 +423,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-          </div>
+          </div> -->
 
           <el-row type="flex" class="row-bg">
             <el-col :span="12">
@@ -518,13 +527,17 @@
   </div>
 </template>
 <script>
-import settingJson from './settingJson'
-import JudgePop from '../JudgePop/index.vue'
-import { dragDialog } from '../../utils/mixins.js'
-import { ChartsMixins, iframeMixins, otherMixins } from './SettingFormMixins.js'
-import ApiChoose from '../ApiChoose/index.vue'
-import ParamKeyConfig from './ParamKeyConfig/index'
-import ChartsDataSettting from './ChartsDataSettting'
+import settingJson from "./settingJson";
+import JudgePop from "../JudgePop/index.vue";
+import { dragDialog } from "../../utils/mixins.js";
+import {
+  ChartsMixins,
+  iframeMixins,
+  otherMixins
+} from "./SettingFormMixins.js";
+import ApiChoose from "../ApiChoose/index.vue";
+import ParamKeyConfig from "./ParamKeyConfig/index";
+import ChartsDataSettting from "./ChartsDataSettting";
 
 export default {
   components: {
@@ -567,5 +580,5 @@ export default {
       default: {}
     }
   }
-}
+};
 </script>

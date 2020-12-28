@@ -48,7 +48,9 @@ var _default = {
         // 表格列固定配置 null/left/right
         colSort: '0',
         // 列排序功能 0：否 1：是
-        proportion: 12 // 详情表格类列宽
+        proportion: 12,
+        // 详情表格类列宽
+        tableCustom: false //表格列自适应
 
       },
       proportionAll: [{
@@ -93,6 +95,20 @@ var _default = {
         });
       });
     },
+    //列自适应选择
+    tableCustomChange: function tableCustomChange(key) {
+      var _this2 = this;
+
+      this.$nextTick(function () {
+        _this2.form.keyArr.forEach(function (item) {
+          _this2.$set(item, 'tableCustom', false);
+
+          if (item.key === key) {
+            _this2.$set(item, 'tableCustom', true);
+          }
+        });
+      });
+    },
     // 地图链接字段选择变化事件
     isMapKeyChange: function isMapKeyChange(item) {
       if (item.isMapKey) {
@@ -119,12 +135,12 @@ var _default = {
     },
     // 数据视图配置字段获取事件
     getViewKeysData: function getViewKeysData() {
-      var _this2 = this;
+      var _this3 = this;
 
       var queryParamList = []; // console.log(this.form)
 
       this.form.filterConfig.screenData.forEach(function (item) {
-        var paramValue = _this2.getParamValue(item.defaultValue);
+        var paramValue = _this3.getParamValue(item.defaultValue);
 
         queryParamList.push(_defineProperty({}, item.key, paramValue));
       });
@@ -140,7 +156,7 @@ var _default = {
         var resData = res.data;
 
         if (code === 20000) {
-          _this2.form.keyArr = [];
+          _this3.form.keyArr = [];
 
           for (var key in resData.list[0]) {
             var obj = {
@@ -148,9 +164,9 @@ var _default = {
               explain: key
             };
 
-            _this2.setRowKey(obj);
+            _this3.setRowKey(obj);
 
-            _this2.form.keyArr.push(obj);
+            _this3.form.keyArr.push(obj);
           }
         }
       });
@@ -165,7 +181,7 @@ var _default = {
     },
     // 字段获取事件
     getKeysData: function getKeysData() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this.form.apiType === '0') {
         this.getViewKeysData();
@@ -179,9 +195,9 @@ var _default = {
         this.getKeys(function (resData) {
           var keysItem = {}; // 判断是否为分页数据
 
-          if (_this3.form.isPage === '1') {
+          if (_this4.form.isPage === '1') {
             if (!resData.list || resData.list.constructor !== Array) {
-              _this3.$message({
+              _this4.$message({
                 message: '返回数据格式错误，需标准带分页格式数据',
                 type: 'error'
               });
@@ -192,7 +208,7 @@ var _default = {
             keysItem = resData.list[0];
           } else {
             if (!resData || resData.constructor !== Array) {
-              _this3.$message({
+              _this4.$message({
                 message: '返回数据格式错误，需返回标准数组',
                 type: 'error'
               });
@@ -208,16 +224,16 @@ var _default = {
               key: key
             };
 
-            _this3.setRowKey(obj);
+            _this4.setRowKey(obj);
 
-            _this3.form.keyArr.push(obj);
+            _this4.form.keyArr.push(obj);
           }
         });
       }
     },
     // 字段列表数据获取事件
     getKeys: function getKeys(fn) {
-      var _this4 = this;
+      var _this5 = this;
 
       var params = {}; // this.form.paramConfig.forEach(item => {
       //     const paramValue = this.getParamValue(item.paramValue);
@@ -243,7 +259,7 @@ var _default = {
       // });
 
       this.form.filterConfig.screenData.forEach(function (item) {
-        var paramValue = _this4.getParamValue(item.defaultValue);
+        var paramValue = _this5.getParamValue(item.defaultValue);
 
         params[item.key] = paramValue;
       });

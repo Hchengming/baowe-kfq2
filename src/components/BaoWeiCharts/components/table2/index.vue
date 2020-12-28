@@ -48,7 +48,7 @@
 
       </el-table-column> -->
       <table-column
-        v-for="(item, index) in tableColums()"
+        v-for="(item, index) in tableColums"
         :key="index"
         :item="item"
         :statistics-all="statisticsAll"
@@ -115,20 +115,11 @@ export default {
       newClums: []
     }
   },
-  computed: {},
-  methods: {
-    // 递归遍历树形数据
-    reduiction(data, fn) {
-      data.forEach((item, index) => {
-        fn(item, index)
-        if (item.children && item.children.length > 0) {
-          this.reduiction(item.children, fn)
-        }
-      })
-    },
+  computed: {
     // 表格表头配置
     tableColums() {
       let tableColums = []
+      // this.customSetting(this.colums)
       // 判断是否为多表头表格
       if (
         this.settingForm.tableHeaderConfig &&
@@ -147,26 +138,44 @@ export default {
       } else {
         // 02 普通表格
         tableColums = this.colums
-        if (tableColums.length > 0) {
-          this.customSetting(tableColums)
-        }
       }
+     
       //  console.log(tableColums)
       return tableColums
     },
+  },
+  // mounted(){
+  //   this.customSetting()
+  // },
+  methods: {
+    // 递归遍历树形数据
+    reduiction(data, fn) {
+      data.forEach((item, index) => {
+        fn(item, index)
+        if (item.children && item.children.length > 0) {
+          this.reduiction(item.children, fn)
+        }
+      })
+    },
+
     // 表格列自适应配置
     customSetting(colums) {
+      if (!colums || colums.length === 0) return
       this.$nextTick(() => {
         const tableWidth = this.$refs['bw-table'].scrollWidth
         let sjWidth = 0
-        colums.forEach(item => {
-          if (item.width) {
-            sjWidth += Number(item.width)
+        this.reduiction(colums, item => {
+          if(item.width){
+           sjWidth += Number(item.width)
           }
         })
+        // console.log(tableWidth, sjWidth)
         if (tableWidth > sjWidth) {
-          console.log(colums, tableWidth, sjWidth)
-          colums[0].width = Number(colums[0].width) + tableWidth - sjWidth - 2
+          this.reduiction(colums, item => {
+            if (item.tableCustom) {
+              item.width = Number(item.width) + tableWidth - sjWidth - 2
+            }
+          })
         }
       })
     },

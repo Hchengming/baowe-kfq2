@@ -20,24 +20,26 @@ export default {
         tipRenderer: null, // 单元格鼠标移入悬浮框内容自定义js脚本渲染
         colFixed: 'null', // 表格列固定配置 null/left/right
         colSort: '0', // 列排序功能 0：否 1：是
-        proportion: 12 // 详情表格类列宽
+        proportion: 12, // 详情表格类列宽
+        tableCustom: false //表格列自适应
       },
-      proportionAll: [{
-        label: '1',
-        value: 24
-      },
-      {
-        label: '2/3',
-        value: 16
-      },
-      {
-        label: '1/2',
-        value: 12
-      },
-      {
-        label: '1/3',
-        value: 8
-      }
+      proportionAll: [
+        {
+          label: '1',
+          value: 24
+        },
+        {
+          label: '2/3',
+          value: 16
+        },
+        {
+          label: '1/2',
+          value: 12
+        },
+        {
+          label: '1/3',
+          value: 8
+        }
       ]
     }
   },
@@ -46,7 +48,7 @@ export default {
     isWidth() {
       if (
         this.form.displayMode === 'list' ||
-                this.form.displayMode === 'table'
+        this.form.displayMode === 'table'
       ) {
         return true
       } else {
@@ -55,7 +57,6 @@ export default {
     }
   },
   methods: {
-
     // 图表标题选中切换事件
     chartsTitleChange(key) {
       this.$nextTick(() => {
@@ -65,6 +66,17 @@ export default {
           if (item.key === key) {
             this.$set(item, 'ischartsTitle', true)
             // item.ischartsTitle = offon
+          }
+        })
+      })
+    },
+    //列自适应选择
+    tableCustomChange(key) {
+      this.$nextTick(() => {
+        this.form.keyArr.forEach(item => {
+          this.$set(item, 'tableCustom', false)
+          if (item.key === key) {
+            this.$set(item, 'tableCustom', true)
           }
         })
       })
@@ -176,6 +188,7 @@ export default {
         })
       }
     },
+
     // 字段列表数据获取事件
     getKeys(fn) {
       let params = {}
@@ -212,9 +225,9 @@ export default {
         }
       }
       const url =
-                this.form.url.indexOf('http') > -1
-                  ? this.form.url
-                  : this.settingConfig.dataUrl + this.form.url
+        this.form.url.indexOf('http') > -1
+          ? this.form.url
+          : this.settingConfig.dataUrl + this.form.url
 
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {
@@ -247,12 +260,12 @@ export default {
       // 判断当前删除字段是否已经挂载子级，若挂载，则弹出提示信息
       if (
         this.form.submodule === '1' &&
-                this.form.clickToShow === 'cell' &&
-                this.statisticsAll &&
-                this.statisticsAll.drillDownKeyAll.indexOf(nowKey) > -1
+        this.form.clickToShow === 'cell' &&
+        this.statisticsAll &&
+        this.statisticsAll.drillDownKeyAll.indexOf(nowKey) > -1
       ) {
         const html =
-                    '当前字段已配置子级模块，是否<span class="txt1">强制删除</span>？'
+          '当前字段已配置子级模块，是否<span class="txt1">强制删除</span>？'
         this.$refs['judgePop'].show(html)
         this.deleteKeyIndex = index
       } else {

@@ -164,9 +164,10 @@
             @whereFormKeep="whereFormKeep"
             @whereSubmit="whereSubmit"
           />
-          <!-- 空白模板嵌入 -->
+          <!-- slot嵌入 -->
           <div
-            v-if="settingForm.moduleType === '3'"
+            v-if="settingForm.blankTemplateConfig&&settingForm.blankTemplateConfig.slot"
+            :id="settingForm.blankTemplateConfig.slot"
             :style="{ width: '100%', height: boxHeight() + 'px' }"
           >
             <slot :name="settingForm.blankTemplateConfig.slot" />
@@ -216,7 +217,6 @@
             @setOptions="setOptions"
             @eventClick="eventClick"
           />
-          <!-- <slot name="otherBox"></slot> -->
           <!-- 详情列表模块组件 -->
           <details-table
             v-if="settingForm.displayMode === 'destailTable'"
@@ -505,15 +505,16 @@ export default {
     },
     // 弹窗关闭事件
     statisticsClose() {
-      if (this.settingForm.moduleType === '3') {
-        this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
-      } else {
-        this.$emit(
-          'statisticsClose',
-          this.statisticsAll.moduleId,
-          this.statisticsAll.parentModuleId
-        )
-      }
+      this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
+      // if (this.settingForm.moduleType === '3') {
+      //   this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
+      // } else {
+      //   this.$emit(
+      //     'statisticsClose',
+      //     this.statisticsAll.moduleId,
+      //     this.statisticsAll.parentModuleId
+      //   )
+      // }
     },
     // 模块删除按钮点击事件
     deleteTemplate() {

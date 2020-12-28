@@ -36,6 +36,7 @@
           图表显示
           <el-checkbox v-model="chartsKeyAll" @change="ChartskeyChooseChange" />
         </span>
+       
         <span
           v-if="
             form.moduleType === '0' &&
@@ -46,6 +47,7 @@
           柱背景颜色
         </span>
         <span class="hTxt82 hTxt">图表标题字段</span>
+         <!-- <span class="hTxt82 hTxt">表格列自适应</span> -->
         <span class="hTxt82 hTxt">表格列固定</span>
         <span class="hTxt82 hTxt">表格列排序</span>
         <span class="hTxt82 hTxt">宽度占比</span>
@@ -149,6 +151,14 @@
             @change="chartsTitleChange(item.key)"
           />
         </span>
+        <!-- 表格列自适应 -->
+         <!-- <span class="hTxt82 hTxt">
+          <el-checkbox
+            v-model="item.tableCustom"
+            :disabled="item.key === 'operationButton'"
+            @change="tableCustomChange(item.key)"
+          />
+        </span> -->
         <!-- 表格列固定 -->
         <span class="hTxt82 hTxt">
           <el-select
