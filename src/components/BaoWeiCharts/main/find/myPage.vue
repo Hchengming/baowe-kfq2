@@ -142,6 +142,7 @@
       :module-id="item.moduleId"
       @delete="deleteTimeAxis(index)"
       @timeClick="timeClick"
+      @timeAxisEmit="timeAxisEmit"
     />
   </div>
 </template>

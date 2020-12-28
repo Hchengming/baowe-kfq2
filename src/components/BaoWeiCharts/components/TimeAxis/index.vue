@@ -114,6 +114,7 @@ export default {
     },
     // 编辑提交事件
     timeAxisEmit(config) {
+      // console.log(config)
       this.$emit('timeAxisEmit', config, this.moduleId)
     },
     timeAxisAdd(config) {
