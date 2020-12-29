@@ -61,7 +61,7 @@ export default {
         change(items, index, item) {
           _this.labelChange(items, index, item)
         },
-        click(items, index, item){
+        click(items, index, item) {
           _this.labelChange(items, index, item)
         }
       },
@@ -235,8 +235,8 @@ export default {
               isInsert: '0',
               isLineFeed: '0',
               type: 'input',
-              rightWidth:120,
-              labelWidth:item.description?item.description.length* 16 + 1:0
+              rightWidth: 120,
+              labelWidth: item.description ? item.description.length * 16 + 1 : 0
             }
             screenData.push(Object.assign(obj, obj2))
           }

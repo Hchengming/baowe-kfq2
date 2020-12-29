@@ -46,6 +46,8 @@ export default {
     pieChange(item) {
       this.chooseItem = item
       this.echartsInit()
+      console.log(item)
+      this.$emit('pieTabsClick',item)
     },
     // 饼图、环图 series图表显示配置
     setPieSeries(options) {
@@ -56,7 +58,6 @@ export default {
       // console.log(this.chooseItem)
       // 02 series配置
       const seriesData = []
-
       this.data.forEach(item => {
         seriesData.push({
           value: Number(item[this.chooseItem.key]) ? Number(item[this.chooseItem.key]) : item[this.chooseItem.key],

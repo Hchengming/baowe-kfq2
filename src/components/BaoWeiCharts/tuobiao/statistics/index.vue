@@ -193,7 +193,7 @@
             :colums="nowClums()"
             :height="boxHeight()"
             :setting-form="settingForm"
-            :width="modelStyle.width - 40"
+            :width="modelStyle.width"
             :statistics-all="statisticsAll"
             :border="false"
             :pagination-all="statisticsAll.paginationAll"
@@ -216,6 +216,7 @@
             :height="boxHeight()"
             @setOptions="setOptions"
             @eventClick="eventClick"
+            @pieTabsClick="pieTabsClick"
           />
           <!-- 详情列表模块组件 -->
           <details-table
@@ -388,9 +389,20 @@ export default {
     }
   },
   mounted() {
+    console.log(this.modelStyle.width,'modelStyle.width')
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
+    //饼图顶部切换栏点击事件
+    pieTabsClick(item){
+       this.$emit('chartsMethods', {
+         moduleId:this.statisticsAll.moduleId,
+         statisticsAll:this.statisticsAll,
+         nowItem:item,
+         name:'饼图顶部切换栏点击事件',
+         methodsName: 'pieTabsClick'
+       })
+    },
     // 模块数据变化事件
     statisticsAllChange(moduleId, viewchange, wh) {
       // viewchange(this.statisticsAll)

@@ -52,6 +52,8 @@ var _default = {
     pieChange: function pieChange(item) {
       this.chooseItem = item;
       this.echartsInit();
+      console.log(item);
+      this.$emit('pieTabsClick', item);
     },
     // 饼图、环图 series图表显示配置
     setPieSeries: function setPieSeries(options) {

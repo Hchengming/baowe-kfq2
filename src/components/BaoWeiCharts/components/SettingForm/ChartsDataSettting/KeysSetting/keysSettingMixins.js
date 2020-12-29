@@ -21,7 +21,7 @@ export default {
         colFixed: 'null', // 表格列固定配置 null/left/right
         colSort: '0', // 列排序功能 0：否 1：是
         proportion: 12, // 详情表格类列宽
-        tableCustom: false //表格列自适应
+        tableCustom: false // 表格列自适应
       },
       proportionAll: [
         {
@@ -70,7 +70,7 @@ export default {
         })
       })
     },
-    //列自适应选择
+    // 列自适应选择
     tableCustomChange(key) {
       this.$nextTick(() => {
         this.form.keyArr.forEach(item => {

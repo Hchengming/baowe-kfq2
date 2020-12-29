@@ -22,31 +22,6 @@
       @cell-click="cellClick"
       @row-click="rowClick"
     >
-      <!-- <el-table-column v-for="(item,index) in colums"
-                       :key="index"
-                       :class-name="item.className+' '+cellCursorClass(item.key)"
-                       :prop="item.key"
-                       :sortable="false"
-                       :label="colLabel(item)"
-                       :width="colWidth(item,index)">
-        <template slot-scope="scope">
-          <el-tooltip v-if="item.key!=='operationButton'"
-                      :content="NumStrTransformation(scope.row[item.key])"
-                      :placement="setPlacement(index,colums)">
-            <span :class="colClass(item)">{{scope.row[item.key]}}</span>
-          </el-tooltip>
-          <div v-else
-               class="right-operate-button">
-            <el-button v-for="val in settingForm.operateButton"
-                       :key="val.name"
-                       :type="val.type"
-                       @click="operateButtonClick(val,scope.row)"
-                       size="mini">{{val.name}}</el-button>
-          </div>
-
-        </template>
-
-      </el-table-column> -->
       <table-column
         v-for="(item, index) in tableColums"
         :key="index"
@@ -54,6 +29,7 @@
         :statistics-all="statisticsAll"
         :setting-form="settingForm"
         :colums="colums"
+        :width="width"
       />
     </el-table>
     <el-pagination
@@ -74,7 +50,6 @@ import TableColumn from './tableColumn/tableColumn.vue'
 export default {
   components: { TableColumn },
   mixins: [listTableCommonJs],
-  // props: ['tabledata', 'colums', 'height', 'width', 'paginationAll', 'border', 'statisticsAll'],
   props: {
     tabledata: {
       type: Array,
@@ -112,14 +87,15 @@ export default {
   data() {
     return {
       cellCursor: '',
-      newClums: []
+      newClums: [],
+      tableWidth: 0
     }
   },
+
   computed: {
     // 表格表头配置
     tableColums() {
       let tableColums = []
-      // this.customSetting(this.colums)
       // 判断是否为多表头表格
       if (
         this.settingForm.tableHeaderConfig &&
@@ -139,14 +115,9 @@ export default {
         // 02 普通表格
         tableColums = this.colums
       }
-     
-      //  console.log(tableColums)
       return tableColums
-    },
+    }
   },
-  // mounted(){
-  //   this.customSetting()
-  // },
   methods: {
     // 递归遍历树形数据
     reduiction(data, fn) {
@@ -154,28 +125,6 @@ export default {
         fn(item, index)
         if (item.children && item.children.length > 0) {
           this.reduiction(item.children, fn)
-        }
-      })
-    },
-
-    // 表格列自适应配置
-    customSetting(colums) {
-      if (!colums || colums.length === 0) return
-      this.$nextTick(() => {
-        const tableWidth = this.$refs['bw-table'].scrollWidth
-        let sjWidth = 0
-        this.reduiction(colums, item => {
-          if(item.width){
-           sjWidth += Number(item.width)
-          }
-        })
-        // console.log(tableWidth, sjWidth)
-        if (tableWidth > sjWidth) {
-          this.reduiction(colums, item => {
-            if (item.tableCustom) {
-              item.width = Number(item.width) + tableWidth - sjWidth - 2
-            }
-          })
         }
       })
     },
@@ -198,26 +147,6 @@ export default {
       } else {
         return this.height
       }
-    },
-    // headername 获取
-    colLabel(item) {
-      return item.dw ? item.explain + `(${item.dw})` : item.explain
-    },
-    // 动态获取宽度
-    colWidth(item, index) {
-      let widths = item.width
-      if (index === 0) {
-        let maxWidth = 0
-        this.colums.forEach((item, index) => {
-          if (index > 0) {
-            maxWidth += item.width
-          }
-        })
-        if (maxWidth + this.colums[0].width < this.width) {
-          widths = this.width - maxWidth - 8
-        }
-      }
-      return widths
     },
     // 行点击事件
     rowClick(row) {

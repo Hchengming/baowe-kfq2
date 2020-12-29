@@ -50,7 +50,7 @@ var _default = {
         // 列排序功能 0：否 1：是
         proportion: 12,
         // 详情表格类列宽
-        tableCustom: false //表格列自适应
+        tableCustom: false // 表格列自适应
 
       },
       proportionAll: [{
@@ -95,7 +95,7 @@ var _default = {
         });
       });
     },
-    //列自适应选择
+    // 列自适应选择
     tableCustomChange: function tableCustomChange(key) {
       var _this2 = this;
 

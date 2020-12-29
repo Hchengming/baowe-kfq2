@@ -76,7 +76,7 @@
                 <el-switch v-model="form.isModuleClose" />
               </el-form-item>
             </el-col>
-            <el-col :span="8" v-if="form.blankTemplateConfig">
+            <el-col v-if="form.blankTemplateConfig" :span="8">
               <el-form-item label="slot嵌入字段" prop="title">
                 <el-input
                   v-model="form.blankTemplateConfig.slot"
@@ -527,17 +527,17 @@
   </div>
 </template>
 <script>
-import settingJson from "./settingJson";
-import JudgePop from "../JudgePop/index.vue";
-import { dragDialog } from "../../utils/mixins.js";
+import settingJson from './settingJson'
+import JudgePop from '../JudgePop/index.vue'
+import { dragDialog } from '../../utils/mixins.js'
 import {
   ChartsMixins,
   iframeMixins,
   otherMixins
-} from "./SettingFormMixins.js";
-import ApiChoose from "../ApiChoose/index.vue";
-import ParamKeyConfig from "./ParamKeyConfig/index";
-import ChartsDataSettting from "./ChartsDataSettting";
+} from './SettingFormMixins.js'
+import ApiChoose from '../ApiChoose/index.vue'
+import ParamKeyConfig from './ParamKeyConfig/index'
+import ChartsDataSettting from './ChartsDataSettting'
 
 export default {
   components: {
@@ -580,5 +580,5 @@ export default {
       default: {}
     }
   }
-};
+}
 </script>
