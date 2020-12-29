@@ -3,8 +3,8 @@
     <div
       v-if="settingForm.mask && settingForm.mask == '1'"
       v-show="statisticsAll.isShow !== false"
-      class="statisticsMask"
       :style="{ 'z-index': settingForm.zindex }"
+      class="statisticsMask"
       @click="statisticsClose"
     />
     <article
@@ -51,8 +51,8 @@
               <span class="txt2" v-text="settingFormSubtitle1()" />
             </div>
             <div
-              class="right"
               :style="{ 'margin-right': isModuleClose() ? '20px' : 0 }"
+              class="right"
             >
               <span class="txt3">{{ settingForm.subtitle2 }}</span>
 
@@ -103,10 +103,10 @@
               </el-popconfirm>
               <el-popconfirm
                 v-if="isAdmin"
+                :title="deleteTitle"
                 icon="el-icon-info"
                 class="delete-template-popconfirm"
                 icon-color="red"
-                :title="deleteTitle"
                 @confirm="deleteTemplate"
               >
                 <i slot="reference" title="删除" class="el-icon-delete" />
@@ -389,19 +389,19 @@ export default {
     }
   },
   mounted() {
-    console.log(this.modelStyle.width,'modelStyle.width')
+    console.log(this.modelStyle.width, 'modelStyle.width')
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {
-    //饼图顶部切换栏点击事件
-    pieTabsClick(item){
-       this.$emit('chartsMethods', {
-         moduleId:this.statisticsAll.moduleId,
-         statisticsAll:this.statisticsAll,
-         nowItem:item,
-         name:'饼图顶部切换栏点击事件',
-         methodsName: 'pieTabsClick'
-       })
+    // 饼图顶部切换栏点击事件
+    pieTabsClick(item) {
+      this.$emit('chartsMethods', {
+        moduleId: this.statisticsAll.moduleId,
+        statisticsAll: this.statisticsAll,
+        nowItem: item,
+        name: '饼图顶部切换栏点击事件',
+        methodsName: 'pieTabsClick'
+      })
     },
     // 模块数据变化事件
     statisticsAllChange(moduleId, viewchange, wh) {

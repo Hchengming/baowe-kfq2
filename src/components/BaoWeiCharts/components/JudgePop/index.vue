@@ -1,10 +1,10 @@
 <template>
   <el-dialog
-    title="系统提示"
     :visible.sync="dialogVisible"
     :append-to-body="true"
-    class="judge-pop-model dialog-common"
     :before-close="handleClose"
+    title="系统提示"
+    class="judge-pop-model dialog-common"
   >
     <div class="content">
       <i class="el-icon-info" />

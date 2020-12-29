@@ -2,21 +2,21 @@
   <div>
     <el-dialog
       v-drag
-      title="多表头配置"
-      class="table-header-setting-dialog"
       :append-to-body="true"
       :visible.sync="isShow"
+      title="多表头配置"
+      class="table-header-setting-dialog"
     >
 
       <div>
         表头层级：
         <el-input-number
           v-model="tableHeaderConfig.hierarchy"
-          size="small"
-          controls-position="right"
           :min="1"
           :max="10"
           :precision="0"
+          size="small"
+          controls-position="right"
         />
       </div>
       <fieldset>
@@ -28,12 +28,12 @@
         <el-tree
           ref="elTree"
           :data="tableHeaderConfig.headerSetting"
-          node-key="id"
-          draggable
           :default-expand-all="true"
           :expand-on-click-node="false"
           :render-content="renderContent"
           :props="defaultProps"
+          node-key="id"
+          draggable
           @node-click="handleCheckChange"
         />
       </fieldset>

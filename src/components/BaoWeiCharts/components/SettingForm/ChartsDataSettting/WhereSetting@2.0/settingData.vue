@@ -3,9 +3,9 @@
   <div>
     <el-dialog
       ref="screenFormSettings"
-      class="screenForm settingData dialog-common"
       :append-to-body="true"
       :visible.sync="isShow"
+      class="screenForm settingData dialog-common"
     >
       <div slot="title" class="headerTitle" @mousedown="dragElement">
         表单项数据配置信息

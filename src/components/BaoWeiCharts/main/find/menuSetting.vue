@@ -1,10 +1,10 @@
 <template>
   <el-dialog
     v-drag
-    class="settingForm dialog-common"
     :title="'菜单配置-'+menuSetting.type"
     :append-to-body="true"
     :visible.sync="menuSetting.isShow"
+    class="settingForm dialog-common"
   >
     <el-form
       ref="form"
@@ -17,8 +17,8 @@
       >
         <el-input
           v-model="menuSetting.jsjbxx"
-          type="textarea"
           :rows="12"
+          type="textarea"
           placeholder="js脚本"
         />
       </el-form-item>

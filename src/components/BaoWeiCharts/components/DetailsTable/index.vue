@@ -1,7 +1,7 @@
 <template>
   <div
-    class="stataic_destail_table"
     :style="{'height':height+'px','overflow':'auto'}"
+    class="stataic_destail_table"
   >
     <div :class="['detail_box', 'model_box' ,'info_table',{'destail-theme-1':settingForm.destailTypeTheme==='1'}]">
       <el-row
@@ -20,8 +20,8 @@
           <!--主题 默认展示 -->
           <div
             v-if="settingForm.destailTypeTheme==='0'||!settingForm.destailTypeTheme"
-            class="key"
             :style="{width:skyWidth}"
+            class="key"
           >
             <span>{{ item.explain }}</span>
           </div>

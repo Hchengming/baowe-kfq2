@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-json" :style="{ top: scrollTop + 'px' }">
+  <div :style="{ top: scrollTop + 'px' }" class="setting-json">
     <div class="setting-json-box">
       <p
         :class="[
@@ -16,8 +16,8 @@
       <el-input
         v-if="isShow"
         v-model="settingJson"
-        type="textarea"
         :rows="18"
+        type="textarea"
         placeholder="js脚本"
       />
     </div>

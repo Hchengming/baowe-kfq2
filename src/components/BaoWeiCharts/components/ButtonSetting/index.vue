@@ -54,13 +54,13 @@
             <el-option
               v-for="value in buttonTypeArr"
               :key="value"
-              class="btn-color-choose"
               :label="value"
               :value="value"
+              class="btn-color-choose"
             >
               <el-button
-                size="small"
                 :type="value"
+                size="small"
               >{{ value }}</el-button>
             </el-option>
 
@@ -69,8 +69,8 @@
         <td>
           <el-input
             v-model="item.jsMethods"
-            type="textarea"
             :rows="1"
+            type="textarea"
             placeholder="js脚本"
             readonly
             @click.native="jsMethodsSettingShow(item,index)"

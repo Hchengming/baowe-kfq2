@@ -41,10 +41,10 @@
           <span>
             <el-input
               v-model="item.paramValue"
+              :title="item.paramValue"
               placeholder="请选择"
               size="small"
               class="input-with-select"
-              :title="item.paramValue"
             >
               <el-button
                 slot="append"

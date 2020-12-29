@@ -2,18 +2,18 @@
   <div>
     <el-dialog
       v-drag
-      title="图表字段配置"
-      class="other-key-setting-dialog"
       :append-to-body="true"
       :visible.sync="isShow"
+      title="图表字段配置"
+      class="other-key-setting-dialog"
     >
       <el-form ref="otherKeySettingForm" :model="form" label-width="180px">
         <el-form-item
           v-for="(item, index) in otherFormConfig"
           v-show="!isHide(form, item)"
           :key="index"
-          class="row-textarea"
           :label="item.label"
+          class="row-textarea"
         >
           <!-- 输入框 -->
           <el-input

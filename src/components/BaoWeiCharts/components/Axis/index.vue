@@ -23,10 +23,10 @@
       </el-popconfirm>
     </div>
     <ul
-      class="list"
       :style="{
         cursor: 'move'
       }"
+      class="list"
       @mousedown="mousedown_tz"
     >
       <li v-for="(item, index) in listData" :key="index">

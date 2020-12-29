@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-dialog
-      ref="settingFormDialog"
       v-drag
-      class="dialog-common interactive-setting-dialog"
+      ref="settingFormDialog"
       :append-to-body="true"
       :visible.sync="dialogVisible"
+      class="dialog-common interactive-setting-dialog"
     >
       <div slot="title" class="headerTitle">模块数据交互配置</div>
       <ul class="dialog-box">

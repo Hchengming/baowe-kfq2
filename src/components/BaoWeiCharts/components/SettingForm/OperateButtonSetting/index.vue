@@ -2,10 +2,10 @@
   <div>
     <el-dialog
       v-drag
-      title="表格、列表右侧操作按钮弹窗"
-      class="operate-button-setting-dialog"
       :append-to-body="true"
       :visible.sync="isShow"
+      title="表格、列表右侧操作按钮弹窗"
+      class="operate-button-setting-dialog"
     >
       <button-setting
         :operate-button="operateButton"

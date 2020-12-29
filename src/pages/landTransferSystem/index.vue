@@ -10,19 +10,19 @@
         slot="tableDetails"
         style="width: 100%; height: 100%; overflow: auto"
       >
-        <table-info ref="tableInfo" :tableData="tableData"></table-info>
+        <table-info ref="tableInfo" :table-data="tableData"/>
       </div>
       <div slot="content" class="landTransferSystem-slot-content">
         <!-- 项目首页 -->
         <item-home
-          ref="itemHome"
           v-if="moduleIsShow('项目首页')"
+          ref="itemHome"
+          :setting-config="settingConfig"
           @modeuleShow="modeuleShow"
           @changTopAll="changTopAll"
           @changePageData="changePageData"
           @eventData="eventData"
-          :settingConfig="settingConfig"
-        ></item-home>
+        />
       </div>
     </bao-wei-charts>
   </div>
@@ -34,32 +34,32 @@ import ItemHome from './page/ItemHome/index.vue'
 import { elementMethodsMixins } from './mixins.js'
 import './css/index.scss'
 export default {
-  mixins: [elementMethodsMixins],
   components: {
     BaoWeiCharts,
     TableInfo,
-    ItemHome,
+    ItemHome
   },
+  mixins: [elementMethodsMixins],
   data() {
     return {
       tableData: {},
       settingConfig: {
-        dataIviewCode: 'e6f5f802-3919-4df3-a491-cfdaadc567a8', //数据视图获取编码/id
+        dataIviewCode: 'e6f5f802-3919-4df3-a491-cfdaadc567a8', // 数据视图获取编码/id
         // commonUrl: 'http://23.36.25.177:8082',
         commonUrl: 'http://23.36.123.82:8005', // 配置数据接口公共部分
         dataUrl: 'http://23.36.123.82:8005', // 图表、组件数据公共接口
         systemPermissions: 'admin', // 权限管理
-        isCustomMenu: true,//是否启用菜单配置模块
-        systomMenuApi: 'http://localhost:4000',//菜单配置模块公共路径
+        isCustomMenu: true, // 是否启用菜单配置模块
+        systomMenuApi: 'http://localhost:4000', // 菜单配置模块公共路径
         theme: '0', // 当前已配置主题 0：白色背景 1：深色背景
         // 获取当前项目菜单接口
         // getMenuUrl:
         //   'http://23.36.123.128/api/applicationcenter/function/findAll?key=e6f5f802-3919-4df3-a491-cfdaadc567a8&type=1',
-       //获取项目所有接口的接口路径
-        getInterfaceUrl: "http://localhost:4000/application/insert",
+        // 获取项目所有接口的接口路径
+        getInterfaceUrl: 'http://localhost:4000/application/insert',
         itemTitle: '土地供应审批和监管信息化系统', // 项目标题
-        answerId:"002"//项目编码   
-      },
+        answerId: '002'// 项目编码
+      }
     }
   },
   // components:{BaoWeiCharts},
@@ -69,7 +69,7 @@ export default {
     // document.querySelectorAll()
   },
   methods: {
-    //顶部栏数据变化事件
+    // 顶部栏数据变化事件
     changTopAll(viewChange) {
       this.$refs['baoweiCharts'].changTopAll(viewChange)
     },
@@ -78,7 +78,7 @@ export default {
       this.$refs['baoweiCharts'].changePageData(moduleId, viewchange)
     },
 
-    //图表模块显示隐藏控制事件
+    // 图表模块显示隐藏控制事件
     modeuleShow(obj) {
       this.$refs['baoweiCharts'].modeuleShow(obj)
       // this.$emit('modeuleShow', {
@@ -115,7 +115,7 @@ export default {
           }
           // this.rowClick(obj)
           break
-        case 'getMenuData': //菜单数据获取事件
+        case 'getMenuData': // 菜单数据获取事件
           this.getMenuData(obj)
           break
         case 'topBarClick': // 顶部栏单元格点击事件
@@ -140,8 +140,8 @@ export default {
         //   break
       }
       // console.log(obj, 'elementMethods')
-    },
-  },
+    }
+  }
 }
 </script>
 

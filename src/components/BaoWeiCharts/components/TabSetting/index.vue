@@ -1,11 +1,11 @@
 <template>
   <!-- <div> -->
   <el-dialog
-    ref="tabsSettingFormDialog"
     v-drag
-    class="dialog-common tabs-setting-form-dialog"
+    ref="tabsSettingFormDialog"
     :append-to-body="true"
     :visible.sync="isShow"
+    class="dialog-common tabs-setting-form-dialog"
   >
     <div slot="title" class="headerTitle">tabs切换模块配置信息</div>
     <el-form ref="tabsForm" :model="tabsForm" label-width="130px">
@@ -26,10 +26,10 @@
           <el-form-item label="宽度(页面占比)" prop="width">
             <el-input-number
               v-model="tabsForm.width"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
             <!-- <el-button size="small" @click="widthMax">一键100%</el-button> -->
           </el-form-item>
@@ -38,10 +38,10 @@
           <el-form-item label="高度(页面占比)" prop="height">
             <el-input-number
               v-model="tabsForm.height"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
             <!-- <el-button size="small" @click="heightMax">一键100%</el-button> -->
           </el-form-item>
@@ -52,10 +52,10 @@
           <el-form-item label="位置X轴(页面占比)" prop="left">
             <el-input-number
               v-model="tabsForm.left"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>
@@ -63,10 +63,10 @@
           <el-form-item label="位置Y轴(页面占比)" prop="top">
             <el-input-number
               v-model="tabsForm.top"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>

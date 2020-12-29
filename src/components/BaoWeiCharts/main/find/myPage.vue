@@ -74,8 +74,8 @@
     <el-drawer
       :visible.sync="settingDrawer"
       :title="rightDrawerTypeTitle"
-      direction="rtl"
       :before-close="drawerClose"
+      direction="rtl"
       class="pageSetting"
     >
       <!-- 菜单配置内容 -->

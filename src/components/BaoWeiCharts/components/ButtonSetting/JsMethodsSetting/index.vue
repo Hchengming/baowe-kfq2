@@ -1,16 +1,16 @@
 <template>
   <el-dialog
     v-drag
-    title="按钮事件js脚本配置"
-    class="js-methods-setting-dialog"
     :append-to-body="true"
     :visible.sync="isShow"
+    title="按钮事件js脚本配置"
+    class="js-methods-setting-dialog"
   >
     <p v-if="warn" class="warning-color">{{ warn }}</p>
     <el-input
       v-model="jsMethods"
-      type="textarea"
       :rows="12"
+      type="textarea"
       placeholder="js脚本"
     />
     <span

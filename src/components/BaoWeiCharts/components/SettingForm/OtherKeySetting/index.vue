@@ -2,10 +2,10 @@
   <div>
     <el-dialog
       v-drag
-      title="图表字段配置"
-      class="other-key-setting-dialog"
       :append-to-body="true"
       :visible.sync="isShow"
+      title="图表字段配置"
+      class="other-key-setting-dialog"
     >
       <el-form
         ref="otherKeySettingForm"
@@ -15,8 +15,8 @@
         <el-form-item class="row-textarea" label="表格单元格渲染">
           <el-input
             v-model="otherKeySetting.cellRenderer"
-            type="textarea"
             :rows="3"
+            type="textarea"
             placeholder="单元格数据自定义js脚本渲染"
           />
           <i
@@ -27,8 +27,8 @@
         <el-form-item class="row-textarea" label="表格tip渲染">
           <el-input
             v-model="otherKeySetting.tipRenderer"
-            type="textarea"
             :rows="3"
+            type="textarea"
             placeholder="单元格鼠标移入悬浮框内容自定义js脚本渲染"
           />
           <i
@@ -39,8 +39,8 @@
         <el-form-item class="row-textarea" label="数据格式化">
           <el-input
             v-model="otherKeySetting.colDataformat"
-            type="textarea"
             :rows="3"
+            type="textarea"
             placeholder="接口返回数据格式化"
           />
           <i

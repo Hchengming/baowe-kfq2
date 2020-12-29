@@ -1,7 +1,7 @@
 <template>
   <div v-if="isShowWhere()" ref="static-where-2" class="static-where-2">
     <div class="where-left">
-      <el-form ref="form" class="where-form" :model="whereAll.form">
+      <el-form ref="form" :model="whereAll.form" class="where-form">
         <el-form-item
           v-for="(item, index) in whereAll.data"
           v-show="item.isShow !== '0'"
@@ -21,17 +21,17 @@
             v-if="item.type == 'input'"
             v-model="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
-            size="small"
             :title="whereAll.form[item.key]"
+            size="small"
             @change="onSubmit(item.isInsert == '1')"
           />
           <!-- 下拉框 -->
           <el-select
             v-if="item.type == 'select'"
             v-model="whereAll.form[item.key]"
-            size="small"
             :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
+            size="small"
             placeholder="请选择"
             @change="onSubmit(item.isInsert == '1')"
           >
@@ -118,8 +118,8 @@
             :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
             :type="item.styleType ? item.styleType : 'date'"
-            size="small"
             :placeholder="datePlaceholder(item, index)"
+            size="small"
             @change="onSubmit(item.isInsert == '1', item)"
           />
           <time-slot
@@ -135,9 +135,9 @@
             v-model="whereAll.form[item.key]"
             :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
+            :placeholder="dateTimePlaceholder(item, index)"
             type="datetime"
             size="small"
-            :placeholder="dateTimePlaceholder(item, index)"
             @change="onSubmit(item.isInsert == '1', item)"
           />
 

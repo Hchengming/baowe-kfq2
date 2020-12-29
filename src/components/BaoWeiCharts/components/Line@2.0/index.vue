@@ -1,5 +1,5 @@
 <template>
-  <div class="v_chart_line" :style="{ height: height + 'px' }">
+  <div :style="{ height: height + 'px' }" class="v_chart_line">
     <div
       v-if="
         chartColumns.length > 1 && ['pie', 'ring'].indexOf(chartType) > -1

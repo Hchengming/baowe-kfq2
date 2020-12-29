@@ -2,10 +2,10 @@
   <div>
     <el-dialog
       v-drag
-      title="标题配置"
-      class="table-header-setting-dialog"
       :append-to-body="true"
       :visible.sync="isShow"
+      title="标题配置"
+      class="table-header-setting-dialog"
     >
       <div v-if="type === '0'">
         <div class="header-name-setting">

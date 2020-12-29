@@ -1,7 +1,7 @@
 <template>
   <!-- 项目首页 -->
   <div class="item-home">
-    <div class="search-query" :style="searchStyle">
+    <div :style="searchStyle" class="search-query">
       <div class="year-choose">
         <div class="search-label">年度:</div>
         <el-date-picker
@@ -18,14 +18,14 @@
         </div>
 
         <div
-          class="color-ico-item"
           v-for="(item, index) in textArr"
           :key="index"
+          class="color-ico-item"
         >
           <div
-            class="color-ico-circle"
             :style="{ background: item.color }"
-          ></div>
+            class="color-ico-circle"
+          />
           <div class="color-ico-text">{{ item.txt }}</div>
         </div>
         <!-- <div class="color-ico-item">
@@ -48,8 +48,8 @@ export default {
     settingConfig: {
       type: Object,
       default: null
-    },
-  },
+    }
+  }
 }
 </script>
 

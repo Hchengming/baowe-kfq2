@@ -1,9 +1,9 @@
 <template>
   <el-dialog
-    class="settingForm menuForm"
-    title="菜单编辑信息"
     :append-to-body="true"
     :visible.sync="menuFormAll.isShow"
+    class="settingForm menuForm"
+    title="菜单编辑信息"
   >
     <el-form
       ref="form"
@@ -55,7 +55,8 @@
 export default {
   props: {
     menuFormAll: {
-      type: Object
+      type: Object,
+      default: null
     }
   },
   data() {

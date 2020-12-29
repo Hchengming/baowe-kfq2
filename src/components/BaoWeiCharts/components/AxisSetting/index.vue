@@ -1,11 +1,11 @@
 <template>
   <!-- <div> -->
   <el-dialog
-    ref="listsSettingFormDialog"
     v-drag
-    class="dialog-common tabs-setting-form-dialog"
+    ref="listsSettingFormDialog"
     :append-to-body="true"
     :visible.sync="isShow"
+    class="dialog-common tabs-setting-form-dialog"
   >
     <div slot="title" class="headerTitle">类目轴配置信息</div>
     <el-form ref="axisConfig" :model="axisConfig" label-width="130px">
@@ -14,10 +14,10 @@
           <el-form-item label="位置X轴(页面占比)" prop="left">
             <el-input-number
               v-model="axisConfig.left"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>
@@ -25,10 +25,10 @@
           <el-form-item label="位置Y轴(页面占比)" prop="top">
             <el-input-number
               v-model="axisConfig.top"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>

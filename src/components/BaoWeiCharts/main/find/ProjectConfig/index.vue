@@ -9,9 +9,9 @@
         <el-radio
           v-for="(item, index) in themeData"
           :key="index"
+          :label="item.value"
           border
           size="medium"
-          :label="item.value"
         >{{ item.label }}</el-radio>
       </el-radio-group>
       <div class="bottom-confirm">

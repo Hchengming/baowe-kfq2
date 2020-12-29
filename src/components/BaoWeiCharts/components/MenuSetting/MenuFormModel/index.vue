@@ -1,9 +1,9 @@
 <template>
   <el-dialog
-    class="settingForm menu-form-setting"
-    title="菜单编辑信息"
     :append-to-body="true"
     :visible.sync="menuFormAll.isShow"
+    class="settingForm menu-form-setting"
+    title="菜单编辑信息"
   >
     <el-form
       ref="form"

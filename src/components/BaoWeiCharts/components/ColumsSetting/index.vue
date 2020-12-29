@@ -29,11 +29,11 @@
             v-show="!isHide(items, index, item)"
             v-model="items[item.key]"
             :type="item.inputType"
-            size="mini"
             :title="items[item.key]"
             :rows="item.rows"
             :disabled="setDisabled(items, index, item)"
             :placeholder="placeholder(item)"
+            size="mini"
             @change.native="inputChange(items, index, item)"
             @click.native="inputClick(items, index, item)"
           />
@@ -44,8 +44,8 @@
             v-model="items[item.key]"
             :disabled="setDisabled(items, index, item)"
             :placeholder="placeholder(item)"
-            size="small"
             :title="items[item.key]"
+            size="small"
             @change="inputChange(items, index, item)"
           >
             <el-option
@@ -62,10 +62,10 @@
             v-model="items[item.key]"
             :disabled="item.disabled"
             :placeholder="placeholder(item)"
-            size="small"
             :min="0"
             :max="10000"
             :precision="0"
+            size="small"
             controls-position="right"
           />
           <!-- 多选 -->
@@ -73,8 +73,8 @@
             v-if="setFormType(items, index, item) === 'checkbox'"
             v-show="!isHide(items, index, item)"
             v-model="items[item.key]"
-            size="mini"
             :disabled="setDisabled(items, index, item)"
+            size="mini"
             @change="checkboxChange(items, index, item)"
           />
           <!-- 带右侧按钮输入框 -->
@@ -83,15 +83,15 @@
             v-show="!isHide(items, index, item)"
             v-model="items[item.key]"
             :placeholder="placeholder(item)"
-            size="small"
-            class="input-with-select"
             :disabled="setDisabled(items, index, item)"
             :title="items[item.key]"
+            size="small"
+            class="input-with-select"
           >
             <el-button
               slot="append"
-              icon="el-icon-search"
               :disabled="setDisabled(items, index, item)"
+              icon="el-icon-search"
               @click.native="inputClick(items, index, item)"
             />
           </el-input>

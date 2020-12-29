@@ -1,7 +1,7 @@
 <template>
   <div
-    class="top-bar-wrap"
     :style="{ height: liHeight(), background: wrapBg(), width: wrapWidth() }"
+    class="top-bar-wrap"
   >
     <div v-if="settingConfig.systemPermissions === 'admin'" class="operation">
       <i class="iconfont iconxiugai theme-color" @click="emit" />
@@ -24,8 +24,8 @@
       <li
         v-for="(obj, indexs) in topBarAll.data"
         :key="indexs"
-        class="theme-bg-color"
         :style="{ height: liHeight(), background: listBackground(obj, indexs) }"
+        class="theme-bg-color"
         @click="topBarClick(obj)"
       >
         <div class="top-bar-boxs">

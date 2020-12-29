@@ -1,9 +1,9 @@
 <template>
   <el-dialog
     ref="topBarSetting"
-    class="top-bar-setting dialog-common settingForm"
     :append-to-body="true"
     :visible.sync="isShow"
+    class="top-bar-setting dialog-common settingForm"
   >
     <div slot="title" class="headerTitle" @mousedown="dragElement">
       顶部栏配置信息
@@ -54,10 +54,10 @@
           <el-form-item label="宽度(%)" prop="width">
             <el-input-number
               v-model="form.width"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
               controls-position="right"
             />
           </el-form-item>
@@ -70,10 +70,10 @@
           >
             <el-input-number
               v-model="form.height"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>

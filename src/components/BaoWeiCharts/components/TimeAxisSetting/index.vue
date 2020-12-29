@@ -1,11 +1,11 @@
 <template>
   <!-- <div> -->
   <el-dialog
-    ref="listsSettingFormDialog"
     v-drag
-    class="dialog-common tabs-setting-form-dialog"
+    ref="listsSettingFormDialog"
     :append-to-body="true"
     :visible.sync="isShow"
+    class="dialog-common tabs-setting-form-dialog"
   >
     <div slot="title" class="headerTitle">时间配置信息</div>
     <el-form ref="timeConfig" :model="timeConfig" label-width="130px">
@@ -14,10 +14,10 @@
           <el-form-item label="位置X轴(页面占比)" prop="left">
             <el-input-number
               v-model="timeConfig.left"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>
@@ -25,10 +25,10 @@
           <el-form-item label="位置Y轴(页面占比)" prop="top">
             <el-input-number
               v-model="timeConfig.top"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>
@@ -36,10 +36,10 @@
           <el-form-item label="宽度(页面占比)" prop="top">
             <el-input-number
               v-model="timeConfig.width"
-              size="small"
               :min="0"
               :max="100"
               :precision="2"
+              size="small"
             />
           </el-form-item>
         </el-col>
@@ -49,8 +49,8 @@
           <el-form-item label="开始时间" prop="filed">
             <el-date-picker
               v-model="timeConfig.start"
-              value-format="yyyy"
               :style="{ width: '130px' }"
+              value-format="yyyy"
               type="year"
               size="small"
               @change="yearChange"
@@ -61,8 +61,8 @@
           <el-form-item label="结束时间" prop="filed">
             <el-date-picker
               v-model="timeConfig.end"
-              value-format="yyyy"
               :style="{ width: '130px' }"
+              value-format="yyyy"
               type="year"
               size="small"
               @change="yearChange"

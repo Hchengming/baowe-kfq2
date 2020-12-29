@@ -2,9 +2,9 @@
   <!-- 详情配置组件 -->
   <el-dialog
     ref="destailSettingDialog"
-    class="destail-setting dialog-common"
     :append-to-body="true"
     :visible.sync="dialogVisible"
+    class="destail-setting dialog-common"
   >
     <div
       slot="title"
@@ -69,20 +69,20 @@
             弹窗宽度：
             <el-input-number
               v-model="destailSetObj.width"
-              controls-position="right"
-              size="small"
               :min="300"
               :max="1920"
+              controls-position="right"
+              size="small"
             />
           </el-col>
           <el-col :span="12">
             标题宽度：
             <el-input-number
               v-model="destailSetObj.titleWidth"
-              controls-position="right"
-              size="small"
               :min="1"
               :max="300"
+              controls-position="right"
+              size="small"
             />
           </el-col>
         </el-row>
@@ -111,12 +111,12 @@
             <span class="hTxt1 hTxt">
               <el-input-number
                 v-model="item.sort"
-                placeholder="序号"
-                controls-position="right"
                 :precision="0"
-                size="small"
                 :min="1"
                 :max="50"
+                placeholder="序号"
+                controls-position="right"
+                size="small"
                 @change="sortChange(item.sort,index)"
               />
 

@@ -31,8 +31,7 @@
           :type="val.type"
           size="mini"
           @click="operateButtonClick(val, scope.row)"
-          >{{ val.name }}</el-button
-        >
+        >{{ val.name }}</el-button>
       </div>
       <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
     </template>

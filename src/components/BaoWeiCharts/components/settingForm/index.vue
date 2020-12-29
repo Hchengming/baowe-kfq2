@@ -1,13 +1,13 @@
 <template>
   <div>
     <el-dialog
-      :id="settingFormId()"
-      ref="settingFormDialog"
       v-drag
-      class="settingForm dialog-common"
+      ref="settingFormDialog"
+      :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"
       :visible.sync="dialogVisible"
+      class="settingForm dialog-common"
     >
       <div slot="title" class="headerTitle">模块配置信息</div>
       <div class="setting-form-box">
@@ -22,12 +22,12 @@
               <el-form-item label="副标题1" prop="subtitle1">
                 <el-input
                   v-model="form.subtitle1"
-                  size="small"
                   :disabled="
                     !statisticsAll || statisticsAll.parentModuleId
                       ? true
                       : false
                   "
+                  size="small"
                 />
               </el-form-item>
             </el-col>
@@ -163,10 +163,10 @@
                 >
                   <el-input-number
                     v-model="form.destailsTableLabelWidth"
-                    controls-position="right"
-                    size="small"
                     :min="1"
                     :max="300"
+                    controls-position="right"
+                    size="small"
                   />
                 </el-form-item>
               </el-col>
@@ -240,7 +240,7 @@
                 <el-form-item label="数据是否添加分页" prop="isPage">
                   <el-radio-group v-model="form.isPage">
                     <el-radio label="1">是</el-radio>
-                    <el-radio label="0" :disabled="isPageDisabled">否</el-radio>
+                    <el-radio :disabled="isPageDisabled" label="0">否</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -252,10 +252,10 @@
                 >
                   <el-input-number
                     v-model="form.pageSize"
-                    size="small"
                     :min="0"
                     :max="1000"
                     :precision="0"
+                    size="small"
                   />
                 </el-form-item>
               </el-col>
@@ -430,10 +430,10 @@
               <el-form-item label="宽度(页面占比)" prop="width">
                 <el-input-number
                   v-model="form.width"
-                  size="small"
                   :min="0"
                   :max="100"
                   :precision="2"
+                  size="small"
                 />
                 <el-button size="small" @click="widthMax">一键100%</el-button>
               </el-form-item>
@@ -442,10 +442,10 @@
               <el-form-item label="高度(页面占比)" prop="height">
                 <el-input-number
                   v-model="form.height"
-                  size="small"
                   :min="0"
                   :max="100"
                   :precision="2"
+                  size="small"
                 />
                 <el-button size="small" @click="heightMax">一键100%</el-button>
               </el-form-item>
@@ -456,10 +456,10 @@
               <el-form-item label="位置X轴(页面占比)" prop="left">
                 <el-input-number
                   v-model="form.left"
-                  size="small"
                   :min="0"
                   :max="100"
                   :precision="2"
+                  size="small"
                 />
               </el-form-item>
             </el-col>
@@ -467,10 +467,10 @@
               <el-form-item label="位置Y轴(页面占比)" prop="top">
                 <el-input-number
                   v-model="form.top"
-                  size="small"
                   :min="0"
                   :max="100"
                   :precision="2"
+                  size="small"
                 />
               </el-form-item>
             </el-col>

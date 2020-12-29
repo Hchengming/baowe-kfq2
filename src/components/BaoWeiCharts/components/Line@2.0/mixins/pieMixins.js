@@ -47,7 +47,7 @@ export default {
       this.chooseItem = item
       this.echartsInit()
       console.log(item)
-      this.$emit('pieTabsClick',item)
+      this.$emit('pieTabsClick', item)
     },
     // 饼图、环图 series图表显示配置
     setPieSeries(options) {

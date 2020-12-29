@@ -2,18 +2,18 @@
   <div>
     <el-dialog
       v-drag
-      title="参数值选择弹窗"
-      class="param-tree-dialog"
       :append-to-body="true"
       :visible.sync="isShow"
+      title="参数值选择弹窗"
+      class="param-tree-dialog"
     >
       <el-tree
         ref="elTree"
         :data="treeData"
-        node-key="id"
         :default-expand-all="true"
         :render-content="renderContent"
         :props="defaultProps"
+        node-key="id"
         @node-click="handleCheckChange"
       />
       <span

@@ -38,8 +38,8 @@
         <el-aside v-if="leftMenu.length > 0" :width="leftMenuWidth">
           <el-menu
             :default-active="defaultActive"
-            class="el-menu-vertical-demo menu-bg-color"
             :collapse="isCollapse"
+            class="el-menu-vertical-demo menu-bg-color"
           >
             <my-menu
               v-for="menuItem in leftMenu"

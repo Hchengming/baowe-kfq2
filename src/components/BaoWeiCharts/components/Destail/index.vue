@@ -2,11 +2,11 @@
   <!-- 详情展示组件 -->
   <el-dialog
     ref="destailSettingDialog"
-    class="destail-wrap dialog-common"
-    title="详情展示信息"
     :append-to-body="true"
     :width="width"
     :visible.sync="dialogVisible"
+    class="destail-wrap dialog-common"
+    title="详情展示信息"
   >
     <div class="detail_box model_box info_table">
       <el-row
@@ -22,8 +22,8 @@
           class="detail_col"
         >
           <div
-            class="key"
             :style="{width:skyWidth}"
+            class="key"
           >
             <span>{{ item.title }}</span>
           </div>

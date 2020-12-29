@@ -2,8 +2,8 @@
   <!-- 列表模块  开发区分类统计/开发区分类情况使用-->
   <div id="bw_list">
     <ul
-      class="bw_list1"
       :style="{'height':nowHieght+'px','overflow':'auto'}"
+      class="bw_list1"
     >
       <li
         v-for="(item,index) in data"
@@ -50,8 +50,8 @@
       :current-page="paginationAll.currentPage"
       :page-size="paginationAll.pageSize"
       :page-sizes="pageSizes"
-      layout="total, sizes, prev, pager, next, jumper"
       :total="paginationAll.total"
+      layout="total, sizes, prev, pager, next, jumper"
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     />

@@ -61,13 +61,11 @@ export default {
   mounted() {
     this.commonUrl = this.settingConfig.systomMenuApi
     this.getTreeMenu()
-    
   },
   methods: {
     // 菜单树数据查询事件
     getTreeMenu() {
-     
-      serviceAxios.post(this.commonUrl + '/menu/insertMenu',{answerId:this.settingConfig.answerId}).then(res => {
+      serviceAxios.post(this.commonUrl + '/menu/insertMenu', { answerId: this.settingConfig.answerId }).then(res => {
         // console.log(res)
         const code = res.code
         const reqData = res.data
@@ -154,7 +152,7 @@ export default {
       let url = ''
       if (this.menuFormAll.type === 'add') {
         url = '/menu/addMenu'
-        reqData.answerId=this.settingConfig.answerId
+        reqData.answerId = this.settingConfig.answerId
       } else {
         url = '/menu/updateMenu'
       }

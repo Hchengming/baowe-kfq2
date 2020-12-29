@@ -5,7 +5,6 @@
       :data="tabledata"
       :fit="true"
       :row-class-name="tableRowClassName"
-      stripe
       :height="nowHieght()"
       :row-key="
         settingForm.tableOtherConfig
@@ -19,6 +18,7 @@
         hasChildren: 'hasChildren'
       }"
       :style="{ width: '100%' }"
+      stripe
       @cell-click="cellClick"
       @row-click="rowClick"
     >
@@ -37,8 +37,8 @@
       :current-page="paginationAll.currentPage"
       :page-size="paginationAll.pageSize"
       :page-sizes="pageSizes"
-      layout="total, sizes, prev, pager, next, jumper"
       :total="paginationAll.total"
+      layout="total, sizes, prev, pager, next, jumper"
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
     />

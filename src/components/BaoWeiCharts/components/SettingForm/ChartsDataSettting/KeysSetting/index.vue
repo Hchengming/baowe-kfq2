@@ -68,18 +68,18 @@
         <span class="hTxt1 hTxt">
           <el-input
             v-model="item.key"
+            :disabled="item.key === 'operationButton'"
             size="mini"
             placeholder="字段名"
-            :disabled="item.key === 'operationButton'"
           />
         </span>
         <span class="hTxt2 hTxt">
           <el-input
             v-model="item.explain"
-            size="mini"
             :title="item.explain"
-            placeholder="含义"
             :disabled="item.key === 'operationButton'"
+            size="mini"
+            placeholder="含义"
           />
         </span>
         <span v-if="isWidth" class="hTxt3 hTxt">
@@ -88,9 +88,9 @@
         <span class="hTxt4 hTxt">
           <el-input
             v-model="item.dw"
+            :disabled="item.key === 'operationButton'"
             size="mini"
             placeholder="单位"
-            :disabled="item.key === 'operationButton'"
           />
         </span>
         <!-- 下级参数 -->
@@ -133,8 +133,8 @@
           <el-color-picker
             v-if="item.ischartsShow"
             v-model="item.zBgColor"
-            size="mini"
             :disabled="item.key === 'operationButton'"
+            size="mini"
           />
           <!-- <el-input v-if="item.ischartsShow"
                     v-model="item.zBgColor"
