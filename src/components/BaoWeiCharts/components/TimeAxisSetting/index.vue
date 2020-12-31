@@ -2,8 +2,8 @@
   <!-- <div> -->
   <el-dialog
     v-drag
-    ref="listsSettingFormDialog"
     :append-to-body="true"
+
     :visible.sync="isShow"
     class="dialog-common tabs-setting-form-dialog"
   >
@@ -33,7 +33,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item label="宽度(页面占比)" prop="top">
+          <el-form-item label="宽度(页面占比)" prop="width">
             <el-input-number
               v-model="timeConfig.width"
               :min="0"
@@ -46,26 +46,24 @@
       </el-row>
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
-          <el-form-item label="开始时间" prop="filed">
+          <el-form-item label="开始时间" prop="start">
             <el-date-picker
               v-model="timeConfig.start"
               :style="{ width: '130px' }"
               value-format="yyyy"
               type="year"
               size="small"
-              @change="yearChange"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="结束时间" prop="filed">
+          <el-form-item label="结束时间" prop="end">
             <el-date-picker
               v-model="timeConfig.end"
               :style="{ width: '130px' }"
               value-format="yyyy"
               type="year"
               size="small"
-              @change="yearChange"
             />
           </el-form-item>
         </el-col>

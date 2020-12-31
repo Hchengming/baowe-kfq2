@@ -2,7 +2,6 @@
   <div>
     <el-dialog
       v-drag
-      ref="settingFormDialog"
       :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"

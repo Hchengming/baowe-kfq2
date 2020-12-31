@@ -92,7 +92,7 @@ export default {
   methods: {
     // 顶部栏交互按钮点击事件
     Interactive(object) {
-      console.log(this.topBarAll)
+      // console.log(this.topBarAll)
       this.$emit('interactive', object)
     },
     wrapWidth() {

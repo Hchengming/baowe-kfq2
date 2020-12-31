@@ -139,7 +139,7 @@ export default {
       this.menuFormAll.menuForm.menuName = data.menuName
       this.menuFormAll.menuForm.menuIcon = data.menuIcon
       this.menuFormAll.isShow = true
-      console.log(this.menuFormAll)
+      // console.log(this.menuFormAll)
     },
     // 新增、修改菜单保存事件
     menuFormSubmit(form, fn) {

@@ -2,56 +2,10 @@
 export default {
   data() {
     return {
-      // 模块位置设置
-      modelStyle: {
-        top: 300,
-        left: 10,
-        zindex: 0
-      },
-      // 模块修改表单设置
-      settingForm: {},
-      // 内容区域宽高
-      mainStyle: {
-        width: null,
-        height: null,
-        offsetTop: null,
-        offsetLeft: null
-      },
       cursor: 'defalut'
     }
   },
-  mounted() {
-    this.getMainStyle()
-    this.settingForm = this.configInfo
-    this.setDemos()
-    this.setyear()
-  },
   methods: {
-    // 内容区域宽高获取
-    getMainStyle() {
-      const element = document.getElementsByClassName('my_main_content')[0]
-      this.mainStyle.width = element.scrollWidth
-      this.mainStyle.height = element.scrollHeight
-    },
-    // 图表宽高设置
-    setDemos() {
-      this.modelStyle.top = parseFloat(
-        (this.settingForm.top * this.mainStyle.height) / 100
-      )
-
-      this.modelStyle.left = parseFloat(
-        (this.settingForm.left * this.mainStyle.width) / 100
-      )
-      this.modelStyle.zindex = this.settingForm.zindex
-      this.modelStyle.width = parseFloat(
-        (this.settingForm.width * this.mainStyle.width) / 100
-      )
-    },
-    // 获取模块初始位置和宽高
-    getDemos() {
-      this.settingForm.top = (this.modelStyle.top / this.mainStyle.height) * 100
-      this.settingForm.left = (this.modelStyle.left / this.mainStyle.width) * 100
-    },
     // 模块拖拽事件e
     mousedown_tz(e) {
       const _this = this
@@ -59,14 +13,15 @@ export default {
       var timer = null
       var mousedownTzZx = null
       this.cursor = ''
+      let offon = false
       clearTimeout(timer)
       // console.log(this.settingForm.isDrafting)
       timer = setTimeout(() => {
         // 权限控制
-        // if (this.settingForm.isDrafting === true) {
-        mousedownTzZx(e)
-        this.cursor = 'move'
-        // }
+        if (_this.settingConfig.systemPermissions === 'admin') {
+          mousedownTzZx(e)
+          offon = true
+        }
       }, 200)
       const drag = this.$refs['listWrap']
       mousedownTzZx = e => {
@@ -79,7 +34,6 @@ export default {
           drag.setCapture()
         }
         document.onmousemove = function(event) {
-          // console.log('onmousemove')
           // eslint-disable-next-line no-redeclare
           var event = event || window.event
           var moveX = event.clientX - diffX
@@ -95,30 +49,23 @@ export default {
           } else if (moveY > element.scrollHeight - drag.offsetHeight) {
             moveY = element.scrollHeight - drag.offsetHeight
           }
-
-          _this.modelStyle.left = moveX
-          _this.modelStyle.top = moveY
-
-          _this.getDemos()
+          _this.settingForm.left = (moveX / element.scrollWidth) * 100
+          _this.settingForm.top = (moveY / element.scrollHeight) * 100
         }
       }
       document.onmouseup = function() {
         this.onmousemove = null
         this.onmouseup = null
         clearTimeout(timer)
-        // console.log('onmouseup')
-        if (_this.cursor === 'move' && _this.isAdmin) {
+        // console.log(_this.cursor)
+        if (offon && _this.settingConfig.systemPermissions === 'admin') {
           _this.TZLSKeep()
         }
-        _this.cursor = ''
         // 修复低版本ie bug
         if (typeof drag.releaseCapture !== 'undefined') {
           drag.releaseCapture()
         }
       }
-    },
-    TZLSKeep() {
-
     }
   }
 }

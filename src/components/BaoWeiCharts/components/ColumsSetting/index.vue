@@ -290,7 +290,7 @@ export default {
       // let data = JSON.parse(JSON.stringify(this.tableData))
       this.tableData.push(this.setColums())
       // this.tableData = data
-      // this.$emit('add')
+      this.$emit('add')
     },
     // 列删除事件
     cloumsDelete(index) {

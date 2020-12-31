@@ -2,7 +2,6 @@
   <!-- <div> -->
   <el-dialog
     v-drag
-    ref="listsSettingFormDialog"
     :append-to-body="true"
     :visible.sync="isShow"
     class="dialog-common tabs-setting-form-dialog"
@@ -44,19 +43,18 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="是否启用拖拽功能" prop="isDrafting">
             <el-switch v-model="axisConfig.isDrafting" />
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
       <fieldset class="param-config-setting">
         <!-- 请求参数配置 -->
         <legend class="theme-color">数据配置</legend>
         <colums-setting
-          :table-data="axisData"
+          :table-data="axisConfig.axisData"
           :table-cloums="tableCloums"
-          @add="axisAdd"
         />
       </fieldset>
     </el-form>

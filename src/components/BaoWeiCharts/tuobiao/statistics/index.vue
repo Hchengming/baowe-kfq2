@@ -389,7 +389,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.modelStyle.width, 'modelStyle.width')
+    // console.log(this.modelStyle.width, 'modelStyle.width')
     //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
   },
   methods: {

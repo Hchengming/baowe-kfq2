@@ -1,12 +1,19 @@
-export default {
-  data() {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var _default = {
+  data: function data() {
     return {
       chooseItem: null // 饼图切换选中数据
-    }
+
+    };
   },
   methods: {
     // 鼠标移入悬浮框显示内容配置
-    setPieToopTip(options) {
+    setPieToopTip: function setPieToopTip(options) {
       // 01 数值求和
       // let total = null
       // options.series.forEach((item) => {
@@ -17,7 +24,6 @@ export default {
       //         total = max
       //     })
       // 02 显示配置
-
       // options.tooltip = {
       //     trigger: 'item',
       //     formatter(params) {
@@ -31,59 +37,63 @@ export default {
       options.tooltip = {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)'
-      }
+      };
     },
     // 饼图、环图显示数据设置
-    pieLabelSetting(options) {
+    pieLabelSetting: function pieLabelSetting(options) {
       if (['ring', 'pie'].indexOf(this.chartType) > -1) {
         options.label = {
           show: true,
           formatter: '{b} : {c}'
-        }
+        };
       }
     },
     // 饼图顶部选择按钮点击事件
-    pieChange(item) {
-      this.chooseItem = item
-      this.echartsInit()
-      // console.log(item)
-      this.$emit('pieTabsClick', item)
+    pieChange: function pieChange(item) {
+      this.chooseItem = item;
+      this.echartsInit(); // console.log(item)
+
+      this.$emit('pieTabsClick', item);
     },
     // 饼图、环图 series图表显示配置
-    setPieSeries(options) {
+    setPieSeries: function setPieSeries(options) {
+      var _this = this;
+
       // 01 当前数据类选择
       if (!this.chooseItem) {
-        this.chooseItem = this.chartColumns[0]
-      }
-      // console.log(this.chooseItem)
+        this.chooseItem = this.chartColumns[0];
+      } // console.log(this.chooseItem)
       // 02 series配置
-      const seriesData = []
-      this.data.forEach(item => {
+
+
+      var seriesData = [];
+      this.data.forEach(function (item) {
         seriesData.push({
-          value: Number(item[this.chooseItem.key]) ? Number(item[this.chooseItem.key]) : item[this.chooseItem.key],
-          name: item[this.titleKey]
-        })
-      })
+          value: Number(item[_this.chooseItem.key]) ? Number(item[_this.chooseItem.key]) : item[_this.chooseItem.key],
+          name: item[_this.titleKey]
+        });
+      });
       options.series = [{
         name: this.chooseItem.explain,
         type: 'pie',
         avoidLabelOverlap: true,
         data: seriesData
-      }]
-      // 03 饼图、环图区分配置
+      }]; // 03 饼图、环图区分配置
+
       if (this.chartType === 'ring') {
-        options.series[0].radius = ['50%', '70%']
+        options.series[0].radius = ['50%', '70%'];
       } else if (this.chartType === 'pie') {
-        options.series[0].radius = '55%'
-        options.series[0].center = ['50%', '50%']
+        options.series[0].radius = '55%';
+        options.series[0].center = ['50%', '50%'];
       }
     },
     // 饼图、环图 背景颜色设置
-    setPieColor(options) {
+    setPieColor: function setPieColor(options) {
       if (!options.color) {
-        if (this.data.length > 20) return
-        options.color = this.colorArr
+        if (this.data.length > 20) return;
+        options.color = this.colorArr;
       }
     }
   }
-}
+};
+exports["default"] = _default;

@@ -2,7 +2,6 @@
   <div>
     <el-dialog
       v-drag
-      ref="settingFormDialog"
       :append-to-body="true"
       :visible.sync="dialogVisible"
       class="dialog-common interactive-setting-dialog"

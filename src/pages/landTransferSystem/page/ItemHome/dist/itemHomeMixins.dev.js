@@ -1,18 +1,28 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.gqqkMixins = exports.commonMixins = void 0;
+
+var _request = _interopRequireDefault(require("@/utils/request.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 // import wkglData from './json/wkgl.json'
-import serviceAxios from '@/utils/request.js'
-export const commonMixins = {
-  data() {
+var commonMixins = {
+  data: function data() {
     return {
-      year: '2020', // 当前选择年份
+      year: '2020',
+      // 当前选择年份
       searchStyle: {},
       rightTxt: '',
       textArr: [],
-      topUrl: '', // 顶部栏路径
+      topUrl: '',
+      // 顶部栏路径
       nowMapObj: {
         name: '',
-        obj: {
-
-        }
+        obj: {}
       },
       gqqkTextArr: [{
         txt: '已开工,已缴纳',
@@ -27,18 +37,18 @@ export const commonMixins = {
         txt: '逾期开工,未缴纳',
         color: '#FF0000'
       }]
-    }
+    };
   },
+  mounted: function mounted() {
+    var _this = this;
 
-  mounted() {
-    const _this = this
-    window.addEventListener('message', function(event) {
-      console.log('=============')
-      if (!(typeof event.data === 'string')) return
-      const str = event.data.split('|')[1]
-      const datas = JSON.parse(str)
-      datas.ring = ''
-      let event_data = datas.attributes
+    window.addEventListener('message', function (event) {
+      console.log('=============');
+      if (!(typeof event.data === 'string')) return;
+      var str = event.data.split('|')[1];
+      var datas = JSON.parse(str);
+      datas.ring = '';
+      var event_data = datas.attributes;
       var event_new_data = {
         应缴总价款: {
           总价款: '-',
@@ -52,7 +62,8 @@ export const commonMixins = {
           未缴占比: 0
         },
         缴纳详情: []
-      }
+      };
+
       if (event_data.报建编号 === '建201920000066') {
         event_new_data = {
           应缴总价款: {
@@ -91,58 +102,57 @@ export const commonMixins = {
             缴纳书号: '16901301234027',
             备注: '-'
           }]
-        }
+        };
       }
-      event_data = Object.assign(event_data, event_new_data)
 
-      _this.$emit('eventData', event_data)
-      _this.modeuleShow()
-    }, false)
+      event_data = Object.assign(event_data, event_new_data);
+
+      _this.$emit('eventData', event_data);
+
+      _this.modeuleShow();
+    }, false);
   },
   methods: {
     // 触发右侧地图联动事件
-    mapChange(name, obj) {
+    mapChange: function mapChange(name, obj) {
       this.nowMapObj = {
-        name,
-        obj
-      }
-      const str = JSON.stringify(obj)
-      document.getElementById('mapFrame')
-        .contentWindow.postMessage(`${name}|${str}`, '*')
+        name: name,
+        obj: obj
+      };
+      var str = JSON.stringify(obj);
+      document.getElementById('mapFrame').contentWindow.postMessage("".concat(name, "|").concat(str), '*');
     },
     // 顶部栏单元格点击事件
-    topBarClick(obj) {
-      this.textArr = []
-      this.rightTxt = ''
-      const nowObj = {
+    topBarClick: function topBarClick(obj) {
+      var _this2 = this;
+
+      this.textArr = [];
+      this.rightTxt = '';
+      var nowObj = {
         type: obj.item.code,
         year: this.year
-      }
-
-      if (obj.item.code === 'ysxztdxm') return
-      this.mapChange('tdgyspjg_top', nowObj)
-      this.rightTxt = obj.item.title
-      const colorArr = ['#ED8BD7', '#A86F00', '#2C7FEE']
+      };
+      if (obj.item.code === 'ysxztdxm') return;
+      this.mapChange('tdgyspjg_top', nowObj);
+      this.rightTxt = obj.item.title;
+      var colorArr = ['#ED8BD7', '#A86F00', '#2C7FEE'];
 
       if (obj.item.code === 'wlyxm') {
-        this.textArr = this.gqqkTextArr
+        this.textArr = this.gqqkTextArr;
       } else {
-        obj.item.data.forEach((item, index) => {
-          this.textArr.push({
+        obj.item.data.forEach(function (item, index) {
+          _this2.textArr.push({
             txt: item.label,
             color: colorArr[index]
-          })
-        })
+          });
+        });
       }
     },
-
     // 图表行点击事件
-    rowClick(obj) {
-      this.rightTxt = ''
-      const title = obj.statisticsAll.contentAreaConfig.title
-
-      this.textArr = []
-      // obj.statisticsAll.contentAreaConfig.keyArr.forEach(item => {
+    rowClick: function rowClick(obj) {
+      this.rightTxt = '';
+      var title = obj.statisticsAll.contentAreaConfig.title;
+      this.textArr = []; // obj.statisticsAll.contentAreaConfig.keyArr.forEach(item => {
       //     if (item.ischartsShow && !item.ischartsTitle) {
       //         this.textArr.push({
       //             txt: item.explain,
@@ -150,178 +160,176 @@ export const commonMixins = {
       //         })
       //     }
       // })
-      const nowObj = {
+
+      var nowObj = {
         year: this.year,
         qx: obj.rowItem.qx
-      }
+      };
+
       switch (title) {
         case '各区情况':
-          this.mapChange('tdgyspjg_gqqk', nowObj)
-          this.rightTxt = title
-          this.textArr = this.gqqkTextArr
-          break
-                    // case "到期未开工率":
-                    //     this.mapChange('tdgyspjg_dqwkgl', nowObj);
-                    //     break;
-                    // case "闲置土地处置率":
-                    //     this.mapChange('tdgyspjg_xztdczl', nowObj);
-                    //     break;
+          this.mapChange('tdgyspjg_gqqk', nowObj);
+          this.rightTxt = title;
+          this.textArr = this.gqqkTextArr;
+          break;
+        // case "到期未开工率":
+        //     this.mapChange('tdgyspjg_dqwkgl', nowObj);
+        //     break;
+        // case "闲置土地处置率":
+        //     this.mapChange('tdgyspjg_xztdczl', nowObj);
+        //     break;
       }
     },
     // 图表配置数据自定义事件
-    setOptions(obj) {
+    setOptions: function setOptions(obj) {
       if (obj.moduleId === '70539b578ea64b5eb91034324bd5c1ad') {
         if (obj.chartType === 'bar') {
           obj.options.tooltip = {
-            formatter: function(params) {
-              let res = ''
-              let ncmj = null
-              let yczmj = null
-              params.forEach(item => {
+            formatter: function formatter(params) {
+              var res = '';
+              var ncmj = null;
+              var yczmj = null;
+              params.forEach(function (item) {
                 if (item.seriesName.indexOf('年初面积') > -1) {
-                  ncmj = item.data
+                  ncmj = item.data;
                 } else {
-                  yczmj = item.data
+                  yczmj = item.data;
                 }
-              })
-              const bfb =
-                                Math.round(yczmj / ncmj * 10000) / 100
-              params.forEach(item => {
+              });
+              var bfb = Math.round(yczmj / ncmj * 10000) / 100;
+              params.forEach(function (item) {
                 if (item.seriesName.indexOf('年初面积') > -1) {
-                  res = `${item.seriesName}:${item.data}`
+                  res = "".concat(item.seriesName, ":").concat(item.data);
                 } else {
-                  res += `<br/>${item.seriesName}:${item.data}</br><span style="color:#F4B183;padding-left:20px">(处置率:${bfb}%)</span>`
+                  res += "<br/>".concat(item.seriesName, ":").concat(item.data, "</br><span style=\"color:#F4B183;padding-left:20px\">(\u5904\u7F6E\u7387:").concat(bfb, "%)</span>");
                 }
-              })
-              return res
+              });
+              return res;
             }
-          }
+          };
         }
       } else if (obj.moduleId === '247fa24eee50490998e00e1c8aa82242') {
         if (obj.chartType === 'bar') {
           obj.options.tooltip = {
-            formatter: function(params) {
-              let res = ''
-              let ykgzs = null
-              let wkgzs = null
-
-              params.forEach(item => {
+            formatter: function formatter(params) {
+              var res = '';
+              var ykgzs = null;
+              var wkgzs = null;
+              params.forEach(function (item) {
                 if (item.seriesName.indexOf('未开工') > -1) {
-                  wkgzs = item.data
-                  res += `<br/>${item.seriesName}:${item.data}</br><span style="color:#F4B183;padding-left:20px">(未开工率:/bfb/%)</span>`
+                  wkgzs = item.data;
+                  res += "<br/>".concat(item.seriesName, ":").concat(item.data, "</br><span style=\"color:#F4B183;padding-left:20px\">(\u672A\u5F00\u5DE5\u7387:/bfb/%)</span>");
                 } else {
-                  ykgzs = item.data
-                  res = `${item.seriesName}:${item.data}`
+                  ykgzs = item.data;
+                  res = "".concat(item.seriesName, ":").concat(item.data);
                 }
-              })
-              const bfb = Math.round(wkgzs / ykgzs * 10000) / 100
-              res = res.replace('/bfb/', bfb)
-
-              return res
+              });
+              var bfb = Math.round(wkgzs / ykgzs * 10000) / 100;
+              res = res.replace('/bfb/', bfb);
+              return res;
             }
-          }
+          };
         }
       }
     },
     // 图表模块显示隐藏控制事件
-    modeuleShow() {
+    modeuleShow: function modeuleShow() {
       this.$emit('modeuleShow', {
         moduleId: '2bad2eb0bc024f2fae31a2e20bfe18e6',
         isShow: true
-      })
+      });
     },
     // 页面配置数据加载完成事件
-    getPageData(obj) {
-      obj.data.forEach(item => {
+    getPageData: function getPageData(obj) {
+      var _this3 = this;
+
+      obj.data.forEach(function (item) {
         if (item.moduleId === '4ca2246f7b994298afe6f08f4e674166') {
           // 事件查询模块位置调整
-          this.searchStyle = {
-            top: `calc(${item.contentAreaConfig.top - 5}% - 3px)`,
-            left: `${item.contentAreaConfig.left}%`,
-            width: `${item.contentAreaConfig.width}%`
-          }
+          _this3.searchStyle = {
+            top: "calc(".concat(item.contentAreaConfig.top - 5, "% - 3px)"),
+            left: "".concat(item.contentAreaConfig.left, "%"),
+            width: "".concat(item.contentAreaConfig.width, "%")
+          };
         } else if (item.moduleId === '2bad2eb0bc024f2fae31a2e20bfe18e6') {
-          item.isShow = false
-
-          // setTimeout(() => {
+          item.isShow = false; // setTimeout(() => {
           //     this.modeuleShow()
           // }, 2000)
         }
-      })
+      });
     },
     // 年份选择变化事件
-    yearChange(year) {
-      this.year = new Date(year).getFullYear().toString()
+    yearChange: function yearChange(year) {
+      this.year = new Date(year).getFullYear().toString();
+      this.nowMapObj.obj.year = this.year;
+      this.mapChange(this.nowMapObj.name, this.nowMapObj.obj); //  年份变化照成数据变化事件
 
-      this.nowMapObj.obj.year = this.year
-      this.mapChange(this.nowMapObj.name, this.nowMapObj.obj)
-      //  年份变化照成数据变化事件
-      this.yearChangeData()
-      //
+      this.yearChangeData(); //
     },
     //  年份变化照成数据变化事件
-    yearChangeData() {
-      this.$emit('changTopAll', (obj) => {
-        this.topUrl = obj.form.url
-        this.getTopList((data) => {
-          obj.data = data
-        })
-      })
-      this.$emit('changePageData', '748a43ca251444868f23353aa449b482', (item) => {
-        this.getGqqkList(item.contentAreaConfig.url, (data) => {
-          item.data = data
-        })
-      })
+    yearChangeData: function yearChangeData() {
+      var _this4 = this;
+
+      this.$emit('changTopAll', function (obj) {
+        _this4.topUrl = obj.form.url;
+
+        _this4.getTopList(function (data) {
+          obj.data = data;
+        });
+      });
+      this.$emit('changePageData', '748a43ca251444868f23353aa449b482', function (item) {
+        _this4.getGqqkList(item.contentAreaConfig.url, function (data) {
+          item.data = data;
+        });
+      });
     },
     // 顶部栏数据请求事件
-    getTopList(fn) {
+    getTopList: function getTopList(fn) {
+      var _this5 = this;
+
       if (this.topUrl.indexOf('http') === -1) {
-        this.topUrl = this.settingConfig.dataUrl + this.topUrl
+        this.topUrl = this.settingConfig.dataUrl + this.topUrl;
       }
-      serviceAxios.post(this.topUrl, {
+
+      _request["default"].post(this.topUrl, {
         nd: this.year.toString()
-      }).then(res => {
-        const data = [{
+      }).then(function (res) {
+        var data = [{
           title: '合同个数',
           labelTitle: '项目个数',
           code: 'xmgs',
           bgColor: '#4472C4',
           dw: '个',
           data: []
-        },
-        {
+        }, {
           title: '总出让用地面积',
           labelTitle: '出让面积',
           bgColor: '#4472C4',
           code: 'zcrydmj',
           dw: '平方米',
           data: []
-        },
-        {
+        }, {
           title: '总合同金额',
           labelTitle: '出让总价',
           bgColor: '#4472C4',
           code: 'zhtje',
           dw: '万元',
           data: []
-        },
-        {
+        }, {
           title: '正常履约项目',
           labelTitle: '正常履约项目',
           bgColor: '#4472C4',
           code: 'zclyxm',
           dw: '个',
           data: []
-        },
-        {
+        }, {
           title: '未履约项目',
           labelTitle: '',
           code: 'wlyxm',
           bgColor: '#F4B183',
           dw: '个',
           data: []
-        },
-        {
+        }, {
           title: '疑似土地闲置项目',
           labelTitle: '疑似闲置项目',
           bgColor: '#7C7C7C',
@@ -340,21 +348,23 @@ export const commonMixins = {
             dw: '',
             value: 'XX'
           }]
-        }
-        ]
-        data.forEach((items, index) => {
-          if (index === 5) return
-          for (const key in res.data[0]) {
+        }];
+        data.forEach(function (items, index) {
+          if (index === 5) return;
+
+          for (var key in res.data[0]) {
             if (items.labelTitle === key) {
-              const obj = {
+              var obj = {
                 label: '房地产',
                 dw: items.dw,
                 value: res.data[0][key]
-              }
+              };
+
               if (key.indexOf('出让') === 0) {
-                obj.value = Number(Number(obj.value).toFixed(2))
+                obj.value = Number(Number(obj.value).toFixed(2));
               }
-              items.data.push(obj)
+
+              items.data.push(obj);
             }
           }
 
@@ -363,63 +373,70 @@ export const commonMixins = {
               label: '产业',
               dw: items.dw,
               value: '0'
-            })
+            });
           }
-          for (const key in res.data[1]) {
-            if (items.labelTitle === key) {
-              const obj = {
+
+          for (var _key in res.data[1]) {
+            if (items.labelTitle === _key) {
+              var _obj = {
                 label: '其他',
                 dw: items.dw,
-                value: res.data[1][key]
+                value: res.data[1][_key]
+              };
+
+              if (_key.indexOf('出让') === 0) {
+                _obj.value = Number(Number(_obj.value).toFixed(2));
               }
-              if (key.indexOf('出让') === 0) {
-                obj.value = Number(Number(obj.value).toFixed(2))
-              }
-              items.data.push(obj)
+
+              items.data.push(_obj);
             }
           }
-        })
-        this.gerWkyData((wkfData) => {
-          data[4].data = wkfData
+        });
+
+        _this5.gerWkyData(function (wkfData) {
+          data[4].data = wkfData;
+
           if (fn) {
-            fn(data)
+            fn(data);
           }
-        })
-      })
+        });
+      });
     },
     // 顶部栏数据查询事件格式化处理
-    getTopBarData(obj) {
+    getTopBarData: function getTopBarData(obj) {
+      var _this6 = this;
+
       if (obj.menuId === '12a2dfa2-e317-4335-9309-4cd8580bfc65') {
-        obj.sftsqk(true)
-        this.topUrl = obj.config.url
-        this.getTopList((data) => {
-          this.textArr = []
-          const colorArr = ['#ED8BD7', '#A86F00', '#2C7FEE']
-          data[0].data.forEach((item, index) => {
-            this.textArr.push({
+        obj.sftsqk(true);
+        this.topUrl = obj.config.url;
+        this.getTopList(function (data) {
+          _this6.textArr = [];
+          var colorArr = ['#ED8BD7', '#A86F00', '#2C7FEE'];
+          data[0].data.forEach(function (item, index) {
+            _this6.textArr.push({
               txt: item.label,
               color: colorArr[index]
-            })
-          })
-          this.rightTxt = data[0].title
-          this.nowMapObj = {
+            });
+          });
+          _this6.rightTxt = data[0].title;
+          _this6.nowMapObj = {
             name: 'tdgyspjg_top',
             obj: {
-              year: this.year,
+              year: _this6.year,
               type: 'xmgs'
             }
-          }
-          obj.tsqkData(data)
-        })
+          };
+          obj.tsqkData(data);
+        });
       }
     },
     // 未履约数据请求
-    gerWkyData(fn) {
-      serviceAxios.post(this.settingConfig.dataUrl + '/landTransferSystem/selectWeiLvYueData', {
+    gerWkyData: function gerWkyData(fn) {
+      _request["default"].post(this.settingConfig.dataUrl + '/landTransferSystem/selectWeiLvYueData', {
         nd: this.year.toString()
-      }).then(res => {
+      }).then(function (res) {
         // console.log(res)
-        const datas = [{
+        var datas = [{
           label: '未按时缴款',
           dw: '个',
           value: res.data['未按时缴款']
@@ -431,212 +448,181 @@ export const commonMixins = {
           label: '未按时竣工',
           dw: '个',
           value: res.data['未按时竣工']
-        }
-          // , {
-          //     label: '逾期开工,未缴纳',
-          //     dw: '个',
-          //     value: res.data['逾期开工未缴纳']
-          // }
-        ]
-        fn(datas)
-      })
+        } // , {
+        //     label: '逾期开工,未缴纳',
+        //     dw: '个',
+        //     value: res.data['逾期开工未缴纳']
+        // }
+        ];
+        fn(datas);
+      });
     },
     // 各区情况数据请求
-    getGqqkList(url, fn) {
+    getGqqkList: function getGqqkList(url, fn) {
       if (url.indexOf('http') === -1) {
-        url = this.settingConfig.dataUrl + url
+        url = this.settingConfig.dataUrl + url;
       }
-      serviceAxios.post(url, {
+
+      _request["default"].post(url, {
         nd: this.year.toString()
-      }).then(res => {
-        const datas = [{
+      }).then(function (res) {
+        var datas = [{
           qx: '渝中区'
-        },
-        {
+        }, {
           qx: '南岸区'
-        },
-        {
+        }, {
           qx: '沙坪坝区'
-        },
-        {
+        }, {
           qx: '江北区'
-        },
-        {
+        }, {
           qx: '九龙坡区'
-        },
-        {
+        }, {
           qx: '大渡口区'
-        },
-        {
+        }, {
           qx: '渝北区'
-        },
-        {
+        }, {
           qx: '巴南区'
-        },
-        {
+        }, {
           qx: '北碚区'
-        },
-        {
+        }, {
           qx: '两江新区'
-        },
-        {
+        }, {
           qx: '高新区'
-        }
-        ]
-        datas.forEach(items => {
-          res.data.forEach(item => {
+        }];
+        datas.forEach(function (items) {
+          res.data.forEach(function (item) {
             if (items.qx === item['行政区域']) {
-              for (const key in item) {
+              for (var key in item) {
                 if (key !== '行政区域') {
-                  item[key] = Number(item[key])
+                  item[key] = Number(item[key]);
+
                   if (item[key] === 0) {
-                    item[key] = '0'
+                    item[key] = '0';
                   }
                 }
-                items[key] = item[key]
-              }
-              //  =
+
+                items[key] = item[key];
+              } //  =
+
             }
-          })
-        })
+          });
+        });
 
         if (fn) {
-          fn(datas)
+          fn(datas);
         }
-      })
+      });
     },
     // 特殊图表数据处理
-    getchartsList(obj) {
-      const moduleId = obj.config.moduleId
+    getchartsList: function getchartsList(obj) {
+      var moduleId = obj.config.moduleId;
+
       if (moduleId === '748a43ca251444868f23353aa449b482') {
         // 项目首页--各区情况
-        obj.sftsqk(true) // 确认未特殊情况，拦截默认数据请求处理
+        obj.sftsqk(true); // 确认未特殊情况，拦截默认数据请求处理
 
-        this.getGqqkList(obj.config.contentAreaConfig.url, (data) => {
-          obj.tsqkData(data)
-        })
+        this.getGqqkList(obj.config.contentAreaConfig.url, function (data) {
+          obj.tsqkData(data);
+        });
       } else if (moduleId === '70539b578ea64b5eb91034324bd5c1ad') {
         // 项目首页--闲置土地处置率
-        obj.sftsqk(true) // 确认未特殊情况，拦截默认数据请求处理
-        const data = [{
+        obj.sftsqk(true); // 确认未特殊情况，拦截默认数据请求处理
+
+        var data = [{
           qx: '渝中区',
           ncmj: 3,
           yczmj: 1
-        },
-        {
+        }, {
           qx: '南岸区',
           ncmj: 31,
           yczmj: 12
-        },
-        {
+        }, {
           qx: '沙坪坝区',
           ncmj: 23,
           yczmj: 18
-        },
-        {
+        }, {
           qx: '江北区',
           ncmj: 53,
           yczmj: 48
-        },
-        {
+        }, {
           qx: '九龙坡区',
           ncmj: 43,
           yczmj: 21
-        },
-        {
+        }, {
           qx: '大渡口区',
           ncmj: 35,
           yczmj: 17
-        },
-        {
+        }, {
           qx: '渝北区',
           ncmj: 151,
           yczmj: 85
-        },
-        {
+        }, {
           qx: '巴南区',
           ncmj: 59,
           yczmj: 4
-        },
-        {
+        }, {
           qx: '北碚区',
           ncmj: 56,
           yczmj: 0
-        },
-        {
+        }, {
           qx: '两江新区',
           ncmj: 147,
           yczmj: 38
-        },
-        {
+        }, {
           qx: '高新区',
           ncmj: 585,
           yczmj: 82
-        }
-        ]
-        obj.tsqkData(data)
+        }];
+        obj.tsqkData(data);
       } else if (moduleId === '247fa24eee50490998e00e1c8aa82242') {
         // 项目首页--未开工率
+        obj.sftsqk(true); // 确认未特殊情况，拦截默认数据请求处理
 
-        obj.sftsqk(true) // 确认未特殊情况，拦截默认数据请求处理
-        const data = [{
+        var _data = [{
           qx: '渝中区',
           ykgzs: 1,
           wkgzs: 1
-        },
-        {
+        }, {
           qx: '南岸区',
           ykgzs: 48,
           wkgzs: 31
-        },
-        {
+        }, {
           qx: '沙坪坝区',
           ykgzs: 90,
           wkgzs: 17
-        },
-        {
+        }, {
           qx: '江北区',
           ykgzs: 15,
           wkgzs: 12
-        },
-        {
+        }, {
           qx: '九龙坡区',
           ykgzs: 46,
           wkgzs: 27
-        },
-        {
+        }, {
           qx: '大渡口区',
           ykgzs: 30,
           wkgzs: 3
-        },
-        {
+        }, {
           qx: '渝北区',
           ykgzs: 55,
           wkgzs: 35
-        },
-        {
+        }, {
           qx: '巴南区',
           ykgzs: 120,
           wkgzs: 9
-        },
-        {
+        }, {
           qx: '北碚区',
           ykgzs: 83,
           wkgzs: 51
-        },
-        {
+        }, {
           qx: '两江新区',
           ykgzs: 205,
           wkgzs: 53
-        },
-        {
+        }, {
           qx: '高新区',
           ykgzs: 0,
           wkgzs: 0
-        }
-        ]
-
-        // wkglData.forEach(items => {
+        }]; // wkglData.forEach(items => {
         //     data.forEach(item => {
         //         if (items['区域'] === item.qx) {
         //             item.ykgzs = items['宗数_1']
@@ -645,27 +631,25 @@ export const commonMixins = {
         //             item.wkgmj = Number(items['总面积_2'].toFixed(2))
         //         }
         //     })
-
         // })
 
-        obj.tsqkData(data)
+        obj.tsqkData(_data);
       }
     }
   }
-}
-
-export const gqqkMixins = {
+};
+exports.commonMixins = commonMixins;
+var gqqkMixins = {
   methods: {
     // 顶部栏点击触发各区情况点击事件
-    changeGqqk(obj) {
+    changeGqqk: function changeGqqk(obj) {
       switch (obj.item.title) {
         case '合同个数':
-          break
+          break;
       }
     },
     // 合同个数数据渲染、变化事件
-    changePageData() {
-
-    }
+    changePageData: function changePageData() {}
   }
-}
+};
+exports.gqqkMixins = gqqkMixins;

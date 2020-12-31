@@ -106,8 +106,7 @@
       <axis-setting
         ref="AxisSetting"
         :axis-config="axisConfig"
-        @timeAxisEmit="timeAxisEmit"
-        @axisAdd="axisAdd"
+        @axisConfigSubmit="categoryConfigSubmit"
       />
       <!-- 时间轴配置 -->
       <time-axis-setting
@@ -127,20 +126,23 @@
     />
     <!-- 类目轴 -->
     <axis
-      v-for="(item, index) in axisSource"
-      :key="index"
-      :data-source="item.axisData"
-      :config="item.axisConfig"
-      @delete="deleteAxis(index)"
+      v-for="(item) in axisSource"
+      :key="item.moduleId"
+      :setting-form="item.categoryConfig"
+      :setting-config="settingConfig"
+      :module-id="item.moduleId"
+      @deleteCategory="deleteCategory"
       @axisClick="axisClick"
+      @categoryConfigSubmit="categoryConfigSubmit"
     />
     <!-- 时间轴 -->
     <time-axis
       v-for="(item, index) in timeSource"
       :key="index"
-      :config-info="item.timeAxisConfig"
+      :setting-config="settingConfig"
+      :setting-form="item.timeAxisConfig"
       :module-id="item.moduleId"
-      @delete="deleteTimeAxis(index)"
+      @deleteTemplate="deleteTimeAxis"
       @timeClick="timeClick"
       @timeAxisEmit="timeAxisEmit"
     />
@@ -161,6 +163,7 @@ import interactiveMixins from './mixins/interactiveMixins'
 /* 类目轴导入 */
 import AxisSetting from '../../components/AxisSetting'
 import Axis from '../../components/Axis'
+import axisMixins from './mixins/axisMixins'
 import timeAxisMixins from './mixins/timeAxisMixins'
 import TimeAxisSetting from '../../components/TimeAxisSetting'
 import TimeAxis from '../../components/TimeAxis'
@@ -184,7 +187,7 @@ export default {
     TimeAxis
     // myMap
   },
-  mixins: [topBarMixins, myPageMixins, interactiveMixins, timeAxisMixins],
+  mixins: [topBarMixins, myPageMixins, interactiveMixins, timeAxisMixins, axisMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -250,7 +253,9 @@ export default {
       this.$refs['middleware'].menuClick(menuItem, menuTypes, fn)
       this.getTopBarConfig()
       // 时间轴配置数据查询
-      //  this.timeAxisSelect()
+      this.timeAxisSelect()
+      // 类目轴配置数据查询
+      this.categoryConfigSelect()
       sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
@@ -295,7 +300,7 @@ export default {
           this.$refs['tabsSetting'].show()
           break
         case 'axis': // 类目轴
-          this.$refs['AxisSetting'].show()
+          this.axisSettingShow()
           break
         case 'timeAxis': // 时间轴
           this.$refs['TimeAxisSetting'].show()

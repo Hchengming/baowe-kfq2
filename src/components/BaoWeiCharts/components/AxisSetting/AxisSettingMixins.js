@@ -2,12 +2,12 @@ export default {
   data() {
     return {
       isShow: false,
-      axisData: [],
       tableCloums: [{
-        label: '索引',
-        key: 'index',
+        label: '序号',
+        key: 'sort',
         formType: 'number',
-        width: 100
+        width: 100,
+        disabled: true
       },
       {
         label: '值',
@@ -16,7 +16,19 @@ export default {
         formType: 'input',
         width: 700
       }
-      ]
+      ],
+      axisConfigClone: {}
+    }
+  },
+  watch: {
+    'axisConfig.axisData': {
+      handler(val) {
+        if (val) {
+          val.forEach((item, index) => {
+            item.sort = index + 1
+          })
+        }
+      }, deep: true
     }
   },
   methods: {
@@ -24,23 +36,16 @@ export default {
     show() {
       this.isShow = true
     },
-    initData(data) {
-      this.axisData = data.map(value => value)
-    },
     // 弹窗关闭事件
     close() {
       this.isShow = false
+      this.$refs['axisConfig'].resetFields()
     },
     // 配置确认提交事件
     onSubmit() {
-      this.$emit('axisAdd', {
-        axisConfig: this.axisConfig,
-        axisData: this.axisData
+      this.$emit('axisConfigSubmit', this.axisConfig, null, () => {
+        this.close()
       })
-      this.isShow = false
-    },
-    axisAdd() {
-      this.axisData[this.axisData.length - 1].index = this.axisData.length - 1
     }
   }
 }

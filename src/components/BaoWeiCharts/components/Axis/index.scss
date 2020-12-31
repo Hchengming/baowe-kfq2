@@ -1,5 +1,31 @@
 $--color-primary: #4472c4;
+.category-axis-admin {
+    &:hover {
+        cursor: move;
+        .operation {
+            display: block;
+        }
+    }
+}
+
 #category-axis {
+    position: absolute;
+    .operation {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 99;
+        background: #ffffffbd;
+        i {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 2px;
+        }
+        .el-icon-delete {
+            color: red;
+        }
+    }
     .list {
         display: flex;
         margin: 0 20px;
@@ -10,7 +36,6 @@ $--color-primary: #4472c4;
             padding-right: 40px;
             background: url(./images/t1.png) no-repeat right center;
             margin-right: 8px;
-            cursor: pointer;
             list-style: none;
             .text {
                 display: block;
@@ -22,6 +47,7 @@ $--color-primary: #4472c4;
                 border: 1px solid $--color-primary;
                 text-align: center;
                 position: relative;
+                cursor: pointer;
                 span {
                     position: relative;
                     display: block;
@@ -60,26 +86,6 @@ $--color-primary: #4472c4;
             }
         }
     }
-    .list-out {
-        position: absolute;
-        .operation {
-            display: none;
-            position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 99;
-            background: #ffffffbd;
-            i {
-                font-size: 24px;
-                cursor: pointer;
-                padding: 0 2px;
-            }
-            .el-icon-delete {
-                color: red;
-            }
-        }
-        &:hover .operation {
-            display: block;
-        }
-    }
+    // .list-out {
+    // }
 }

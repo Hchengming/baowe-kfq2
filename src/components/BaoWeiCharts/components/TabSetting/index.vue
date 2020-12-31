@@ -2,7 +2,6 @@
   <!-- <div> -->
   <el-dialog
     v-drag
-    ref="tabsSettingFormDialog"
     :append-to-body="true"
     :visible.sync="isShow"
     class="dialog-common tabs-setting-form-dialog"

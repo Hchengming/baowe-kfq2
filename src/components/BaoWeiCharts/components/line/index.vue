@@ -1,6 +1,6 @@
 <template>
   <!-- 折线图 -->
-  <div class="v_chart_line" :style="{ height: height + 'px' }">
+  <div :style="{ height: height + 'px' }" class="v_chart_line">
     <div class="line_box">
       <!-- 条形图展示 -->
       <ve-bar
@@ -60,19 +60,19 @@
           </div>
           <span v-show="picRingBtnArr.length > 1" class="txt">
             单位({{ pieDW }})</span
-          >
+            >
         </div>
         <div class="pie_box">
           <ve-pie
             v-if="chartType == 'pie'"
             :data="chartData2"
-            class="pie"
             :height="
               chartColumns.length > 2 ? height - 25 + 'px' : height + 'px'
             "
             :legend-visible="false"
             :settings="nowPieSetting"
             :events="chartEvents"
+            class="pie"
           />
           <!-- 环图 -->
           <ve-ring

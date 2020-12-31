@@ -2,13 +2,9 @@
   <div
     id="category-axis"
     :ref="'listWrap'"
-    :style="{
-      left: modelStyle.left + 'px',
-      top: modelStyle.top + 'px',
-      cursor: 'defalut',
-      'z-index': modelStyle.zindex
-    }"
-    class="list-out"
+    :style="listWrapStyle"
+    :class="{'category-axis-admin':settingConfig.systemPermissions==='admin'}"
+    @mousedown="mousedown_tz"
   >
     <div class="operation">
       <i class="iconfont iconxiugai theme-color" @click="edit" />
@@ -23,13 +19,9 @@
       </el-popconfirm>
     </div>
     <ul
-      :style="{
-        cursor: 'move'
-      }"
       class="list"
-      @mousedown="mousedown_tz"
     >
-      <li v-for="(item, index) in listData" :key="index">
+      <li v-for="(item, index) in settingForm.axisData" :key="index">
         <span
           :class="['text', { active: listChooseIndex == index }]"
           @click="listClick(item, index)"
@@ -40,61 +32,75 @@
     </ul>
     <Axis-setting
       ref="AxisSetting"
-      :axis-config="axisConfig"
-      @axisAdd="axisAdd"
+      :axis-config="settingForm"
+      @axisConfigSubmit="categoryConfigSubmit"
     />
   </div>
 </template>
 <script>
 import './index.scss'
-import dragStretchMixins from './dragStretchMixins'
+import dragStretchMixins from '../TimeAxis/dragStretchMixins'
 import AxisSetting from '../AxisSetting'
 export default {
   components: { AxisSetting },
   mixins: [dragStretchMixins],
   props: {
-    dataSource: {
-      type: Array,
-      default: () => []
+    settingForm: {
+      type: Object,
+      default: null
     },
-    config: {
+    moduleId: {
+      type: String,
+      default: null
+    },
+    settingConfig: {
       type: Object,
       default: null
     }
   },
   data() {
     return {
-      axisConfig: {}
+      listChooseIndex: null
     }
   },
-  computed: {},
-  watch: {},
-  mounted() {},
+  computed: {
+    listWrapStyle() {
+      const element = document.getElementsByClassName('my_main_content')[0]
+      const style = {
+        top:
+          parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
+          'px',
+        left:
+          parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
+          'px',
+        'z-index': this.settingForm.zindex,
+        width: (this.settingForm.width * element.scrollWidth) / 100 + 'px'
+      }
+      return style
+    }
+  },
   methods: {
+    // 拖拽完成后保存事件
+    TZLSKeep() {
+      this.$emit('categoryConfigSubmit', this.settingForm, this.moduleId)
+    },
+    // 类目点击事件
     listClick(item, index) {
       this.listChooseIndex = index
       this.$emit('axisClick', item)
     },
+    // 删除按钮点击事件
     deleteTemplate() {
-      this.$emit('delete')
+      this.$emit('deleteCategory', this.moduleId)
     },
+    // 编辑按钮点击事件
     edit() {
-      this.axisConfig = {
-        left: this.settingForm.left,
-        top: this.settingForm.top,
-        zindex: this.settingForm.zindex, // 视图层级
-        isDrafting: this.settingForm.isDrafting // 是否启用拖拽功能
-      }
-      this.$refs['AxisSetting'].initData(this.listData)
       this.$refs['AxisSetting'].show()
     },
-    axisAdd(config) {
-      this.settingForm.left = config.axisConfig.left
-      this.settingForm.top = config.axisConfig.top
-      this.settingForm.zindex = config.axisConfig.zindex
-      this.settingForm.isDrafting = config.axisConfig.isDrafting
-      this.listData = config.axisData.map(value => value)
-      this.setDemos()
+    // 配置数据点击确认事件
+    categoryConfigSubmit(config, moduleId, close) {
+      this.$emit('categoryConfigSubmit', config, this.moduleId, close)
+      // console.log(config, moduleId, close)
     }
   }
 }

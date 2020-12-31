@@ -13,15 +13,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var _default = {
   data: function data() {
     return {
-      axisConfig: {
-        left: 1,
-        top: 1,
-        zindex: '8',
-        // 视图层级
-        isDrafting: false // 是否启用拖拽功能
-
-      },
-      axisSource: [],
       // 时间轴配置项
       timeConfig: {
         left: 1,
@@ -34,24 +25,19 @@ var _default = {
         end: '' // 结束时间
 
       },
-      timeSource: []
+      timeSource: [],
+      timeConfigClone: {}
     };
   },
   methods: {
+    // 时间点击事件
+    timeClick: function timeClick(date) {
+      console.log(date);
+    },
     // 时间轴配置提交事件
-    timeAxisEmit: function timeAxisEmit(config, moduleId) {
+    timeAxisEmit: function timeAxisEmit(config, moduleId, close) {
       var _this = this;
 
-      // this.axisSource.push({
-      //     axisConfig: {
-      //         zindex: config.axisConfig.zindex,
-      //         top: config.axisConfig.top,
-      //         left: config.axisConfig.left,
-      //         isDrafting: config.axisConfig.isDrafting,
-      //     },
-      //     axisData: config.axisData
-      // })
-      // if (config) return
       var reqObj = {
         timeAxisConfig: config
       };
@@ -67,17 +53,16 @@ var _default = {
         api = '/timeAxisConfig/addTimeAxisConfig';
       }
 
-      console.log(reqObj);
-
       _request["default"].post(this.settingConfig.commonUrl + api, reqObj).then(function () {
-        // this.timeSource = res.data
-        // console.log(this.timeSource, 'this.timeSource');
         _this.$message({
           type: 'success',
           message: '当前时间轴配置数据保存成功'
-        });
+        }); // 编辑弹窗关闭事件执行
 
-        _this.$refs['TimeAxisSetting'].close();
+
+        if (close) {
+          close();
+        }
 
         _this.timeAxisSelect();
       })["catch"](function () {
@@ -98,7 +83,6 @@ var _default = {
           item.timeAxisConfig = JSON.parse(item.timeAxisConfig);
         });
         _this2.timeSource = res.data;
-        console.log(_this2.timeSource, 'this.timeSource');
 
         _this2.$message({
           type: 'success',
@@ -111,18 +95,26 @@ var _default = {
         });
       });
     },
-    axisAdd: function axisAdd() {},
-    deleteAxis: function deleteAxis(idx) {
-      this.axisSource.splice(idx, 1);
-    },
-    axisClick: function axisClick() {},
-    // timeAxisAdd(config) {
-    //     this.timeSource.push(config)
-    // },
-    deleteTimeAxis: function deleteTimeAxis(idx) {
-      this.timeSource.splice(idx, 1);
-    },
-    timeClick: function timeClick() {}
+    // 时间轴模块删除事件
+    deleteTimeAxis: function deleteTimeAxis(moduleId) {
+      var _this3 = this;
+
+      _request["default"].post(this.settingConfig.commonUrl + '/timeAxisConfig/deleteTimeAxisConfig', {
+        moduleId: moduleId
+      }).then(function (res) {
+        _this3.timeAxisSelect();
+
+        _this3.$message({
+          type: 'success',
+          message: '时间轴删除成功'
+        });
+      })["catch"](function () {
+        _this3.$message({
+          type: 'error',
+          message: '时间轴删除失败'
+        });
+      });
+    }
   }
 };
 exports["default"] = _default;
