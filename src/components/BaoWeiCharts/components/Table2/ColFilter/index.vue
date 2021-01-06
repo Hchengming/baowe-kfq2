@@ -47,15 +47,15 @@ export default {
     // 弹窗显示事件
     show(tableColums) {
       this.isShow = !this.isShow
-
       if (!this.isShow) return
       this.treeData = tableColums
       this.defaultCheckedKeys = []
+
       this.reduiction(this.treeData, (item) => {
         if (item.isShow) {
           if (
-            this.settingForm.tablefunctionalComponents &&
-        this.settingForm.tablefunctionalComponents.indexOf('colFilter') > -1
+            this.settingForm.tableHeaderConfig &&
+        this.settingForm.tableHeaderConfig.hierarchy > 1
           ) {
             this.defaultCheckedKeys.push(item.id)
           } else {
@@ -67,8 +67,8 @@ export default {
     nodeKey() {
       let key = ''
       if (
-        this.settingForm.tablefunctionalComponents &&
-        this.settingForm.tablefunctionalComponents.indexOf('colFilter') > -1
+        this.settingForm.tableHeaderConfig &&
+        this.settingForm.tableHeaderConfig.hierarchy > 1
       ) {
         key = 'id'
         this.defaultProps.label = 'label'
@@ -81,8 +81,8 @@ export default {
     // 节点点击事件
     handleCheckChange(val, offon) {
       if (
-        this.settingForm.tablefunctionalComponents &&
-        this.settingForm.tablefunctionalComponents.indexOf('colFilter') > -1
+        this.settingForm.tableHeaderConfig &&
+        this.settingForm.tableHeaderConfig.hierarchy > 1
       ) {
         this.reduiction(this.treeData, item => {
           if (item.id === val.id) {

@@ -170,7 +170,6 @@ export default {
       const tableColum2 = []
       func(tableColums, tableColum2)
       return tableColum2
-      // tableColums.forEach(item => {})
     },
     // 列筛选按钮点击事件
     colFilterClick() {
