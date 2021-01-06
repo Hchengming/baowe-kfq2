@@ -1,8 +1,8 @@
 <template>
   <div id="bw_table" ref="bw-table">
-    <div class="table-functional-components">
-      <i class="el-icon-edit" title="列筛选" @click="colFilterClick" >
-        <col-filter ref="colFilter" :table-colums="tableColums" :setting-form="settingForm" />
+    <div v-if="settingForm.tablefunctionalComponents && settingForm.tablefunctionalComponents.length > 0" class="table-functional-components">
+      <i v-if="settingForm.tablefunctionalComponents.indexOf('colFilter') > -1" class="el-icon-edit" title="列筛选" @click="colFilterClick">
+        <col-filter ref="colFilter" :table-colums="tableColums" :setting-form="settingForm" @handleCheckChange="handleCheckChange" />
       </i>
     </div>
     <el-table
@@ -98,8 +98,10 @@ export default {
       newClums: [],
       tableWidth: 0,
       offon: false,
-      tableColums: [],
+      tableColums: [], // 列配置数据
+      tableColumsClone: [], // 初始列配置数据
       tableShow: true
+
     }
   },
   watch: {
@@ -113,8 +115,8 @@ export default {
     this.getTableColums()
   },
   methods: {
+    // 表格列配置初始化
     getTableColums() {
-      this.tableShow = false
       let tableColums = []
       // 判断是否为多表头表格
       if (
@@ -135,10 +137,8 @@ export default {
         // 02 普通表格
         tableColums = this.newClums
       }
-      this.$nextTick(() => {
-        this.tableColums = this.tableColumsFilter(tableColums)
-        this.tableShow = true
-      })
+      this.tableColumsClone = tableColums
+      this.tableColums = tableColums
     },
     // 多表头列配置数据筛选
     tableColumsFilter(tableColums) {
@@ -174,7 +174,15 @@ export default {
     },
     // 列筛选按钮点击事件
     colFilterClick() {
-      this.$refs['colFilter'].isShow = !this.$refs['colFilter'].isShow
+      this.$refs['colFilter'].show(this.tableColumsClone)
+    },
+    // 表格列筛选变化事件
+    handleCheckChange(treeData) {
+      this.tableShow = false
+      this.$nextTick(() => {
+        this.tableColums = this.tableColumsFilter(treeData)
+        this.tableShow = true
+      })
     },
     // 递归遍历树形数据
     reduiction(data, fn) {
