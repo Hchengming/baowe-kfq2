@@ -1,6 +1,12 @@
 <template>
   <div id="bw_table" ref="bw-table">
+    <div class="table-functional-components">
+      <i class="el-icon-edit" title="列筛选" @click="colFilterClick" >
+        <col-filter ref="colFilter" :table-colums="tableColums" :setting-form="settingForm" />
+      </i>
+    </div>
     <el-table
+      v-if="tableShow"
       :border="true"
       :data="tabledata"
       :fit="true"
@@ -28,7 +34,7 @@
         :item="item"
         :statistics-all="statisticsAll"
         :setting-form="settingForm"
-        :colums="colums"
+        :colums="newClums"
         :width="width"
       />
     </el-table>
@@ -47,8 +53,10 @@
 <script>
 import listTableCommonJs from './TableMixins'
 import TableColumn from './tableColumn/tableColumn.vue'
+// import csData from './cs.json'
+import ColFilter from './ColFilter'
 export default {
-  components: { TableColumn },
+  components: { TableColumn, ColFilter },
   mixins: [listTableCommonJs],
   props: {
     tabledata: {
@@ -88,13 +96,25 @@ export default {
     return {
       cellCursor: '',
       newClums: [],
-      tableWidth: 0
+      tableWidth: 0,
+      offon: false,
+      tableColums: [],
+      tableShow: true
     }
   },
-
-  computed: {
-    // 表格表头配置
-    tableColums() {
+  watch: {
+    colums(val) {
+      this.newClums = JSON.parse(JSON.stringify(this.colums))
+      this.getTableColums()
+    }
+  },
+  mounted() {
+    this.newClums = JSON.parse(JSON.stringify(this.colums))
+    this.getTableColums()
+  },
+  methods: {
+    getTableColums() {
+      this.tableShow = false
       let tableColums = []
       // 判断是否为多表头表格
       if (
@@ -105,7 +125,7 @@ export default {
         tableColums = this.settingForm.tableHeaderConfig.headerSetting[0]
           .children
         this.reduiction(tableColums, items => {
-          this.colums.forEach(item => {
+          this.newClums.forEach(item => {
             if (items.key === item.key) {
               Object.assign(items, item)
             }
@@ -113,12 +133,49 @@ export default {
         })
       } else {
         // 02 普通表格
-        tableColums = this.colums
+        tableColums = this.newClums
       }
-      return tableColums
-    }
-  },
-  methods: {
+      this.$nextTick(() => {
+        this.tableColums = this.tableColumsFilter(tableColums)
+        this.tableShow = true
+      })
+    },
+    // 多表头列配置数据筛选
+    tableColumsFilter(tableColums) {
+      const func = (array, array2) => {
+        array.forEach(item => {
+          if (item.children && item.children.length > 0) {
+            let offon = false
+            const obj = JSON.parse(JSON.stringify(item))
+            obj.children = []
+            item.children.forEach(xx => {
+              if (
+                xx.isShow === true ||
+                (xx.children && xx.children.length > 0)
+              ) {
+                offon = true
+              }
+            })
+            if (offon) {
+              array2.push(obj)
+              func(item.children, array2[array2.length - 1].children)
+            }
+          } else {
+            if (item.isShow === true) {
+              array2.push(item)
+            }
+          }
+        })
+      }
+      const tableColum2 = []
+      func(tableColums, tableColum2)
+      return tableColum2
+      // tableColums.forEach(item => {})
+    },
+    // 列筛选按钮点击事件
+    colFilterClick() {
+      this.$refs['colFilter'].isShow = !this.$refs['colFilter'].isShow
+    },
     // 递归遍历树形数据
     reduiction(data, fn) {
       data.forEach((item, index) => {
@@ -140,13 +197,16 @@ export default {
       }
       return val
     },
-
+    // 表格高度配置
     nowHieght() {
+      let height = this.height
       if (this.paginationAll) {
-        return this.height - 35
-      } else {
-        return this.height
+        height -= 35
       }
+      if (this.settingForm.tablefunctionalComponents && this.settingForm.tablefunctionalComponents.length > 0) {
+        height -= 40
+      }
+      return height
     },
     // 行点击事件
     rowClick(row) {

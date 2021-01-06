@@ -134,6 +134,7 @@
       @deleteCategory="deleteCategory"
       @axisClick="axisClick"
       @categoryConfigSubmit="categoryConfigSubmit"
+      @interactive="categoryAxisInteractiveIconClick"
     />
     <!-- 时间轴 -->
     <time-axis
@@ -145,6 +146,7 @@
       @deleteTemplate="deleteTimeAxis"
       @timeClick="timeClick"
       @timeAxisEmit="timeAxisEmit"
+      @interactive="timeAxisInteractiveIconClick"
     />
   </div>
 </template>

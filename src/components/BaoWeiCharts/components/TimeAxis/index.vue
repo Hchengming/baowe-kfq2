@@ -7,6 +7,11 @@
   >
     <div class="operation">
       <i class="iconfont iconxiugai theme-color" @click="edit" />
+      <i
+        class="el-icon-set-up theme-color"
+        title="模块数据交互"
+        @click="Interactive()"
+      />
       <el-popconfirm
         icon="el-icon-info"
         class="delete-template-popconfirm"
@@ -95,7 +100,7 @@ export default {
     // 年度点击事件
     listClick(item, index) {
       this.listChooseIndex = index
-      this.$emit('timeClick', item)
+      this.$emit('timeClick', item, this.moduleId)
     },
     // 类目轴删除事件
     deleteTemplate() {
@@ -127,6 +132,13 @@ export default {
     // 编辑提交事件
     timeAxisEmit(timeConfig, moduleId, close) {
       this.$emit('timeAxisEmit', this.settingForm, this.moduleId, close)
+    },
+    // 交互按钮点击事件
+    Interactive() {
+      const object = {
+        moduleId: this.moduleId
+      }
+      this.$emit('interactive', object)
     }
   }
 }

@@ -357,6 +357,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row v-if="form.displayMode === 'table'">
+              <el-col :span="24">
+                <el-form-item label="表格功能组件" label-width="140px">
+
+                  <el-checkbox-group v-model="form.tablefunctionalComponents" size="small">
+                    <el-checkbox
+                      label="colFilter"
+                    >列筛选</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </div>
           <!-- iframe嵌入 -->
           <div
@@ -529,11 +542,7 @@
 import settingJson from './settingJson'
 import JudgePop from '../JudgePop/index.vue'
 import { dragDialog } from '../../utils/mixins.js'
-import {
-  ChartsMixins,
-  iframeMixins,
-  otherMixins
-} from './SettingFormMixins.js'
+import { ChartsMixins, iframeMixins, otherMixins } from './SettingFormMixins.js'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
 import ChartsDataSettting from './ChartsDataSettting'

@@ -441,6 +441,23 @@ body {
 .statistics_title .box .pic:hover .t_list {
   display: block;
 }
+#bw_table .table-functional-components {
+  text-align: right;
+  line-height: 40px;
+  padding-right: 30px;
+}
+#bw_table .table-functional-components i {
+  font-size: 25px;
+  display: inline-block;
+  width: 30px;
+  line-height: 30px;
+  border: 1px solid #CACACA;
+  text-align: center;
+  color: #1D1D1D;
+  cursor: pointer;
+  margin-left: 10px;
+  position: relative;
+}
 #bw_table td {
   padding: 0;
 }

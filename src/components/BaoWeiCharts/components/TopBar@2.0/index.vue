@@ -91,9 +91,9 @@ export default {
   },
   methods: {
     // 顶部栏交互按钮点击事件
-    Interactive(object) {
+    Interactive() {
       // console.log(this.topBarAll)
-      this.$emit('interactive', object)
+      this.$emit('interactive')
     },
     wrapWidth() {
       return this.topBarAll.form && this.topBarAll.form.width

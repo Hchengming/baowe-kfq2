@@ -45,10 +45,24 @@ export default {
         key: 'corParams',
         label: '交互对应参数',
         width: 180,
-        formType(items) {
-          return items.moduleType === 'iframe' ? 'input' : 'select'
+        disabled(items) {
+          return items.moduleType === 'iframe'
         },
-        selectArr: []
+        formType: 'inputButton',
+        click(items, index, item) {
+          _this.nowIndex = index
+          let interactiveParams = []
+          _this.interactiveModuleAll.forEach(obj => {
+            if (items.moduleId === obj.moduleId) {
+              interactiveParams = obj.interactiveParams
+            }
+          })
+          _this.$refs.correspondingParamSetting.show(items.corParams, interactiveParams)
+        }
+        // formType(items) {
+        //   return ['iframe', 'topBar', 'timeAxis', 'categoryAxis'].indexOf(items.moduleType) > -1 ? 'input' : 'select'
+        // },
+        // selectArr: []
       }, {
         key: 'jsMethods',
         label: 'js脚本',
@@ -72,7 +86,9 @@ export default {
         paramsChoose: '', // 已选择参数
         triggerEvent: 'click', // 触发事件
         otherModuleConfig: [] // 其他模板交互数据
-      }
+      },
+      // 当前被选中模块可选择对应参数集合
+      interactiveParams: []
     }
   },
   mounted() {
@@ -126,14 +142,9 @@ export default {
       this.interactiveModuleAll.forEach(obj => {
         if (items.moduleId === obj.moduleId) {
           items.moduleType = obj.type
-          if (['iframe'].indexOf(items.moduleType) !== -1) {
-            this.tableCloums[2].formType = 'input'
-          } else {
-            this.tableCloums[2].formType = 'select'
-            this.tableCloums[2].selectArr = obj.interactiveParams
-          }
         }
       })
+      // console.log(items, '模块类型选择变化事件')
     },
     // 交互配置新增事件
     addInteractive() {
@@ -146,6 +157,10 @@ export default {
     // 配置删除事件
     removeInteractive(index) {
       this.interactiveData.splice(index, 1)
+    },
+    // 参数配置选中确认事件
+    correspondingSubmit(corParams) {
+      this.interactiveData[this.fatherIndex].otherModuleConfig[this.nowIndex].corParams = corParams
     }
   }
 }

@@ -10,6 +10,28 @@
     <el-form ref="axisConfig" :model="axisConfig" label-width="130px">
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
+          <el-form-item label="标题" prop="zindex">
+            <el-input
+              v-model="axisConfig.title"
+              size="small"
+              style="width: 200px"
+              placeholder="类目轴标题"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="视图层级" prop="zindex">
+            <el-input
+              v-model="axisConfig.zindex"
+              size="small"
+              style="width: 120px"
+              placeholder="若模块重叠,低层级模块会被高层级覆盖"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row type="flex" class="row-bg">
+        <el-col :span="12">
           <el-form-item label="位置X轴(页面占比)" prop="left">
             <el-input-number
               v-model="axisConfig.left"
@@ -32,23 +54,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg">
-        <el-col :span="12">
-          <el-form-item label="视图层级" prop="zindex">
-            <el-input
-              v-model="axisConfig.zindex"
-              size="small"
-              style="width: 70px"
-              placeholder="若模块重叠,低层级模块会被高层级覆盖"
-            />
-          </el-form-item>
-        </el-col>
-        <!-- <el-col :span="12">
-          <el-form-item label="是否启用拖拽功能" prop="isDrafting">
-            <el-switch v-model="axisConfig.isDrafting" />
-          </el-form-item>
-        </el-col> -->
-      </el-row>
+
       <fieldset class="param-config-setting">
         <!-- 请求参数配置 -->
         <legend class="theme-color">数据配置</legend>

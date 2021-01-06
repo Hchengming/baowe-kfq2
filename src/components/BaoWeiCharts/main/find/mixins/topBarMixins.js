@@ -5,8 +5,6 @@ export default {
       itemApiData: [], // 项目所有接口数据
       dataViewList: [], // 数据视图列表获取
       topListShow: false,
-      // Authorization:
-      //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc1NhZG1pbiI6MCwiaXNBZG1pbiI6MSwiZXhwIjoxNjAwMzIyMTMxLCJ1c2VyIjoie1wiYWNjb3VudFwiOlwiY2hlbmN1aVwiLFwiZW1haWxcIjpcIlwiLFwiaWRcIjo0MTMsXCJvZmZpY2VQaG9uZU51bWJlclwiOlwiNTMxNTg5NDBcIixcIm9yZ0Z1bGxOYW1lXCI6XCLnu4Tnu4fmnLrmnoQt5biC6KeE5YiS6Ieq54S26LWE5rqQ5L-h5oGv5Lit5b-DLeeglOWPkee7hC3nu4TlkZhcIixcIm9yZ0Z1bGxOYW1lSURcIjpcIi0xLTI4LTQ1LTEwMjUwXCIsXCJwYXNzd29yZFwiOlwiXCIsXCJwaG9uZVwiOlwiMTM3NTI5MzYxNTZcIixcInFRTnVtYmVyXCI6XCJcIixcInJlbWFya1wiOlwi5bmz5Y-w57u05oqkXCIsXCJzZXhcIjpcIueUt1wiLFwic3RhdGVcIjoxLFwidGlja2V0XCI6XCIyMzZiYWRkNC1lYTk4LTQ3ZWUtYmY5OS1lNWZiMWEzNGZiYzNcIixcInVzZXJOYW1lXCI6XCLpmYjokINcIixcInVzZXJrZXlcIjpcIkE5MUE2NzJBLTY0NEUtNDZFRi05RkRFLUU4QUZGMEUyODA5NFwifSIsImlhdCI6MTU5OTcxNzMzMX0.u17BKpJ8XP_d3yaJ0Ld0-dO0wavfq3tHUlQAB9z4rQdaC5XBLjJ_rzkuyTsdMeX-vXnt2hESEmyQa4pMJQTkAA',
       nowElementId: '', // 当前组件id
       topBarAll: {
         form: {},
@@ -73,7 +71,7 @@ export default {
               this.topBarAll.configData = elementConfig.topBarSettingData
               this.topBarAll.moduleId = resData[0].moduleId
               this.topBarAll.form = elementConfig.form
-              this.getTopBarData(elementConfig.form)
+              this.getTopBarData()
             }
           }
         })
@@ -83,7 +81,8 @@ export default {
       viewcChange(this.topBarAll)
     },
     // 具体数据获取
-    getTopBarData(form) {
+    getTopBarData(interactiveParams) {
+      const form = this.topBarAll.form
       // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
       let sftsqk = false // 当前是否未特殊情况
       this.elementMethods({
@@ -91,6 +90,7 @@ export default {
         methodsName: 'getTopBarData',
         menuId: this.nowMenuItem.menuId,
         config: form,
+        interactiveParams, // 被交互数据
         sftsqk: offon => {
           // 是否未特殊情况返回
           sftsqk = !!offon
@@ -118,6 +118,10 @@ export default {
               reqData[item.paramKey] = item.paramValue
             }
           })
+        }
+        // 判断是否为被交互事件执行
+        if (interactiveParams) {
+          reqData = Object.assign(reqData, interactiveParams)
         }
         reqData = options === 'get' ? { params: reqData } : reqData
         serviceAxios[options](nowUrl, reqData).then(res => {

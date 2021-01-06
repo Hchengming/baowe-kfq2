@@ -11,7 +11,7 @@ export default {
       },
       {
         label: '值',
-        key: 'value',
+        key: 'category',
         disabled: false,
         formType: 'input',
         width: 700

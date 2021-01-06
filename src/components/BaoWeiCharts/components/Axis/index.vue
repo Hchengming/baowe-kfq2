@@ -1,13 +1,17 @@
 <template>
   <div
-    id="category-axis"
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="{'category-axis-admin':settingConfig.systemPermissions==='admin'}"
+    :class="['category-axis',{'category-axis-admin':settingConfig.systemPermissions==='admin'}]"
     @mousedown="mousedown_tz"
   >
     <div class="operation">
       <i class="iconfont iconxiugai theme-color" @click="edit" />
+      <i
+        class="el-icon-set-up theme-color"
+        title="模块数据交互"
+        @click="Interactive()"
+      />
       <el-popconfirm
         icon="el-icon-info"
         class="delete-template-popconfirm"
@@ -26,7 +30,7 @@
           :class="['text', { active: listChooseIndex == index }]"
           @click="listClick(item, index)"
         >
-          <span>{{ item.value }}</span>
+          <span>{{ item.category }}</span>
         </span>
       </li>
     </ul>
@@ -87,7 +91,7 @@ export default {
     // 类目点击事件
     listClick(item, index) {
       this.listChooseIndex = index
-      this.$emit('axisClick', item)
+      this.$emit('axisClick', item, this.moduleId)
     },
     // 删除按钮点击事件
     deleteTemplate() {
@@ -101,6 +105,13 @@ export default {
     categoryConfigSubmit(config, moduleId, close) {
       this.$emit('categoryConfigSubmit', config, this.moduleId, close)
       // console.log(config, moduleId, close)
+    },
+    // 交互配置按钮点击事件
+    Interactive() {
+      const object = {
+        moduleId: this.moduleId
+      }
+      this.$emit('interactive', object)
     }
   }
 }

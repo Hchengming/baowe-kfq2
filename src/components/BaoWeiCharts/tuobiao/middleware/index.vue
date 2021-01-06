@@ -172,11 +172,13 @@ export default {
           screenData: [], // 查询项配置
           btnSettingData: [], // 查询按钮配置
           isShowInsertButton: '1' // 查询按钮是否显示配置
-        }
+        },
+        tablefunctionalComponents: []// 表格功能组件选择 colFilter:列筛选
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
       whereData: [] // 所有模块筛选数据
+
     }
   },
   mounted() {
@@ -388,13 +390,11 @@ export default {
           menuCodeKey: '' // 菜单编码字段
         }
       }
-      // 模块插入功能旧版本兼容
-      // if (!item.contentAreaConfig.blankTemplateConfig||!item.contentAreaConfig.blankTemplateConfig.slot) {
-      //   item.contentAreaConfig.blankTemplateConfig = {
-      //     slot: ""
-      //   };
-      // }
-      // console.log(item.contentAreaConfig, "item.contentAreaConfig");
+      // 表格功能组件选择旧版本兼容
+      if (!item.contentAreaConfig.tablefunctionalComponents) {
+        item.contentAreaConfig.tablefunctionalComponents = []
+      }
+
       // 筛选配置数据格式转换
       if (item.conditionAreaConfig) {
         item.conditionAreaConfig = JSON.parse(item.conditionAreaConfig)

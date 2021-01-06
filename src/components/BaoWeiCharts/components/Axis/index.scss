@@ -1,14 +1,5 @@
 $--color-primary: #4472c4;
-.category-axis-admin {
-    &:hover {
-        cursor: move;
-        .operation {
-            display: block;
-        }
-    }
-}
-
-#category-axis {
+.category-axis {
     position: absolute;
     .operation {
         display: none;
@@ -86,6 +77,13 @@ $--color-primary: #4472c4;
             }
         }
     }
-    // .list-out {
-    // }
+}
+
+.category-axis-admin {
+    &:hover {
+        cursor: move;
+        .operation {
+            display: block;
+        }
+    }
 }

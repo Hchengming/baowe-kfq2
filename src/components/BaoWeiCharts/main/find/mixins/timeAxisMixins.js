@@ -8,6 +8,7 @@ export default {
         left: 1,
         top: 1,
         width: 20,
+        title: '', // 标题
         zindex: '8', // 视图层级
         start: '', // 开始时间
         end: '' // 结束时间
@@ -19,8 +20,8 @@ export default {
 
   methods: {
     // 时间点击事件
-    timeClick(date) {
-      console.log(date)
+    timeClick(date, moduleId) {
+      this.timeAxisInteractive(date, moduleId)
     },
     // 时间轴配置提交事件
     timeAxisEmit(config, moduleId, close) {

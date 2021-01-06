@@ -36,7 +36,7 @@
                   v-for="(x, num) in beforeParamsData"
                   :key="num"
                   :value="x.val"
-                  :label="x.lab"
+                  :label="x.lab+'('+x.val+')'"
                 />
               </el-select>
             </div>
@@ -61,6 +61,7 @@
               :table-data="items.otherModuleConfig"
               :table-cloums="tableCloums"
             />
+
           </div>
           <div class="icon icon2">
             <i
@@ -82,14 +83,17 @@
       setting-type="4"
       @submit="changeJsMethods"
     />
+    <!-- 对应参数选择弹窗 -->
+    <corresponding-param-setting ref="correspondingParamSetting" :interactive-params="interactiveParams" @onSubmit="correspondingSubmit" />
   </div>
 </template>
 <script>
 import InteractiveSettingMixins from './InteractiveSettingMixins'
 import ColumsSetting from '../ColumsSetting'
+import CorrespondingParamSetting from './CorrespondingParamSetting'
 import JsMethodsSetting from '../JsMethodsSetting'
 export default {
-  components: { ColumsSetting, JsMethodsSetting },
+  components: { ColumsSetting, JsMethodsSetting, CorrespondingParamSetting },
   mixins: [InteractiveSettingMixins]
 }
 </script>
@@ -122,6 +126,7 @@ export default {
             display: flex;
             span {
               padding-right: 5px;
+              line-height:40px
             }
             .el-select {
               width: 180px;

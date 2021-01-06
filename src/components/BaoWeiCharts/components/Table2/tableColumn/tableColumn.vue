@@ -101,7 +101,7 @@ export default {
       if (item.tableCustom) {
         let maxWidth = 0
         this.colums.forEach(item => {
-          if (item.key) {
+          if (item.key && item.isShow) {
             if (item.width) {
               maxWidth += Number(item.width)
             } else {

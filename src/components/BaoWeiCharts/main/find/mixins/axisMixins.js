@@ -7,6 +7,7 @@ export default {
         left: 1,
         top: 1,
         zindex: '8', // 视图层级
+        title: '', // 标题
         axisData: []
       },
       axisSource: []// 当前页面类目轴配置数据集合
@@ -33,7 +34,6 @@ export default {
         reqObj.menuId = this.nowMenuItem.menuId
         api = '/categoryConfig/addCategoryConfig'
       }
-      console.log(reqObj, api)
       serviceAxios
         .post(this.settingConfig.commonUrl + api, reqObj)
         .then(() => {
@@ -92,8 +92,9 @@ export default {
         })
     },
     // 类目轴-类目点击事件
-    axisClick(data) {
-      console.log(data, '类目点击事件')
+    axisClick(data, moduleId) {
+      this.categoryInteractive({ category: data.category }, moduleId)
+      // console.log(data, '类目点击事件')
     }
   }
 }

@@ -340,7 +340,11 @@ export default {
       min-height: 20px !important;
       line-height: 20px;
     }
-
+    >>> .el-input-group__append{
+      .el-button{
+        padding: 12px;
+      }
+    }
     > i {
       font-size: 18px;
       cursor: pointer;

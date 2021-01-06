@@ -284,6 +284,7 @@ export const otherMixins = {
     // 弹窗显示事件
     show(obj) {
       this.dialogVisible = true
+      console.log(this.form)
       if (obj) {
         this.parentParamsAll = obj
       }
