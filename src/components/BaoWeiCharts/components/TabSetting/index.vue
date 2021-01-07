@@ -9,9 +9,19 @@
     <div slot="title" class="headerTitle">tabs切换模块配置信息</div>
     <el-form ref="tabsForm" :model="tabsForm" label-width="130px">
       <el-row type="flex" class="row-bg">
-        <el-col :span="8">
+        <el-col :span="12">
           <el-form-item label="模块标题" prop="title">
             <el-input v-model="tabsForm.title" size="small" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="视图层级" prop="zindex">
+            <el-input
+              v-model="tabsForm.zindex"
+              size="small"
+              style="width: 70px"
+              placeholder="若模块重叠,低层级模块会被高层级覆盖"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,31 +80,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row type="flex" class="row-bg">
-        <el-col :span="8">
-          <el-form-item label="视图层级" prop="zindex">
-            <el-input
-              v-model="tabsForm.zindex"
-              size="small"
-              style="width: 70px"
-              placeholder="若模块重叠,低层级模块会被高层级覆盖"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="是否启用拖拽功能" prop="isDrafting">
-            <el-switch v-model="tabsForm.isDrafting" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item prop="mask" label="是否添加遮罩层">
-            <el-radio-group v-model="tabsForm.mask">
-              <el-radio label="1">是</el-radio>
-              <el-radio label="0">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button size="small" @click="close">取 消</el-button>
@@ -118,3 +103,4 @@ export default {
   }
 }
 </script>
+

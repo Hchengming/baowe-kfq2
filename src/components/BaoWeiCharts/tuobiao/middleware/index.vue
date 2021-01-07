@@ -247,25 +247,18 @@ export default {
             viewchange,
             wh
           )
-          // viewchange(item, () => {
-          //   this.$nextTick(() => {
-          //     console.log(item, 'item')
-          //     console.log(this.$refs['statisticsAll'][index])
-          //     this.$refs['statisticsAll'][index].statisticsAllChange(moduleId, item)
-          //   })
-          // })
         }
       })
     },
     // 图表模块显示隐藏控制事件
     modeuleShow(obj) {
-      const data = JSON.parse(JSON.stringify(this.pageData))
-      data.forEach(item => {
+      // const data = JSON.parse(JSON.stringify(this.pageData))
+      this.pageData.forEach(item => {
         if (item.moduleId === obj.moduleId) {
           item.isShow = obj.isShow
         }
       })
-      this.pageData = data
+      // this.pageData = data
     },
     // 图表方法暴露
     chartsMethods(reqObj) {

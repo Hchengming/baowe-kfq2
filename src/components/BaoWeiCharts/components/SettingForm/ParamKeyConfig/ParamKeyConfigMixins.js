@@ -12,7 +12,7 @@ export default {
     getViewParams() {
       if (this.form.apiType === '0') {
         serviceAxios
-          .get(`http://23.36.123.128/api/.DataView/view/v1/${this.form.viewId}/paramlist`)
+          .get(`${window.BaseApi}/.DataView/view/v1/${this.form.viewId}/paramlist`)
           .then(res => {
             const code = res.code
             const resData = res.data

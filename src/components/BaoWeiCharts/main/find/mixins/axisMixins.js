@@ -22,7 +22,7 @@ export default {
     // 配置数据提交事件
     categoryConfigSubmit(config, moduleId, close) {
       const reqObj = {
-        categoryConfig: config
+        categoryConfigs: config
       }
       let api = ''
       if (moduleId) {
@@ -58,15 +58,16 @@ export default {
       serviceAxios
         .post(this.settingConfig.commonUrl + '/categoryConfig/selectCategoryConfig', { menuId: this.nowMenuItem.menuId })
         .then(res => {
+          console.log(res.data)
           res.data.forEach(item => {
             item.categoryConfig = JSON.parse(item.categoryConfig)
           })
           this.axisSource = res.data
           // console.log(this.axisSource, 'this.axisSource')
-          this.$message({
-            type: 'success',
-            message: '类目轴所有配置数据查询成功'
-          })
+          // this.$message({
+          //   type: 'success',
+          //   message: '类目轴所有配置数据查询成功'
+          // })
         }).catch(() => {
           this.$message({
             type: 'error',

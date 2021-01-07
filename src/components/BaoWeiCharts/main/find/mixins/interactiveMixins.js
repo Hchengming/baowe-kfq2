@@ -7,7 +7,8 @@ export default {
       beforeParamsData: [], // 当前模块供选择参数
       interactiveModuleAll: [], // 可交互模块集合
       interactiveData: [], // 交互配置数据
-      interactiveModuleId: '' // 当前交互配置模块id
+      interactiveModuleId: '', // 当前交互配置模块id
+      interactiveType: 'add'// 判断当前点击交互配置按钮下时新增(add)/修改(update)
     }
   },
   methods: {
@@ -177,6 +178,7 @@ export default {
     // 当前交互模块配置数据查询事件
     getInteractiveData(fn) {
       this.interactiveData = []
+
       serviceAxios
         .post(this.settingConfig.commonUrl + '/jhConfig/selectJhConfig', {
           moduleId: this.interactiveModuleId
@@ -185,27 +187,43 @@ export default {
           this.interactiveData = res.data
             ? JSON.parse(res.data.interactiveData)
             : []
+          this.interactiveType = this.interactiveData === [] ? 'add' : 'update'
           fn()
         })
     },
     // 模块交互配置数据保存事件
     interactiveDataEmit() {
-      const reqObj = {
-        moduleId: this.interactiveModuleId,
-        interactiveData: this.interactiveData
+      if (this.interactiveData.length === 0) {
+        if (this.interactiveType === 'update') {
+          this.interactiveDataDelete()
+        }
+      } else {
+        const reqObj = {
+          moduleId: this.interactiveModuleId,
+          interactiveData: this.interactiveData
+        }
+        serviceAxios
+          .post(this.settingConfig.commonUrl + '/jhConfig/updateJhConfig', reqObj)
+          .then(res => {
+            // console.log(res)
+            this.$message({
+              type: 'success',
+              message: '当前模块交互配置数据编辑成功'
+            })
+          })
       }
-      console.log(this.interactiveData, 'this.interactiveData')
+    },
+    // 交互配置数据删除事件
+    interactiveDataDelete() {
       serviceAxios
-        .post(this.settingConfig.commonUrl + '/jhConfig/updateJhConfig', reqObj)
+        .post(this.settingConfig.commonUrl + '/jhConfig/deleteJhConfig', { moduleId: this.interactiveModuleId })
         .then(res => {
-          console.log(res)
           this.$message({
             type: 'success',
-            message: '当前模块交互配置数据编辑成功'
+            message: '当前模块交互配置数据自动删除成功'
           })
         })
     },
-
     /* 阶段三-点击触发*/
 
     // 图表组件集--模块交互触发

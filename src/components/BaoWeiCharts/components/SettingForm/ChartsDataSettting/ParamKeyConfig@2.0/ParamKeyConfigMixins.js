@@ -59,7 +59,7 @@ export default {
       if (this.settingConfig.isTestEnvironment) {
         url = this.settingConfig.commonUrl + '/dataView/paramlist?viewId=' + this.form.viewId
       } else {
-        url = `http://23.36.123.128/api/.DataView/view/v1/${this.form.viewId}/paramlist`
+        url = window.BaseApi + `/.DataView/view/v1/${this.form.viewId}/paramlist`
       }
       // console.log(url)
       serviceAxios

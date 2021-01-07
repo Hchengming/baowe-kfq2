@@ -26,7 +26,7 @@ export default {
     // 时间轴配置提交事件
     timeAxisEmit(config, moduleId, close) {
       const reqObj = {
-        timeAxisConfig: config
+        timeAxisConfigs: config
       }
       let api = ''
       if (moduleId) {
@@ -66,10 +66,10 @@ export default {
             item.timeAxisConfig = JSON.parse(item.timeAxisConfig)
           })
           this.timeSource = res.data
-          this.$message({
-            type: 'success',
-            message: '时间轴所有配置数据查询成功'
-          })
+          // this.$message({
+          //   type: 'success',
+          //   message: '时间轴所有配置数据查询成功'
+          // })
         }).catch(() => {
           this.$message({
             type: 'error',

@@ -23,7 +23,7 @@ export default {
 
       if (!this.settingConfig.isCustomMenu) {
         const serviceId = this.settingConfig.serviceId ? this.settingConfig.serviceId : this.settingConfig.answerId
-        url = `http://23.36.123.128/api/shareservice/app/authorizeListByApp?uuid=${serviceId}`
+        url = window.BaseApi + `/shareservice/app/authorizeListByApp?uuid=${serviceId}`
       } else {
         url = this.settingConfig.getInterfaceUrl
       }
@@ -45,7 +45,7 @@ export default {
       if (this.settingConfig.isTestEnvironment) {
         url = this.settingConfig.commonUrl + '/dataView/viewList'
       } else {
-        url = 'http://23.36.123.128/api/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus='
+        url = window.BaseApi + '/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus='
       }
       serviceAxios
         .get(

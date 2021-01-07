@@ -61,12 +61,12 @@ export default {
         type: 'timeAxis',
         name: '时间轴',
         icon: 'icondangan'
+      },
+      {
+        type: 'tabs',
+        name: 'Tabs切换',
+        icon: 'icondangan'
       }
-      // , {
-      //   type: 'tabs',
-      //   name: 'Tabs切换',
-      //   icon: 'icondangan'
-      // }
       ]
     }
   },

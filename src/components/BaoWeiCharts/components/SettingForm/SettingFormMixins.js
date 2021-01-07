@@ -60,7 +60,7 @@ export const ChartsMixins = {
         if (this.settingConfig.isTestEnvironment) {
           this.form.url = this.settingConfig.commonUrl + '/dataView/searchResult'
         } else {
-          this.form.url = 'http://23.36.123.128/api/.DataView/view/v1/sql/searchResult'
+          this.form.url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
         }
       } else {
         this.form.options = 'GET'

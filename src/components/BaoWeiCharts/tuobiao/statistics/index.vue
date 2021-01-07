@@ -47,8 +47,8 @@
           <div class="box">
             <div class="left">
               <span class="txt1">{{ settingForm.title }}</span>
-              <span v-if="settingFormSubtitle1()">---</span>
-              <span class="txt2" v-text="settingFormSubtitle1()" />
+              <span v-if="statisticsAll.contentAreaConfig.subtitle1">---</span>
+              <span class="txt2" v-text="statisticsAll.contentAreaConfig.subtitle1" />
             </div>
             <div
               :style="{ 'margin-right': isModuleClose() ? '20px' : 0 }"
@@ -406,17 +406,11 @@ export default {
     // 模块数据变化事件
     statisticsAllChange(moduleId, viewchange, wh) {
       // viewchange(this.statisticsAll)
+      // console.log('1111111')
       if (this.statisticsAll.moduleId === moduleId) {
         viewchange(this.statisticsAll)
+        // console.log(this.statisticsAll, '456')
         this.whereHeight = wh
-        //  if(otherParams&&otherParams.wh){
-        //    this.whereHeight=otherParams.wh
-        //  }
-        //  if(otherParams&&otherParams.whereForm){
-        //     for(let key in otherParams.whereForm){
-        //       this.whereForm[key]=otherParams.whereForm[key]
-        //     }
-        //  }
       }
     },
     // 交互按钮点击事件
@@ -439,10 +433,11 @@ export default {
       return data
     },
     // 标题二
-    settingFormSubtitle1() {
-      const contentAreaConfig = this.statisticsAll.contentAreaConfig
-      return contentAreaConfig.subtitle1
-    },
+    // settingFormSubtitle1() {
+    //   const contentAreaConfig = this.statisticsAll.contentAreaConfig
+    //   console.log(contentAreaConfig.subtitle1)
+    //   return contentAreaConfig.subtitle1
+    // },
     // 模块是否可关闭
     isModuleClose() {
       return this.statisticsAll.parentModuleId || this.settingForm.isModuleClose

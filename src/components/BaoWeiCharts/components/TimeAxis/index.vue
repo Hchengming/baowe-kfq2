@@ -22,7 +22,7 @@
         <i slot="reference" title="删除" class="el-icon-delete" />
       </el-popconfirm>
     </div>
-    <ul class="time-list" >
+    <ul class="time-list">
       <li
         v-for="(item, index) in timeListData()"
         :key="index"

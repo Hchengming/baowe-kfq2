@@ -2,21 +2,20 @@ export default {
   data() {
     return {
       isShow: false,
-      titleColums: [{
-        key: 'name',
-        label: 'name',
-        placeholder: '标题name',
-        width: 60,
-        formType: 'input'
-        //   defaultValue:""
-      },
-      {
-        key: 'label',
-        label: '标签',
-        placeholder: '标签名',
-        width: 60,
-        formType: 'input'
-      }
+      titleColums: [
+        {
+          key: 'label',
+          label: '标签',
+          placeholder: '标签名',
+          width: 300,
+          formType: 'input'
+        }, {
+          key: 'tabsCode',
+          label: '编码',
+          placeholder: '唯一编码',
+          width: 309,
+          formType: 'input'
+        }
       ],
       tabsFormClone: {}
     }

@@ -14,10 +14,10 @@ export default {
         mask: false, // 是否添加遮罩层
         titleData: [{
           label: '用户管理',
-          name: 'user'
+          tabsCode: 'user'
         }, {
           label: '配置管理',
-          name: 'second'
+          tabsCode: 'second'
         }]
       }
     }

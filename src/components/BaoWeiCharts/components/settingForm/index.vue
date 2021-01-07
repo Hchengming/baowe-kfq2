@@ -364,8 +364,7 @@
                   <el-checkbox-group v-model="form.tablefunctionalComponents" size="small">
                     <el-checkbox
                       label="colFilter"
-                    >列筛选</el-checkbox
-                    >
+                    >列筛选</el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
               </el-col>
