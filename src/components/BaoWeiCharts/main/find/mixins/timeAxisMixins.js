@@ -20,8 +20,16 @@ export default {
 
   methods: {
     // 时间点击事件
-    timeClick(date, moduleId) {
-      this.timeAxisInteractive(date, moduleId)
+    timeClick(data, moduleId) {
+      // 点击事件暴露
+      this.$emit('elementMethods', {
+        name: '类目轴点击事件',
+        methodsName: 'timeAxisClick',
+        moduleId,
+        data
+      })
+      // 点击事件交互
+      this.timeAxisInteractive(data, moduleId)
     },
     // 时间轴配置提交事件
     timeAxisEmit(config, moduleId, close) {

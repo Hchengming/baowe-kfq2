@@ -94,8 +94,15 @@ export default {
     },
     // 类目轴-类目点击事件
     axisClick(data, moduleId) {
+      // 点击事件暴露
+      this.$emit('elementMethods', {
+        name: '类目轴点击事件',
+        methodsName: 'categoryAxisClick',
+        moduleId,
+        data
+      })
+      // 点击事件交互
       this.categoryInteractive({ category: data.category }, moduleId)
-      // console.log(data, '类目点击事件')
     }
   }
 }
