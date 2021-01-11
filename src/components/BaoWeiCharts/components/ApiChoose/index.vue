@@ -3,7 +3,7 @@
     <el-row type="flex" class="row-bg">
       <el-col :span="6">
         <el-form-item label="请求方式">
-          <el-select v-model="form.options" size="small" placeholder="接口名称">
+          <el-select v-model="form.options" :disabled="form.apiType==='0'" size="small" placeholder="接口名称">
             <el-option label="POST" value="POST" />
             <el-option label="GET" value="GET" />
           </el-select>
@@ -13,7 +13,7 @@
         <el-form-item
           v-if="form.apiType === '0'"
           label="视图名称"
-          label-width="65px"
+          label-width="75px"
         >
           <el-select
             v-model="form.viewId"
@@ -34,7 +34,7 @@
         <el-form-item
           v-if="form.apiType !== '0'"
           label="服务名称"
-          label-width="65px"
+          label-width="75px"
         >
           <el-select
             v-model="form.urlName"
@@ -53,7 +53,7 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="接口路径:" label-width="65px">
+        <el-form-item label="接口路径:" label-width="75px">
           <el-input v-model="form.url" size="small" placeholder="接口路径" />
         </el-form-item>
       </el-col>

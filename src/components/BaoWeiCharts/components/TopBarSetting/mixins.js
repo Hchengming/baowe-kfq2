@@ -45,12 +45,19 @@ export default {
     },
     // 接口类型切换事件
     apiTypeChange(val) {
-      this.isPageDisabled = false
+      this.form.url = ''
+      this.form.urlName = ''
       if (val === '0') {
-        this.form.isPage = '1'
-        this.isPageDisabled = true
+        this.form.options = 'POST'
         this.$refs['apiChoose'].getDataIview()
+        // 判断当前后台环境是否为node测试环境
+        if (this.settingConfig.isTestEnvironment) {
+          this.form.url = this.settingConfig.commonUrl + '/dataView/searchResult'
+        } else {
+          this.form.url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
+        }
       } else {
+        this.form.options = 'GET'
         this.$refs['apiChoose'].getItemApi()
       }
     },

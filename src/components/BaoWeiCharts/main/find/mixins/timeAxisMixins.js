@@ -9,9 +9,21 @@ export default {
         top: 1,
         width: 20,
         title: '', // 标题
+        label: '', // 标签
         zindex: '8', // 视图层级
         start: '', // 开始时间
-        end: '' // 结束时间
+        end: '', // 结束时间
+        missingTime: [], // 缺失时间
+        missingTimeStr: '', // 缺失时间字符串显示
+        dataAcquisitionMethod: '0', // 数据获取方式 0 自定义 1 通过接口获取
+        apiType: '1', // 0：数据视图 1：应用接口
+        viewId: '', // 当前视图id
+        url: '', // 接口
+        urlName: '', // 接口名称
+        options: 'GET', // 请求方式  GET/POST
+        paramConfig: [], // 请求参数配置
+        timeAxisData: [], // 时间轴数据
+        defaultTime: '' // 时间轴初始选中年份(默认值为今年)
       },
       timeSource: [],
       timeConfigClone: {}
@@ -58,7 +70,8 @@ export default {
             close()
           }
           this.timeAxisSelect()
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
             type: 'error',
             message: '当前时间轴配置数据保存失败'
@@ -68,17 +81,22 @@ export default {
     // 时间轴所有配置数据查询
     timeAxisSelect() {
       serviceAxios
-        .post(this.settingConfig.commonUrl + '/timeAxisConfig/selectTimeAxisConfig', { menuId: this.nowMenuItem.menuId })
+        .post(
+          this.settingConfig.commonUrl + '/timeAxisConfig/selectTimeAxisConfig',
+          { menuId: this.nowMenuItem.menuId }
+        )
         .then(res => {
           res.data.forEach(item => {
             item.timeAxisConfig = JSON.parse(item.timeAxisConfig)
           })
           this.timeSource = res.data
+          this.getTimeAxisDatas(res.data)
           // this.$message({
           //   type: 'success',
           //   message: '时间轴所有配置数据查询成功'
           // })
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
             type: 'error',
             message: '时间轴所有配置数据查询失败'
@@ -88,17 +106,109 @@ export default {
     // 时间轴模块删除事件
     deleteTimeAxis(moduleId) {
       serviceAxios
-        .post(this.settingConfig.commonUrl + '/timeAxisConfig/deleteTimeAxisConfig', { moduleId })
+        .post(
+          this.settingConfig.commonUrl + '/timeAxisConfig/deleteTimeAxisConfig',
+          { moduleId }
+        )
         .then(res => {
           this.timeAxisSelect()
           this.$message({
             type: 'success',
             message: '时间轴删除成功'
           })
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
             type: 'error',
             message: '时间轴删除失败'
+          })
+        })
+    },
+    // 时间轴接口数据查询
+    getTimeAxisDatas(timeSource) {
+      timeSource.forEach((item, index) => {
+        if (item.timeAxisConfig.dataAcquisitionMethod === '1') {
+          // 默认参数获取
+          const reqData = {}
+          item.timeAxisConfig.paramConfig.forEach(xx => {
+            reqData[xx.paramKey] = xx.paramValue
+          })
+          // 0：数据视图 1：应用接口
+          if (item.timeAxisConfig.apiType === '0') {
+            this.getIviewData(item.timeAxisConfig, reqData, index)
+          } else {
+            this.getYYJKData(item.timeAxisConfig, reqData, index)
+          }
+        }
+      })
+    },
+
+    // 应用接口数据获取
+    getYYJKData(timeAxisConfig, reqData, index) {
+      this.getTimeAxisData(timeAxisConfig, reqData, index)
+    },
+    // 数据视图数据获取
+    getIviewData(timeAxisConfig, reqData, index) {
+      const queryParamList = []
+      for (const key in reqData) {
+        queryParamList.push({
+          [key]: reqData[key]
+        })
+      }
+      reqData = {
+        viewId: timeAxisConfig.viewId,
+        pageSize: 1,
+        pageNumber: 1000,
+        queryParamList: queryParamList
+      }
+      this.getTimeAxisData(timeAxisConfig, reqData, index)
+    },
+    // 时间轴接口数据获取
+    getTimeAxisData(timeAxisConfig, reqData, index) {
+      const url =
+      timeAxisConfig.url.indexOf('http') > -1
+        ? timeAxisConfig.url
+        : this.settingConfig.dataUrl + timeAxisConfig.url
+      const options = timeAxisConfig.options.toLowerCase()
+      serviceAxios[options](url, reqData)
+        .then(res => {
+          const data = timeAxisConfig.apiType === '0' ? res.data.list : res.data
+
+          // 01-最小，最大年度获取
+          timeAxisConfig.start = data[0].time
+          timeAxisConfig.end = data[data.length - 1].time
+          data.forEach(item => {
+            if (Number(item.time) < Number(timeAxisConfig.start)) {
+              timeAxisConfig.start = item.time
+            }
+            if (Number(item.time) > Number(timeAxisConfig.end)) {
+              timeAxisConfig.end = item.time
+            }
+          })
+          // 02-缺失年度获取
+          timeAxisConfig.missingTime = []
+          for (
+            let i = Number(timeAxisConfig.start);
+            i <= Number(timeAxisConfig.end);
+            i++
+          ) {
+            let offon = true
+            data.forEach(item => {
+              if (i === Number(item.time)) {
+                offon = false
+              }
+            })
+            if (offon) {
+              timeAxisConfig.missingTime.push(i.toString())
+            }
+          }
+          timeAxisConfig.missingTimeStr = timeAxisConfig.missingTime.toString()
+          this.$refs['timeAxis'][index].getDefaultTime()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'error',
+            message: '时间轴接口数据获取失败'
           })
         })
     }

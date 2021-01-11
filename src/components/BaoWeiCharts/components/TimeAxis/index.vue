@@ -2,7 +2,10 @@
   <div
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="['time-axis',{'time-axis-admin':settingConfig.systemPermissions==='admin'}]"
+    :class="[
+      'time-axis',
+      { 'time-axis-admin': settingConfig.systemPermissions === 'admin' }
+    ]"
     @mousedown="mousedown_tz"
   >
     <div class="operation">
@@ -27,11 +30,13 @@
         v-for="(item, index) in timeListData()"
         :key="index"
         :style="{
-          'padding-right': liP + 'px'
+          'padding-right': liP + 'px',
+          width: '22px'
         }"
       >
         <span
-          :class="['text', { active: listChooseIndex == index }]"
+          v-show="timeShow(item)"
+          :class="['text', { active: listChooseYear == item.time }]"
           @click="listClick(item, index)"
         >
           <span>{{ item.time }}</span>
@@ -40,9 +45,10 @@
       <li class="end-li" />
     </ul>
 
-    <Time-Axis-Setting
+    <time-axis-setting
       ref="TimeAxisSetting"
       :time-config="settingForm"
+      :setting-config="settingConfig"
       @timeAxisEmit="timeAxisEmit"
     />
   </div>
@@ -70,7 +76,7 @@ export default {
   },
   data() {
     return {
-      listChooseIndex: 1,
+      listChooseYear: '', // 初始选中年份
       // listData: [],
       timeConfig: {},
       lip: ''
@@ -80,26 +86,52 @@ export default {
     listWrapStyle() {
       const element = document.getElementsByClassName('my_main_content')[0]
       const style = {
-        top: parseFloat(
-          (this.settingForm.top * element.scrollHeight) / 100) + 'px',
-        left: parseFloat(
-          (this.settingForm.left * element.scrollWidth) / 100) + 'px',
+        top:
+          parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
+          'px',
+        left:
+          parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
+          'px',
         'z-index': this.settingForm.zindex,
-        width: ((this.settingForm.width * element.scrollWidth) / 100) + 'px',
+        width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
         cursor: this.cursor
       }
+      // console.log(this.settingForm)
       return style
     }
   },
-  methods: {
+  watch: {
 
+  },
+  mounted() {
+    this.getDefaultTime()
+  },
+  methods: {
+    // 当前默认时间选择
+    getDefaultTime() {
+      this.listChooseYear = ''
+      const defaultTime = this.settingForm.defaultTime
+        ? this.settingForm.defaultTime
+        : new Date().getFullYear().toString()
+      this.$nextTick(() => {
+        this.timeListData().forEach(item => {
+          if (item.time === defaultTime) {
+            this.listChooseYear = item.time
+          }
+        })
+      })
+    },
+    // 缺失时间控制
+    timeShow(item) {
+      return this.settingForm.missingTimeStr.indexOf(item.time) === -1
+    },
     // 拖拽完成后保存事件
     TZLSKeep() {
       this.$emit('timeAxisEmit', this.settingForm, this.moduleId)
     },
     // 年度点击事件
     listClick(item, index) {
-      this.listChooseIndex = index
+      this.listChooseYear = item.time
       this.$emit('timeClick', item, this.moduleId)
     },
     // 类目轴删除事件
@@ -118,7 +150,7 @@ export default {
         })
       }
       const li_size = listData.length
-      const ul_w = ((this.settingForm.width * element.scrollWidth) / 100)
+      const ul_w = (this.settingForm.width * element.scrollWidth) / 100
       const li_w_all = ul_w - 50
       const li_w = parseFloat(li_w_all / li_size)
       // 时间间距

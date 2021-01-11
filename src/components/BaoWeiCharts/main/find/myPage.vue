@@ -106,12 +106,14 @@
       <axis-setting
         ref="AxisSetting"
         :axis-config="axisConfig"
+        :setting-config="settingConfig"
         @axisConfigSubmit="categoryConfigSubmit"
       />
       <!-- 时间轴配置 -->
       <time-axis-setting
         ref="TimeAxisSetting"
         :time-config="timeConfig"
+        :setting-config="settingConfig"
         @timeAxisEmit="timeAxisEmit"
       />
     </el-drawer>
@@ -139,6 +141,7 @@
     <!-- 时间轴 -->
     <time-axis
       v-for="(item, index) in timeSource"
+      ref="timeAxis"
       :key="index"
       :setting-config="settingConfig"
       :setting-form="item.timeAxisConfig"
