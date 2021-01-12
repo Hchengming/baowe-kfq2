@@ -8,7 +8,7 @@
     <div slot="title" class="headerTitle">缺失年度选择</div>
     <div class="content" style="margin-top:10px">
       <el-checkbox-group v-model="form.missingTime" @change="missingTimeSlot">
-        <el-checkbox v-for="year in timeSlot" :key="year" :label="year"/>
+        <el-checkbox v-for="year in timeSlot" :key="year" :label="year" />
         <!-- <el-checkbox label="禁用" disabled></el-checkbox>
         <el-checkbox label="选中且禁用" disabled></el-checkbox> -->
       </el-checkbox-group>

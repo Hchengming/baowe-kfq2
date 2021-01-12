@@ -114,5 +114,7 @@ export default {
   z-index: 9;
   padding: 10px;
   box-shadow: 0 0 5px #3b85d8;
+  max-height:600px;
+  overflow: auto;
 }
 </style>

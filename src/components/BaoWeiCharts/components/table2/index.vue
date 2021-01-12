@@ -104,12 +104,12 @@ export default {
 
     }
   },
-  watch: {
-    colums(val) {
-      this.newClums = JSON.parse(JSON.stringify(this.colums))
-      this.getTableColums()
-    }
-  },
+  // watch: {
+  //   colums(val) {
+  //     this.newClums = JSON.parse(JSON.stringify(this.colums))
+  //     this.getTableColums()
+  //   }
+  // },
   mounted() {
     this.newClums = JSON.parse(JSON.stringify(this.colums))
     this.getTableColums()

@@ -4,7 +4,7 @@
     :style="listWrapStyle"
     :class="[
       'time-axis',
-      { 'time-axis-admin': settingConfig.systemPermissions === 'admin' }
+      { 'time-axis-admin': settingConfig.systemPermissions === 'admin' },'bg-white'
     ]"
     @mousedown="mousedown_tz"
   >
@@ -25,25 +25,28 @@
         <i slot="reference" title="删除" class="el-icon-delete" />
       </el-popconfirm>
     </div>
-    <ul class="time-list">
-      <li
-        v-for="(item, index) in timeListData()"
-        :key="index"
-        :style="{
-          'padding-right': liP + 'px',
-          width: '22px'
-        }"
-      >
-        <span
-          v-show="timeShow(item)"
-          :class="['text', { active: listChooseYear == item.time }]"
-          @click="listClick(item, index)"
+    <div class="time-axis-content">
+      <div :style="{'width':labelWidth+'px'}" class="label">{{ settingForm.label }}： </div>
+      <ul class="time-list">
+        <li
+          v-for="(item, index) in timeListData()"
+          :key="index"
+          :style="{
+            'padding-right': liP + 'px',
+            width: '22px'
+          }"
         >
-          <span>{{ item.time }}</span>
-        </span>
-      </li>
-      <li class="end-li" />
-    </ul>
+          <span
+            v-show="timeShow(item)"
+            :class="['text', { active: listChooseYear == item.time }]"
+            @click="listClick(item, index)"
+          >
+            <span>{{ item.time }}</span>
+          </span>
+        </li>
+        <li class="end-li" />
+      </ul>
+    </div>
 
     <time-axis-setting
       ref="TimeAxisSetting"
@@ -77,6 +80,7 @@ export default {
   data() {
     return {
       listChooseYear: '', // 初始选中年份
+      labelWidth: null, // 标签宽度
       // listData: [],
       timeConfig: {},
       lip: ''
@@ -150,7 +154,9 @@ export default {
         })
       }
       const li_size = listData.length
-      const ul_w = (this.settingForm.width * element.scrollWidth) / 100
+      this.labelWidth = this.settingForm.label ? this.settingForm.label.length * 18 + 10 : 0
+      console.log(this.labelWidth, 'labelWidth')
+      const ul_w = (this.settingForm.width * element.scrollWidth) / 100 - this.labelWidth
       const li_w_all = ul_w - 50
       const li_w = parseFloat(li_w_all / li_size)
       // 时间间距

@@ -261,6 +261,7 @@ export default {
       this.timeAxisSelect()
       // 类目轴配置数据查询
       this.categoryConfigSelect()
+
       sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },
     // 内容区域宽高变化事件--菜单顶部宽度变化事件
@@ -286,6 +287,7 @@ export default {
           this.rightDrawerTypeTitle = '主题选择'
           break
       }
+      console.log('123')
       this.settingDrawer = true
     },
     // 右侧抽屉关闭事件
@@ -311,6 +313,7 @@ export default {
           this.$refs['TimeAxisSetting'].show()
           break
       }
+
       this.settingDrawer = false
     }
   }

@@ -6,7 +6,7 @@
     class="dialog-common corresponding-param-setting"
   >
     <div slot="title" class="headerTitle">对应参数选择</div>
-    <el-radio-group v-model="corParams" >
+    <el-radio-group v-model="corParams">
       <el-radio v-for="(item,index) in interactiveParams" :key="index" :label="item.val">{{ item.lab }}({{ item.val }})</el-radio>
     </el-radio-group>
     <span slot="footer" class="dialog-footer">

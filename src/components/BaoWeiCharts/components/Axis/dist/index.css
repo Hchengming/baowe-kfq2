@@ -1,0 +1,82 @@
+#category-axis .list {
+  display: flex;
+  margin: 0 20px;
+  height: 50px;
+  padding: 0;
+  list-style: none;
+}
+#category-axis .list li {
+  padding-right: 40px;
+  background: url(./images/t1.png) no-repeat right center;
+  margin-right: 8px;
+  cursor: pointer;
+  list-style: none;
+}
+#category-axis .list li .text {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 14px;
+  border: 1px solid #4472c4;
+  text-align: center;
+  position: relative;
+}
+#category-axis .list li .text span {
+  position: relative;
+  display: block;
+  width: 40px;
+  margin-left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#category-axis .list li:last-child {
+  background: none;
+  margin: 0;
+  padding-right: 0;
+}
+#category-axis .list li .text.active {
+  background-color: #4472c4;
+  color: white;
+}
+@media screen and (max-width: 1366px) {
+  #category-axis .list {
+    margin: 0;
+  }
+  #category-axis .list li {
+    padding-right: 24px;
+    background-position: 144% 50%;
+    margin-right: 4px;
+  }
+  #category-axis .list li .text {
+    width: 40px;
+    height: 40px;
+  }
+  #category-axis .list li .text span {
+    margin-left: 0;
+    font-size: 12px;
+  }
+}
+#category-axis .list-out {
+  position: absolute;
+}
+#category-axis .list-out .operation {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  background: #ffffffbd;
+}
+#category-axis .list-out .operation i {
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+#category-axis .list-out .operation .el-icon-delete {
+  color: red;
+}
+#category-axis .list-out:hover .operation {
+  display: block;
+}
