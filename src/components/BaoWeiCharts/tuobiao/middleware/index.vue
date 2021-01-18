@@ -55,7 +55,10 @@
         @chartsMethods="chartsMethods"
       >
         <div
-          v-if="item.contentAreaConfig.blankTemplateConfig&&item.contentAreaConfig.blankTemplateConfig.slot"
+          v-if="
+            item.contentAreaConfig.blankTemplateConfig &&
+              item.contentAreaConfig.blankTemplateConfig.slot
+          "
           :slot="item.contentAreaConfig.blankTemplateConfig.slot"
           style="width: 100%; height: 100%"
         >
@@ -75,17 +78,35 @@
       @screenKeep="addScreenKeep"
       @submit="addKeep"
     />
+
+    <!-- tabs切换组件配置 -->
+    <tab-setting ref="tabsSetting" :tabs-form="tabsConfig" @tabsSubmit="tabsSettingSubmit" />
+    <!-- tabs渲染组件 -->
+    <tabs-view
+      v-for="item in tabsSettingData"
+      :key="item.moduleId"
+      :setting-config="settingConfig"
+      :setting-form="item.tabsConfig"
+      :module-id="item.moduleId"
+      :page-module-data="pageModuleData"
+      @tabsSettingSubmit="tabsSettingSubmit"
+      @delete="tabsSettingdelete"
+      @componentFunc="componentFunc"
+    />
   </div>
 </template>
 <script>
-import middlewareMixins from './middlewareMixins'
+import TabSetting from '../../components/TabSetting'
 import Statistics from '../statistics'
 import serviceAxios from '@/utils/request.js'
 import SettingForm from '../../components/SettingForm'
-
+// mixins
+import middlewareMixins from './mixins/middlewareMixins'
+import tabsMixins from './mixins/tabsMixins'
+import TabsView from '../../components/Tabs'
 export default {
-  components: { Statistics, SettingForm },
-  mixins: [middlewareMixins],
+  components: { Statistics, SettingForm, TabSetting, TabsView },
+  mixins: [middlewareMixins, tabsMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -97,6 +118,10 @@ export default {
     },
     itemApiData: {
       type: Array,
+      default: null
+    },
+    pageModuleData: {
+      type: Object,
       default: null
     }
   },
@@ -173,18 +198,24 @@ export default {
           btnSettingData: [], // 查询按钮配置
           isShowInsertButton: '1' // 查询按钮是否显示配置
         },
-        tablefunctionalComponents: []// 表格功能组件选择 colFilter:列筛选
+        tablefunctionalComponents: [], // 表格功能组件选择 colFilter:列筛选
+        fatherModuleType: 'page', // 父级模块类型  page:页面  tabs:tabs切换组件
+        tabsModuleId: '', // tabs模块id
+        tabsCode: ''// 父级tabs编码
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
       whereData: [] // 所有模块筛选数据
-
     }
   },
   mounted() {
     this.addSettingFormClone = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
+    // 容器组件内事件传递
+    componentFunc(obj) {
+      this.$emit('componentFunc', obj)
+    },
     // 所有模块筛选数据缓存
     whereFormKeep(form, moduleId) {
       let offon = true
@@ -301,6 +332,7 @@ export default {
     menuClick(menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
       this.getData(menuTypes, fn)
+      this.tabsSettingSelect()
     },
     // 子级弹窗关闭事件--同级子弹窗全部关闭
     statisticsClose(moduleId, parentModuleId) {
@@ -484,7 +516,7 @@ export default {
                 this.getTableData(obj, {}, item, index)
               }
             })
-
+            this.pageModuleData.pageData = this.pageData
             this.chartsMethods({
               methodsName: 'getPageData',
               name: '页面模块渲染数据加载完成事件',
@@ -562,10 +594,7 @@ export default {
         if (config.contentAreaConfig.paramConfig) {
           config.contentAreaConfig.paramConfig.forEach(item => {
             if (!reqData[item.paramKey] && item.isUse) {
-              reqData[item.paramKey] = this.getParamValue(
-                item.paramValue,
-                item
-              )
+              reqData[item.paramKey] = this.getParamValue(item.paramValue, item)
             }
           })
         }

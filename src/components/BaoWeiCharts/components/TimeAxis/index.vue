@@ -2,10 +2,7 @@
   <div
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="[
-      'time-axis',
-      { 'time-axis-admin': settingConfig.systemPermissions === 'admin' },'bg-white'
-    ]"
+    :class="['time-axis', { 'time-axis-admin': isAdmin }]"
     @mousedown="mousedown_tz"
   >
     <div class="operation">
@@ -26,7 +23,9 @@
       </el-popconfirm>
     </div>
     <div class="time-axis-content">
-      <div :style="{'width':labelWidth+'px'}" class="label">{{ settingForm.label }}： </div>
+      <div :style="{ width: labelWidth + 'px' }" class="label">
+        {{ settingForm.label }}:
+      </div>
       <ul class="time-list">
         <li
           v-for="(item, index) in timeListData()"
@@ -43,6 +42,7 @@
           >
             <span>{{ item.time }}</span>
           </span>
+          <span v-show="!timeShow(item)" class="text text2" />
         </li>
         <li class="end-li" />
       </ul>
@@ -52,17 +52,18 @@
       ref="TimeAxisSetting"
       :time-config="settingForm"
       :setting-config="settingConfig"
-      @timeAxisEmit="timeAxisEmit"
+      @componentFunc="componentFunc"
     />
   </div>
 </template>
 <script>
 import './index.scss'
-import dragStretchMixins from './dragStretchMixins'
+// import dragStretchMixins from './dragStretchMixins'
 import TimeAxisSetting from '../TimeAxisSetting'
+import drag from '../../utils/drag'
 export default {
   components: { TimeAxisSetting },
-  mixins: [dragStretchMixins],
+  // mixins: [dragStretchMixins],
   props: {
     settingForm: {
       type: Object,
@@ -75,7 +76,8 @@ export default {
     settingConfig: {
       type: Object,
       default: null
-    }
+    },
+    containerElelemt: { type: HTMLElement, default: null }
   },
   data() {
     return {
@@ -83,13 +85,16 @@ export default {
       labelWidth: null, // 标签宽度
       // listData: [],
       timeConfig: {},
-      lip: ''
+      lip: '',
+      isAdmin: this.settingConfig.systemPermissions === 'admin'
     }
   },
   computed: {
     listWrapStyle() {
-      const element = document.getElementsByClassName('my_main_content')[0]
-      const style = {
+      let style = {}
+      // this.$nextTick(() => {
+      const element = this.containerElelemt ? this.containerElelemt : document.getElementsByClassName('my_main_content')[0]
+      style = {
         top:
           parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
           'px',
@@ -100,17 +105,36 @@ export default {
         width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
         cursor: this.cursor
       }
-      // console.log(this.settingForm)
+      console.log(this.containerElelemt, 'style')
+      // })
+
       return style
     }
   },
-  watch: {
-
-  },
+  watch: {},
   mounted() {
     this.getDefaultTime()
   },
   methods: {
+    mousedown_tz(e) {
+      const _this = this
+      if (this.isAdmin) {
+        const element = this.containerElelemt ? this.containerElelemt : document.getElementsByClassName('my_main_content')[0]
+        drag({
+          e,
+          settingForm: this.settingForm,
+          drag: this.$refs['listWrap'],
+          fatherElement: element,
+          fnc: () => {
+            _this.TZLSKeep()
+          }
+        })
+      }
+    },
+    // 时间轴方法暴露
+    componentFunc(obj) {
+      this[obj.method](obj.param)
+    },
     // 当前默认时间选择
     getDefaultTime() {
       this.listChooseYear = ''
@@ -131,16 +155,36 @@ export default {
     },
     // 拖拽完成后保存事件
     TZLSKeep() {
-      this.$emit('timeAxisEmit', this.settingForm, this.moduleId)
+      this.$emit('componentFunc', {
+        method: 'timeAxisEmit',
+        param: {
+          config: this.settingForm,
+          moduleId: this.moduleId
+        }
+      })
+      // this.$emit('timeAxisEmit', this.settingForm, this.moduleId)
     },
     // 年度点击事件
     listClick(item, index) {
       this.listChooseYear = item.time
-      this.$emit('timeClick', item, this.moduleId)
+      this.$emit('componentFunc', {
+        method: 'timeClick',
+        param: {
+          data: item,
+          moduleId: this.moduleId
+        }
+      })
+      // this.$emit('timeClick', item, this.moduleId)
     },
     // 类目轴删除事件
     deleteTemplate() {
-      this.$emit('deleteTemplate', this.moduleId)
+      // this.$emit('deleteTemplate', this.moduleId)
+      this.$emit('componentFunc', {
+        method: 'deleteTimeAxis',
+        param: {
+          moduleId: this.moduleId
+        }
+      })
     },
     // 时间轴时间数据循环获取--时间间距设置
     timeListData() {
@@ -154,9 +198,11 @@ export default {
         })
       }
       const li_size = listData.length
-      this.labelWidth = this.settingForm.label ? this.settingForm.label.length * 18 + 10 : 0
-      console.log(this.labelWidth, 'labelWidth')
-      const ul_w = (this.settingForm.width * element.scrollWidth) / 100 - this.labelWidth
+      this.labelWidth = this.settingForm.label
+        ? this.settingForm.label.length * 18 + 10
+        : 0
+      const ul_w =
+        (this.settingForm.width * element.scrollWidth) / 100 - this.labelWidth
       const li_w_all = ul_w - 50
       const li_w = parseFloat(li_w_all / li_size)
       // 时间间距
@@ -168,15 +214,27 @@ export default {
       this.$refs['TimeAxisSetting'].show()
     },
     // 编辑提交事件
-    timeAxisEmit(timeConfig, moduleId, close) {
-      this.$emit('timeAxisEmit', this.settingForm, this.moduleId, close)
+    timeAxisEmit(param) {
+      this.$emit('componentFunc', {
+        method: 'timeAxisEmit',
+        param: {
+          config: this.settingForm,
+          moduleId: this.moduleId,
+          close: param.close
+        }
+      })
+      // this.$emit('timeAxisEmit', this.settingForm, this.moduleId, close)
     },
     // 交互按钮点击事件
     Interactive() {
       const object = {
         moduleId: this.moduleId
       }
-      this.$emit('interactive', object)
+      this.$emit('componentFunc', {
+        method: 'timeAxisInteractiveIconClick',
+        param: object
+      })
+      // this.$emit('interactive', object)
     }
   }
 }

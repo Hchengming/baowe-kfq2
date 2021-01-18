@@ -63,6 +63,7 @@ export default {
             item.categoryConfig = JSON.parse(item.categoryConfig)
           })
           this.axisSource = res.data
+          this.pageModuleData.categoryAxis = this.axisSource
           // console.log(this.axisSource, 'this.axisSource')
           // this.$message({
           //   type: 'success',

@@ -122,7 +122,6 @@ export default {
         this.topBarAll.data.length > 0 &&
         this.topBarAll.moduleId !== this.interactiveModuleId
       ) {
-        console.log(this.topBarAll, 'this.topBarAll')
         let topBarInteractiveParams = []
         if (this.topBarAll.form.paramConfig.length > 0) {
           topBarInteractiveParams = this.topBarAll.form.paramConfig.map(obj => {
@@ -318,6 +317,9 @@ export default {
                     case 'topBar': // 顶部栏
                       this.topBarBeInteractive(reqObj, items, item)
                       break
+                    case 'timeAxis': // 时间轴
+                      this.timeAxisBeInteractive(reqObj, items, item)
+                      break
                   }
                 }
               }
@@ -325,6 +327,12 @@ export default {
           }
         })
       })
+    },
+    // 时间轴被交互事件
+    timeAxisBeInteractive(reqObj, items, item) {
+      const obj = { [item.corParams]: reqObj.rowItem[items.paramsChoose] }
+      const moduleId = item.moduleId
+      this.getTimeAxisDatas2(obj, moduleId)
     },
     // (iframe)被交互事件
     iframeBeInteractive(reqObj, items, item) {

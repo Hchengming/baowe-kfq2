@@ -2,7 +2,7 @@
   <div
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="['category-axis',{'category-axis-admin':settingConfig.systemPermissions==='admin'}]"
+    :class="['category-axis',{'category-axis-admin':isAdmin}]"
     @mousedown="mousedown_tz"
   >
     <div class="operation">
@@ -43,11 +43,12 @@
 </template>
 <script>
 import './index.scss'
-import dragStretchMixins from '../TimeAxis/dragStretchMixins'
+// import dragStretchMixins from '../TimeAxis/dragStretchMixins'
 import AxisSetting from '../AxisSetting'
+import drag from '../../utils/drag'
 export default {
   components: { AxisSetting },
-  mixins: [dragStretchMixins],
+  // mixins: [dragStretchMixins],
   props: {
     settingForm: {
       type: Object,
@@ -64,7 +65,8 @@ export default {
   },
   data() {
     return {
-      listChooseIndex: null
+      listChooseIndex: null,
+      isAdmin: this.settingConfig.systemPermissions === 'admin'
     }
   },
   computed: {
@@ -84,6 +86,20 @@ export default {
     }
   },
   methods: {
+    mousedown_tz(e) {
+      const _this = this
+      if (this.isAdmin) {
+        drag({
+          e,
+          settingForm: this.settingForm,
+          drag: this.$refs['listWrap'],
+          fatherElement: document.getElementsByClassName('my_main_content')[0],
+          fnc: () => {
+            _this.TZLSKeep()
+          }
+        })
+      }
+    },
     // 拖拽完成后保存事件
     TZLSKeep() {
       this.$emit('categoryConfigSubmit', this.settingForm, this.moduleId)

@@ -256,18 +256,18 @@ body {
   height: auto;
   padding-bottom: 10px;
 }
-#bao-wei-charts .pageSetting .el-drawer {
+.pageSetting .el-drawer {
   width: 265px !important;
   position: absolute;
 }
-#bao-wei-charts .pageSetting .assembly_wrap {
+.pageSetting .assembly_wrap {
   margin-left: 20px;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   padding: 0;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li {
+.pageSetting .assembly_wrap li {
   width: 100px;
   padding: 10px 0;
   text-align: center;
@@ -278,17 +278,17 @@ body {
   margin: 5px;
   list-style: none;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li i {
+.pageSetting .assembly_wrap li i {
   font-size: 40px;
   line-height: 50px;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li p {
+.pageSetting .assembly_wrap li p {
   font-size: 16px;
   line-height: 30px;
   padding: 0;
   margin: 0;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li .mengban {
+.pageSetting .assembly_wrap li .mengban {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -302,7 +302,7 @@ body {
   line-height: 100px;
   color: white;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li:hover .mengban {
+.pageSetting .assembly_wrap li:hover .mengban {
   display: block;
 }
 /*queryStatistics*/

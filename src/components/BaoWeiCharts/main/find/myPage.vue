@@ -12,8 +12,10 @@
       :item-api-data="itemApiData"
       :data-view-list="dataViewList"
       :setting-config="settingConfig"
+      :page-module-data="pageModuleData"
       @pageLoading="setPageLoding"
       @chartsMethods="elementMethods"
+      @componentFunc="componentFunc"
     >
       <div
         v-for="item in slotName"
@@ -87,6 +89,7 @@
       <!-- 页面组件新增 -->
       <assembly
         v-if="rightDrawerType == 'assembly'"
+        :assembly-data="assemblyData"
         @addAssembly="addAssembly"
       />
       <!-- 项目配置  主题配置 -->
@@ -96,28 +99,21 @@
         @projectConfigChange="projectConfigChange"
         @projectConfigSubmit="projectConfigSubmit"
       />
-      <!-- tabs切换组件 -->
-      <tab-setting
-        ref="tabsSetting"
-        :tabs-form="tabsConfig"
-        @tabsAdd="tabsAdd"
-      />
-      <!-- 类目轴配置 -->
-      <axis-setting
-        ref="AxisSetting"
-        :axis-config="axisConfig"
-        :setting-config="settingConfig"
-        @axisConfigSubmit="categoryConfigSubmit"
-      />
-      <!-- 时间轴配置 -->
-      <time-axis-setting
-        ref="TimeAxisSetting"
-        :time-config="timeConfig"
-        :setting-config="settingConfig"
-        @timeAxisEmit="timeAxisEmit"
-      />
     </el-drawer>
-
+    <!-- 类目轴配置 -->
+    <axis-setting
+      ref="AxisSetting"
+      :axis-config="axisConfig"
+      :setting-config="settingConfig"
+      @axisConfigSubmit="categoryConfigSubmit"
+    />
+    <!-- 时间轴配置 -->
+    <time-axis-setting
+      ref="TimeAxisSetting"
+      :time-config="timeConfig"
+      :setting-config="settingConfig"
+      @componentFunc="componentFunc"
+    />
     <!-- 交互配置组件 -->
     <interactive-setting
       ref="InteractiveSetting"
@@ -128,7 +124,7 @@
     />
     <!-- 类目轴 -->
     <axis
-      v-for="(item) in axisSource"
+      v-for="item in axisSource"
       :key="item.moduleId"
       :setting-form="item.categoryConfig"
       :setting-config="settingConfig"
@@ -146,10 +142,7 @@
       :setting-config="settingConfig"
       :setting-form="item.timeAxisConfig"
       :module-id="item.moduleId"
-      @deleteTemplate="deleteTimeAxis"
-      @timeClick="timeClick"
-      @timeAxisEmit="timeAxisEmit"
-      @interactive="timeAxisInteractiveIconClick"
+      @componentFunc="componentFunc"
     />
   </div>
 </template>
@@ -162,7 +155,7 @@ import TopBar from '../../components/TopBar@2.0'
 import TopBarSetting from '../../components/TopBarSetting'
 import topBarMixins from './mixins/topBarMixins.js'
 import myPageMixins from './mixins/myPageMixins.js'
-import TabSetting from '../../components/TabSetting'
+
 import ProjectConfig from './ProjectConfig'
 import interactiveMixins from './mixins/interactiveMixins'
 /* 类目轴导入 */
@@ -174,6 +167,7 @@ import TimeAxisSetting from '../../components/TimeAxisSetting'
 import TimeAxis from '../../components/TimeAxis'
 // 交互配置组件
 import InteractiveSetting from '../../components/InteractiveSetting'
+import otherMixins from './mixins/otherMixins'
 /* ====end==== */
 // import myMap from '../../components/maps/map'
 export default {
@@ -183,7 +177,6 @@ export default {
     TopBar,
     TopBarSetting,
     MenuSetting,
-    TabSetting,
     ProjectConfig,
     InteractiveSetting,
     AxisSetting,
@@ -192,7 +185,14 @@ export default {
     TimeAxis
     // myMap
   },
-  mixins: [topBarMixins, myPageMixins, interactiveMixins, timeAxisMixins, axisMixins],
+  mixins: [
+    topBarMixins,
+    myPageMixins,
+    otherMixins,
+    interactiveMixins,
+    timeAxisMixins,
+    axisMixins
+  ],
   props: {
     settingConfig: {
       type: Object,
@@ -216,7 +216,34 @@ export default {
       rightDrawerTypeTitle: '',
       nowMenuItem: {}, // 当前选中菜单配置信息
       settingDrawer: false, // 右侧抽屉显示隐藏控制
-      chooseType: ''
+      chooseType: '',
+      assemblyData: [
+        {
+          type: 'tableChart',
+          name: '图表组件集',
+          icon: 'icontubiao'
+        },
+        {
+          type: 'topBar',
+          name: '顶部栏组件',
+          icon: 'icondingbulan'
+        },
+        {
+          type: 'axis',
+          name: '类目轴',
+          icon: 'icondangan'
+        },
+        {
+          type: 'timeAxis',
+          name: '时间轴',
+          icon: 'icondangan'
+        },
+        {
+          type: 'tabs',
+          name: 'Tabs切换',
+          icon: 'icondangan'
+        }
+      ]
     }
   },
   mounted() {
@@ -296,6 +323,12 @@ export default {
     },
     // 页面组件新增事件
     addAssembly(type) {
+      this.parentContainerType = 'page'
+      this.moduleAddClick(type)
+      this.settingDrawer = false
+    },
+    // 模块新增执行
+    moduleAddClick(type) {
       switch (type) {
         case 'tableChart': // 图表组件集
           this.$refs['middleware'].addTemplate()
@@ -304,7 +337,7 @@ export default {
           this.$refs['topBarSetting'].show()
           break
         case 'tabs': // tabs切换
-          this.$refs['tabsSetting'].show()
+          this.$refs['middleware'].tabsSettingShow()
           break
         case 'axis': // 类目轴
           this.axisSettingShow()
@@ -313,9 +346,8 @@ export default {
           this.$refs['TimeAxisSetting'].show()
           break
       }
-
-      this.settingDrawer = false
     }
   }
+
 }
 </script>

@@ -9,12 +9,19 @@
     <div slot="title" class="headerTitle">tabs切换模块配置信息</div>
     <el-form ref="tabsForm" :model="tabsForm" label-width="130px">
       <el-row type="flex" class="row-bg">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="模块标题" prop="title">
             <el-input v-model="tabsForm.title" size="small" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
+          <el-form-item label="标题栏显示" prop="titleIsShow">
+            <el-switch
+              v-model="tabsForm.titleIsShow"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item label="视图层级" prop="zindex">
             <el-input
               v-model="tabsForm.zindex"
@@ -24,6 +31,7 @@
             />
           </el-form-item>
         </el-col>
+
       </el-row>
       <fieldset class="keys-config-setting">
         <legend class="theme-color">tabs切换栏设置</legend>

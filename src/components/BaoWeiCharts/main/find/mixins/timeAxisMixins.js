@@ -23,7 +23,9 @@ export default {
         options: 'GET', // 请求方式  GET/POST
         paramConfig: [], // 请求参数配置
         timeAxisData: [], // 时间轴数据
-        defaultTime: '' // 时间轴初始选中年份(默认值为今年)
+        defaultTime: '', // 时间轴初始选中年份(默认值为今年)
+        parentModuleId: '', // 父级容器组件id
+        parentTabsCode: ''// 父级容器编码（用于选项卡）
       },
       timeSource: [],
       timeConfigClone: {}
@@ -31,32 +33,39 @@ export default {
   },
 
   methods: {
+
     // 时间点击事件
-    timeClick(data, moduleId) {
+    timeClick(param) {
       // 点击事件暴露
       this.$emit('elementMethods', {
-        name: '类目轴点击事件',
+        name: '时间轴轴点击事件',
         methodsName: 'timeAxisClick',
-        moduleId,
-        data
+        moduleId: param.moduleId,
+        data: param.data
       })
       // 点击事件交互
-      this.timeAxisInteractive(data, moduleId)
+      this.timeAxisInteractive(param.data, param.moduleId)
     },
     // 时间轴配置提交事件
-    timeAxisEmit(config, moduleId, close) {
+    timeAxisEmit(param) {
       const reqObj = {
-        timeAxisConfigs: config
+        timeAxisConfigs: param.config
       }
       let api = ''
-      if (moduleId) {
+      if (param.moduleId) {
         // 修改
-        reqObj.moduleId = moduleId
+        reqObj.moduleId = param.moduleId
         api = '/timeAxisConfig/updateTimeAxisConfig'
       } else {
         // 新增
         reqObj.menuId = this.nowMenuItem.menuId
         api = '/timeAxisConfig/addTimeAxisConfig'
+        if (this.parentContainerType === 'container') {
+          reqObj.timeAxisConfigs.parentModuleId = this.parentModuleId
+          if (this.parentTabsCode) {
+            reqObj.timeAxisConfigs.parentTabsCode = this.parentTabsCode
+          }
+        }
       }
       serviceAxios
         .post(this.settingConfig.commonUrl + api, reqObj)
@@ -66,8 +75,8 @@ export default {
             message: '当前时间轴配置数据保存成功'
           })
           // 编辑弹窗关闭事件执行
-          if (close) {
-            close()
+          if (param.close) {
+            param.close()
           }
           this.timeAxisSelect()
         })
@@ -90,11 +99,9 @@ export default {
             item.timeAxisConfig = JSON.parse(item.timeAxisConfig)
           })
           this.timeSource = res.data
+          this.pageModuleData.timeAxis = this.timeSource
+          // console.log(this.timeSource, 'timeSource')
           this.getTimeAxisDatas(res.data)
-          // this.$message({
-          //   type: 'success',
-          //   message: '时间轴所有配置数据查询成功'
-          // })
         })
         .catch(() => {
           this.$message({
@@ -104,11 +111,11 @@ export default {
         })
     },
     // 时间轴模块删除事件
-    deleteTimeAxis(moduleId) {
+    deleteTimeAxis(param) {
       serviceAxios
         .post(
           this.settingConfig.commonUrl + '/timeAxisConfig/deleteTimeAxisConfig',
-          { moduleId }
+          { moduleId: param.moduleId }
         )
         .then(res => {
           this.timeAxisSelect()
@@ -125,10 +132,41 @@ export default {
         })
     },
     // 时间轴接口数据查询
-    getTimeAxisDatas(timeSource) {
+    getTimeAxisDatas(timeSource, reqDatas) {
       timeSource.forEach((item, index) => {
         if (item.timeAxisConfig.dataAcquisitionMethod === '1') {
           // 默认参数获取
+          const reqData = {}
+          item.timeAxisConfig.paramConfig.forEach(xx => {
+            reqData[xx.paramKey] = xx.paramValue
+          })
+          // 0：数据视图 1：应用接口
+          if (item.timeAxisConfig.apiType === '0') {
+            this.getIviewData(item.timeAxisConfig, reqData, index)
+          } else {
+            this.getYYJKData(item.timeAxisConfig, reqData, index)
+          }
+        }
+      })
+    },
+    // 时间轴配置数据交互触发  (obj)交互传入数据
+    getTimeAxisDatas2(obj, moduleId) {
+      this.timeSource.forEach((item, index) => {
+        if (item.timeAxisConfig.dataAcquisitionMethod === '1' && item.moduleId === moduleId) {
+          // 默认参数获取
+          let offon = true
+          item.timeAxisConfig.paramConfig.forEach(xx => {
+            if (xx.paramKey === Object.keys(obj)[0]) {
+              xx.paramValue = obj[xx.paramKey]
+              offon = false
+            }
+          })
+          if (offon) {
+            item.timeAxisConfig.paramConfig.push({
+              paramKey: Object.keys(obj)[0],
+              paramValue: obj[Object.keys(obj)[0]]
+            })
+          }
           const reqData = {}
           item.timeAxisConfig.paramConfig.forEach(xx => {
             reqData[xx.paramKey] = xx.paramValue

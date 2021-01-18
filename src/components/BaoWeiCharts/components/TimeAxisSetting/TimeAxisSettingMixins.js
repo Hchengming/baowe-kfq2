@@ -51,9 +51,19 @@ export default {
     },
     // 配置确认提交事件
     onSubmit() {
-      this.$emit('timeAxisEmit', this.timeConfig, null, () => {
-        this.close()
+      this.$emit('componentFunc', {
+        method: 'timeAxisEmit',
+        param: {
+          config: this.timeConfig,
+          moduleId: null,
+          close: () => {
+            this.close()
+          }
+        }
       })
+      // this.$emit('timeAxisEmit', this.timeConfig, null, () => {
+      //   this.close()
+      // })
     }
   }
 }

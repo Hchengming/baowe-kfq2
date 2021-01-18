@@ -46,7 +46,7 @@ $--color-primary: #4472c4;
                 border: 1px solid $--color-primary;
                 text-align: center;
                 position: relative;
-                top: -50%;
+                top: -56%;
                 cursor: pointer;
                 span {
                     position: relative;
@@ -57,9 +57,20 @@ $--color-primary: #4472c4;
                     top: 150%;
                     left: -10px;
                     transform: translateY(-50%);
+                    color: #959696;
                 }
             }
+            .text2 {
+                border: 1px dashed $--color-primary;
+                background-color: transparent;
+                cursor: no-drop;
+            }
         }
+        // li:nth-child(2n-1) {
+        //     .text span {
+        //         top: -100%;
+        //     }
+        // }
         .end-li {
             margin: 0px;
             padding: 0px;
@@ -79,12 +90,11 @@ $--color-primary: #4472c4;
     }
 }
 
-.time-axis.bg-white {
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 0 3px white;
-}
-
+// .time-axis.bg-white {
+//     background: white;
+//     border-radius: 5px;
+//     box-shadow: 0 0 3px white;
+// }
 .time-axis-admin {
     &:hover {
         cursor: move;

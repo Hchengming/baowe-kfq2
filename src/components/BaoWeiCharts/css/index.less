@@ -159,9 +159,11 @@ body {
       }
     }
   }
-  &>.el-container{
+
+  &>.el-container {
     height: ~"calc(100% - 38px)";
   }
+
   .el-aside {
     height: 100%;
     background: white;
@@ -170,6 +172,7 @@ body {
     padding: 0;
     margin-bottom: 0;
     box-sizing: content-box;
+
     .el-menu {
       background: transparent;
     }
@@ -228,7 +231,7 @@ body {
     .el-menu-vertical-demo {
       height: 100%;
       overflow: auto;
-    
+
       .el-menu-item,
       .el-submenu__title {
         height: 40px;
@@ -329,70 +332,70 @@ body {
 
 //抽屉模块配置
 
-#bao-wei-charts {
-  .pageSetting {
-    @width1: 100px;
 
-    .el-drawer {
-      width: 265px !important;
-      position: absolute;
-    }
+.pageSetting {
+  @width1: 100px;
 
-    .assembly_wrap {
-      margin-left: 20px;
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      padding: 0;
+  .el-drawer {
+    width: 265px !important;
+    position: absolute;
+  }
 
-      li {
-        width: @width1;
-        // height: 80px;
-        padding: 10px 0;
-        text-align: center;
-        border: 1px solid @border;
-        cursor: pointer;
-        position: relative;
-        background: white;
-        margin: 5px;
-        list-style: none;
+  .assembly_wrap {
+    margin-left: 20px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 0;
 
-        i {
-          font-size: 40px;
-          line-height: 50px;
-        }
+    li {
+      width: @width1;
+      // height: 80px;
+      padding: 10px 0;
+      text-align: center;
+      border: 1px solid @border;
+      cursor: pointer;
+      position: relative;
+      background: white;
+      margin: 5px;
+      list-style: none;
 
-        p {
-          font-size: 16px;
-          line-height: 30px;
-          padding: 0;
-          margin: 0;
-        }
-
-        .mengban {
-          position: absolute;
-          width: @width1;
-          height: @width1;
-          left: 0;
-          top: 0;
-          background: #409effa3;
-          display: none;
-          z-index: 8;
-          font-size: 50px;
-          text-align: center;
-          line-height: @width1;
-          color: white;
-        }
+      i {
+        font-size: 40px;
+        line-height: 50px;
       }
 
-      li:hover {
-        .mengban {
-          display: block;
-        }
+      p {
+        font-size: 16px;
+        line-height: 30px;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mengban {
+        position: absolute;
+        width: @width1;
+        height: @width1;
+        left: 0;
+        top: 0;
+        background: #409effa3;
+        display: none;
+        z-index: 8;
+        font-size: 50px;
+        text-align: center;
+        line-height: @width1;
+        color: white;
+      }
+    }
+
+    li:hover {
+      .mengban {
+        display: block;
       }
     }
   }
 }
+
 
 /*queryStatistics*/
 .queryStatistics {
@@ -569,11 +572,12 @@ body {
 
 // table
 #bw_table {
-  .table-functional-components{
+  .table-functional-components {
     text-align: right;
     line-height: 40px;
     padding-right: 30px;
-    i{
+
+    i {
       font-size: 25px;
       display: inline-block;
       width: 30px;
@@ -581,12 +585,13 @@ body {
       // border: 1px solid #8C8C8C;
       border: 1px solid #CACACA;
       text-align: center;
-      color:#1D1D1D;
+      color: #1D1D1D;
       cursor: pointer;
       margin-left: 10px;
       position: relative;
     }
   }
+
   td {
     padding: 0;
   }
@@ -732,16 +737,17 @@ body {
     .statistics-content {
       padding: 5px;
     }
-      // background: #f5f7fa;
-  .el-icon-close {
-    position: absolute;
-    font-size: 22px;
-    right: 2px;
-    top: 2px;
-    color: white;
-    cursor: pointer;
-    z-index: 9999999999;
-  }
+
+    // background: #f5f7fa;
+    .el-icon-close {
+      position: absolute;
+      font-size: 22px;
+      right: 2px;
+      top: 2px;
+      color: white;
+      cursor: pointer;
+      z-index: 9999999999;
+    }
   }
 
   .suofang {
@@ -1749,8 +1755,9 @@ body {
   position: relative;
   z-index: 4;
   padding: 5px 5px 0;
-   
+
   box-sizing: border-box;
+
   .operation {
     position: absolute;
     top: 0;

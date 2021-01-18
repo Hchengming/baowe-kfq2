@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      cursor: 'defalut'
+      // cursor: 'defalut'
     }
   },
   methods: {
@@ -12,7 +12,7 @@ export default {
       //  设置定时器，鼠标按下一秒后启动拖拽事件
       var timer = null
       var mousedownTzZx = null
-      this.cursor = ''
+      // this.cursor = ''
       let offon = false
       clearTimeout(timer)
       // console.log(this.settingForm.isDrafting)

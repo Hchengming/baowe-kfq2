@@ -26,7 +26,7 @@ export default {
     // tabs切换一级页面模块新增事件
     tabsAdd(config) {
       // console.log(config)
-      this.$refs['middleware'].addKeep(config)
+      this.$refs['middleware'].addTabsModule(config)
     }
   }
 }
