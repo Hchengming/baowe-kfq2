@@ -5,6 +5,7 @@
     <div class="country-box">
       <el-radio-group
         v-model="country.father"
+        :disabled="commonItem.isDisabled"
         class="country-1"
         @change="fatherChange"
       >
@@ -16,6 +17,7 @@
       </el-radio-group>
       <el-radio-group
         v-model="country.child"
+        :disabled="commonItem.isDisabled"
         class="country-2"
         @change="childChange"
       >
@@ -99,6 +101,7 @@ export default {
     },
     // 父级数据变化事件
     fatherChange(val) {
+      // if (this.commonItem.isDisabled) { return }
       this.country.child = ''
       this.countryData.forEach(item => {
         if (val === item.value) {
@@ -113,6 +116,7 @@ export default {
     },
     // 子级数据变化事件
     childChange(val) {
+      // if (this.commonItem.isDisabled) { return }
       this.form[this.commonItem.key] =
         val === '所有' ? this.country.father : val
       this.$emit('cuntryChange')

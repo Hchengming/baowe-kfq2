@@ -323,7 +323,7 @@ export default {
     menuClick(menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
       this.getData(menuTypes, fn)
-      this.tabsSettingSelect()
+      // this.tabsSettingSelect()
     },
     // 子级弹窗关闭事件--同级子弹窗全部关闭
     statisticsClose(moduleId, parentModuleId) {

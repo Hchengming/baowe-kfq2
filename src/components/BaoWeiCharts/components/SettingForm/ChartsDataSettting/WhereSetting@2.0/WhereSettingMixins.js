@@ -189,6 +189,14 @@ export default {
             return offon
           },
           defaultValue: false
+        }, {
+          label: '不可点击',
+          key: 'isDisabled',
+          formType: 'switch',
+          isHide(form, index) {
+            return ['country-radio'].indexOf(form.type) === -1
+          },
+          defaultValue: false
         }
         ],
         width: 80

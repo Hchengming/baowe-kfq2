@@ -60,28 +60,33 @@ $--color-primary: #4472c4;
                     color: #959696;
                 }
             }
+            // .text:nth-child(2n) {
+            //     span {
+            //         top: 0
+            //     }
+            // }
             .text2 {
                 border: 1px dashed $--color-primary;
                 background-color: transparent;
                 cursor: no-drop;
             }
         }
-        // li:nth-child(2n-1) {
-        //     .text span {
-        //         top: -100%;
-        //     }
-        // }
+        li:nth-child(2n-1) {
+            .text span {
+                top: -100%;
+            }
+        }
         .end-li {
             margin: 0px;
             padding: 0px;
             width: 0;
             height: 0;
-            border-top: 20px solid transparent;
-            border-left: 30px solid #7EF2BB;
-            border-bottom: 20px solid transparent;
+            border-top: 15px solid transparent;
+            border-left: 20px solid #7EF2BB;
+            border-bottom: 15px solid transparent;
             position: relative;
-            left: 20px;
-            top: -15px
+            left: 15px;
+            top: -10px
         }
         li .text.active {
             background-color: $--color-primary;
