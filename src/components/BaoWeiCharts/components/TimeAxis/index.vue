@@ -93,7 +93,9 @@ export default {
     listWrapStyle() {
       let style = {}
       // this.$nextTick(() => {
-      const element = this.containerElelemt ? this.containerElelemt : document.getElementsByClassName('my_main_content')[0]
+      const element = this.containerElelemt
+        ? this.containerElelemt
+        : document.getElementsByClassName('my_main_content')[0]
       style = {
         top:
           parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
@@ -105,13 +107,20 @@ export default {
         width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
         cursor: this.cursor
       }
-      console.log(this.containerElelemt, 'style')
+      // console.log(this.containerElelemt, style, 'style')
       // })
 
       return style
     }
   },
-  watch: {},
+  watch: {
+    'settingForm.missingTime': {
+      handler() {
+        this.getDefaultTime()
+      },
+      deep: true
+    }
+  },
   mounted() {
     this.getDefaultTime()
   },
@@ -119,7 +128,9 @@ export default {
     mousedown_tz(e) {
       const _this = this
       if (this.isAdmin) {
-        const element = this.containerElelemt ? this.containerElelemt : document.getElementsByClassName('my_main_content')[0]
+        const element = this.containerElelemt
+          ? this.containerElelemt
+          : document.getElementsByClassName('my_main_content')[0]
         drag({
           e,
           settingForm: this.settingForm,
@@ -141,12 +152,15 @@ export default {
       const defaultTime = this.settingForm.defaultTime
         ? this.settingForm.defaultTime
         : new Date().getFullYear().toString()
+
       this.$nextTick(() => {
-        this.timeListData().forEach(item => {
-          if (item.time === defaultTime) {
-            this.listChooseYear = item.time
-          }
-        })
+        if (this.timeListData()) {
+          this.timeListData().forEach(item => {
+            if (item.time === defaultTime) {
+              this.listChooseYear = item.time
+            }
+          })
+        }
       })
     },
     // 缺失时间控制
@@ -174,11 +188,9 @@ export default {
           moduleId: this.moduleId
         }
       })
-      // this.$emit('timeClick', item, this.moduleId)
     },
     // 类目轴删除事件
     deleteTemplate() {
-      // this.$emit('deleteTemplate', this.moduleId)
       this.$emit('componentFunc', {
         method: 'deleteTimeAxis',
         param: {
@@ -188,7 +200,9 @@ export default {
     },
     // 时间轴时间数据循环获取--时间间距设置
     timeListData() {
-      const element = document.getElementsByClassName('my_main_content')[0]
+      const element = this.containerElelemt
+        ? this.containerElelemt
+        : document.getElementsByClassName('my_main_content')[0]
       const start = parseInt(this.settingForm.start)
       const end = parseInt(this.settingForm.end)
       const listData = []
@@ -223,7 +237,6 @@ export default {
           close: param.close
         }
       })
-      // this.$emit('timeAxisEmit', this.settingForm, this.moduleId, close)
     },
     // 交互按钮点击事件
     Interactive() {

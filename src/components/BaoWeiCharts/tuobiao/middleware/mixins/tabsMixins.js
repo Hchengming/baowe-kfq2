@@ -41,7 +41,7 @@ export default {
           //
           res.data.map(item => { item.tabsConfig = JSON.parse(item.tabsConfig) })
           this.tabsSettingData = res.data
-          console.log(this.tabsSettingData, 'this.tabsSettingData')
+          // console.log(this.tabsSettingData, 'this.tabsSettingData')
           // res.data.forEach(item => {
           //   item.timeAxisConfig = JSON.parse(item.timeAxisConfig)
           // })
@@ -74,7 +74,7 @@ export default {
         reqData.menuId = this.menuId
         api = '/tabs/addTabsConfig'
       }
-      console.log(reqData, 'reqData')
+      // console.log(reqData, 'reqData')
       serviceAxios
         .post(this.settingConfig.commonUrl + api, reqData)
         .then(() => {

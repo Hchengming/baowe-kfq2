@@ -336,10 +336,24 @@ export const otherMixins = {
         this.$refs['chartsDataSettting'].screenSubmit(() => {
           // this.form.conditionAreaConfig = conditionAreaConfig
           // console.log(this.form);
-          this.$emit('submit', this.form)
+          this.$emit('componentFunc', {
+            method: 'addKeep',
+            name: '模块新增',
+            param: {
+              contentAreaConfig: this.form
+            }
+          })
+          // this.$emit('submit', this.form)
         })
       } else {
-        this.$emit('submit', this.form)
+        this.$emit('componentFunc', {
+          method: 'addKeep',
+          name: '模块新增',
+          param: {
+            contentAreaConfig: this.form
+          }
+        })
+        // this.$emit('submit', this.form)
       }
     },
     // 接口名称变化事件

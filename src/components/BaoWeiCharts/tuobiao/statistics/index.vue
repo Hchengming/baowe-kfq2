@@ -11,14 +11,7 @@
       v-show="statisticsAll.isShow !== false"
       :id="settingForm.elementId ? settingForm.elementId : undefined"
       :ref="'statisticsWrap'"
-      :style="{
-        height: modelStyle.height + 'px',
-        width: modelStyle.width + 'px',
-        left: modelStyle.left + 'px',
-        top: modelStyle.top + 'px',
-        cursor: cursor,
-        'z-index': settingForm.zindex
-      }"
+      :style="listWrapStyle"
       :class="[
         'statisticsWrap',
         'statisticsWrapCase2',
@@ -28,6 +21,13 @@
       ]"
     >
       <div class="statisticsBox">
+        <!-- 拉伸组件 -->
+        <stretch
+          v-if="isAdmin"
+          :setting-form="settingForm"
+          :stretch-elelemt="stretchElelemt"
+          @stretchkeep="TZLSKeep"
+        />
         <i
           v-if="isModuleClose()"
           class="el-icon-close"
@@ -38,6 +38,7 @@
             systemPermissions === 'admin' ||
               (settingForm.moduleType !== '1' && !settingForm.isHeaderHide)
           "
+          :style="{ cursor: isAdmin ? 'move' : 'default' }"
           class="statistics_title theme-bg-color"
           @mousedown="mousedown_tz"
         >
@@ -48,7 +49,10 @@
             <div class="left">
               <span class="txt1">{{ settingForm.title }}</span>
               <span v-if="statisticsAll.contentAreaConfig.subtitle1">---</span>
-              <span class="txt2" v-text="statisticsAll.contentAreaConfig.subtitle1" />
+              <span
+                class="txt2"
+                v-text="statisticsAll.contentAreaConfig.subtitle1"
+              />
             </div>
             <div
               :style="{ 'margin-right': isModuleClose() ? '20px' : 0 }"
@@ -166,7 +170,10 @@
           />
           <!-- slot嵌入 -->
           <div
-            v-if="settingForm.blankTemplateConfig&&settingForm.blankTemplateConfig.slot"
+            v-if="
+              settingForm.blankTemplateConfig &&
+                settingForm.blankTemplateConfig.slot
+            "
             :id="settingForm.blankTemplateConfig.slot"
             :style="{ width: '100%', height: boxHeight() + 'px' }"
           >
@@ -236,35 +243,16 @@
             :iframe-all="settingForm.iframeAll"
           />
         </div>
-        <!-- 左侧缩放按钮控制 -->
-        <div
-          v-if="isAdmin"
-          class="suofang suofang-left"
-          @mousedown="mousedown_left_ls"
-        >
-          <!-- <i
-          class="iconfont iconkuozhan-copy theme-color"></i>-->
-        </div>
-        <!-- 右侧缩放按钮控制 -->
-        <div
-          v-if="isAdmin"
-          class="suofang suofang-right"
-          @mousedown="mousedown_right_ls"
-        >
-          <!-- <i
-          class="iconfont iconkuozhan theme-color"></i>-->
-        </div>
+
         <!-- 模块修改表单 -->
         <settingForm
           ref="settingForm"
           :form="settingForm"
           :data-url="dataUrl"
           :statistics-all="statisticsAll"
-          :item-api-data="itemApiData"
-          :data-view-list="dataViewList"
           :where-form="whereForm"
           :setting-config="settingConfig"
-          @submit="settingKeep"
+          @componentFunc="componentFunc"
         />
         <!-- 子模块新增表单 -->
         <settingForm
@@ -272,13 +260,8 @@
           :form="childSettingForm"
           :data-url="dataUrl"
           :setting-config="settingConfig"
-          :item-api-data="itemApiData"
-          :data-view-list="dataViewList"
           @submit="childSettingKeep"
         />
-        <!-- 筛选配置弹出层 -->
-        <!-- <where-setting ref="screenSetting"
-                       @screenKeep="screenKeep" /> -->
         <!-- 详情配置弹窗 -->
         <destail-setting ref="destailSetting" @submit="destailSettingSubmit" />
         <!-- 详情弹窗 -->
@@ -294,27 +277,28 @@ import List from '../../components/List'
 import BwLine from '../../components/Line@2.0/index.vue'
 import BwTable from '../../components/Table2/index.vue'
 import SettingForm from '../../components/SettingForm'
-import dragStretchMixins from './dragStretchMixins'
+import otherMixins from './mixins/otherMixins'
 import { childMixins, screenMixins, destailMixins } from './statisticsMixins'
 import dataPresentation from '../../components/SettingForm/dataPresentation.json'
 import DestailSetting from '../../components/DestailSetting'
 import Destail from '../../components/Destail'
 import DetailsTable from '../../components/DetailsTable/index.vue'
 import IframeModel from '../../components/IframeModel/index.vue'
+import Stretch from '../../components/Stretch'
 export default {
   components: {
     SettingForm,
     List,
     BwLine,
     BwTable,
-    // WhereSetting,
+    Stretch,
     Where,
     DestailSetting,
     Destail,
     DetailsTable,
     IframeModel
   },
-  mixins: [dragStretchMixins, childMixins, screenMixins, destailMixins],
+  mixins: [childMixins, screenMixins, destailMixins, otherMixins],
   // props: ['statisticsAll', 'browserXY', 'systemPermissions', 'dataUrl'],
   props: {
     statisticsAll: {
@@ -337,18 +321,11 @@ export default {
       type: Object,
       default: null
     },
-    itemApiData: {
-      type: Array,
-      default: null
-    },
-    dataViewList: {
-      type: Array,
-      default: null
-    },
     settingConfig: {
       type: Object,
       default: null
-    }
+    },
+    containerElelemt: { type: HTMLElement, default: null }
   },
   data() {
     return {
@@ -356,43 +333,24 @@ export default {
       bwLineType: ['pie', 'ring', 'histogram', 'bar', 'line', 'radar'],
       typeData: dataPresentation,
       chooseHover: null,
+      cursor: 'defalut',
+
       whereHeight: 40 // 搜索模块高度
       // parentWhereFormUse:{}//父级筛选条件可传入子级条件筛选
       // deleteTitle: '确定删除删除当前模块？'
     }
   },
-  computed: {
-    isAdmin() {
-      return this.systemPermissions === 'admin'
-    },
-    // 删除判断弹出文字
-    deleteTitle() {
-      let title = ''
-      if (
-        this.statisticsAll.isRowDrillDown === '1' ||
-        this.statisticsAll.drillDownKeyAll
-      ) {
-        title = '当前模块已配置有子级，是否强制删除当前模块和所有子级模块？'
-      } else {
-        title = '确定删除删除当前模块？'
-      }
-      return title
-    }
-  },
-  watch: {
-    browserXY: {
-      handler() {
-        this.getMainStyle()
-        this.setDemos()
-      },
-      deep: true
-    }
-  },
-  mounted() {
-    // console.log(this.modelStyle.width, 'modelStyle.width')
-    //  console.log(this.$refs['where'],"this.$refs['where'].scrollHeight")
-  },
+
   methods: {
+    // 容器组件内事件传递
+    componentFunc(obj) {
+      if (this[obj.method]) {
+        this[obj.method](obj.param)
+      }
+      // else {
+      //   this.$emit('componentFunc', obj)
+      // }
+    },
     // 饼图顶部切换栏点击事件
     pieTabsClick(item) {
       this.$emit('chartsMethods', {
@@ -405,11 +363,8 @@ export default {
     },
     // 模块数据变化事件
     statisticsAllChange(moduleId, viewchange, wh) {
-      // viewchange(this.statisticsAll)
-      // console.log('1111111')
       if (this.statisticsAll.moduleId === moduleId) {
         viewchange(this.statisticsAll)
-        // console.log(this.statisticsAll, '456')
         this.whereHeight = wh
       }
     },
@@ -432,12 +387,6 @@ export default {
       }
       return data
     },
-    // 标题二
-    // settingFormSubtitle1() {
-    //   const contentAreaConfig = this.statisticsAll.contentAreaConfig
-    //   console.log(contentAreaConfig.subtitle1)
-    //   return contentAreaConfig.subtitle1
-    // },
     // 模块是否可关闭
     isModuleClose() {
       return this.statisticsAll.parentModuleId || this.settingForm.isModuleClose
@@ -449,32 +398,7 @@ export default {
       )
       return offon
     },
-    // 表单内容区域高度
-    boxHeight() {
-      let Height = null
 
-      // 判断是否有查询模块
-      if (
-        this.statisticsAll.conditionAreaConfig &&
-        this.statisticsAll.conditionAreaConfig.screenData &&
-        this.statisticsAll.conditionAreaConfig.screenData.length > 0
-      ) {
-        Height = this.modelStyle.height - 56 - this.whereHeight
-      } else {
-        Height = this.modelStyle.height - 56
-      }
-
-      // iframe模块
-      if (this.settingForm.moduleType === '1') {
-        Height += 55
-      } else {
-        // 标题栏隐藏
-        if (this.settingForm.isHeaderHide) {
-          Height += 46
-        }
-      }
-      return Height
-    },
     // 更多按钮点击事件
     moduleMore() {
       if (this.settingForm.moreUrl.replace(/\s*/g, '') !== '') {
@@ -494,7 +418,13 @@ export default {
       // 判断当前克隆模块为子级还是一级页面模块
       if (!this.statisticsAll.parentModuleId) {
         // 一级克隆 --调用一级新增方法
-        this.$emit('firstAddKeep', contentAreaConfigCopy)
+        this.$emit('componentFunc', {
+          method: 'addKeep',
+          name: '一级克隆',
+          param: {
+            contentAreaConfig: contentAreaConfigCopy
+          }
+        })
       } else {
         this.childAddType = '0'
         this.childSettingKeep(contentAreaConfigCopy)
@@ -512,42 +442,49 @@ export default {
     },
     // 弹窗关闭事件
     statisticsClose() {
-      this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
-      // if (this.settingForm.moduleType === '3') {
-      //   this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
-      // } else {
-      //   this.$emit(
-      //     'statisticsClose',
-      //     this.statisticsAll.moduleId,
-      //     this.statisticsAll.parentModuleId
-      //   )
-      // }
+      this.$emit('componentFunc', {
+        method: 'blankTemplateClose',
+        name: '弹窗关闭事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId
+        }
+      })
+      // this.$emit('blankTemplateClose', this.statisticsAll.moduleId)
     },
     // 模块删除按钮点击事件
     deleteTemplate() {
-      this.$emit(
-        'deleteMoule',
-        this.statisticsAll.moduleId,
-        this.statisticsAll.menuId,
-        this.statisticsAll.parentModuleId
-      )
+      this.$emit('componentFunc', {
+        method: 'deleteMoule',
+        name: '模块删除按钮点击事件',
+        param: {
+          menuId: this.statisticsAll.menuId,
+          parentModuleId: this.statisticsAll.parentModuleId,
+          moduleId: this.statisticsAll.moduleId
+        }
+      })
+    },
+    // 配置表单确认事件
+    addKeep(param) {
+      this.setDemos()
+      this.$emit('componentFunc', {
+        method: 'updateMoule',
+        name: '模块修改确认事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          contentAreaConfig: param.contentAreaConfig,
+          fn: () => {
+            this.$refs['settingForm'].close()
+          },
+          whereForm: this.whereForm
+        }
+      })
+      // 筛选数据旧版本兼容
+      this.compatible1(this.statisticsAll, param.contentAreaConfig)
     },
     // 模块设置表单保存事件
-    settingKeep(contentAreaConfig) {
-      // this.statisticsAll.conditionAreaConfig =
-      this.setDemos()
-      this.$emit(
-        'updateMoule',
-        contentAreaConfig,
-        this.statisticsAll.moduleId,
-        () => {
-          this.$refs['settingForm'].close()
-        },
-        this.whereForm
-      )
-      // 筛选数据旧版本兼容
-      this.compatible1(this.statisticsAll, contentAreaConfig)
-    },
+    // settingKeep(contentAreaConfig) {
+
+    // },
     // 配置数据修改后更新-兼容旧版
     compatible1(item, contentAreaConfig) {
       const filterConfig = item.contentAreaConfig.filterConfig
@@ -586,23 +523,28 @@ export default {
     chooseType(chartType) {
       this.settingForm.displayMode = chartType
       if (this.isAdmin) {
-        this.$emit(
-          'updateMoule',
-          this.settingForm,
-          this.statisticsAll.moduleId,
-          () => {},
-          this.whereForm
-        )
+        this.$emit('componentFunc', {
+          method: 'updateMoule',
+          name: '模块删除按钮点击事件',
+          param: {
+            moduleId: this.statisticsAll.moduleId,
+            contentAreaConfig: this.settingForm,
+            whereForm: this.whereForm
+          }
+        })
       }
     },
     // 分页事件
     tablePageSort(pageAll) {
-      this.$emit(
-        'tablePageSort',
-        this.statisticsAll.moduleId,
-        pageAll,
-        this.whereForm
-      )
+      this.$emit('componentFunc', {
+        method: 'tablePageSort',
+        name: '分页事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          paginationAll: pageAll,
+          whereForm: this.whereForm
+        }
+      })
     },
     // 图表点击事件
     eventClick(e) {
@@ -625,13 +567,16 @@ export default {
     },
     // 图表配置数据暴露，外层定制化
     setOptions(options, chartType, data) {
-      this.$emit(
-        'setOptions',
-        options,
-        chartType,
-        data,
-        this.statisticsAll.moduleId
-      )
+      this.$emit('componentFunc', {
+        method: 'setOptions',
+        name: '图表配置数据暴露，外层定制化',
+        param: {
+          options,
+          chartType,
+          data,
+          moduleId: this.statisticsAll.moduleId
+        }
+      })
     }
   }
 }

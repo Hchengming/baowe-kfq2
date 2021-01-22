@@ -43,8 +43,16 @@ export default {
     },
     // 配置确认提交事件
     onSubmit() {
-      this.$emit('axisConfigSubmit', this.axisConfig, null, () => {
-        this.close()
+      this.$emit('componentFunc', {
+        method: 'categoryConfigSubmit',
+        name: '类目轴配置提交事件',
+        param: {
+          config: this.axisConfig,
+          moduleId: this.moduleId,
+          close: () => {
+            this.close()
+          }
+        }
       })
     }
   }

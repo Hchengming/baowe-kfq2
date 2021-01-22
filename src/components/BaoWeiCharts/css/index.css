@@ -305,7 +305,7 @@ body {
 .pageSetting .assembly_wrap li:hover .mengban {
   display: block;
 }
-/*queryStatistics*/
+/*queryStatistics */
 .queryStatistics {
   display: flex;
 }
@@ -332,7 +332,6 @@ body {
 .statisticsWrap {
   border-width: 0px;
   width: 336px;
-  overflow: hidden;
   background: inherit;
   background-color: #ffffff;
   border: none;
@@ -350,7 +349,7 @@ body {
   margin-bottom: 0;
 }
 .statistics_title {
-  z-index: 999999;
+  z-index: 9999;
   position: relative;
   height: 36px;
   border-bottom: 1px solid #d8d8d8;
@@ -562,6 +561,8 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  border: 1px dashed transparent;
 }
 .statisticsWrapCase2 .statisticsBox .statistics-content {
   padding: 5px;
@@ -574,6 +575,12 @@ body {
   color: white;
   cursor: pointer;
   z-index: 9999999999;
+}
+.statisticsWrapCase2 .statisticsBox:hover {
+  border: 1px dashed #3b85d8;
+}
+.statisticsWrapCase2 .statisticsBox:hover .stretch {
+  display: block;
 }
 .statisticsWrapCase2 .suofang {
   position: absolute;

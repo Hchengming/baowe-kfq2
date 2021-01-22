@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <Stretch
+      <stretch
         :setting-form="settingForm"
         :stretch-elelemt="stretchElelemt"
         @stretchkeep="TZLSKeep"
@@ -46,7 +46,7 @@
           <!-- <div class="el-tab-pane-icon">
             <i class="el-icon-circle-plus-outline" @click="drawerShow=true"/>
           </div> -->
-          <page-view :module-id="moduleId" :page-module-data="pageModuleData" :setting-config="settingConfig" :tabs-code="item.tabsCode" @componentFunc="componentFunc" />
+          <page-view v-if="item.tabsCode===activeName" :module-id="moduleId" :page-module-data="pageModuleData" :setting-config="settingConfig" :tabs-code="item.tabsCode" @componentFunc="componentFunc" />
         </el-tab-pane>
       </el-tabs>
     </div>

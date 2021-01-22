@@ -19,15 +19,13 @@ export default {
     _this = this
   },
   methods: {
-    setOptions(options, chartType, data, moduleId) {
-      this.chartsMethods({
+    setOptions(param) {
+      const obj = {
         methodsName: 'setOptions',
-        name: '图表配置外层定制化事件',
-        options,
-        chartType,
-        data,
-        moduleId
-      })
+        name: '图表配置外层定制化事件'
+      }
+      param
+        .this.chartsMethods(Object.assign(obj, param))
     },
     // 监听屏幕变化事件
     resize() {
@@ -40,28 +38,29 @@ export default {
       this.browserXY.mainWidth = element.scrollWidth
     },
     // statistics组件--行数据点击事件
-    rowClick(item, statisticsAll) {
+    rowClick(param) {
+      console.log(param, 'rowClick')
       this.chartsMethods({
         methodsName: 'rowClick',
-        rowItem: item,
+        rowItem: param.rowItem,
         name: '行点击事件',
-        statisticsAll,
-        moduleId: statisticsAll.moduleId
+        statisticsAll: param.statisticsAll,
+        moduleId: param.statisticsAll.moduleId
       })
       // this.iframeMapChange(item, statisticsAll)
     },
     // 单元格点击事件
-    cellClick(item, statisticsAll, key, whereForm) {
+    cellClick(param) {
       this.chartsMethods({
         methodsName: 'cellClick',
-        rowItem: item,
+        rowItem: param.rowItem,
         name: '单元格点击事件',
-        statisticsAll,
-        moduleId: statisticsAll.moduleId,
-        whereForm,
-        key
+        statisticsAll: param.statisticsAll,
+        moduleId: param.statisticsAll.moduleId,
+        // whereForm: param.whereForm,
+        key: param.key
       })
-      this.iframeMapChange(item, statisticsAll)
+      this.iframeMapChange(param.rowItem, param.statisticsAll)
     },
     // 行/单元格点击地图模块数据变化事件
     iframeMapChange(itemValue, statisticsAll) {
@@ -105,13 +104,13 @@ export default {
       }
     },
     // statistics组件--模块修改保存事件
-    updateMoule(contentAreaConfig, moduleId, fn, whereForm) {
-      // this.oldConditionAreaConfigUpdate(contentAreaConfig.filterConfig, moduleId)
-      // console.log(contentAreaConfig.filterConfig, 'contentAreaConfig.filterConfig')
+    updateMoule(param) {
+      console.log(param, '1111111')
+      // contentAreaConfig, moduleId, fn, whereForm
       const reqData = {
         secondMasterPageConfigPOS: [{
-          contentAreaConfig: contentAreaConfig,
-          moduleId: moduleId
+          contentAreaConfig: param.contentAreaConfig,
+          moduleId: param.moduleId
         }]
       }
       serviceAxios
@@ -127,29 +126,29 @@ export default {
               message: '模块配置修改成功',
               type: 'success'
             })
-            if (fn) {
-              fn()
+            if (param.fn) {
+              param.fn()
             }
             const obj = {}
             let newItem = {}
             // let pageDataClone = JSON.parse(JSON.stringify(this.pageData))
 
             this.pageData.forEach((item, index) => {
-              if (item.moduleId === moduleId) {
+              if (item.moduleId === param.moduleId) {
                 obj.index = index
                 newItem = item
               }
             })
-            obj.url = contentAreaConfig.url
-            if (contentAreaConfig.isPage === '1') {
-              obj.pageSize = contentAreaConfig.pageSize
+            obj.url = param.contentAreaConfig.url
+            if (param.contentAreaConfig.isPage === '1') {
+              obj.pageSize = param.contentAreaConfig.pageSize
               obj.currentPage = 1
             }
             if (
-              contentAreaConfig.moduleType !== '1' &&
-                            contentAreaConfig.moduleType !== '3'
+              param.contentAreaConfig.moduleType !== '1' &&
+              param.contentAreaConfig.moduleType !== '3'
             ) {
-              this.getTableData(obj, whereForm, newItem)
+              this.getTableData(obj, param.whereForm, newItem)
             }
           } else {
             this.$message({
@@ -160,20 +159,16 @@ export default {
         })
     },
     // statistics组件--模块删除事件
-    deleteMoule(moduleId, menuId, parentModuleId) {
+    deleteMoule(param) {
       // console.log('删除')
       let reqUrl
-      if (menuId) {
+      if (param.menuId) {
         reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
       } else {
         reqUrl = '/busSecondmasterpageconfig/deleteDrillDownData'
       }
       serviceAxios
-        .post(this.settingConfig.commonUrl + reqUrl, {
-          moduleId,
-          menuId,
-          parentModuleId
-        })
+        .post(this.settingConfig.commonUrl + reqUrl, param)
         .then(res => {
           const code = res.code
           if (code === 20000) {
@@ -322,11 +317,11 @@ export default {
       this.$refs['settingForm'].show()
     },
     // 新增确认事件
-    addKeep(contentAreaConfig) {
-      // console.log(this.menuId)
+    addKeep(param) {
+      console.log('aaaaaaaaaaaa')
       const reqData = {
         secondMasterPageConfigPOS: [{
-          contentAreaConfig: contentAreaConfig,
+          contentAreaConfig: param.contentAreaConfig,
           menuId: this.menuId
         }]
       }
@@ -358,10 +353,6 @@ export default {
             })
           }
         })
-    },
-    // 新增筛选数据获取
-    addScreenKeep(conditionAreaConfig) {
-      this.addConditionAreaConfig = conditionAreaConfig
     },
     // statistics组件--筛选模块配置数据保存
     screenKeep(conditionAreaConfig, moduleId) {
@@ -401,32 +392,33 @@ export default {
         })
     },
     // 列表数据筛选事件
-    whereSubmit(moduleId, whereForm) {
+    whereSubmit(param) {
       this.chartsMethods({
-        moduleId: moduleId,
+        moduleId: param.moduleId,
         name: '查询按钮点击事件',
         methodsName: 'whereSubmit',
-        whereForm
+        whereForm: param.whereForm
       })
       const obj = {}
       this.pageData.forEach((item, index) => {
-        if (item.moduleId === moduleId) {
+        if (item.moduleId === param.moduleId) {
           obj.index = index
           obj.url = item.contentAreaConfig.url
           if (item.contentAreaConfig.isPage === '1') {
             obj.pageSize = item.contentAreaConfig.pageSize
             obj.currentPage = 1
           }
-          this.getTableData(obj, whereForm, item)
+          this.getTableData(obj, param.whereForm, item)
         }
       })
     },
     // 详情配置保存事件
-    detailsAreaConfigEmit(moduleId, detailsAreaConfig, fn) {
+    detailsAreaConfigEmit(param) {
+      // moduleId, detailsAreaConfig, fn
       // console.log(detailsAreaConfig)
       const reqData = {
-        moduleId,
-        detailsAreaConfig
+        moduleId: param.moduleId,
+        detailsAreaConfig: param.detailsAreaConfig
       }
       serviceAxios
         .post(
@@ -442,11 +434,11 @@ export default {
               type: 'success'
             })
             this.pageData.forEach(item => {
-              if (item.moduleId === moduleId) {
-                item.detailsAreaConfig = detailsAreaConfig
+              if (item.moduleId === param.moduleId) {
+                item.detailsAreaConfig = param.detailsAreaConfig
               }
             })
-            fn()
+            param.fn()
           }
         })
         .catch(msg => {

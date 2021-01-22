@@ -397,7 +397,7 @@ body {
 }
 
 
-/*queryStatistics*/
+/*queryStatistics */
 .queryStatistics {
   display: flex;
 
@@ -429,7 +429,7 @@ body {
 .statisticsWrap {
   border-width: 0px;
   width: 336px;
-  overflow: hidden;
+  // overflow: hidden;
   // padding: 0 20px 10px;
   // height: 230px;
   background: inherit;
@@ -453,7 +453,7 @@ body {
 }
 
 .statistics_title {
-  z-index: 999999;
+  z-index: 9999;
   position: relative;
   height: 36px;
   border-bottom: 1px solid #d8d8d8;
@@ -733,7 +733,8 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-
+    box-sizing: border-box;
+    border: 1px dashed transparent;
     .statistics-content {
       padding: 5px;
     }
@@ -747,6 +748,14 @@ body {
       color: white;
       cursor: pointer;
       z-index: 9999999999;
+    }
+  }
+
+  .statisticsBox:hover {
+    border: 1px dashed rgb(59, 133, 216);
+
+    .stretch {
+      display: block;
     }
   }
 

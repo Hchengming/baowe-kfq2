@@ -33,7 +33,16 @@ export default {
   },
 
   methods: {
-
+    // 当前页面时间轴显示数据（排除容器内显示模块）
+    pageTimeSource() {
+      const arr = []
+      this.timeSource.forEach(item => {
+        if (!item.timeAxisConfig.parentModuleId) {
+          arr.push(item)
+        }
+      })
+      return arr
+    },
     // 时间点击事件
     timeClick(param) {
       // 点击事件暴露
@@ -211,7 +220,6 @@ export default {
       serviceAxios[options](url, reqData)
         .then(res => {
           const data = timeAxisConfig.apiType === '0' ? res.data.list : res.data
-
           // 01-最小，最大年度获取
           timeAxisConfig.start = data[0].time
           timeAxisConfig.end = data[data.length - 1].time
@@ -241,7 +249,6 @@ export default {
             }
           }
           timeAxisConfig.missingTimeStr = timeAxisConfig.missingTime.toString()
-          this.$refs['timeAxis'][index].getDefaultTime()
         })
         .catch(() => {
           this.$message({

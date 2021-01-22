@@ -34,15 +34,16 @@
         </span>
       </li>
     </ul>
-    <Axis-setting
+    <axis-setting
       ref="AxisSetting"
       :axis-config="settingForm"
-      @axisConfigSubmit="categoryConfigSubmit"
+      :module-id="moduleId"
+      @componentFunc="componentFunc"
     />
   </div>
 </template>
 <script>
-import './index.scss'
+// import './index.scss'
 // import dragStretchMixins from '../TimeAxis/dragStretchMixins'
 import AxisSetting from '../AxisSetting'
 import drag from '../../utils/drag'
@@ -102,33 +103,151 @@ export default {
     },
     // 拖拽完成后保存事件
     TZLSKeep() {
-      this.$emit('categoryConfigSubmit', this.settingForm, this.moduleId)
+      this.$emit('componentFunc', {
+        method: 'categoryConfigSubmit',
+        name: '类目轴配置提交事件',
+        param: {
+          config: this.settingForm,
+          moduleId: this.moduleId
+        }
+      })
     },
     // 类目点击事件
     listClick(item, index) {
       this.listChooseIndex = index
-      this.$emit('axisClick', item, this.moduleId)
+      // this.$emit('axisClick', item, this.moduleId)
+      this.$emit('componentFunc', {
+        method: 'axisClick',
+        name: '类目轴点击事件',
+        param: {
+          data: item,
+          moduleId: this.moduleId
+        }
+      })
     },
     // 删除按钮点击事件
     deleteTemplate() {
-      this.$emit('deleteCategory', this.moduleId)
+      this.$emit('componentFunc', {
+        method: 'deleteCategory',
+        name: '类目轴删除事件',
+        param: {
+          moduleId: this.moduleId
+        }
+      })
     },
     // 编辑按钮点击事件
     edit() {
       this.$refs['AxisSetting'].show()
     },
     // 配置数据点击确认事件
-    categoryConfigSubmit(config, moduleId, close) {
-      this.$emit('categoryConfigSubmit', config, this.moduleId, close)
-      // console.log(config, moduleId, close)
+    componentFunc(obj) {
+      this.$emit('componentFunc', obj)
     },
     // 交互配置按钮点击事件
     Interactive() {
-      const object = {
-        moduleId: this.moduleId
-      }
-      this.$emit('interactive', object)
+      // const object = {
+      //   moduleId: this.moduleId
+      // }
+      this.$emit('componentFunc', {
+        method: 'categoryAxisInteractiveIconClick',
+        name: '交互配置按钮点击事件',
+        param: {
+          moduleId: this.moduleId
+        }
+      })
+      // this.$emit('categoryAxisInteractiveIconClick', object)
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+$--color-primary: #4472c4;
+.category-axis {
+    position: absolute;
+    .operation {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 99;
+        background: #ffffffbd;
+        i {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 2px;
+        }
+        .el-icon-delete {
+            color: red;
+        }
+    }
+    .list {
+        display: flex;
+        margin: 0 20px;
+        height: 50px;
+        padding: 0;
+        list-style: none;
+        li {
+            padding-right: 40px;
+            background: url(./images/t1.png) no-repeat right center;
+            margin-right: 8px;
+            list-style: none;
+            .text {
+                display: block;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: white;
+                font-size: 14px;
+                border: 1px solid $--color-primary;
+                text-align: center;
+                position: relative;
+                cursor: pointer;
+                span {
+                    position: relative;
+                    display: block;
+                    width: 40px;
+                    margin-left: 5px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+        }
+        li:last-child {
+            background: none;
+            margin: 0;
+            padding-right: 0;
+        }
+        li .text.active {
+            background-color: $--color-primary;
+            color: white;
+        }
+    }
+    @media screen and (max-width: 1366px) {
+        .list {
+            margin: 0;
+            li {
+                padding-right: 24px;
+                background-position: 144% 50%;
+                margin-right: 4px;
+                .text {
+                    width: 40px;
+                    height: 40px;
+                    span {
+                        margin-left: 0;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.category-axis-admin {
+    &:hover {
+        cursor: move;
+        .operation {
+            display: block;
+        }
+    }
+}
+</style>

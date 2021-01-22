@@ -82,6 +82,10 @@ export default {
     axisConfig: {
       type: Object,
       default: null
+    },
+    moduleId: {
+      type: String,
+      default: null
     }
   }
 }

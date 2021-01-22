@@ -14,6 +14,15 @@
       :container-elelemt="containerElelemt"
       @componentFunc="componentFunc"
     />
+    <!-- 类目轴 -->
+    <axis
+      v-for="item in axisSource()"
+      :key="item.moduleId"
+      :setting-form="item.categoryConfig"
+      :setting-config="settingConfig"
+      :module-id="item.moduleId"
+      @componentFunc="componentFunc"
+    />
     <!-- tabs切换项新增 -->
 
     <el-drawer
@@ -31,8 +40,9 @@
 <script>
 import assembly from '../../main/find/assembly'
 import TimeAxis from '../TimeAxis/index'
+import Axis from '../Axis/index'
 export default {
-  components: { assembly, TimeAxis },
+  components: { assembly, TimeAxis, Axis },
   props: {
     moduleId: { type: String, default: null },
     tabsCode: { type: String, default: null },
@@ -67,12 +77,32 @@ export default {
     // console.log(this.$refs['containerViews'], 'this.containerElelemt')
   },
   methods: {
+    // 类目轴数据
+    axisSource() {
+      const arr = []
+
+      if (this.pageModuleData.categoryAxis) {
+        this.pageModuleData.categoryAxis.forEach(item => {
+          if (item.categoryConfig.parentModuleId === this.moduleId) {
+            if (this.tabsCode) {
+              if (this.tabsCode === item.categoryConfig.parentTabsCode) {
+                arr.push(item)
+              }
+            } else {
+              arr.push(item)
+            }
+          }
+        })
+      }
+      console.log(arr)
+      return arr
+    },
     // 时间轴数据
     timeSource() {
       const arr = []
       if (this.pageModuleData.timeAxis) {
         this.pageModuleData.timeAxis.forEach(item => {
-          console.log(item.timeAxisConfig.parentModuleId, this.moduleId)
+          // console.log(item.timeAxisConfig.parentModuleId, this.moduleId)
           if (item.timeAxisConfig.parentModuleId === this.moduleId) {
             console.log(item.timeAxisConfig.parentTabsCode, this.tabsCode)
             if (this.tabsCode) {
@@ -85,7 +115,6 @@ export default {
           }
         })
       }
-      console.log(arr, 'arr')
       return arr
     },
     // 组件方法暴露
@@ -95,8 +124,8 @@ export default {
     },
     // 抽屉新增事件
     addAssembly(type) {
-      console.log(this.pageModuleData, 'pageModuleData')
-      console.log(type, 'type')
+      // console.log(this.pageModuleData, 'pageModuleData')
+      // console.log(type, 'type')
       this.drawerShow = false
       this.$emit('componentFunc', {
         method: 'pageViewAdd',

@@ -53,8 +53,8 @@ export default {
       })
     },
     // 时间轴交互配置按钮点击事件
-    timeAxisInteractiveIconClick(object) {
-      this.interactiveModuleId = object.moduleId
+    timeAxisInteractiveIconClick(param) {
+      this.interactiveModuleId = param.moduleId
       // 1、交互前数据配置
       this.beforeParamsData = [{ lab: '时间', val: 'time' }]
       // 2、当前页面所有可交互模块获取(交互模块)
@@ -65,8 +65,8 @@ export default {
       })
     },
     // 类目轴交互配置按钮点击事件
-    categoryAxisInteractiveIconClick(object) {
-      this.interactiveModuleId = object.moduleId
+    categoryAxisInteractiveIconClick(param) {
+      this.interactiveModuleId = param.moduleId
       // 1、交互前数据配置
       this.beforeParamsData = [{ lab: '类目', val: 'category' }]
       // 2、当前页面所有可交互模块获取(交互模块)
@@ -158,6 +158,7 @@ export default {
       if (this.axisSource.length > 0) {
         this.axisSource.forEach((item, index) => {
           if (item.moduleId !== this.interactiveModuleId) {
+            console.log(item, 'item')
             this.interactiveModuleAll.push({
               moduleId: item.moduleId,
               moduleName: item.categoryConfig.title

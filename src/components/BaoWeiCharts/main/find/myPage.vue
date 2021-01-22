@@ -105,7 +105,7 @@
       ref="AxisSetting"
       :axis-config="axisConfig"
       :setting-config="settingConfig"
-      @axisConfigSubmit="categoryConfigSubmit"
+      @componentFunc="componentFunc"
     />
     <!-- 时间轴配置 -->
     <time-axis-setting
@@ -124,19 +124,16 @@
     />
     <!-- 类目轴 -->
     <axis
-      v-for="item in axisSource"
+      v-for="item in pageAxisSource()"
       :key="item.moduleId"
       :setting-form="item.categoryConfig"
       :setting-config="settingConfig"
       :module-id="item.moduleId"
-      @deleteCategory="deleteCategory"
-      @axisClick="axisClick"
-      @categoryConfigSubmit="categoryConfigSubmit"
-      @interactive="categoryAxisInteractiveIconClick"
+      @componentFunc="componentFunc"
     />
     <!-- 时间轴 -->
     <time-axis
-      v-for="(item, index) in timeSource"
+      v-for="(item, index) in pageTimeSource()"
       ref="timeAxis"
       :key="index"
       :setting-config="settingConfig"

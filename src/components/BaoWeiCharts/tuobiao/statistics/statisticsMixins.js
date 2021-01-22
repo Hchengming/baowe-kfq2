@@ -5,10 +5,22 @@ export const childMixins = {
       nowRowId: '',
       nowCellKey: '',
       childSettingForm: {},
+      settingForm: {},
       childAddType: '1' // 0：同级新增  1：子级新增
     }
   },
+  watch: {
+    'statisticsAll.contentAreaConfig'() {
+      this.settingForm = JSON.parse(
+        JSON.stringify(this.statisticsAll.contentAreaConfig)
+      )
+    },
+    deep: true
+  },
   mounted() {
+    this.settingForm = JSON.parse(
+      JSON.stringify(this.statisticsAll.contentAreaConfig)
+    )
     this.childSettingForm = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
@@ -43,12 +55,26 @@ export const childMixins = {
     },
     // 详情表格组件--单元格点击事件
     destailTableCellClick(rowData, key) {
-      this.$emit('cellClick', rowData, this.statisticsAll, key)
+      this.$emit('componentFunc', {
+        method: 'cellClick',
+        name: '单元格点击事件',
+        param: {
+          rowItem: rowData,
+          statisticsAll: this.statisticsAll,
+          key
+        }
+      })
     },
     // 表格行点击事件
     rowClick(rowData) {
-      this.$emit('rowClick', rowData, this.statisticsAll)
-
+      this.$emit('componentFunc', {
+        method: 'rowClick',
+        name: '行点击事件',
+        param: {
+          rowItem: rowData,
+          statisticsAll: this.statisticsAll
+        }
+      })
       if (
         this.settingForm.clickToShow !== 'row' ||
                 this.settingForm.submodule === '0'
@@ -89,7 +115,15 @@ export const childMixins = {
     cellClick(rowData, key, rowIndex) {
       // 详情页面点击弹出事件
       this.destailDialogShow(rowData, key, rowIndex)
-      this.$emit('cellClick', rowData, this.statisticsAll, key)
+      this.$emit('componentFunc', {
+        method: 'cellClick',
+        name: '单元格点击事件',
+        param: {
+          rowItem: rowData,
+          statisticsAll: this.statisticsAll,
+          key
+        }
+      })
       if (
         this.settingForm.submodule !== '1' ||
                 this.settingForm.clickToShow !== 'cell'
@@ -222,12 +256,21 @@ export const childMixins = {
     },
     // 表格、列表右侧按钮点击事件
     operateButtonClick(buttonSetting, rowItem) {
-      this.$emit(
-        'operateButtonClick',
-        buttonSetting,
-        rowItem,
-        this.statisticsAll.moduleId
-      )
+      this.$emit('componentFunc', {
+        method: 'whereSubmit',
+        name: '筛选保存事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          buttonSetting,
+          rowItem
+        }
+      })
+      // this.$emit(
+      //   'operateButtonClick',
+      //   buttonSetting,
+      //   rowItem,
+      //   this.statisticsAll.moduleId
+      // )
     }
   }
 }
@@ -259,29 +302,27 @@ export const screenMixins = {
         }
       })
     },
-    // 筛选模块配置图标点击事件
-    // screenSetting() {
-    //   this.$refs['screenSetting'].show(
-    //     this.statisticsAll.conditionAreaConfig,
-    //     true
-    //   )
-    // },
-    // 筛选模块配置数据保存事件
-    // screenKeep(conditionAreaConfig) {
-    //     this.setWhereForm(conditionAreaConfig)
-    //     this.$emit('screenKeep', conditionAreaConfig, this.statisticsAll.moduleId)
-    // },
     // 筛选保存事件
     whereSubmit(form) {
-      // this.whereOffon = false
-      // for (const key in form) {
-      //     this.whereForm[key] = form[key]
-      // }
-      this.$emit('whereSubmit', this.statisticsAll.moduleId, form)
+      this.$emit('componentFunc', {
+        method: 'whereSubmit',
+        name: '筛选保存事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          whereForm: form
+        }
+      })
     },
     // 查询模块其他按钮点击事件
     whereOtherBtnClick(item) {
-      this.$emit('whereOtherBtnClick', item, this.statisticsAll.moduleId)
+      this.$emit('componentFunc', {
+        method: 'whereOtherBtnClick',
+        name: '查询模块其他按钮点击事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          otherItem: item
+        }
+      })
     },
     // 当前筛选数据缓存
     whereFormKeep(form) {
@@ -313,12 +354,15 @@ export const destailMixins = {
     // 详情配置保存事件
     destailSettingSubmit(detailsAreaConfig, fn) {
       this.nowDetailsAreaConfig = detailsAreaConfig
-      this.$emit(
-        'detailsAreaConfigEmit',
-        this.statisticsAll.moduleId,
-        detailsAreaConfig,
-        fn
-      )
+      this.$emit('componentFunc', {
+        method: 'detailsAreaConfigEmit',
+        name: '详情配置保存事件',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          detailsAreaConfig,
+          fn
+        }
+      })
     },
     // 详情弹出显示事件
     destailShow(index) {

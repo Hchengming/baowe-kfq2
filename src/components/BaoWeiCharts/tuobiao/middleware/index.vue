@@ -29,24 +29,12 @@
         :data-url="settingConfig.dataUrl"
         :setting-config="settingConfig"
         :add-setting-form="addSettingForm"
-        :item-api-data="itemApiData"
-        :data-view-list="dataViewList"
         :system-permissions="settingConfig.systemPermissions"
-        @setOptions="setOptions"
-        @firstAddKeep="addKeep"
-        @deleteMoule="deleteMoule"
-        @rowClick="rowClick"
-        @cellClick="cellClick"
-        @updateMoule="updateMoule"
+        @componentFunc="componentFunc"
         @childSettingAdd="childSettingAdd"
         @childInsertData="childInsertData"
         @statisticsClose="statisticsClose"
-        @blankTemplateClose="blankTemplateClose"
-        @screenKeep="screenKeep"
-        @tablePageSort="tablePageSort"
-        @whereSubmit="whereSubmit"
-        @detailsAreaConfigEmit="detailsAreaConfigEmit"
-        @whereOtherBtnClick="whereOtherBtnClick"
+
         @operateButtonClick="operateButtonClick"
         @statisticsMore="statisticsMore"
         @settingClick="settingClick"
@@ -75,8 +63,7 @@
       :data-url="settingConfig.dataUrl"
       :item-api-data="itemApiData"
       :setting-config="settingConfig"
-      @screenKeep="addScreenKeep"
-      @submit="addKeep"
+      @componentFunc="componentFunc"
     />
 
     <!-- tabs切换组件配置 -->
@@ -214,7 +201,11 @@ export default {
   methods: {
     // 容器组件内事件传递
     componentFunc(obj) {
-      this.$emit('componentFunc', obj)
+      if (this[obj.method]) {
+        this[obj.method](obj.param)
+      } else {
+        this.$emit('componentFunc', obj)
+      }
     },
     // 所有模块筛选数据缓存
     whereFormKeep(form, moduleId) {
@@ -302,12 +293,12 @@ export default {
       this.$emit('chartsMethods', reqObj)
     },
     // 查询模块其他按钮点击事件(按钮配置数据，模块id)
-    whereOtherBtnClick(setttingItem, moduleId) {
+    whereOtherBtnClick(param) {
       this.chartsMethods({
-        moduleId: moduleId,
+        moduleId: param.moduleId,
         name: '查询模块其他按钮点击事件',
         methodsName: 'whereOtherBtnClick',
-        otherItem: setttingItem
+        otherItem: param.otherItem
       })
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
@@ -359,43 +350,42 @@ export default {
       this.pageData = datas
     },
     // 自定义空白模板关闭事件
-    blankTemplateClose(moduleId) {
+    blankTemplateClose(param) {
       // const datas = []
       this.pageData.forEach(item => {
-        if (item.moduleId === moduleId) {
+        if (item.moduleId === param.moduleId) {
           this.$set(item, 'isShow', false)
-          // item.isShow=false;
         }
       })
-      //  this.pageData = datas
     },
     // 表格分页点击事件
-    tablePageSort(moduleId, paginationAll, whereForm) {
+    tablePageSort(param) {
+      // moduleId, paginationAll, whereForm
       let offon = true
       // eslint-disable-next-line no-unused-vars
       const obj = {}
       // let currentPage=pageAll.currentPage?
       let nowItem = {}
       this.pageData.forEach((item, index) => {
-        if (item.moduleId === moduleId) {
+        if (item.moduleId === param.moduleId) {
           obj.index = index
-          obj.pageSize = paginationAll.pageSize
-          obj.currentPage = paginationAll.currentPage
+          obj.pageSize = param.paginationAll.pageSize
+          obj.currentPage = param.paginationAll.currentPage
           obj.url = item.contentAreaConfig.url
           nowItem = item
           if (item.parentModuleId) {
             // 子级页面分页--测试
             offon = false
             item.data = this.childData.slice(
-              (paginationAll.currentPage - 1) * paginationAll.pageSize,
-              paginationAll.currentPage * paginationAll.pageSize
+              (param.paginationAll.currentPage - 1) * param.paginationAll.pageSize,
+              param.paginationAll.currentPage * param.paginationAll.pageSize
             )
           }
         }
       })
 
       if (offon) {
-        this.getTableData(obj, whereForm, nowItem)
+        this.getTableData(obj, param.whereForm, nowItem)
       }
     },
     // 配置数据格式转换
@@ -481,6 +471,7 @@ export default {
           const code = res.code
           const resData = res.data
 
+          console.log(resData, 'resData')
           if (code === 20000) {
             if (menuTypes === 'top' && resData.length === 0) {
               fn(true)
@@ -489,7 +480,7 @@ export default {
             resData.forEach((item, index) => {
               this.itemGSH(item, index)
               // 配置数据字段集获取
-
+              console.log(item.contentAreaConfig, 'keyArr')
               const keys = []
               item.isShow = true
               item.contentAreaConfig.keyArr.forEach(obj => {
@@ -570,6 +561,7 @@ export default {
     // 图表数据获取
     getTableData(obj, whereReqData, config, nowIndex) {
       nowIndex || 1
+      console.log(12222)
       let reqData = {
         currentPage: obj.currentPage,
         pageSize: obj.pageSize
