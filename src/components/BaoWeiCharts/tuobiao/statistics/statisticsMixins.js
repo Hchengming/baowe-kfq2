@@ -89,12 +89,15 @@ export const childMixins = {
         // 下钻代入参数-值获取
         const childKV = this.getChildKeyValue(this.settingForm.keyArr, rowData)
         if (this.statisticsAll.isRowDrillDown === '1') {
-          this.$emit(
-            'childInsertData',
-            this.statisticsAll.moduleId,
-            childKV,
-            subtitle1
-          )
+          this.$emit('componentFunc', {
+            method: 'childInsertData',
+            name: '子页面数据查询事件',
+            param: {
+              parentModuleId: this.statisticsAll.moduleId,
+              childKV,
+              subtitle1
+            }
+          })
         } else {
           if (this.isAdmin) {
             this.getParentWhereFormUse()
@@ -147,13 +150,16 @@ export const childMixins = {
             this.settingForm.keyArr,
             rowData
           )
-          this.$emit(
-            'childInsertData',
-            this.statisticsAll.moduleId,
-            childKV,
-            subtitle1,
-            key
-          )
+          this.$emit('componentFunc', {
+            method: 'childInsertData',
+            name: '子页面数据查询事件',
+            param: {
+              parentModuleId: this.statisticsAll.moduleId,
+              childKV,
+              subtitle1,
+              key
+            }
+          })
         } else {
           if (this.isAdmin) {
             this.getParentWhereFormUse()
@@ -247,7 +253,11 @@ export const childMixins = {
           }
         }
       }
-      this.$emit('childSettingAdd', obj)
+      this.$emit('componentFunc', {
+        method: 'childSettingAdd',
+        name: '子级表单新增事件',
+        param: obj
+      })
     },
     // 子元素同级新增按钮点击事件
     TJAdd() {
@@ -327,10 +337,14 @@ export const screenMixins = {
     // 当前筛选数据缓存
     whereFormKeep(form) {
       this.whereForm = form
-      this.$emit('whereFormKeep',
-        form,
-        this.statisticsAll.moduleId
-      )
+      this.$emit('componentFunc', {
+        method: 'whereFormKeep',
+        name: '当前筛选数据缓存',
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          form
+        }
+      })
     }
   }
 }

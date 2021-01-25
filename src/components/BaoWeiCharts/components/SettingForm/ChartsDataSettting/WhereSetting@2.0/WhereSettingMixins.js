@@ -5,211 +5,266 @@ export default {
     const _this = this
     return {
       dialogRef: 'screenFormDialog',
-      tableCloums: [{
-        label: '表单类型',
-        key: 'type',
-        width: 120,
-        formType: 'select',
-        change(items) {
-          _this.typeChange(items)
-        },
-        selectArr: [{
-          val: 'input',
-          lab: '输入框'
-        },
+      treeData: [],
+      tableCloums: [
         {
-          val: 'select',
-          lab: '下拉框'
-        },
-        {
-          val: 'radio',
-          lab: '单选框'
-        },
-        {
-          val: 'checkbox',
-          lab: '多选框'
-        },
-        {
-          val: 'number',
-          lab: '数字输入框'
-        },
-        {
-          val: 'date',
-          lab: '日期选择框'
-        },
-        {
-          val: 'dateTime',
-          lab: '时间日期选择框'
-        },
-        {
-          val: 'country-radio',
-          lab: '区县-单选'
-        }
-        ]
-      },
-      {
-        label: '参数名称',
-        key: 'key',
-        formType: 'input',
-        width: 200
-      },
-      {
-        label: '标签',
-        key: 'label',
-        formType: 'input',
-        width: 100,
-        change(items, index, item) {
-          _this.labelChange(items, index, item)
-        },
-        click(items, index, item) {
-          _this.labelChange(items, index, item)
-        }
-      },
-      {
-        label: '左侧标签宽度',
-        key: 'labelWidth',
-        formType: 'number',
-        width: 100
-      },
-      {
-        label: '右侧宽度',
-        key: 'rightWidth',
-        formType: 'number',
-        width: 100,
-        defaultValue: 100
-      },
-
-      {
-        label: '默认值',
-        key: 'defaultValue',
-        formType: 'input',
-        width: 100
-      },
-      {
-        key: 'isInsert',
-        label: '是否直接查询',
-        formType: 'select',
-        selectArr: [
-          { lab: '是', val: '1' },
-          { lab: '否', val: '0' }
-        ],
-        defaultValue: '0',
-        width: 100
-      },
-      {
-        key: 'isLineFeed',
-        label: '是否换行',
-        formType: 'select',
-        selectArr: [
-          { lab: '是', val: '1' },
-          { lab: '否', val: '0' }
-        ],
-        defaultValue: '0',
-        width: 80
-      },
-      {
-        key: 'isShow',
-        label: '是否显示',
-        formType: 'select',
-        selectArr: [
-          { lab: '是', val: '1' },
-          { lab: '否', val: '0' }
-        ],
-        defaultValue: '1',
-        width: 80
-      },
-      // {
-      //     formType: "color",
-      //     label: '颜色选择',
-      //     key: 'color'
-      // },
-      {
-        label: '其他配置',
-        formType: 'other',
-        children: [{
-          label: '配置数据/接口',
-          key: 'changeData',
-          formType: 'inputButton',
-          isHide(form) {
-            return ['radio', 'checkbox', 'select'].indexOf(form.type) === -1
-          },
-          click(form, fatherIndex, item) {
-            _this.itemDataChange(form, fatherIndex, item)
-            // console.log('配置数据/接口')
-          }
-        },
-        {
-          label: '显示样式',
-          key: 'styleType',
+          label: '表单类型',
+          key: 'type',
+          width: 120,
           formType: 'select',
-          isHide(form) {
-            return ['checkbox'].indexOf(form.type) === -1
+          change(items) {
+            _this.typeChange(items)
           },
           selectArr: [
-            { lab: '默认样式', val: '0' },
-            { lab: '带有边框', val: '1' },
-            { lab: '按钮组', val: '2' }
+            {
+              val: 'input',
+              lab: '输入框'
+            },
+            {
+              val: 'select',
+              lab: '下拉框'
+            },
+            {
+              val: 'radio',
+              lab: '单选框'
+            },
+            {
+              val: 'checkbox',
+              lab: '多选框'
+            },
+            {
+              val: 'number',
+              lab: '数字输入框'
+            },
+            {
+              val: 'date',
+              lab: '日期选择框'
+            },
+            {
+              val: 'dateTime',
+              lab: '时间日期选择框'
+            },
+            {
+              val: 'country-radio',
+              lab: '区县-单选'
+            }
           ]
         },
         {
-          label: '是否结束时间',
-          key: 'sfjssj',
-          formType: 'select',
-          isHide(form) {
-            return ['date', 'dateTime'].indexOf(form.type) === -1
+          label: '参数名称',
+          key: 'key',
+          formType: 'input',
+          width: 200
+        },
+        {
+          label: '标签',
+          key: 'label',
+          formType: 'input',
+          width: 100,
+          change(items, index, item) {
+            _this.labelChange(items, index, item)
           },
+          click(items, index, item) {
+            _this.labelChange(items, index, item)
+          }
+        },
+        {
+          label: '左侧标签宽度',
+          key: 'labelWidth',
+          formType: 'number',
+          width: 100
+        },
+        {
+          label: '右侧宽度',
+          key: 'rightWidth',
+          formType: 'number',
+          width: 100,
+          defaultValue: 100
+        },
+
+        {
+          label: '默认值',
+          key: 'defaultValue',
+          formType: 'input',
+          width: 150
+          // click(items, index) {
+          //   _this.treeShow(items, index)
+          // }
+        },
+        {
+          key: 'isInsert',
+          label: '是否直接查询',
+          formType: 'select',
           selectArr: [
             { lab: '是', val: '1' },
             { lab: '否', val: '0' }
           ],
-          defaultValue: '0'
+          defaultValue: '0',
+          width: 100
         },
         {
-          label: '是否设置默认值为当前时间',
-          key: 'isNewDate',
-          formType: 'switch',
-          isHide(form) {
-            return ['date', 'dateTime'].indexOf(form.type) === -1
-          },
-          defaultValue: false
+          key: 'isLineFeed',
+          label: '是否换行',
+          formType: 'select',
+          selectArr: [
+            { lab: '是', val: '1' },
+            { lab: '否', val: '0' }
+          ],
+          defaultValue: '0',
+          width: 80
         },
         {
-          label: '是否添加时间段选择器',
-          key: 'iSaddTimeSlot',
-          formType: 'switch',
-          // 显示条件1、type类型为'date', 'dateTime' 2、前面一个筛选项类型也必须为'date', 'dateTime'
-          isHide(form, index) {
-            let offon = true
-            if (['date'].indexOf(form.type) > -1) {
-              const kvp = _this.form.filterConfig.screenData[index - 1]
-              if (kvp && ['date'].indexOf(kvp.type) > -1) {
-                offon = false
+          key: 'isShow',
+          label: '是否显示',
+          formType: 'select',
+          selectArr: [
+            { lab: '是', val: '1' },
+            { lab: '否', val: '0' }
+          ],
+          defaultValue: '1',
+          width: 80
+        },
+        // {
+        //     formType: "color",
+        //     label: '颜色选择',
+        //     key: 'color'
+        // },
+        {
+          label: '其他配置',
+          formType: 'other',
+          children: [
+            {
+              label: '配置数据/接口',
+              key: 'changeData',
+              formType: 'inputButton',
+              isHide(form) {
+                return ['radio', 'checkbox', 'select'].indexOf(form.type) === -1
+              },
+              click(form, fatherIndex, item) {
+                _this.itemDataChange(form, fatherIndex, item)
+                // console.log('配置数据/接口')
               }
+            },
+            {
+              label: '显示样式',
+              key: 'styleType',
+              formType: 'select',
+              isHide(form) {
+                return ['checkbox'].indexOf(form.type) === -1
+              },
+              selectArr: [
+                { lab: '默认样式', val: '0' },
+                { lab: '带有边框', val: '1' },
+                { lab: '按钮组', val: '2' }
+              ]
+            },
+            {
+              label: '是否结束时间',
+              key: 'sfjssj',
+              formType: 'select',
+              isHide(form) {
+                return ['date', 'dateTime'].indexOf(form.type) === -1
+              },
+              selectArr: [
+                { lab: '是', val: '1' },
+                { lab: '否', val: '0' }
+              ],
+              defaultValue: '0'
+            },
+            {
+              label: '是否设置默认值为当前时间',
+              key: 'isNewDate',
+              formType: 'switch',
+              isHide(form) {
+                return ['date', 'dateTime'].indexOf(form.type) === -1
+              },
+              defaultValue: false
+            },
+            {
+              label: '是否添加时间段选择器',
+              key: 'iSaddTimeSlot',
+              formType: 'switch',
+              // 显示条件1、type类型为'date', 'dateTime' 2、前面一个筛选项类型也必须为'date', 'dateTime'
+              isHide(form, index) {
+                let offon = true
+                if (['date'].indexOf(form.type) > -1) {
+                  const kvp = _this.form.filterConfig.screenData[index - 1]
+                  if (kvp && ['date'].indexOf(kvp.type) > -1) {
+                    offon = false
+                  }
+                }
+                return offon
+              },
+              defaultValue: false
+            },
+            {
+              label: '不可点击',
+              key: 'isDisabled',
+              formType: 'switch',
+              isHide(form, index) {
+                return ['country-radio'].indexOf(form.type) === -1
+              },
+              defaultValue: false
             }
-            return offon
-          },
-          defaultValue: false
-        }, {
-          label: '不可点击',
-          key: 'isDisabled',
-          formType: 'switch',
-          isHide(form, index) {
-            return ['country-radio'].indexOf(form.type) === -1
-          },
-          defaultValue: false
+          ],
+          width: 80
         }
-        ],
-        width: 80
-      }
       ],
       btnSettingData: [], // 其他按钮配置数据
       isShowInsertButton: '1', // 是否显示查询按钮  1:是 0：否
       // form.filterConfig.screenData: [],
-      otherNowIndex: null
+      otherNowIndex: null,
+      nowItem: {}// 当前配置行数据
     }
   },
   mounted() {},
   methods: {
+    // 参数值点击弹出树形弹窗选择事件
+    treeShow(datas, index) {
+      this.getCommonParams()
+      this.nowItem = datas
+      this.$refs.treeModel.show(datas, 'defaultValue')
+    },
+    // 项目常用公共参数-值获取
+    getCommonParams() {
+      this.treeData = []
+      // localStorage 存储数据解析
+      const len = localStorage.length
+      for (let i = 0; i < len; i++) {
+        // 获取key 索引从0开始
+        var getKey = localStorage.key(i)
+        // 获取key对应的值
+        var getVal = localStorage.getItem(getKey)
+        let nowDataType = typeof getVal
+        if (this.isObject(getVal) === 'true') {
+          nowDataType = 'object'
+        }
+
+        this.treeData.push({
+          id: this.treeData.length,
+          paramKey: getKey,
+          dataType: nowDataType,
+          paramValue: getVal
+        })
+      }
+    },
+    // 判断字符串是否可转换为对象
+    isObject(str) {
+      try {
+        if (JSON.parse(str) !== undefined) {
+          return 'true'
+        }
+      } catch (e) {
+        return e
+      }
+    },
+    // 树形弹窗确认事件
+    elTreeSubmit(data) {
+      console.log(data)
+      // const item = this.form.paramConfig[this.nowIndex]
+      this.nowItem.defaultValue = '${' + data.paramKey + '}'
+      // item.dataType = data.dataType
+    },
     // 默认参数传递
     getmrParams() {
       const screenData = this.form.filterConfig.screenData
@@ -244,7 +299,9 @@ export default {
               isLineFeed: '0',
               type: 'input',
               rightWidth: 120,
-              labelWidth: item.description ? item.description.length * 16 + 1 : 0
+              labelWidth: item.description
+                ? item.description.length * 16 + 1
+                : 0
             }
             screenData.push(Object.assign(obj, obj2))
           }
@@ -338,7 +395,7 @@ export default {
         let err2 = ''
         if (offon) {
           err1 =
-                        '表单配置写完整(字段名不能为空，单选、多选、下拉框配置数据不能为空);'
+            '表单配置写完整(字段名不能为空，单选、多选、下拉框配置数据不能为空);'
         }
         if (offon2) err2 = '其他按钮配置数据未填写完整'
         this.$message({

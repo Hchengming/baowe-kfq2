@@ -35,7 +35,7 @@
         />
         <div
           v-if="
-            systemPermissions === 'admin' ||
+            settingConfig.systemPermissions === 'admin' ||
               (settingForm.moduleType !== '1' && !settingForm.isHeaderHide)
           "
           :style="{ cursor: isAdmin ? 'move' : 'default' }"
@@ -248,7 +248,7 @@
         <settingForm
           ref="settingForm"
           :form="settingForm"
-          :data-url="dataUrl"
+          :data-url="settingConfig.dataUrl"
           :statistics-all="statisticsAll"
           :where-form="whereForm"
           :setting-config="settingConfig"
@@ -258,7 +258,7 @@
         <settingForm
           ref="childSettingForm"
           :form="childSettingForm"
-          :data-url="dataUrl"
+          :data-url="settingConfig.dataUrl"
           :setting-config="settingConfig"
           @submit="childSettingKeep"
         />
@@ -299,7 +299,6 @@ export default {
     IframeModel
   },
   mixins: [childMixins, screenMixins, destailMixins, otherMixins],
-  // props: ['statisticsAll', 'browserXY', 'systemPermissions', 'dataUrl'],
   props: {
     statisticsAll: {
       type: Object,
@@ -307,14 +306,6 @@ export default {
     },
     browserXY: {
       type: Object,
-      default: null
-    },
-    systemPermissions: {
-      type: String,
-      default: null
-    },
-    dataUrl: {
-      type: String,
       default: null
     },
     addSettingForm: {
@@ -353,13 +344,22 @@ export default {
     },
     // 饼图顶部切换栏点击事件
     pieTabsClick(item) {
-      this.$emit('chartsMethods', {
-        moduleId: this.statisticsAll.moduleId,
-        statisticsAll: this.statisticsAll,
-        nowItem: item,
+      this.$emit('componentFunc', {
+        method: 'pieTabsClick',
         name: '饼图顶部切换栏点击事件',
-        methodsName: 'pieTabsClick'
+        param: {
+          moduleId: this.statisticsAll.moduleId,
+          statisticsAll: this.statisticsAll,
+          nowItem: item
+        }
       })
+      // this.$emit('chartsMethods', {
+      //   moduleId: this.statisticsAll.moduleId,
+      //   statisticsAll: this.statisticsAll,
+      //   nowItem: item,
+      //   name: '饼图顶部切换栏点击事件',
+      //   methodsName: 'pieTabsClick'
+      // })
     },
     // 模块数据变化事件
     statisticsAllChange(moduleId, viewchange, wh) {
@@ -371,7 +371,13 @@ export default {
     // 交互按钮点击事件
     Interactive() {
       // console.log(this.statisticsAll)
-      this.$emit('interactive', this.statisticsAll)
+      this.$emit('componentFunc', {
+        method: 'interactive',
+        name: '交互按钮点击事件',
+        param: {
+          statisticsAll: this.statisticsAll
+        }
+      })
     },
     // 详情列表模块数据
     detailsTableData() {
@@ -404,7 +410,13 @@ export default {
       if (this.settingForm.moreUrl.replace(/\s*/g, '') !== '') {
         window.open(this.settingForm.moreUrl, '_blank')
       }
-      this.$emit('statisticsMore', this.statisticsAll)
+      this.$emit('componentFunc', {
+        method: 'statisticsMore',
+        name: '更多按钮点击事件',
+        param: {
+          statisticsAll: this.statisticsAll
+        }
+      })
     },
     // 模板克隆事件
     copyTemplate() {
@@ -513,11 +525,21 @@ export default {
     },
     // 设置按钮点击事件
     settingClick() {
-      this.$emit('settingClick', this.statisticsAll, keyArr => {
-        this.$refs['settingForm'].show({
-          keyArr
-        })
+      this.$emit('componentFunc', {
+        method: 'settingClick',
+        name: '设置按钮点击事件',
+        param: {
+          statisticsAll: this.statisticsAll.moduleId,
+          fn: (keyArr) => {
+            this.$refs['settingForm'].show({
+              keyArr
+            })
+          }
+        }
       })
+      // this.$emit('settingClick', this.statisticsAll, keyArr => {
+
+      // })
     },
     // 展示方式选择点击事件
     chooseType(chartType) {

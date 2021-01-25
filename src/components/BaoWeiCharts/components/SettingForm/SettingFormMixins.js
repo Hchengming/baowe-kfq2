@@ -220,6 +220,8 @@ export const otherMixins = {
   methods: {
     // form数据初始化
     formInit() {
+      if (!this.form) return
+      // console.log(this.form, 'this.form')
       if (!this.form.blankTemplateConfig) {
         this.form.blankTemplateConfig = {}
       }

@@ -11,7 +11,9 @@ export default {
         mainWidth: null,
         mainHeight: null
       },
-
+      parentContainerType: 'page', // 父级容器类型 page:页面  container 容器组件
+      parentModuleId: '', // 当前新增模块父级容器id
+      parentTabsCode: '', // 父级选项卡编码
       childData: [] // 子级测试数据
     }
   },
@@ -201,14 +203,13 @@ export default {
               type: 'success'
             })
             this.getData()
-            // this.childInsertData(obj.moduleId, obj.rowid, '', obj.key)
             obj.fn()
           }
         })
     },
     // 子页面数据查询事件
     // 父级模块id 行数据id 副标题1 单元格点击选中格key值
-    childInsertData(parentModuleId, childKV, subtitle1, key) {
+    childInsertData({ parentModuleId, childKV, subtitle1, key }) {
       // console.log(parentModuleId, rowid, subtitle1, key)
       // 旧的二级数据删除
       // let pageDataClone = JSON.parse(JSON.stringify(this.pageData))
@@ -312,13 +313,25 @@ export default {
         })
     },
     // 新增按钮点击事件
-    addTemplate() {
+    addTemplate(obj) {
       this.addSettingForm = JSON.parse(JSON.stringify(this.addSettingFormClone))
+      if (obj) {
+        this.parentContainerType = 'container'
+        this.parentModuleId = obj.moduleId
+        this.parentTabsCode = obj.tabsCode
+      } else {
+        this.parentContainerType = 'page'
+      }
       this.$refs['settingForm'].show()
     },
     // 新增确认事件
     addKeep(param) {
-      console.log('aaaaaaaaaaaa')
+      if (this.parentContainerType === 'container') {
+        param.contentAreaConfig.parentModuleId = this.parentModuleId
+        if (this.parentTabsCode) {
+          param.contentAreaConfig.parentTabsCode = this.parentTabsCode
+        }
+      }
       const reqData = {
         secondMasterPageConfigPOS: [{
           contentAreaConfig: param.contentAreaConfig,
@@ -344,6 +357,7 @@ export default {
               message: '模块添加成功',
               type: 'success'
             })
+
             this.$refs['settingForm'].close()
             this.getData()
           } else {
@@ -450,16 +464,16 @@ export default {
         })
     },
     // 图表设置按钮点击事件
-    settingClick(statisticsAll, fn) {
+    settingClick(param) {
       let keyArr = []
-      if (statisticsAll.parentModuleId) {
+      if (param.statisticsAll.parentModuleId) {
         this.pageData.forEach(item => {
-          if (item.moduleId === statisticsAll.parentModuleId) {
+          if (item.moduleId === param.statisticsAll.parentModuleId) {
             keyArr = item.contentAreaConfig.keyArr
           }
         })
       }
-      fn(keyArr)
+      param.fn(keyArr)
     }
   }
 }

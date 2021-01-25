@@ -569,18 +569,10 @@ export default {
       type: Object,
       default: null
     },
-    // itemApiData: {
-    //   type: Array,
-    //   default: null,
-    // },
     whereForm: {
       type: Object,
       default: null
     },
-    // dataViewList: {
-    //   type: Array,
-    //   default: null,
-    // },
     settingConfig: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop

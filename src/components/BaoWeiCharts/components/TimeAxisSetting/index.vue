@@ -9,7 +9,7 @@
     <div slot="title" class="headerTitle">时间配置信息</div>
     <el-form ref="timeConfig" :model="timeConfig" label-width="130px">
       <el-row type="flex" class="row-bg">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="标题" prop="title">
             <el-input
               v-model="timeConfig.title"
@@ -19,13 +19,23 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="标签名" prop="label">
             <el-input
               v-model="timeConfig.label"
               size="small"
               style="width: 200px"
               placeholder="时间轴左侧标签名"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="模块类名" prop="class">
+            <el-input
+              v-model="timeConfig.class"
+              size="small"
+              style="width: 200px"
+              placeholder="模块外层class名"
             />
           </el-form-item>
         </el-col>

@@ -33,6 +33,12 @@
       :form="form"
       @itemDataConfig="itemDataConfig"
     />
+    <!-- 树形弹窗 -->
+    <tree-model
+      ref="treeModel"
+      :tree-data="treeData"
+      @elTreeSubmit="elTreeSubmit"
+    />
   </div>
 </template>
 <script>
@@ -41,8 +47,9 @@ import ButtonSetting from '../../../ButtonSetting/index.vue'
 import { dragDialog } from '../../../../utils/mixins.js'
 import WhereSettingMixins from './WhereSettingMixins'
 import ColumsSetting from '../../../ColumsSetting'
+import TreeModel from '../../TreeModel/index'
 export default {
-  components: { settingData, ButtonSetting, ColumsSetting },
+  components: { settingData, ButtonSetting, ColumsSetting, TreeModel },
   mixins: [dragDialog, WhereSettingMixins],
   props: {
     form: {

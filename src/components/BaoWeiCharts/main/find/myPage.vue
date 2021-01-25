@@ -9,8 +9,6 @@
     <!-- 图表组件 -->
     <middleware
       ref="middleware"
-      :item-api-data="itemApiData"
-      :data-view-list="dataViewList"
       :setting-config="settingConfig"
       :page-module-data="pageModuleData"
       @pageLoading="setPageLoding"
@@ -311,7 +309,6 @@ export default {
           this.rightDrawerTypeTitle = '主题选择'
           break
       }
-      console.log('123')
       this.settingDrawer = true
     },
     // 右侧抽屉关闭事件
@@ -325,10 +322,10 @@ export default {
       this.settingDrawer = false
     },
     // 模块新增执行
-    moduleAddClick(type) {
+    moduleAddClick(type, obj) {
       switch (type) {
         case 'tableChart': // 图表组件集
-          this.$refs['middleware'].addTemplate()
+          this.$refs['middleware'].addTemplate(obj)
           break
         case 'topBar': // 顶部栏组件
           this.$refs['topBarSetting'].show()

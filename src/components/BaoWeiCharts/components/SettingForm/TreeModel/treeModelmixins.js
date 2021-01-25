@@ -10,13 +10,13 @@ export const treeModelmixins = {
   },
   methods: {
     // 页面显示事件
-    show(data) {
+    show(data, key) {
       this.isShow = true
       this.$nextTick(() => {
         this.$refs.elTree.setCheckedKeys([])
-        if (data.paramValue) {
+        if (data[key]) {
           this.treeData.forEach(item => {
-            if (data.paramValue === item.paramValue) {
+            if (data[key] === '$' + `{${item.paramKey}}`) {
               this.$refs.elTree.setCheckedKeys([item.id])
             }
           })

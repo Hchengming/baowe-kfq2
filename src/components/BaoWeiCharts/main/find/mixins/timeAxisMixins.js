@@ -10,6 +10,7 @@ export default {
         width: 20,
         title: '', // 标题
         label: '', // 标签
+        class: '', // 类名
         zindex: '8', // 视图层级
         start: '', // 开始时间
         end: '', // 结束时间

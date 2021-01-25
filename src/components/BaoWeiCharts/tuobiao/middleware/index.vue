@@ -21,26 +21,14 @@
          @whereFormKeep  筛选数据缓存
          @chartsMethods   传出事件集合
     -->
-    <section v-for="(item, index) in pageData" :key="index">
+    <section v-for="(item, index) in pageDatas(pageData)" :key="index">
       <statistics
         ref="statisticsAll"
         :statistics-all="item"
         :browser-x-y="browserXY"
-        :data-url="settingConfig.dataUrl"
         :setting-config="settingConfig"
         :add-setting-form="addSettingForm"
-        :system-permissions="settingConfig.systemPermissions"
         @componentFunc="componentFunc"
-        @childSettingAdd="childSettingAdd"
-        @childInsertData="childInsertData"
-        @statisticsClose="statisticsClose"
-
-        @operateButtonClick="operateButtonClick"
-        @statisticsMore="statisticsMore"
-        @settingClick="settingClick"
-        @whereFormKeep="whereFormKeep"
-        @interactive="interactive"
-        @chartsMethods="chartsMethods"
       >
         <div
           v-if="
@@ -58,16 +46,18 @@
     <!-- 新增弹窗模块 -->
     <settingForm
       ref="settingForm"
-      :data-view-list="dataViewList"
       :form="addSettingForm"
       :data-url="settingConfig.dataUrl"
-      :item-api-data="itemApiData"
       :setting-config="settingConfig"
       @componentFunc="componentFunc"
     />
 
     <!-- tabs切换组件配置 -->
-    <tab-setting ref="tabsSetting" :tabs-form="tabsConfig" @tabsSubmit="tabsSettingSubmit" />
+    <tab-setting
+      ref="tabsSetting"
+      :tabs-form="tabsConfig"
+      @tabsSubmit="tabsSettingSubmit"
+    />
     <!-- tabs渲染组件 -->
     <tabs-view
       v-for="item in tabsSettingData"
@@ -76,6 +66,7 @@
       :setting-form="item.tabsConfig"
       :module-id="item.moduleId"
       :page-module-data="pageModuleData"
+      :add-setting-form="addSettingForm"
       @tabsSettingSubmit="tabsSettingSubmit"
       @delete="tabsSettingdelete"
       @componentFunc="componentFunc"
@@ -97,14 +88,6 @@ export default {
   props: {
     settingConfig: {
       type: Object,
-      default: null
-    },
-    dataViewList: {
-      type: Array,
-      default: null
-    },
-    itemApiData: {
-      type: Array,
       default: null
     },
     pageModuleData: {
@@ -188,7 +171,7 @@ export default {
         tablefunctionalComponents: [], // 表格功能组件选择 colFilter:列筛选
         fatherModuleType: 'page', // 父级模块类型  page:页面  tabs:tabs切换组件
         tabsModuleId: '', // tabs模块id
-        tabsCode: ''// 父级tabs编码
+        tabsCode: '' // 父级tabs编码
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -202,24 +185,30 @@ export default {
     // 容器组件内事件传递
     componentFunc(obj) {
       if (this[obj.method]) {
-        this[obj.method](obj.param)
+        this[obj.method](obj.param, obj)
       } else {
         this.$emit('componentFunc', obj)
       }
     },
+    // 当前页面初始显示数据获取(容器外图表)
+    pageDatas(pageData) {
+      return pageData.filter(item => {
+        return (item.contentAreaConfig && !item.contentAreaConfig.parentModuleId)
+      })
+    },
     // 所有模块筛选数据缓存
-    whereFormKeep(form, moduleId) {
+    whereFormKeep(param) {
       let offon = true
       this.whereData.forEach(item => {
-        if (item.moduleId === moduleId) {
+        if (item.moduleId === param.moduleId) {
           offon = false
-          item.form = form
+          item.form = param.form
         }
       })
       if (offon) {
         this.whereData.push({
-          form,
-          moduleId
+          form: param.form,
+          moduleId: param.moduleId
         })
       }
     },
@@ -252,9 +241,9 @@ export default {
       this.getTableData(obj, reqObj, nowItem)
     },
     // 图表组件集交互按钮点击事件
-    interactive(statisticsAll) {
+    interactive(param) {
       this.$emit('chartsMethods', {
-        statisticsAll,
+        statisticsAll: param.statisticsAll,
         methodsName: 'interactive',
         pageData: this.pageData,
         name: '图表组件集'
@@ -302,19 +291,20 @@ export default {
       })
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
-    operateButtonClick(buttonSetting, rowItem, moduleId) {
+    operateButtonClick(param) {
       this.chartsMethods({
-        moduleId: moduleId,
+        moduleId: param.moduleId,
         name: '表格、列表右侧其他按钮点击事件',
         methodsName: 'operateButtonClick',
-        buttonSetting,
-        rowItem
+        buttonSetting: param.buttonSetting,
+        rowItem: param.rowItem
       })
     },
     // 头部右侧更多按钮点击事件
-    statisticsMore(statisticsAll) {
+    statisticsMore(param) {
       this.chartsMethods({
-        moduleId: statisticsAll.moduleId,
+        statisticsAll: param.statisticsAll,
+        moduleId: param.statisticsAll.moduleId,
         name: '头部右侧更多按钮点击事件',
         methodsName: 'statisticsMore'
       })
@@ -323,7 +313,17 @@ export default {
     menuClick(menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
       this.getData(menuTypes, fn)
-      // this.tabsSettingSelect()
+      this.tabsSettingSelect()
+    },
+    // 饼图切换模块点击事件
+    pieTabsClick(param) {
+      this.chartsMethods({
+        moduleId: param.moduleId,
+        statisticsAll: param.statisticsAll,
+        nowItem: param.nowItem,
+        name: '饼图顶部切换栏点击事件',
+        methodsName: 'pieTabsClick'
+      })
     },
     // 子级弹窗关闭事件--同级子弹窗全部关闭
     statisticsClose(moduleId, parentModuleId) {
@@ -350,13 +350,15 @@ export default {
       this.pageData = datas
     },
     // 自定义空白模板关闭事件
-    blankTemplateClose(param) {
+    blankTemplateClose(param, obj) {
       // const datas = []
       this.pageData.forEach(item => {
         if (item.moduleId === param.moduleId) {
           this.$set(item, 'isShow', false)
         }
       })
+      obj.methodsName = obj.method
+      this.chartsMethods(obj)
     },
     // 表格分页点击事件
     tablePageSort(param) {
@@ -377,7 +379,8 @@ export default {
             // 子级页面分页--测试
             offon = false
             item.data = this.childData.slice(
-              (param.paginationAll.currentPage - 1) * param.paginationAll.pageSize,
+              (param.paginationAll.currentPage - 1) *
+                param.paginationAll.pageSize,
               param.paginationAll.currentPage * param.paginationAll.pageSize
             )
           }
@@ -561,7 +564,6 @@ export default {
     // 图表数据获取
     getTableData(obj, whereReqData, config, nowIndex) {
       nowIndex || 1
-      console.log(12222)
       let reqData = {
         currentPage: obj.currentPage,
         pageSize: obj.pageSize

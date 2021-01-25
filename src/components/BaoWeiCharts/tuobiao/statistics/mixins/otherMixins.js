@@ -52,7 +52,7 @@ export default{
       return style
     },
     isAdmin() {
-      return this.systemPermissions === 'admin'
+      return this.settingConfig.systemPermissions === 'admin'
     },
     // 删除判断弹出文字
     deleteTitle() {

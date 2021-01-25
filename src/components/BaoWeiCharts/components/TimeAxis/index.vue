@@ -2,7 +2,7 @@
   <div
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="['time-axis', { 'time-axis-admin': isAdmin }]"
+    :class="['time-axis', { 'time-axis-admin': isAdmin },settingForm.class]"
     @mousedown="mousedown_tz"
   >
     <div class="operation">

@@ -134,7 +134,7 @@ export default {
     >>>.el-tabs {
       padding: 5px;
       box-sizing: border-box;
-      height: 100%;
+      height: calc(100% - 40px);
       .el-tabs__header{
         margin: 0;
       }

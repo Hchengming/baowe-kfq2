@@ -157,7 +157,6 @@ export default {
           paramKey: getKey,
           dataType: nowDataType,
           paramValue: getVal
-          // paramValue: nowDataType === 'object' ? JSON.stringify(getVal) : getVal
         })
       }
     },
@@ -175,7 +174,7 @@ export default {
     treeShow(datas, index) {
       this.getCommonParams()
       this.nowIndex = index
-      this.$refs.treeModel.show(datas)
+      this.$refs.treeModel.show(datas, 'paramValue')
     },
     // 树形弹窗确认事件
     elTreeSubmit(data) {
