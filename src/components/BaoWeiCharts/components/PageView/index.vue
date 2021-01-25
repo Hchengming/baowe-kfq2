@@ -21,6 +21,7 @@
       :setting-form="item.categoryConfig"
       :setting-config="settingConfig"
       :module-id="item.moduleId"
+      :container-elelemt="containerElelemt"
       @componentFunc="componentFunc"
     />
     <!-- 图表 -->
@@ -31,6 +32,7 @@
         :browser-x-y="browserXY"
         :setting-config="settingConfig"
         :add-setting-form="addSettingForm"
+        :container-elelemt="containerElelemt"
         @componentFunc="componentFunc"
       >
         <div
@@ -104,7 +106,6 @@ export default {
   },
   mounted() {
     this.containerElelemt = this.$refs['containerViews']
-    // console.log(this.$refs['containerViews'], 'this.containerElelemt')
   },
   methods: {
     // 类目轴数据
@@ -163,7 +164,6 @@ export default {
           }
         })
       }
-      console.log(arr, '111111111')
       return arr
     },
     // 组件方法暴露

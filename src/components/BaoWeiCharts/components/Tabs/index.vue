@@ -46,7 +46,14 @@
           <!-- <div class="el-tab-pane-icon">
             <i class="el-icon-circle-plus-outline" @click="drawerShow=true"/>
           </div> -->
-          <page-view v-if="item.tabsCode===activeName" :module-id="moduleId" :page-module-data="pageModuleData" :setting-config="settingConfig" :tabs-code="item.tabsCode" @componentFunc="componentFunc" />
+          <page-view
+            v-if="item.tabsCode===activeName"
+            :module-id="moduleId"
+            :page-module-data="pageModuleData"
+            :add-setting-form="addSettingForm"
+            :setting-config="settingConfig"
+            :tabs-code="item.tabsCode"
+            @componentFunc="componentFunc" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -71,7 +78,8 @@ export default {
     settingForm: { type: Object, default: null },
     moduleId: { type: String, default: null },
     settingConfig: { type: Object, default: null },
-    pageModuleData: { type: Object, default: null }
+    pageModuleData: { type: Object, default: null },
+    addSettingForm: { type: Object, default: null }
   }
 }
 </script>

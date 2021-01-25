@@ -31,18 +31,19 @@ export default{
     listWrapStyle() {
       let style = {}
       if (this.settingForm.top) {
-        const element = document.getElementsByClassName('my_main_content')[0]
-
+        const element = this.containerElelemt
+          ? this.containerElelemt
+          : document.getElementsByClassName('my_main_content')[0]
         style = {
           top:
-              parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
+              parseFloat((this.settingForm.top * element.clientHeight) / 100) +
               'px',
           left:
               parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
               'px',
           'z-index': this.settingForm.zindex,
           width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
-          height: (this.settingForm.height * element.scrollHeight) / 100 + 'px'
+          height: (this.settingForm.height * element.clientHeight) / 100 + 'px'
 
         }
         // this.setDemos()
@@ -97,9 +98,11 @@ export default{
     },
     // 图表宽高设置
     setDemos() {
-      const element = document.getElementsByClassName('my_main_content')[0]
+      const element = this.containerElelemt
+        ? this.containerElelemt
+        : document.getElementsByClassName('my_main_content')[0]
       this.modelStyle.height = parseFloat(
-        (this.settingForm.height * element.scrollHeight) / 100
+        (this.settingForm.height * element.clientHeight) / 100
       )
       this.modelStyle.width = parseFloat(
         (this.settingForm.width * element.scrollWidth) / 100

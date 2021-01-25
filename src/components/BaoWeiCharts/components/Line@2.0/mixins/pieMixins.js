@@ -70,6 +70,7 @@ export default {
         avoidLabelOverlap: true,
         data: seriesData
       }]
+      console.log(options.series)
       // 03 饼图、环图区分配置
       if (this.chartType === 'ring') {
         options.series[0].radius = ['50%', '70%']

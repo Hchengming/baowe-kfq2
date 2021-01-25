@@ -98,7 +98,7 @@ export default {
         : document.getElementsByClassName('my_main_content')[0]
       style = {
         top:
-          parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
+          parseFloat((this.settingForm.top * element.clientHeight) / 100) +
           'px',
         left:
           parseFloat((this.settingForm.left * element.scrollWidth) / 100) +

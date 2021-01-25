@@ -62,7 +62,8 @@ export default {
     settingConfig: {
       type: Object,
       default: null
-    }
+    },
+    containerElelemt: { type: HTMLElement, default: null }
   },
   data() {
     return {
@@ -72,10 +73,13 @@ export default {
   },
   computed: {
     listWrapStyle() {
-      const element = document.getElementsByClassName('my_main_content')[0]
+      const element = this.containerElelemt
+        ? this.containerElelemt
+        : document.getElementsByClassName('my_main_content')[0]
+      // console.log(this.settingForm, element.clientHeight, 'this.settingForm')
       const style = {
         top:
-          parseFloat((this.settingForm.top * element.scrollHeight) / 100) +
+          parseFloat((this.settingForm.top * element.clientHeight) / 100) +
           'px',
         left:
           parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
@@ -90,11 +94,14 @@ export default {
     mousedown_tz(e) {
       const _this = this
       if (this.isAdmin) {
+        const element = this.containerElelemt
+          ? this.containerElelemt
+          : document.getElementsByClassName('my_main_content')[0]
         drag({
           e,
           settingForm: this.settingForm,
           drag: this.$refs['listWrap'],
-          fatherElement: document.getElementsByClassName('my_main_content')[0],
+          fatherElement: element,
           fnc: () => {
             _this.TZLSKeep()
           }
