@@ -30,25 +30,25 @@ export default {
   computed: {
     listWrapStyle() {
       let style = {}
-      if (this.settingForm.top) {
-        const element = this.containerElelemt
-          ? this.containerElelemt
-          : document.getElementsByClassName('my_main_content')[0]
-        style = {
-          top:
+      // if (this.settingForm.top) {
+      const element = this.containerElelemt
+        ? this.containerElelemt
+        : document.getElementsByClassName('my_main_content')[0]
+      style = {
+        top:
               parseFloat((this.settingForm.top * element.clientHeight) / 100) +
               'px',
-          left:
+        left:
               parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
               'px',
-          'z-index': this.settingForm.zindex,
-          width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
-          height: (this.settingForm.height * element.clientHeight) / 100 + 'px'
+        'z-index': this.settingForm.zindex,
+        width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
+        height: (this.settingForm.height * element.clientHeight) / 100 + 'px'
 
-        }
-        // this.setDemos()
-        // console.log(style, 'stysettingFormle')
       }
+      // this.setDemos()
+      // console.log(style, 'stysettingFormle')
+      // }
 
       return style
     },
