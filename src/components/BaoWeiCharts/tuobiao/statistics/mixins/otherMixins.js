@@ -1,6 +1,6 @@
 // 模块拖拽拉伸 位置配置
 import drag from '../../../utils/drag'
-export default{
+export default {
   data() {
     return {
       modelStyle: {

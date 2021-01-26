@@ -193,7 +193,7 @@ export default {
     // 当前页面初始显示数据获取(容器外图表)
     pageDatas(pageData) {
       return pageData.filter(item => {
-        return (item.contentAreaConfig && !item.contentAreaConfig.parentModuleId)
+        return item.contentAreaConfig && !item.contentAreaConfig.parentModuleId
       })
     },
     // 所有模块筛选数据缓存
@@ -474,7 +474,6 @@ export default {
           const code = res.code
           const resData = res.data
 
-          console.log(resData, 'resData')
           if (code === 20000) {
             if (menuTypes === 'top' && resData.length === 0) {
               fn(true)
@@ -483,7 +482,6 @@ export default {
             resData.forEach((item, index) => {
               this.itemGSH(item, index)
               // 配置数据字段集获取
-              console.log(item.contentAreaConfig, 'keyArr')
               const keys = []
               item.isShow = true
               item.contentAreaConfig.keyArr.forEach(obj => {
@@ -558,7 +556,7 @@ export default {
     setParams(config, reqData) {
       const screenData = config.contentAreaConfig.filterConfig.screenData
       screenData.forEach(item => {
-        reqData[item.key] = item.defaultValue
+        reqData[item.key] = this.getParamValue(item.defaultValue, item)
       })
     },
     // 图表数据获取
@@ -569,11 +567,20 @@ export default {
         pageSize: obj.pageSize
         // keys: obj.keys,
       }
-      // 默认参数设置
+      // 01-默认请求参数导入
+      if (config.contentAreaConfig.paramConfig) {
+        config.contentAreaConfig.paramConfig.forEach(item => {
+          if (!reqData[item.paramKey] && item.isUse) {
+            reqData[item.paramKey] = this.getParamValue(item.paramValue, item)
+          }
+        })
+      }
+      // 02-筛选默认参数导入
       if (config.contentAreaConfig.filterConfig) {
         this.setParams(config, reqData)
       }
-      // 查询参数传入
+      console.log(reqData, 'reqData')
+      // 03-筛选变化后参数导入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
@@ -584,14 +591,7 @@ export default {
         // 根据请求方式的不同进行调整
         const options =
           config.contentAreaConfig.options === 'POST' ? 'post' : 'get'
-        // 参数写入
-        if (config.contentAreaConfig.paramConfig) {
-          config.contentAreaConfig.paramConfig.forEach(item => {
-            if (!reqData[item.paramKey] && item.isUse) {
-              reqData[item.paramKey] = this.getParamValue(item.paramValue, item)
-            }
-          })
-        }
+
         // 判断当前接口是否为数据视图
 
         if (config.contentAreaConfig.apiType === '0') {

@@ -85,11 +85,11 @@ export default {
         {
           label: '默认值',
           key: 'defaultValue',
-          formType: 'input',
-          width: 150
-          // click(items, index) {
-          //   _this.treeShow(items, index)
-          // }
+          formType: 'inputButton',
+          width: 150,
+          click(items, index) {
+            _this.treeShow(items, index)
+          }
         },
         {
           key: 'isInsert',

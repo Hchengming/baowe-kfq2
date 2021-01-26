@@ -353,7 +353,7 @@ export default {
               JSON.parse(item.defaultValue)
             )
           } else {
-            this.$set(this.whereAll.form, item.key, item.defaultValue)
+            this.$set(this.whereAll.form, item.key, this.getParamValue(item.defaultValue, item))
           }
         } else {
           if (item.type === 'number') {
@@ -379,6 +379,30 @@ export default {
           }
         }
       })
+    },
+    // localStorage自定义参数-值获取
+    getParamValue(val, item) {
+      let paramValue = ''
+      if (val && typeof val === 'string' && val.indexOf('${') === 0) {
+        const num = val.length - 1
+        const key = val.substring(2, num)
+        paramValue = localStorage.getItem(key)
+      } else {
+        paramValue = val
+      }
+      switch (item.dataType) {
+        case 'number':
+          if (Number(paramValue)) {
+            paramValue = Number(paramValue)
+          } else {
+            paramValue = null
+          }
+          break
+        case 'object':
+          paramValue = JSON.parse(paramValue)
+          break
+      }
+      return paramValue
     },
     // 自定义筛选项，通用筛选项数据整合
     // whereDataInit(conditionAreaConfig, whereData) {

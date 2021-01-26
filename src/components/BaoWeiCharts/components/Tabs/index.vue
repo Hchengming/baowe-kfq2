@@ -53,7 +53,8 @@
             :add-setting-form="addSettingForm"
             :setting-config="settingConfig"
             :tabs-code="item.tabsCode"
-            @componentFunc="componentFunc" />
+            @componentFunc="componentFunc"
+          />
         </el-tab-pane>
       </el-tabs>
     </div>
