@@ -107,7 +107,6 @@ export default {
     },
     // statistics组件--模块修改保存事件
     updateMoule(param) {
-      console.log(param, '1111111')
       // contentAreaConfig, moduleId, fn, whereForm
       const reqData = {
         secondMasterPageConfigPOS: [{

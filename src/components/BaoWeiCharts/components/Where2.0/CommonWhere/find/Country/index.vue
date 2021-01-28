@@ -17,7 +17,7 @@
       </el-radio-group>
       <el-radio-group
         v-model="country.child"
-        :disabled="commonItem.isDisabled"
+        :disabled="childDisabled()"
         class="country-2"
         @change="childChange"
       >
@@ -45,6 +45,7 @@ export default {
       countryData: countryData, // 区县数据
       countryChild: [],
       oldCountry: '',
+
       country: {
         father: '所有',
         child: ''
@@ -67,6 +68,16 @@ export default {
     this.chooseInit()
   },
   methods: {
+    // 判断子级模块是否不可点击
+    childDisabled() {
+      let offon = this.commonItem.isDisabled
+      countryData.forEach(item => {
+        if (item.value === this.commonItem.defaultValue) {
+          offon = false
+        }
+      })
+      return offon
+    },
     // 默认选中数据初始化
     chooseInit() {
       let offon = false
@@ -107,18 +118,19 @@ export default {
         if (val === item.value) {
           this.countryChild = item.children
           if (item.children) {
+            this.form[this.commonItem.key] = item.children.slice(1).toString()
             this.country.child = item.children[0]
+          } else {
+            this.form[this.commonItem.key] = val
           }
         }
       })
-      this.form[this.commonItem.key] = val
       this.$emit('cuntryChange')
     },
     // 子级数据变化事件
     childChange(val) {
-      // if (this.commonItem.isDisabled) { return }
       this.form[this.commonItem.key] =
-        val === '所有' ? this.country.father : val
+        val === '所有' ? this.countryChild.slice(1).toString() : val
       this.$emit('cuntryChange')
     }
   }

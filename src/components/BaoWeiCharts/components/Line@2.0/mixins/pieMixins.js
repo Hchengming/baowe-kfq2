@@ -81,7 +81,7 @@ export default {
     // 饼图、环图 背景颜色设置
     setPieColor(options) {
       if (!options.color) {
-        if (this.data.length > 20) return
+        if (this.data.length > 40) return
         options.color = this.colorArr
       }
     }

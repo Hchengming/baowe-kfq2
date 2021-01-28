@@ -17,7 +17,8 @@
         'statisticsWrapCase2',
         { statisticsWrapCase3: settingForm.moduleType === '3' },
         { 'iframe-statistics-wrap': settingForm.moduleType === '1' },
-        { 'title-hide': settingForm.isHeaderHide }
+        { 'title-hide': settingForm.isHeaderHide },
+        {'admin':isAdmin}
       ]"
     >
       <div class="statisticsBox">
@@ -26,6 +27,7 @@
           v-if="isAdmin"
           :setting-form="settingForm"
           :stretch-elelemt="stretchElelemt"
+          :container-elelemt="containerElelemt"
           @stretchkeep="TZLSKeep"
         />
         <i

@@ -78,7 +78,7 @@ const stretch = ({
     if (position[1] === 'right') {
       width_c = width + moveX
     }
-    if (width_c > 100 && height_c > 100 && width_c <= (fatherElement.scrollWidth - left_c - 10) && height_c <= fatherElement.scrollHeight - top_c - 10 && left_c >= 0 && top_c >= 0) {
+    if (width_c > 100 && height_c > 100 && width_c <= (fatherElement.scrollWidth - left_c) && height_c <= fatherElement.scrollHeight - top_c && left_c >= 0 && top_c >= 0) {
       settingForm.width = (width_c / fatherElement.scrollWidth) * 100
       settingForm.height = (height_c / fatherElement.scrollHeight) * 100
       settingForm.left = (left_c / fatherElement.scrollWidth) * 100

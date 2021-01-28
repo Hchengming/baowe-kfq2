@@ -3,8 +3,8 @@
   <div class="stretch">
     <span
       v-for="(item, index) in spotData"
-      :class="[item.position[0], item.position[1]]"
       :key="index"
+      :class="[item.position[0], item.position[1]]"
       @mousedown="mousedown_stretch(item.position)"
     />
   </div>
@@ -14,7 +14,8 @@ import stretch from './stretch'
 export default {
   props: {
     settingForm: { type: Object, default: null },
-    stretchElelemt: { type: HTMLElement, default: null }
+    stretchElelemt: { type: HTMLElement, default: null },
+    containerElelemt: { type: HTMLElement, default: null }
   },
   data() {
     return {
@@ -31,15 +32,19 @@ export default {
     }
   },
   methods: {
+    // 模块拉伸事件
     mousedown_stretch(position) {
-      // console.log(this.stretchElelemt)
       var event = window.event || arguments[0]
+      const element = this.containerElelemt
+        ? this.containerElelemt
+        : document.getElementsByClassName('my_main_content')[0]
+
       stretch({
         event,
         position,
         settingForm: this.settingForm,
         stretch: this.stretchElelemt,
-        fatherElement: document.querySelector('.my_main_content'),
+        fatherElement: element,
         fnc: () => {
           this.$emit('stretchkeep')
         }
@@ -52,8 +57,8 @@ export default {
 .stretch {
   display: none;
   span {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     background: green;
     border-radius: 50%;
     position: absolute;
@@ -63,13 +68,13 @@ export default {
   span:nth-child(2),
   span:nth-child(7) {
     left: 50%;
-    margin-left: -5px;
+    margin-left: -7.5px;
     cursor: n-resize;
   }
   span:nth-child(4),
   span:nth-child(5) {
     top: 50%;
-    margin-top: -5px;
+    margin-top: -7.5px;
     cursor: e-resize;
   }
   span:nth-child(1),
@@ -81,16 +86,16 @@ export default {
     cursor: ne-resize;
   }
   span.top {
-    top: -5px;
+    top: -7.5px;
   }
   span.left {
-    left: -5px;
+    left: -7.5px;
   }
   span.right {
-    right: -5px;
+    right: -7.5px;
   }
   span.bottom {
-    bottom: -5px;
+    bottom: -7.5px;
   }
 }
 </style>

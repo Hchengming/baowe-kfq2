@@ -552,6 +552,12 @@ body {
 .YDGCStatistics2 .statistics_box .YDGCStatisticsRight {
   width: 50%;
 }
+.statisticsWrapCase2.admin .statisticsBox:hover {
+  border: 1px dashed #3b85d8;
+}
+.statisticsWrapCase2.admin .statisticsBox:hover .stretch {
+  display: block;
+}
 .statisticsWrapCase2 {
   position: absolute;
   top: 300px;
@@ -563,6 +569,7 @@ body {
   height: 100%;
   box-sizing: border-box;
   border: 1px dashed transparent;
+  overflow: hidden;
 }
 .statisticsWrapCase2 .statisticsBox .statistics-content {
   padding: 5px;
@@ -575,12 +582,6 @@ body {
   color: white;
   cursor: pointer;
   z-index: 9999999999;
-}
-.statisticsWrapCase2 .statisticsBox:hover {
-  border: 1px dashed #3b85d8;
-}
-.statisticsWrapCase2 .statisticsBox:hover .stretch {
-  display: block;
 }
 .statisticsWrapCase2 .suofang {
   position: absolute;

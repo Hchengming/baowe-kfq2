@@ -724,6 +724,15 @@ body {
 }
 
 // case2
+.statisticsWrapCase2.admin{
+  .statisticsBox:hover {
+    border: 1px dashed rgb(59, 133, 216);
+
+    .stretch {
+      display: block;
+    }
+  }
+}
 .statisticsWrapCase2 {
   position: absolute;
   top: 300px;
@@ -735,6 +744,7 @@ body {
     height: 100%;
     box-sizing: border-box;
     border: 1px dashed transparent;
+    overflow: hidden;
     .statistics-content {
       padding: 5px;
     }
@@ -751,13 +761,7 @@ body {
     }
   }
 
-  .statisticsBox:hover {
-    border: 1px dashed rgb(59, 133, 216);
 
-    .stretch {
-      display: block;
-    }
-  }
 
   .suofang {
     position: absolute;
