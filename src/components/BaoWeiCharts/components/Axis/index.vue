@@ -30,7 +30,7 @@
           :class="['text', { active: listChooseIndex == index }]"
           @click="listClick(item, index)"
         >
-          <span>{{ item.category }}</span>
+          <span>{{ item.displayValue }}</span>
         </span>
       </li>
     </ul>

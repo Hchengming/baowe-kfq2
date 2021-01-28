@@ -91,6 +91,7 @@ export default {
   box-shadow: 0 0 3px #333333;
   box-sizing: border-box;
   border: 1px dashed transparent;
+  overflow: hidden;
   .tabs-view-wrap {
     position: relative;
     width: 100%;

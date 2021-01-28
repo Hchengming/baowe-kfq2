@@ -8,13 +8,19 @@ export default {
         formType: 'number',
         width: 100,
         disabled: true
-      },
-      {
-        label: '值',
+      }, {
+        label: '实际值',
         key: 'category',
         disabled: false,
         formType: 'input',
-        width: 700
+        width: 350
+      },
+      {
+        label: '显示值',
+        key: 'displayValue',
+        disabled: false,
+        formType: 'input',
+        width: 350
       }
       ],
       axisConfigClone: {}
