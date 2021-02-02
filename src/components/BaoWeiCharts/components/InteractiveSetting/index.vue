@@ -84,7 +84,7 @@
       @submit="changeJsMethods"
     />
     <!-- 对应参数选择弹窗 -->
-    <corresponding-param-setting ref="correspondingParamSetting" :interactive-params="interactiveParams" @onSubmit="correspondingSubmit" />
+    <corresponding-param-setting ref="correspondingParamSetting" @onSubmit="correspondingSubmit" />
   </div>
 </template>
 <script>
