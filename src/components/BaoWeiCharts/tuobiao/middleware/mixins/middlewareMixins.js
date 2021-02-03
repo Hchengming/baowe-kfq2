@@ -26,8 +26,8 @@ export default {
         methodsName: 'setOptions',
         name: '图表配置外层定制化事件'
       }
-      param
-        .this.chartsMethods(Object.assign(obj, param))
+      // param
+      this.chartsMethods(Object.assign(obj, param))
     },
     // 监听屏幕变化事件
     resize() {
@@ -41,7 +41,7 @@ export default {
     },
     // statistics组件--行数据点击事件
     rowClick(param) {
-      console.log(param, 'rowClick')
+      // console.log(param, 'rowClick')
       this.chartsMethods({
         methodsName: 'rowClick',
         rowItem: param.rowItem,

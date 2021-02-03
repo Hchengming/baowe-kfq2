@@ -623,7 +623,7 @@ export default {
         // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
         if (config.contentAreaConfig.apiType === '0') {
-          nowUrl = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
+          nowUrl = window.BaseApi + obj.url
         } else {
           if (obj.url.indexOf('http') > -1) {
             nowUrl = obj.url

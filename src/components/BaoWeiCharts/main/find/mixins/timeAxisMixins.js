@@ -112,6 +112,7 @@ export default {
           this.timeSource = res.data
           this.pageModuleData.timeAxis = this.timeSource
           // console.log(this.timeSource, 'timeSource')
+
           this.getTimeAxisDatas(res.data)
         })
         .catch(() => {
@@ -143,7 +144,7 @@ export default {
         })
     },
     // 时间轴接口数据查询
-    getTimeAxisDatas(timeSource, reqDatas) {
+    getTimeAxisDatas(timeSource) {
       timeSource.forEach((item, index) => {
         if (item.timeAxisConfig.dataAcquisitionMethod === '1') {
           // 默认参数获取
@@ -152,11 +153,12 @@ export default {
             reqData[xx.paramKey] = xx.paramValue
           })
           // 0：数据视图 1：应用接口
-          if (item.timeAxisConfig.apiType === '0') {
-            this.getIviewData(item.timeAxisConfig, reqData, index)
-          } else {
-            this.getYYJKData(item.timeAxisConfig, reqData, index)
-          }
+          // if (item.timeAxisConfig.apiType === '0') {
+          //   this.getIviewData(item.timeAxisConfig, reqData, index)
+          // } else {
+          //   this.getYYJKData(item.timeAxisConfig, reqData, index)
+          // }
+          this.getTimesData(item, reqData, index)
         }
       })
     },
@@ -182,26 +184,30 @@ export default {
           item.timeAxisConfig.paramConfig.forEach(xx => {
             reqData[xx.paramKey] = xx.paramValue
           })
-          // 0：数据视图 1：应用接口
-          if (item.timeAxisConfig.apiType === '0') {
-            const url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
-            this.getIviewData(item.timeAxisConfig, reqData, index, url)
-          } else {
-            const url = item.timeAxisConfig.url.indexOf('http') > -1
-              ? item.timeAxisConfig.url
-              : item.timeAxisConfig.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + item.timeAxisConfig.url : this.settingConfig.dataUrl + item.timeAxisConfig.url
-            this.getYYJKData(item.timeAxisConfig, reqData, index, url)
-          }
+          this.getTimesData(item, reqData, index)
         }
       })
     },
-
+    // 数据请求 数据视图、应用接口区分
+    getTimesData(item, reqData, index) {
+      console.log(123)
+      // 0：数据视图 1：应用接口
+      if (item.timeAxisConfig.apiType === '0') {
+        const url = window.BaseApi + item.timeAxisConfig.url
+        this.getIviewData(item.timeAxisConfig, reqData, index, url)
+      } else {
+        const url = item.timeAxisConfig.url.indexOf('http') > -1
+          ? item.timeAxisConfig.url
+          : item.timeAxisConfig.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + item.timeAxisConfig.url : this.settingConfig.dataUrl + item.timeAxisConfig.url
+        this.getYYJKData(item.timeAxisConfig, reqData, index, url)
+      }
+    },
     // 应用接口数据获取
-    getYYJKData(timeAxisConfig, reqData, index) {
-      this.getTimeAxisData(timeAxisConfig, reqData, index)
+    getYYJKData(timeAxisConfig, reqData, index, url) {
+      this.getTimeAxisData(timeAxisConfig, reqData, index, url)
     },
     // 数据视图数据获取
-    getIviewData(timeAxisConfig, reqData, index) {
+    getIviewData(timeAxisConfig, reqData, index, url) {
       const queryParamList = []
       for (const key in reqData) {
         queryParamList.push({
@@ -214,19 +220,22 @@ export default {
         pageNumber: 1000,
         queryParamList: queryParamList
       }
-      this.getTimeAxisData(timeAxisConfig, reqData, index)
+
+      this.getTimeAxisData(timeAxisConfig, reqData, index, url)
     },
     // 时间轴接口数据获取
     getTimeAxisData(timeAxisConfig, reqData, index, url) {
       // const url =
 
       const options = timeAxisConfig.options.toLowerCase()
+
       serviceAxios[options](url, reqData)
         .then(res => {
           const data = timeAxisConfig.apiType === '0' ? res.data.list : res.data
           // 01-最小，最大年度获取
           timeAxisConfig.start = data[0].time
           timeAxisConfig.end = data[data.length - 1].time
+
           data.forEach(item => {
             if (Number(item.time) < Number(timeAxisConfig.start)) {
               timeAxisConfig.start = item.time
@@ -257,7 +266,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'error',
-            message: '时间轴接口数据获取失败'
+            message: '时间轴接口数据获取失败11'
           })
         })
     }

@@ -18,7 +18,6 @@ export default {
     },
     // 容器组件内事件传递
     pageViewAdd(obj) {
-      console.log(obj, 'obj')
       this.parentContainerType = 'container'
       this.parentModuleId = obj.moduleId
       this.parentTabsCode = obj.tabsCode

@@ -139,6 +139,13 @@
       :module-id="item.moduleId"
       @componentFunc="componentFunc"
     />
+    <!-- 自定义组件配置 -->
+    <custom-components-setting
+      ref="customComponentsSetting"
+      :custom-components-config="customComponentsConfig"
+      @componentFunc="componentFunc" />
+    <!-- 自定义组件渲染   -->
+    <custom-components v-for="item in customComponentsData" :key="item.moduleId" :setting-form="item.config" :module-id="item.moduleId" :setting-config="settingConfig" />
   </div>
 </template>
 <script>
@@ -153,6 +160,7 @@ import myPageMixins from './mixins/myPageMixins.js'
 
 import ProjectConfig from './ProjectConfig'
 import interactiveMixins from './mixins/interactiveMixins'
+
 /* 类目轴导入 */
 import AxisSetting from '../../components/AxisSetting'
 import Axis from '../../components/Axis'
@@ -163,6 +171,10 @@ import TimeAxis from '../../components/TimeAxis'
 // 交互配置组件
 import InteractiveSetting from '../../components/InteractiveSetting'
 import otherMixins from './mixins/otherMixins'
+// 自定义组件
+import CustomComponentsSetting from '../../components/CustomComponentsSetting'
+import customComponentsMixins from './mixins/customComponentsMixins.js'
+import CustomComponents from '../../components/CustomComponents/index'
 /* ====end==== */
 // import myMap from '../../components/maps/map'
 export default {
@@ -177,7 +189,9 @@ export default {
     AxisSetting,
     Axis,
     TimeAxisSetting,
-    TimeAxis
+    TimeAxis,
+    CustomComponentsSetting,
+    CustomComponents
     // myMap
   },
   mixins: [
@@ -186,7 +200,8 @@ export default {
     otherMixins,
     interactiveMixins,
     timeAxisMixins,
-    axisMixins
+    axisMixins,
+    customComponentsMixins
   ],
   props: {
     settingConfig: {
@@ -238,6 +253,11 @@ export default {
           name: 'Tabs切换',
           icon: 'icondangan'
         }
+        // {
+        //   type: 'customComponents',
+        //   name: '自定义组件',
+        //   icon: 'icondangan'
+        // }
       ]
     }
   },
@@ -278,11 +298,14 @@ export default {
     menuClick(menuItem, menuTypes, fn) {
       this.nowMenuItem = menuItem
       this.$refs['middleware'].menuClick(menuItem, menuTypes, fn)
+      // 顶部栏数据查询
       this.getTopBarConfig()
       // 时间轴配置数据查询
       this.timeAxisSelect()
       // 类目轴配置数据查询
       this.categoryConfigSelect()
+      // 自定义组件数据查询
+      // this.customComponentSelect()
 
       sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },
@@ -339,9 +362,11 @@ export default {
         case 'timeAxis': // 时间轴
           this.$refs['TimeAxisSetting'].show()
           break
+        case 'customComponents': // 时间轴
+          this.customComponentsSettingShow()
+          break
       }
     }
   }
-
 }
 </script>

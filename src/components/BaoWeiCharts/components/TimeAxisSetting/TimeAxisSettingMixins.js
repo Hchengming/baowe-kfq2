@@ -30,7 +30,7 @@ export default {
         this.$refs['apiChoose'].getDataIview()
         // 判断当前后台环境是否为node测试环境
         if (this.settingConfig.isTestEnvironment) {
-          this.timeConfig.url = this.settingConfig.commonUrl + '/dataView/searchResult'
+          this.timeConfig.url = '/dataView/searchResult'
         } else {
           this.timeConfig.url = '/.DataView/view/v1/sql/searchResult'
         }
