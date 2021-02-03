@@ -30,6 +30,11 @@ export default {
       serviceAxios[method](url, {}).then(res => {
         if (res.code === 20000) {
           // this.itemApiData = res.data
+          res.data.forEach(item => {
+            item.url = item.aaaRequestUrl
+            const num = item.aaaRequestUrl.indexOf('/api/service')
+            item.aaaRequestUrl = item.aaaRequestUrl.substring(num)
+          })
           this.$emit('update:itemApiData', res.data)
         }
       })

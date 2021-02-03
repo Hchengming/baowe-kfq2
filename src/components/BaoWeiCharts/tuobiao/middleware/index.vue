@@ -579,7 +579,6 @@ export default {
       if (config.contentAreaConfig.filterConfig) {
         this.setParams(config, reqData)
       }
-      console.log(reqData, 'reqData')
       // 03-筛选变化后参数导入
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
@@ -623,11 +622,16 @@ export default {
         }
         // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
-        if (obj.url.indexOf('http') > -1) {
-          nowUrl = obj.url
+        if (config.contentAreaConfig.apiType === '0') {
+          nowUrl = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
         } else {
-          nowUrl = this.settingConfig.dataUrl + obj.url
+          if (obj.url.indexOf('http') > -1) {
+            nowUrl = obj.url
+          } else {
+            nowUrl = obj.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + obj.url : this.settingConfig.dataUrl + obj.url
+          }
         }
+
         // 当未确认接口时可直接获取测试数据
         if (
           this.settingConfig.isProducrTestData &&
@@ -715,7 +719,6 @@ export default {
           )
           this.$set(this.pageData[obj.index], 'paginationAll', undefined)
         }
-        console.log(this.pageData[obj.index])
       }
     },
 

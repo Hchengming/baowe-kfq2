@@ -32,7 +32,7 @@ export default {
         if (this.settingConfig.isTestEnvironment) {
           this.timeConfig.url = this.settingConfig.commonUrl + '/dataView/searchResult'
         } else {
-          this.timeConfig.url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
+          this.timeConfig.url = '/.DataView/view/v1/sql/searchResult'
         }
       } else {
         this.timeConfig.options = 'GET'

@@ -40,7 +40,7 @@ export default {
         projectId: this.settingConfig.answerId
       }).then(res => {
         // console.log(res, 'res')
-        if (res.data.projectConfigs) {
+        if (res.data && res.data.projectConfigs) {
           this.nowProjectConfig = JSON.parse(res.data.projectConfigs)
           this.themeClass = 'charts-theme' + this.nowProjectConfig.theme
           this.settingConfig.theme = this.nowProjectConfig.theme
@@ -140,8 +140,8 @@ export default {
     startRender() {
       // 开始加载菜单数据
       this.getTreeMenu()
-      this.$refs['myPage'].getItemApi()
-      this.$refs['myPage'].getDataIview()
+      // this.$refs['myPage'].getItemApi()
+      // this.$refs['myPage'].getDataIview()
       this.getProjectConfig()
     },
     // 表格、列表单元格点击菜单跳转事件执行

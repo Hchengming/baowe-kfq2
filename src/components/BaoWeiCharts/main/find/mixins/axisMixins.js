@@ -84,9 +84,9 @@ export default {
             item.categoryConfig = JSON.parse(item.categoryConfig)
           })
           this.axisSource = res.data
-          console.log(this.axisSource, 'this.axisSource')
+
           this.pageModuleData.categoryAxis = res.data
-          // console.log(this.axisSource, 'this.axisSource')
+
           // this.$message({
           //   type: 'success',
           //   message: '类目轴所有配置数据查询成功'

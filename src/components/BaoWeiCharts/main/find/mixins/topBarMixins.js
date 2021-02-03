@@ -16,40 +16,40 @@ export default {
   },
   methods: {
     // 项目所有接口获取--应用接口列表获取
-    getItemApi() {
-      // Authorization: this.Authorization
-      const method = this.settingConfig.isCustomMenu ? 'post' : 'get'
-      let url = ''
-      if (!this.settingConfig.isCustomMenu) {
-        const serviceId = this.settingConfig.serviceId ? this.settingConfig.serviceId : this.settingConfig.answerId
-        url = `${window.BaseApi}/shareservice/app/authorizeListByApp?uuid=${serviceId}`
-      } else {
-        url = this.settingConfig.getInterfaceUrl
-      }
-      serviceAxios[method](url, {}).then(res => {
-        if (res.code === 20000) {
-          this.itemApiData = res.data
-        }
-      })
-    },
+    // getItemApi() {
+    //   // Authorization: this.Authorization
+    //   const method = this.settingConfig.isCustomMenu ? 'post' : 'get'
+    //   let url = ''
+    //   if (!this.settingConfig.isCustomMenu) {
+    //     const serviceId = this.settingConfig.serviceId ? this.settingConfig.serviceId : this.settingConfig.answerId
+    //     url = `${window.BaseApi}/shareservice/app/authorizeListByApp?uuid=${serviceId}`
+    //   } else {
+    //     url = this.settingConfig.getInterfaceUrl
+    //   }
+    //   serviceAxios[method](url, {}).then(res => {
+    //     if (res.code === 20000) {
+    //       this.itemApiData = res.data
+    //     }
+    //   })
+    // },
     // 数据视图列表获取
-    getDataIview() {
-      serviceAxios
-        .get(
-          `${window.BaseApi}/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus=`, {
-            params: {
-              appCode: this.settingConfig.answerId
-            }
-          }
-        )
-        .then(res => {
-          const code = res.code
-          const resData = res.data
-          if (code === 20000) {
-            this.dataViewList = resData.records
-          }
-        })
-    },
+    // getDataIview() {
+    //   serviceAxios
+    //     .get(
+    //       `${window.BaseApi}/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus=`, {
+    //         params: {
+    //           appCode: this.settingConfig.answerId
+    //         }
+    //       }
+    //     )
+    //     .then(res => {
+    //       const code = res.code
+    //       const resData = res.data
+    //       if (code === 20000) {
+    //         this.dataViewList = resData.records
+    //       }
+    //     })
+    // },
     // 顶部栏查询事件
     getTopBarConfig() {
       this.topListShow = false
@@ -109,7 +109,7 @@ export default {
         if (form.url.indexOf('http') > -1) {
           nowUrl = form.url
         } else {
-          nowUrl = this.settingConfig.dataUrl + form.url
+          nowUrl = form.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + form.url : this.settingConfig.dataUrl + form.url
         }
         let reqData = {}
         if (form.paramConfig && form.paramConfig.length > 0) {

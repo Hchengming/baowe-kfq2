@@ -71,32 +71,39 @@ export default {
     // 判断父级是否不可点击
     fatherDisabled() {
       let offon = true
-      const country = localStorage.getItem('country')
-      if (country === '市局') {
+      if (!this.commonItem.isAddPower) {
         offon = false
+      } else {
+        const country = localStorage.getItem('country')
+        if (country === '市局') {
+          offon = false
+        }
       }
+
       return offon
     },
     // 判断子级模块是否不可点击
     childDisabled() {
       let offon = true
-      // console.log(this.commonItem, '1111')
-      const country = localStorage.getItem('country')
-      if (country === '市局') {
+      if (!this.commonItem.isAddPower) {
         offon = false
       } else {
-        countryData.forEach(items => {
-          if (items.children) {
-            items.children.forEach((item) => {
-              console.log(item, country)
-              if (item === country) {
-                this.countryChild = items.children
-                this.country.father = items.value
-                this.country.child = item
-              }
-            })
-          }
-        })
+        const country = localStorage.getItem('country')
+        if (country === '市局') {
+          offon = false
+        } else {
+          countryData.forEach(items => {
+            if (items.children) {
+              items.children.forEach(item => {
+                if (item === country) {
+                  this.countryChild = items.children
+                  this.country.father = items.value
+                  this.country.child = item
+                }
+              })
+            }
+          })
+        }
       }
 
       return offon

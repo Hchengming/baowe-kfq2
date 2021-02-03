@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog
-      v-drag
       :id="settingFormId()"
+      v-drag
       :append-to-body="true"
       :rules="rules"
       :visible.sync="dialogVisible"

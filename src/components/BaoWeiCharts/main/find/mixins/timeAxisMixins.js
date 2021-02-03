@@ -184,9 +184,13 @@ export default {
           })
           // 0：数据视图 1：应用接口
           if (item.timeAxisConfig.apiType === '0') {
-            this.getIviewData(item.timeAxisConfig, reqData, index)
+            const url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
+            this.getIviewData(item.timeAxisConfig, reqData, index, url)
           } else {
-            this.getYYJKData(item.timeAxisConfig, reqData, index)
+            const url = item.timeAxisConfig.url.indexOf('http') > -1
+              ? item.timeAxisConfig.url
+              : item.timeAxisConfig.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + item.timeAxisConfig.url : this.settingConfig.dataUrl + item.timeAxisConfig.url
+            this.getYYJKData(item.timeAxisConfig, reqData, index, url)
           }
         }
       })
@@ -213,11 +217,9 @@ export default {
       this.getTimeAxisData(timeAxisConfig, reqData, index)
     },
     // 时间轴接口数据获取
-    getTimeAxisData(timeAxisConfig, reqData, index) {
-      const url =
-      timeAxisConfig.url.indexOf('http') > -1
-        ? timeAxisConfig.url
-        : this.settingConfig.dataUrl + timeAxisConfig.url
+    getTimeAxisData(timeAxisConfig, reqData, index, url) {
+      // const url =
+
       const options = timeAxisConfig.options.toLowerCase()
       serviceAxios[options](url, reqData)
         .then(res => {

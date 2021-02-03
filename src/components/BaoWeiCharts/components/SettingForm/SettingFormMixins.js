@@ -60,7 +60,7 @@ export const ChartsMixins = {
         if (this.settingConfig.isTestEnvironment) {
           this.form.url = this.settingConfig.commonUrl + '/dataView/searchResult'
         } else {
-          this.form.url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
+          this.form.url = '/.DataView/view/v1/sql/searchResult'
         }
       } else {
         this.form.options = 'GET'
@@ -286,7 +286,7 @@ export const otherMixins = {
     // 弹窗显示事件
     show(obj) {
       this.dialogVisible = true
-      console.log(this.form)
+      // console.log(this.form)
       if (obj) {
         this.parentParamsAll = obj
       }

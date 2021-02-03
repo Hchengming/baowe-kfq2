@@ -54,7 +54,7 @@ export default {
         if (this.settingConfig.isTestEnvironment) {
           this.form.url = this.settingConfig.commonUrl + '/dataView/searchResult'
         } else {
-          this.form.url = window.BaseApi + '/.DataView/view/v1/sql/searchResult'
+          this.form.url = '/.DataView/view/v1/sql/searchResult'
         }
       } else {
         this.form.options = 'GET'

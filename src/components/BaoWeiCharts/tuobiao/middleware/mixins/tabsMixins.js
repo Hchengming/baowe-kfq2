@@ -76,7 +76,6 @@ export default {
         reqData.projectId = this.settingConfig.answerId
         api = '/tabs/addTabsConfig'
       }
-      // console.log(reqData, 'reqData')
       serviceAxios
         .post(this.settingConfig.commonUrl + api, reqData)
         .then(() => {
