@@ -485,6 +485,7 @@ export default {
         name: '模块修改确认事件',
         param: {
           moduleId: this.statisticsAll.moduleId,
+          projectId: this.settingConfig.answerId,
           contentAreaConfig: param.contentAreaConfig,
           fn: () => {
             this.$refs['settingForm'].close()

@@ -334,6 +334,7 @@ export default {
       const reqData = {
         secondMasterPageConfigPOS: [{
           contentAreaConfig: param.contentAreaConfig,
+          projectId: this.settingConfig.answerId,
           menuId: this.menuId
         }]
       }

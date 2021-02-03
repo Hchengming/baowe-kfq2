@@ -198,8 +198,8 @@ export default {
               defaultValue: false
             },
             {
-              label: '不可点击',
-              key: 'isDisabled',
+              label: '是否添加权限管理',
+              key: 'isAddPower',
               formType: 'switch',
               isHide(form, index) {
                 return ['country-radio'].indexOf(form.type) === -1

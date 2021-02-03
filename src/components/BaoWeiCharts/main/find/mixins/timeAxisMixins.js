@@ -69,6 +69,7 @@ export default {
       } else {
         // 新增
         reqObj.menuId = this.nowMenuItem.menuId
+        reqObj.projectId = this.settingConfig.answerId
         api = '/timeAxisConfig/addTimeAxisConfig'
         if (this.parentContainerType === 'container') {
           reqObj.timeAxisConfigs.parentModuleId = this.parentModuleId

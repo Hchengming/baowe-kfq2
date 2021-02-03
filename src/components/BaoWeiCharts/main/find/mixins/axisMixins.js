@@ -45,6 +45,7 @@ export default {
       } else {
         // 新增
         reqObj.menuId = this.nowMenuItem.menuId
+        reqObj.projectId = this.settingConfig.answerId
         api = '/categoryConfig/addCategoryConfig'
         if (this.parentContainerType === 'container') {
           reqObj.categoryConfigs.parentModuleId = this.parentModuleId

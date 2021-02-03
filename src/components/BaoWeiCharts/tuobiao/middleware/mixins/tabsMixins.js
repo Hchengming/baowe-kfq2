@@ -68,10 +68,12 @@ export default {
       if (moduleId) {
         // 修改
         reqData.moduleId = moduleId
+
         api = '/tabs/updateTabsConfig'
       } else {
         // 新增
         reqData.menuId = this.menuId
+        reqData.projectId = this.settingConfig.answerId
         api = '/tabs/addTabsConfig'
       }
       // console.log(reqData, 'reqData')

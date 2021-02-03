@@ -277,6 +277,23 @@ export default {
         })
       }
     },
+    // 菜单id获取
+    getMenuId() {
+      const fn = (data, fnc) => {
+        data.forEach(item => {
+          if (item.children.length > 0) {
+            fn(item.children, fnc)
+          } else {
+            fnc(item)
+          }
+        })
+      }
+      const data = []
+      fn(this.menuData, (item) => {
+        data.push(item.menuId)
+      })
+      // console.log(data)
+    },
     // 最外层--通过menuCode触发菜单跳转事件
     menuJump(menuCode) {
       this.menuData.forEach((items, index) => {

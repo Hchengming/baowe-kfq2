@@ -200,6 +200,7 @@ export default {
       } else {
         const reqObj = {
           moduleId: this.interactiveModuleId,
+          projectId: this.settingConfig.answerId,
           interactiveData: this.interactiveData
         }
         serviceAxios

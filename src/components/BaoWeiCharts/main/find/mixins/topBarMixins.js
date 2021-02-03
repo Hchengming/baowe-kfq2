@@ -139,9 +139,9 @@ export default {
       fn()
       const reqObj = {
         moduleId: this.nowMenuItem.menuId,
+        projectId: this.settingConfig.answerId,
         elementConfig: elementConfig
       }
-
       this.topBarEmit(reqObj, '/busElementConfig/insertElementData', '新增', fn)
     },
     // 顶部栏修改事件
