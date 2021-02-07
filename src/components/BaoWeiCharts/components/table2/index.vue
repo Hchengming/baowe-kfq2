@@ -104,12 +104,12 @@ export default {
 
     }
   },
-  // watch: {
-  //   colums(val) {
-  //     this.newClums = JSON.parse(JSON.stringify(this.colums))
-  //     this.getTableColums()
-  //   }
-  // },
+  watch: {
+    // colums(val) {
+    //   this.getTableColums()
+    //   console.log('000000')
+    // }
+  },
   mounted() {
     this.newClums = JSON.parse(JSON.stringify(this.colums))
     this.getTableColums()
@@ -226,3 +226,4 @@ export default {
   }
 }
 </script>
+m,

@@ -170,6 +170,7 @@
             @whereFormKeep="whereFormKeep"
             @whereSubmit="whereSubmit"
           />
+          <!-- {{ settingForm }} -->
           <!-- slot嵌入 -->
           <div
             v-if="
@@ -197,7 +198,8 @@
           />
           <!-- 数据表格展示 -->
           <bw-table
-            v-if="settingForm.displayMode == 'table' && isCharts()"
+            v-if="settingForm.displayMode == 'table' && isCharts()&&isTable"
+            ref="bwTable"
             :tabledata="statisticsAll.data"
             :colums="nowClums()"
             :height="boxHeight()"
@@ -327,7 +329,7 @@ export default {
       typeData: dataPresentation,
       chooseHover: null,
       cursor: 'defalut',
-
+      isTable: true,
       whereHeight: 40 // 搜索模块高度
       // parentWhereFormUse:{}//父级筛选条件可传入子级条件筛选
       // deleteTitle: '确定删除删除当前模块？'
@@ -452,6 +454,7 @@ export default {
           data.push(item)
         }
       })
+
       return data
     },
     // 弹窗关闭事件
@@ -479,6 +482,10 @@ export default {
     },
     // 配置表单确认事件
     addKeep(param) {
+      this.isTable = false
+      this.$nextTick(() => {
+        this.isTable = true
+      })
       this.setDemos()
       this.$emit('componentFunc', {
         method: 'updateMoule',

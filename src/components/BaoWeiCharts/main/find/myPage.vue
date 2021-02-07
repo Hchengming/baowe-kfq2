@@ -75,6 +75,7 @@
       :visible.sync="settingDrawer"
       :title="rightDrawerTypeTitle"
       :before-close="drawerClose"
+      :modal-append-to-body="false"
       direction="rtl"
       class="pageSetting"
     >
