@@ -113,9 +113,10 @@ export default {
           [item.key]: paramValue
         })
       })
+
       if (!this.form.url) return false
       serviceAxios
-        .post(this.form.url, {
+        .post(window.BaseApi + this.form.url, {
           viewId: this.form.viewId,
           pageSize: 1,
           pageNumber: 1,
@@ -180,7 +181,8 @@ export default {
           }
           for (const key in keysItem) {
             const obj = {
-              key: key
+              key: key,
+              explain: key
             }
             this.setRowKey(obj)
             this.form.keyArr.push(obj)
@@ -224,15 +226,15 @@ export default {
           params: params
         }
       }
-      const url =
-        this.form.url.indexOf('http') > -1
-          ? this.form.url
-          : this.settingConfig.dataUrl + this.form.url
-
+      let url = ''
+      if (this.form.url.indexOf('http') > -1) {
+        url = this.form.url
+      } else {
+        url = this.form.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + this.form.url : this.settingConfig.dataUrl + this.form.url
+      }
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {
           const resData = res.data
-
           fn(resData)
         }
       })

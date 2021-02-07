@@ -82,7 +82,7 @@ export default {
       // 添加开关 判断单元格点击字段是否为地图使用字段
       if (
         statisticsAll.contentAreaConfig.clickToShow === 'cell' &&
-                statisticsAll.drillDownKeyCurrent !== mapKey
+        statisticsAll.drillDownKeyCurrent !== mapKey
       ) {
         offon = false
       }
@@ -108,16 +108,38 @@ export default {
     // statistics组件--模块修改保存事件
     updateMoule(param) {
       // contentAreaConfig, moduleId, fn, whereForm
+      // 大数据编排项目修改
+      if (
+        this.settingConfig.isBigData &&
+        this.settingConfig.answerId !==
+          this.settingConfig.bigData.bigDataTemplateId
+      ) {
+        // 判断修改配置是页面自己的模块还是模板配置的模块
+        let offon = false
+        this.nowPageData.forEach(item => {
+          if (item.moduleId === param.moduleId) {
+            offon = true
+          }
+        })
+        // 如果是模板模块则调用新增
+        if (!offon) {
+          this.addKeep(param)
+          return false
+        }
+      }
+
       const reqData = {
-        secondMasterPageConfigPOS: [{
-          contentAreaConfig: param.contentAreaConfig,
-          moduleId: param.moduleId
-        }]
+        secondMasterPageConfigPOS: [
+          {
+            contentAreaConfig: param.contentAreaConfig,
+            moduleId: param.moduleId
+          }
+        ]
       }
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
+            '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
           reqData
         )
         .then(res => {
@@ -130,26 +152,29 @@ export default {
             if (param.fn) {
               param.fn()
             }
-            const obj = {}
-            let newItem = {}
-            // let pageDataClone = JSON.parse(JSON.stringify(this.pageData))
-
-            this.pageData.forEach((item, index) => {
-              if (item.moduleId === param.moduleId) {
-                obj.index = index
-                newItem = item
+            if (this.settingConfig.isBigData) {
+              this.setBigData()
+            } else {
+              const obj = {}
+              let newItem = {}
+              this.pageData.forEach((item, index) => {
+                if (item.moduleId === param.moduleId) {
+                  obj.index = index
+                  newItem = item
+                }
+              })
+              obj.index = this.pageData.length - 1
+              obj.url = param.contentAreaConfig.url
+              if (param.contentAreaConfig.isPage === '1') {
+                obj.pageSize = param.contentAreaConfig.pageSize
+                obj.currentPage = 1
               }
-            })
-            obj.url = param.contentAreaConfig.url
-            if (param.contentAreaConfig.isPage === '1') {
-              obj.pageSize = param.contentAreaConfig.pageSize
-              obj.currentPage = 1
-            }
-            if (
-              param.contentAreaConfig.moduleType !== '1' &&
-              param.contentAreaConfig.moduleType !== '3'
-            ) {
-              this.getTableData(obj, param.whereForm, newItem)
+              if (
+                param.contentAreaConfig.moduleType !== '1' &&
+                param.contentAreaConfig.moduleType !== '3'
+              ) {
+                this.getTableData(obj, param.whereForm, newItem)
+              }
             }
           } else {
             this.$message({
@@ -177,7 +202,11 @@ export default {
               message: '模块删除成功',
               type: 'success'
             })
-            this.getData()
+            if (this.settingConfig.isBigData) {
+              this.setBigData()
+            } else {
+              this.getData()
+            }
           }
         })
     },
@@ -187,7 +216,8 @@ export default {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busSecondmasterpageconfig/insertDrillDownData', {
+            '/busSecondmasterpageconfig/insertDrillDownData',
+          {
             contentAreaConfig: obj.contentAreaConfig,
             parentModuleId: obj.moduleId,
             drillDownKeyCurrent: obj.key,
@@ -220,10 +250,11 @@ export default {
         }
       })
       this.pageData.forEach(item => {
-        if (!item.parentModuleId ||
-                    item.parentModuleId === parentModuleId ||
-                    item.moduleId === parentModuleId ||
-                    item.parentModuleId === zfModuleId
+        if (
+          !item.parentModuleId ||
+          item.parentModuleId === parentModuleId ||
+          item.moduleId === parentModuleId ||
+          item.parentModuleId === zfModuleId
         ) {
           data.push(item)
         }
@@ -232,7 +263,8 @@ export default {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busSecondmasterpageconfig/queryDrillDownData', {
+            '/busSecondmasterpageconfig/queryDrillDownData',
+          {
             parentModuleId,
             drillDownKeyCurrent: key
           }
@@ -244,8 +276,8 @@ export default {
             for (let i = this.pageData.length - 1; i >= 0; i--) {
               if (
                 this.pageData[i].drillDownKeyCurrent &&
-                                this.pageData[i].drillDownKeyCurrent !== key &&
-                                this.pageData[i].parentModuleId === parentModuleId
+                this.pageData[i].drillDownKeyCurrent !== key &&
+                this.pageData[i].parentModuleId === parentModuleId
               ) {
                 this.pageData.splice(i, 1)
               }
@@ -296,7 +328,7 @@ export default {
               // 判断下钻子级是否是iframe嵌入类型
               if (
                 items.contentAreaConfig.moduleType !== '1' &&
-                                items.contentAreaConfig.moduleType !== '3'
+                items.contentAreaConfig.moduleType !== '3'
               ) {
                 this.getTableData(reqObj, defaultReqData, items)
               }
@@ -332,11 +364,13 @@ export default {
         }
       }
       const reqData = {
-        secondMasterPageConfigPOS: [{
-          contentAreaConfig: param.contentAreaConfig,
-          projectId: this.settingConfig.answerId,
-          menuId: this.menuId
-        }]
+        secondMasterPageConfigPOS: [
+          {
+            contentAreaConfig: param.contentAreaConfig,
+            projectId: this.settingConfig.answerId,
+            menuId: this.menuId
+          }
+        ]
       }
       if (!this.menuId) {
         this.$message({
@@ -347,7 +381,7 @@ export default {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busSecondmasterpageconfig/insertSecondMasterPageConfigData',
+            '/busSecondmasterpageconfig/insertSecondMasterPageConfigData',
           reqData
         )
         .then(res => {
@@ -371,15 +405,17 @@ export default {
     // statistics组件--筛选模块配置数据保存
     screenKeep(conditionAreaConfig, moduleId) {
       const reqData = {
-        secondMasterPageConfigPOS: [{
-          conditionAreaConfig: conditionAreaConfig,
-          moduleId: moduleId
-        }]
+        secondMasterPageConfigPOS: [
+          {
+            conditionAreaConfig: conditionAreaConfig,
+            moduleId: moduleId
+          }
+        ]
       }
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
+            '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
           reqData
         )
         .then(res => {
@@ -437,7 +473,7 @@ export default {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busSecondmasterpageconfig/insertDetailsAreaConfig',
+            '/busSecondmasterpageconfig/insertDetailsAreaConfig',
           reqData
         )
         .then(res => {

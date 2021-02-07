@@ -158,7 +158,6 @@ export default {
       if (this.axisSource.length > 0) {
         this.axisSource.forEach((item, index) => {
           if (item.moduleId !== this.interactiveModuleId) {
-            console.log(item, 'item')
             this.interactiveModuleAll.push({
               moduleId: item.moduleId,
               moduleName: item.categoryConfig.title
@@ -171,7 +170,21 @@ export default {
         })
       }
 
-      // console.log(this.topBarAll)
+      // 五、tabs切换
+      const getTabsData = this.$refs['middleware'].getTabsData()
+      if (getTabsData.length > 0) {
+        getTabsData.forEach((item, index) => {
+          this.interactiveModuleAll.push({
+            moduleId: item.moduleId,
+            moduleName: item.tabsConfig.title ? item.tabsConfig.title : 'tabs' + index,
+            type: 'tabs',
+            interactiveParams: [{
+              val: 'tabsCode',
+              lab: '标签编码'
+            }]
+          })
+        })
+      }
     },
     /* 阶段二--交互配置数据保存和查询*/
 
@@ -206,7 +219,6 @@ export default {
         serviceAxios
           .post(this.settingConfig.commonUrl + '/jhConfig/updateJhConfig', reqObj)
           .then(res => {
-            // console.log(res)
             this.$message({
               type: 'success',
               message: '当前模块交互配置数据编辑成功'
@@ -309,7 +321,7 @@ export default {
               if (item.moduleType) {
                 if (chartsTypeArr.indexOf(item.moduleType) > -1) {
                   // 图表组件集
-                  console.log(reqObj, items, item, 'item.moduleType')
+
                   this.chartsBeInteractive(reqObj, items, item)
                 } else {
                   switch (item.moduleType) {
@@ -322,6 +334,9 @@ export default {
                     case 'timeAxis': // 时间轴
                       this.timeAxisBeInteractive(reqObj, items, item)
                       break
+                    case 'tabs': // tabs切换
+                      this.tabsBeInteractive(reqObj, items, item)
+                      break
                   }
                 }
               }
@@ -329,6 +344,11 @@ export default {
           }
         })
       })
+    },
+    // 顶部栏被交互事件
+    tabsBeInteractive(reqObj, items, item) {
+      const tabsCode = reqObj.rowItem[items.paramsChoose]
+      this.$refs['middleware'].tabsInteractive(tabsCode, item.moduleId)
     },
     // 时间轴被交互事件
     timeAxisBeInteractive(reqObj, items, item) {
@@ -348,14 +368,14 @@ export default {
     topBarBeInteractive(reqObj, items, item) {
       const params = {}
       params[item.corParams] = reqObj.rowItem[items.paramsChoose]
-      // console.log(params, 'params')
+
       this.getTopBarData(params)
     },
     // (图表)被交互事件--（表格、列表、图表、详情表格）
     chartsBeInteractive(reqObj, items, item) {
       const params = {}
       params[item.corParams] = reqObj.rowItem[items.paramsChoose]
-      // console.log(params, items.paramsChoose, 'params----')
+
       this.$refs['middleware'].interactiveCover(params, item.moduleId)
     },
     // 图表被交互事件
@@ -368,7 +388,6 @@ export default {
       // 2-根据图表类型确定触发方式
       this.getInteractiveData(() => {
         this.interactiveData.forEach(items => {
-          console.log(items, '----')
           // 单元格点击事件时判断点击字段是否为配置字段
           const offon = reqObj.key ? reqObj.key === items.paramsChoose : true
           if (items.otherModuleConfig.length > 0 && offon) {

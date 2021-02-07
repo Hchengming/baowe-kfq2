@@ -111,7 +111,6 @@ export default {
           })
           this.timeSource = res.data
           this.pageModuleData.timeAxis = this.timeSource
-          // console.log(this.timeSource, 'timeSource')
 
           this.getTimeAxisDatas(res.data)
         })
@@ -190,7 +189,6 @@ export default {
     },
     // 数据请求 数据视图、应用接口区分
     getTimesData(item, reqData, index) {
-      console.log(123)
       // 0：数据视图 1：应用接口
       if (item.timeAxisConfig.apiType === '0') {
         const url = window.BaseApi + item.timeAxisConfig.url

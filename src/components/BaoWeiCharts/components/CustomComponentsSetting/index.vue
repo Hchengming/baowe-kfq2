@@ -6,6 +6,7 @@
     class="dialog-common custom-components-setting-dialog"
   >
     <div slot="title" class="headerTitle">Vue自定义组件配置信息</div>
+    <help-tips :help-tips-txt="helpTipsTxt"/>
     <el-form
       ref="customComponentsConfig"
       :model="customComponentsConfig"
@@ -103,12 +104,15 @@
     <span slot="footer" class="dialog-footer">
       <el-button size="small" @click="close">取 消</el-button>
       <el-button type="primary" size="small" @click="onSubmit">确 定</el-button>
-  </span></el-dialog
-  >
+  </span></el-dialog>
 </template>
 <script>
 // import CustomComponentsSettingMixins from './CustomComponentsSettingMixins'
+import HelpTips from '../HelpTips'
 export default {
+  components: {
+    HelpTips
+  },
   props: {
     customComponentsConfig: {
       type: Object,
@@ -121,7 +125,17 @@ export default {
   },
   data() {
     return {
-      isShow: false
+      isShow: false,
+      helpTipsTxt: `
+      组件交互
+      const obj = {
+        interactiveModuleId: moduleId, // 交互组件id
+        param: {//传递参数
+          asd: this.num
+        }
+      }
+      localStorage.setItem('customComponentsParam', JSON.stringify(obj))
+      `
     }
   },
   methods: {

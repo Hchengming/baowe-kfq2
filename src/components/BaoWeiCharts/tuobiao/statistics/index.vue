@@ -24,7 +24,7 @@
       <div class="statisticsBox">
         <!-- 拉伸组件 -->
         <stretch
-          v-if="isAdmin"
+          v-if="isScaleStretch()"
           :setting-form="settingForm"
           :stretch-elelemt="stretchElelemt"
           :container-elelemt="containerElelemt"

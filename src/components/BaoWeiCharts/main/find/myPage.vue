@@ -47,14 +47,14 @@
       @submit="topBarAdd"
     />
     <!-- 页面配置 -->
-    <div v-if="settingConfig.systemPermissions === 'admin'" class="hoverMenu">
+    <div v-if="hoverMenuIsShow()" class="hoverMenu">
       <div class="box">
         <div class="top theme-bg-color">
           <i title="页面配置" class="iconfont iconkuangjiashezhi" />
         </div>
         <ul class="theme-box-shadow">
           <li
-            v-if="settingConfig.isCustomMenu"
+            v-if="settingConfig.isCustomMenu&&!settingConfig.isBigData"
             @click="rightDrawerShow('menu')"
           >
             菜单
@@ -67,7 +67,7 @@
           >
             页面
           </li>
-          <li @click="rightDrawerShow('theme')">主题</li>
+          <li v-if="!settingConfig.isBigData" @click="rightDrawerShow('theme')">主题</li>
         </ul>
       </div>
     </div>
@@ -87,6 +87,7 @@
       <!-- 页面组件新增 -->
       <assembly
         v-if="rightDrawerType == 'assembly'"
+        :setting-config="settingConfig"
         :assembly-data="assemblyData"
         @addAssembly="addAssembly"
       />
@@ -143,9 +144,10 @@
     <custom-components-setting
       ref="customComponentsSetting"
       :custom-components-config="customComponentsConfig"
-      @componentFunc="componentFunc" />
+      @componentFunc="componentFunc"
+    />
     <!-- 自定义组件渲染   -->
-    <custom-components v-for="item in customComponentsData" :key="item.moduleId" :setting-form="item.config" :module-id="item.moduleId" :setting-config="settingConfig" />
+    <custom-components v-for="item in customComponentsData" :key="item.moduleId" :setting-form="item.config" :module-id="item.moduleId" :setting-config="settingConfig" @componentFunc="componentFunc" />
   </div>
 </template>
 <script>
@@ -252,12 +254,12 @@ export default {
           type: 'tabs',
           name: 'Tabs切换',
           icon: 'icondangan'
+        },
+        {
+          type: 'customComponents',
+          name: '自定义组件',
+          icon: 'icondangan'
         }
-        // {
-        //   type: 'customComponents',
-        //   name: '自定义组件',
-        //   icon: 'icondangan'
-        // }
       ]
     }
   },
@@ -268,6 +270,7 @@ export default {
     }
   },
   methods: {
+
     // 项目主体(主题)配置事件
     projectConfigChange(obj) {
       this.$emit('projectConfigChange', obj)
@@ -305,7 +308,7 @@ export default {
       // 类目轴配置数据查询
       this.categoryConfigSelect()
       // 自定义组件数据查询
-      // this.customComponentSelect()
+      this.customComponentSelect()
 
       sessionStorage.setItem('menuItem', JSON.stringify(menuItem))
     },

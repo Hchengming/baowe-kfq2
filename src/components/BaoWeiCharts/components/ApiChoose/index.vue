@@ -3,7 +3,7 @@
     <el-row type="flex" class="row-bg">
       <el-col :span="6">
         <el-form-item label="请求方式">
-          <el-select v-model="form.options" :disabled="form.apiType==='0'" size="small" placeholder="接口名称">
+          <el-select v-model="form.options" :disabled="form.apiType==='0'||settingConfig.isBigData" size="small" placeholder="接口名称">
             <el-option label="POST" value="POST" />
             <el-option label="GET" value="GET" />
           </el-select>
@@ -17,6 +17,7 @@
         >
           <el-select
             v-model="form.viewId"
+
             size="small"
             filterable
             placeholder="视图名称"
@@ -38,6 +39,7 @@
         >
           <el-select
             v-model="form.urlName"
+            :disabled="settingConfig.isBigData"
             size="small"
             filterable
             placeholder="服务名称"
@@ -54,7 +56,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="接口路径:" label-width="75px">
-          <el-input v-model="form.url" size="small" placeholder="接口路径" />
+          <el-input :disabled="settingConfig.isBigData" v-model="form.url" size="small" placeholder="接口路径" />
         </el-form-item>
       </el-col>
     </el-row>

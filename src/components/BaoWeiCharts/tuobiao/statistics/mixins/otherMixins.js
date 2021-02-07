@@ -111,7 +111,7 @@ export default {
     // 模块拖拽事件
     mousedown_tz(e) {
       const _this = this
-      if (this.isAdmin) {
+      if (this.isScaleStretch()) {
         const element = this.containerElelemt
           ? this.containerElelemt
           : document.getElementsByClassName('my_main_content')[0]
@@ -125,6 +125,15 @@ export default {
           }
         })
       }
+    },
+    // 是否可拉伸缩放
+    isScaleStretch() {
+      let offon = this.isAdmin
+      // 大数据编排项目判断
+      if (this.settingConfig.bigData) {
+        offon = this.settingConfig.answerId === this.settingConfig.bigData.bigDataTemplateId
+      }
+      return offon
     },
     // 模块拖拽拉伸后保存事件
     TZLSKeep() {

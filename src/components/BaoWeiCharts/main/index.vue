@@ -1,7 +1,7 @@
 <template>
   <div id="bao-wei-charts" :class="themeClass">
-    <el-container class="KFQ_wrap">
-      <el-header class="theme-bg-color">
+    <el-container :class="['KFQ_wrap',{'isBigData':settingConfig.isBigData}]">
+      <el-header v-if="!settingConfig.isBigData" class="theme-bg-color">
         <div class="logo">
           <img :src="settingConfig.logoUrl">
           <span>{{ settingConfig.itemTitle }}</span>

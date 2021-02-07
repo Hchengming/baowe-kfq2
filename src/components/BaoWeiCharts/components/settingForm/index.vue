@@ -230,7 +230,7 @@
                     v-model="form.apiType"
                     @change="apiTypeChange"
                   >
-                    <el-radio label="0">数据视图</el-radio>
+                    <el-radio :disabled="settingConfig.isBigData" label="0">数据视图</el-radio>
                     <el-radio label="1">服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>

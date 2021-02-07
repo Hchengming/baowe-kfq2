@@ -44,6 +44,10 @@ export default {
     }
   },
   methods: {
+    // 标签切换选中事件
+    chooseActive(tabsCode) {
+      this.activeName = tabsCode
+    },
     // 容器组件内事件传递
     componentFunc(obj) {
       this.$emit('componentFunc', obj)

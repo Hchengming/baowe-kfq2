@@ -61,6 +61,7 @@
     <!-- tabs渲染组件 -->
     <tabs-view
       v-for="item in tabsSettingData"
+      ref="tabsView"
       :key="item.moduleId"
       :setting-config="settingConfig"
       :setting-form="item.tabsConfig"
@@ -81,10 +82,11 @@ import SettingForm from '../../components/SettingForm'
 // mixins
 import middlewareMixins from './mixins/middlewareMixins'
 import tabsMixins from './mixins/tabsMixins'
+import bigDataMixins from './mixins/bigDataMixins'
 import TabsView from '../../components/Tabs'
 export default {
   components: { Statistics, SettingForm, TabSetting, TabsView },
-  mixins: [middlewareMixins, tabsMixins],
+  mixins: [middlewareMixins, tabsMixins, bigDataMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -119,7 +121,7 @@ export default {
         apiType: '1', // 0：数据视图 1：应用接口
         url: '', // 接口
         urlName: '', // 接口名称
-        options: 'GET', // 请求方式  GET/POST
+        options: 'POST', // 请求方式  GET/POST
         keyArr: [], // 图表字段配置数据
         tableHeaderConfig: {}, // 表格多表头配置数据
         tableOtherConfig: {
@@ -478,43 +480,7 @@ export default {
             if (menuTypes === 'top' && resData.length === 0) {
               fn(true)
             }
-            this.pageData = []
-            resData.forEach((item, index) => {
-              this.itemGSH(item, index)
-              // 配置数据字段集获取
-              const keys = []
-              item.isShow = true
-              item.contentAreaConfig.keyArr.forEach(obj => {
-                keys.push(obj.key)
-              })
-
-              // 数据请求参数
-              const obj = {
-                url: item.contentAreaConfig.url,
-                keys: keys,
-                index: index
-              }
-
-              if (item.contentAreaConfig.isPage === '1') {
-                obj.currentPage = 1
-                obj.pageSize = item.contentAreaConfig.pageSize
-              }
-              this.pageData.push(item)
-              // 默认请求参数解析
-              if (
-                item.contentAreaConfig.moduleType !== '1' &&
-                item.contentAreaConfig.moduleType !== '3'
-              ) {
-                this.getTableData(obj, {}, item, index)
-              }
-            })
-            this.pageModuleData.pageData = this.pageData
-            this.chartsMethods({
-              methodsName: 'getPageData',
-              name: '页面模块渲染数据加载完成事件',
-              data: this.pageData,
-              menuId: this.menuId
-            })
+            this.setPageData(resData)
           }
           this.pageLoding(false)
         })
@@ -527,6 +493,46 @@ export default {
           this.pageLoding(false)
           return false
         })
+    },
+    // 当前页面模块数据处理
+    setPageData(resData) {
+      this.pageData = []
+      resData.forEach((item, index) => {
+        this.itemGSH(item, index)
+        // 配置数据字段集获取
+        const keys = []
+        item.isShow = true
+        item.contentAreaConfig.keyArr.forEach(obj => {
+          keys.push(obj.key)
+        })
+
+        // 数据请求参数
+        const obj = {
+          url: item.contentAreaConfig.url,
+          keys: keys,
+          index: index
+        }
+
+        if (item.contentAreaConfig.isPage === '1') {
+          obj.currentPage = 1
+          obj.pageSize = item.contentAreaConfig.pageSize
+        }
+        this.pageData.push(item)
+        // 默认请求参数解析
+        if (
+          item.contentAreaConfig.moduleType !== '1' &&
+          item.contentAreaConfig.moduleType !== '3'
+        ) {
+          this.getTableData(obj, {}, item, index)
+        }
+      })
+      this.pageModuleData.pageData = this.pageData
+      this.chartsMethods({
+        methodsName: 'getPageData',
+        name: '页面模块渲染数据加载完成事件',
+        data: this.pageData,
+        menuId: this.menuId
+      })
     },
     // 自定义参数-值获取
     getParamValue(val, item) {
@@ -568,6 +574,7 @@ export default {
         // keys: obj.keys,
       }
       // 01-默认请求参数导入
+
       if (config.contentAreaConfig.paramConfig) {
         config.contentAreaConfig.paramConfig.forEach(item => {
           if (!reqData[item.paramKey] && item.isUse) {
@@ -575,6 +582,7 @@ export default {
           }
         })
       }
+
       // 02-筛选默认参数导入
       if (config.contentAreaConfig.filterConfig) {
         this.setParams(config, reqData)
@@ -622,13 +630,20 @@ export default {
         }
         // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
-        if (config.contentAreaConfig.apiType === '0') {
-          nowUrl = window.BaseApi + obj.url
+        if (this.settingConfig.isBigData) {
+          nowUrl = this.settingConfig.bigData.pageDataUrl
         } else {
-          if (obj.url.indexOf('http') > -1) {
-            nowUrl = obj.url
+          if (config.contentAreaConfig.apiType === '0') {
+            nowUrl = window.BaseApi + obj.url
           } else {
-            nowUrl = obj.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + obj.url : this.settingConfig.dataUrl + obj.url
+            if (obj.url.indexOf('http') > -1) {
+              nowUrl = obj.url
+            } else {
+              nowUrl =
+              obj.url.indexOf('/api/service') > -1
+                ? window.config.applicationInterfaceApi + obj.url
+                : this.settingConfig.dataUrl + obj.url
+            }
           }
         }
 

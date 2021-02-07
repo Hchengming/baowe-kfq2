@@ -121,6 +121,9 @@ body {
 .KFQ_wrap > .el-container {
   height: calc(100% - 38px);
 }
+.KFQ_wrap.isBigData > .el-container {
+  height: 100%;
+}
 .KFQ_wrap .el-aside {
   height: 100%;
   background: white;
@@ -632,6 +635,10 @@ body {
   width: 60px;
   height: auto;
   text-align: center;
+}
+.zdpz_list li .hTxt1,
+.zdpz_list li .hTxt2 {
+  width: 100px;
 }
 .zdpz_list li .hTxt9 {
   width: 100px;
@@ -1155,7 +1162,7 @@ body {
   width: 120px;
 }
 .destail-setting .el-dialog .zdpz_list li .hTxt1 {
-  width: 75px;
+  width: 115px;
 }
 .destail-setting .el-dialog .zdpz_list li .hTxt1 .el-input-number--small {
   width: 100%;

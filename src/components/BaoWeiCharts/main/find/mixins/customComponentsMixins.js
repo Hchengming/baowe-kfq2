@@ -1,6 +1,6 @@
 // 自定义组件
 import serviceAxios from '@/utils/request.js'
-export default{
+export default {
   data() {
     return {
       customComponentsData: [], // 当前页面自定义组件数据
@@ -15,24 +15,64 @@ export default{
         title: '', // 标题
         parentModuleId: '', // 父级容器组件id
         parentTabsCode: ''// 父级容器编码（用于选项卡）
-      }
+      },
+      customComponentsParamStr: ''// 交互传值监听
     }
   },
+  mounted() {
+    this.customComponentsChange()
+  },
   methods: {
+    // 设置定时器监听组件交互情况
+    customComponentsChange() {
+      setInterval(() => {
+        const str = localStorage.getItem('customComponentsParam')
+        if (str !== this.customComponentsParamStr) {
+          this.customComponentsParamStr = str
+          this.customInteractive(JSON.parse(str))
+        }
+      }, 50)
+    },
+    // 交互对象判断
+    customInteractive(object) {
+      let offon = false
+      if (!object || !object.interactiveModuleId) return
+      // 1、判断是否为图表组件集交互
+      const pageData = this.$refs['middleware'].pageData
+      pageData.forEach(config => {
+        if (config.moduleId === object.interactiveModuleId) {
+          this.$refs['middleware'].interactiveCover(object.param, object.interactiveModuleId)
+          offon = true
+        }
+      })
+      if (offon) return
+      // 2、判断是否为顶部栏交互
+      if (object.interactiveModuleId === this.nowMenuItem.menuId) {
+        this.getTopBarData(object.param)
+        return
+      }
+      // 3、时间轴交互
+      this.timeSource.forEach(item => {
+        if (item.moduleId === object.interactiveModuleId) {
+          // console.log(item.timeAxisConfig.moduleId)
+          this.getTimeAxisDatas2(object.param, object.interactiveModuleId)
+        }
+      })
+    },
     // 自定义模块配置页面弹出
     customComponentsSettingShow() {
       this.$refs['customComponentsSetting'].show()
     },
-    // 自定义配置弹窗确认事件
+    // 自定义配置确认事件
     customComponentsEmit(param) {
-      // console.log(param, '1111111111')
       const reqObj = {
         configs: param.config
       }
       let api = ''
       if (param.moduleId) {
         // 修改
-
+        api = '/customComponents/updateCustomComponentsConfig'
+        reqObj.moduleId = param.moduleId
       } else {
         // 新增
         reqObj.menuId = this.nowMenuItem.menuId
@@ -50,7 +90,7 @@ export default{
         .then(() => {
           this.$message({
             type: 'success',
-            message: '当前时间轴配置数据保存成功'
+            message: '当前自定义组件配置数据保存成功'
           })
           // 编辑弹窗关闭事件执行
           if (param.close) {
@@ -61,7 +101,7 @@ export default{
         .catch(() => {
           this.$message({
             type: 'error',
-            message: '当前时间轴配置数据保存失败'
+            message: '当前自定义组件配置数据保存失败'
           })
         })
     },
@@ -85,6 +125,27 @@ export default{
           this.$message({
             type: 'error',
             message: '页面自定义组件配置数据查询失败'
+          })
+        })
+    },
+    // 模块删除事件
+    customComponentsDelete(param) {
+      serviceAxios
+        .post(
+          this.settingConfig.commonUrl + '/customComponents/deleteCustomComponentsConfig',
+          { moduleId: param.moduleId }
+        )
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: '页面自定义组件配置删除成功'
+          })
+          this.customComponentSelect()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'error',
+            message: '页面自定义组件配置删除失败'
           })
         })
     }

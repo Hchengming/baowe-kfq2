@@ -2,6 +2,7 @@
   <ul class="assembly_wrap">
     <li
       v-for="(item,index) in assemblyData"
+      v-show="item.type==='tableChart'||!settingConfig.isBigData"
       :key="index"
       :class="['theme-bg',{'theme-box-shadow':choosetype==index}]"
       @click="addAssembly(item.type)"
@@ -19,6 +20,9 @@ export default {
   props: {
     assemblyData: {
       type: Array, default: null
+    },
+    settingConfig: {
+      type: Object, default: null
     }
   },
   data() {

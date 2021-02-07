@@ -1,16 +1,13 @@
 <template>
-  <div
-    id="charts-system-0a1a33"
-    style="height:100%">
+  <div id="charts-system-0a1a33" style="height:100%">
     <!-- slot-name   嵌入模块slot字段名集合 -->
     <bao-wei-charts
       ref="baoweiCharts"
       :setting-config="settingConfig"
       :slot-name="['slot']"
-      @elementMethods="elementMethods">
-      <div
-        slot="slot"
-        style="width:100%;height:100%">
+      @elementMethods="elementMethods"
+    >
+      <div slot="slot" style="width:100%;height:100%">
         哈哈哈哈
       </div>
     </bao-wei-charts>
@@ -29,14 +26,15 @@ import { elementMethodsMixins } from './mixins.js'
  * systemPermissions String  权限管理 admin/user
  * answerId String  数据视图获取编码/id  当前项目唯一编码
  * serviceId String  应用接口获取id (getInterfaceUrl、serviceId二选一配置)
- * getInterfaceUrl String  应用接口获取路径(getInterfaceUrl、serviceId二选一配置)
+ * getInterfaceUrl String  应用接口获取路径(getInterfaceUrl、serviceId二选一配置)用于本地测试环境
  * itemTitle String  项目标题
  * isProducrTestData Boolean 未开发接口是否直接生成测试数据
  * systomMenuApi String  菜单配置模块公共路径(本地)
  * isCustomMenu Boolean 是否启用菜单配置模块(本地)
  * theme String 当前已配置主题选择 0：白色背景 1：深色背景
  * isTestEnvironment Boolean 后台版本是否为node测试环境
-*/
+ * isBigData Boolean 是否为大数据编排项目
+ */
 export default {
   mixins: [elementMethodsMixins],
   data() {
@@ -55,8 +53,15 @@ export default {
         getInterfaceUrl: 'http://localhost:4000/application/insert',
         itemTitle: '测试系统', // 项目标题
         theme: '2', // 当前已配置主题选择 0:老实蓝色背景 1：大屏展示类背景风格 2：深蓝色主题风格(默认为2)
-        answerId: '001', // 项目编码
-        isTestEnvironment: true // 后台版本是否为node测试环境
+        isTestEnvironment: true, // 后台版本是否为node测试环境
+        answerId: '100', // 应用id
+        // a7d51d400c5411ebb6838de450485cc9
+        isBigData: true, // 是否为大数据编排项目使用
+        bigData: {// 大数据编排项目特殊配置
+          bigDataTemplateId: '1001', // 大数据编排项目模板页面id
+          pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498' // 当前项目列表页面数据请求路径
+
+        }
       }
     }
   },
@@ -69,23 +74,25 @@ export default {
   },
   methods: {
     dtcs() {
-      document.getElementById('ifrmmap').contentWindow.postMessage(`LocalQxbyname|梁平区`, '*')
+      document
+        .getElementById('ifrmmap')
+        .contentWindow.postMessage(`LocalQxbyname|梁平区`, '*')
     },
     elementMethods(obj) {
       switch (obj.methodsName) {
-        case 'menuClick':// 菜单点击事件
+        case 'menuClick': // 菜单点击事件
           this.menuClick(obj)
           break
-        case 'getchartsList':// 模块获取数据格式化处理
+        case 'getchartsList': // 模块获取数据格式化处理
           this.getchartsList(obj)
           break
-        case 'getTopBarData':// 顶部栏数据查询事件格式化处理
+        case 'getTopBarData': // 顶部栏数据查询事件格式化处理
           this.getTopBarData(obj)
           break
-        case 'rowClick':// 行点击事件
+        case 'rowClick': // 行点击事件
           this.rowClick(obj)
           break
-        case 'operateButtonClick':// 表格右侧按钮点击事件
+        case 'operateButtonClick': // 表格右侧按钮点击事件
           console.log('表格右侧按钮点击事件', obj)
           break
         // case 'cellClick'://单元格点击事件

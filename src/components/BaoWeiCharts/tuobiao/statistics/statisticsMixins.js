@@ -24,6 +24,7 @@ export const childMixins = {
     this.childSettingForm = JSON.parse(JSON.stringify(this.addSettingForm))
   },
   methods: {
+
     // 详情自定义配置页面点击弹出事件
     destailDialogShow(rowData, key, index) {
       // 操作模块点击排除

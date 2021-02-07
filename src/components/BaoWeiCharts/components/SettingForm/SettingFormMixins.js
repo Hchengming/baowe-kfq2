@@ -4,7 +4,7 @@
 export const ChartsMixins = {
   data() {
     return {
-      dataViewList: [], // 视图列表数据
+      dataViewList: [], // 视图列表数据  。
       itemApiData: [], // 应用接口列表数据
       isPageDisabled: false,
       listKeyAll: false, // 列表全选
@@ -300,6 +300,23 @@ export const otherMixins = {
       // 图表、列表全选按钮控制
       this.keyChooseAllShow()
       // console.log(this.form)
+
+      // 判断当项目用于大数据编排项目时请求路径确定
+      if (this.settingConfig.isBigData) {
+        this.$nextTick(() => {
+          console.log(this.form.moduleType, 'his.form.moduleType')
+          if (this.form.moduleType === '0') {
+            this.form.url = this.settingConfig.bigData.pageDataUrl
+            this.form.options = 'GET'
+          }
+
+          // 模板模块新增时生产一个模板编码
+          if (this.settingConfig.answerId === this.settingConfig.bigData.bigDataTemplateId && !this.statisticsAll) {
+            const RandomId = len => Math.random().toString(36).substr(3, len)
+            this.form.moduleCode = RandomId(10)
+          }
+        })
+      }
     },
     // 配置数据旧版本兼容处理
     compatibleProcessing() {

@@ -30,6 +30,18 @@ export default {
     }
   },
   methods: {
+    // tabs切换交互
+    tabsInteractive(tabsCode, moduleId) {
+      this.tabsSettingData.forEach((x, index) => {
+        if (x.moduleId === moduleId) {
+          this.$refs['tabsView'][index].chooseActive(tabsCode)
+        }
+      })
+    },
+    // 获取当前页面所有tabs配置数据
+    getTabsData() {
+      return this.tabsSettingData
+    },
     // tabs所有配置数据查询
     tabsSettingSelect() {
       serviceAxios
