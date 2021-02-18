@@ -130,7 +130,7 @@ export default {
     isScaleStretch() {
       let offon = this.isAdmin
       // 大数据编排项目判断
-      if (this.settingConfig.bigData) {
+      if (this.settingConfig.isBigData) {
         offon = this.settingConfig.answerId === this.settingConfig.bigData.bigDataTemplateId
       }
       return offon

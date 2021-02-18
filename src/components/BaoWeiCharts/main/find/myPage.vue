@@ -53,12 +53,12 @@
           <i title="页面配置" class="iconfont iconkuangjiashezhi" />
         </div>
         <ul class="theme-box-shadow">
-          <li
+          <!-- <li
             v-if="settingConfig.isCustomMenu&&!settingConfig.isBigData"
             @click="rightDrawerShow('menu')"
           >
             菜单
-          </li>
+          </li> -->
           <li
             :class="{ 'theme-color': chooseType == 1 }"
             @click="rightDrawerShow('assembly')"
