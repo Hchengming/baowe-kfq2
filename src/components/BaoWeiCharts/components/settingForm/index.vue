@@ -10,7 +10,7 @@
     >
       <div slot="title" class="headerTitle">模块配置信息</div>
       <div class="setting-form-box">
-        <el-form ref="settingForm" :model="form" label-width="130px">
+        <el-form ref="settingForm" :model="form" label-width="140px">
           <el-row type="flex" class="row-bg">
             <el-col :span="8">
               <el-form-item label="模块标题" prop="title">
@@ -167,6 +167,18 @@
                     controls-position="right"
                     size="small"
                   />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8">
+
+                <el-form-item label="展现方式切换图标隐藏" prop="isDisplayModeHide">
+                  <el-switch v-model="form.isDisplayModeHide" />
+                  <!-- <el-radio-group v-model="form.isPage">
+                    <el-radio label="1">是</el-radio>
+                    <el-radio label="0">否</el-radio>
+                  </el-radio-group> -->
                 </el-form-item>
               </el-col>
             </el-row>

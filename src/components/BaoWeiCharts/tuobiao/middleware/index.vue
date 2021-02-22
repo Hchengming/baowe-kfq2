@@ -146,6 +146,7 @@ export default {
         defaultParameters: '', // 接口默认参数
         zindex: '8', // 模块z-index
         displayMode: 'table', // 数据展现方式
+        isDisplayModeHide: false, // 展现方式切换启用
         titleShow: '1', // 图表头部切换模块是否显示 0:不显示 1:显示
         submodule: '0', // 是否含有子页面
         menuTapAll: {

@@ -123,7 +123,7 @@
                 class="pic"
               >
                 <!-- isAdmin && typeData.length > 1 -->
-                <i class="iconfont icondangan" />
+                <i v-if="!settingForm.isDisplayModeHide" class="iconfont icondangan" />
                 <div class="t_list">
                   <ul>
                     <li
