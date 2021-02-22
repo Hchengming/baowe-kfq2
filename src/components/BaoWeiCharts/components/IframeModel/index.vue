@@ -28,6 +28,10 @@ export default {
     iframePositionAll: {
       type: Object,
       default: null
+    },
+    settingConfig: {
+      type: Object,
+      default: null
     }
   }
 }

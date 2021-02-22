@@ -245,6 +245,7 @@
             :statistics-all="statisticsAll"
             :iframe-position-all="statisticsAll.iframePositionAll"
             :iframe-all="settingForm.iframeAll"
+            :setting-config="settingConfig"
           />
         </div>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="help-tips">
-    <i class="el-icon-question theme-color" @click="isShow=!isShow"/>
-    <pre v-show="isShow" v-html="helpTipsTxt"/>
+    <i class="el-icon-question theme-color" @click="isShow=!isShow" />
+    <pre v-show="isShow" v-html="helpTipsTxt" />
   </div>
 </template>
 <script>

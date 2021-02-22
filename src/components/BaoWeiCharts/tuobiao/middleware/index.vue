@@ -137,7 +137,7 @@ export default {
         iframeAll: {
           iframeType: '0', // 0-map地图  1-其他类型
           iframeId: '', // 自定义iframe框id名
-          iframeUrl: 'http://23.36.250.99:666/views/showmap.html?callid=10129' // iframe嵌入路径,
+          iframeUrl: '' // iframe嵌入路径,
         },
         height: 30,
         width: 30,

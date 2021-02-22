@@ -553,11 +553,11 @@
 import settingJson from './settingJson'
 import JudgePop from '../JudgePop/index.vue'
 import { dragDialog } from '../../utils/mixins.js'
-import { ChartsMixins, iframeMixins, otherMixins } from './SettingFormMixins.js'
+
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
 import ChartsDataSettting from './ChartsDataSettting'
-
+import { ChartsMixins, iframeMixins, otherMixins } from './settingFormMixins'
 export default {
   components: {
     settingJson,

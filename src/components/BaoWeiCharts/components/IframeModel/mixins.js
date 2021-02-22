@@ -49,8 +49,12 @@ export default {
           str = url
         })
       }
-
-      // console.log(this.iframeAll.iframeUrl)
+      // 大数据编排特殊情况处理(有初始路径)
+      if (this.settingConfig.isBigData) {
+        if (!this.iframeAll.iframeUrl.replace(/\s*/g, '')) {
+          str = this.settingConfig.bigData.iframeDefaultUrl
+        }
+      }
       return str
     },
     // 递归循环修改src

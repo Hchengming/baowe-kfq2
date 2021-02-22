@@ -56,7 +56,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="接口路径:" label-width="75px">
-          <el-input :disabled="settingConfig.isBigData" v-model="form.url" size="small" placeholder="接口路径" />
+          <el-input v-model="form.url" :disabled="settingConfig.isBigData" size="small" placeholder="接口路径" />
         </el-form-item>
       </el-col>
     </el-row>

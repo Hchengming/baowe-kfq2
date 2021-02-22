@@ -6,7 +6,7 @@
     class="dialog-common custom-components-setting-dialog"
   >
     <div slot="title" class="headerTitle">Vue自定义组件配置信息</div>
-    <help-tips :help-tips-txt="helpTipsTxt"/>
+    <help-tips :help-tips-txt="helpTipsTxt" />
     <el-form
       ref="customComponentsConfig"
       :model="customComponentsConfig"
