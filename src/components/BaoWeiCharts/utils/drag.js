@@ -37,7 +37,6 @@ const drag = ({ e, settingForm, drag, fatherElement, fnc }) => {
       // } else if (moveX > fatherElement.scrollWidth - drag.offsetWidth) {
       //   moveX = fatherElement.scrollWidth - drag.offsetWidth
       // }
-
       // if (moveY <= 0) {
       //   moveY = 0
       // } else if (moveY > fatherElement.scrollHeight - drag.offsetHeight) {

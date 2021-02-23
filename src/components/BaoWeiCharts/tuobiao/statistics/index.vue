@@ -29,6 +29,7 @@
           :stretch-elelemt="stretchElelemt"
           :container-elelemt="containerElelemt"
           @stretchkeep="TZLSKeep"
+          @boxOffon="setBoxOffon"
         />
         <i
           v-if="isModuleClose()"
@@ -47,7 +48,7 @@
           <!-- <i v-if="isModuleClose()"
              class="el-icon-close"
              @click="statisticsClose" /> -->
-          <div class="box">
+          <div :class="['box']">
             <div class="left">
               <span class="txt1">{{ settingForm.title }}</span>
               <span v-if="statisticsAll.contentAreaConfig.subtitle1">---</span>
@@ -156,11 +157,12 @@
 
         <div
           v-loading="statisticsAll.isLoading && settingForm.moduleType === '0'"
-          class="statistics-content"
+          :class="['statistics-content']"
           element-loading-text="数据加载中"
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
         >
+          <div v-show="boxOffon" class="boxShow"/>
           <!-- 筛选模块 -->
           <where
             ref="where"
@@ -241,10 +243,13 @@
           <!-- iframe嵌入组件 -->
           <iframe-model
             v-if="settingForm.moduleType === '1'"
+            ref="iframeModel"
             :height="boxHeight()"
             :statistics-all="statisticsAll"
+            :setting-form="settingForm"
             :iframe-position-all="statisticsAll.iframePositionAll"
             :iframe-all="settingForm.iframeAll"
+            :container-elelemt="containerElelemt"
             :setting-config="settingConfig"
           />
         </div>
@@ -614,3 +619,15 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+   .boxShow{
+     width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1111;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        background: red;
+        // margin-top: 30px;
+   }
+</style>

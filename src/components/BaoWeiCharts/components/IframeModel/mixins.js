@@ -1,6 +1,8 @@
 export default {
   data() {
-    return {}
+    return {
+      iframeStyle: {}
+    }
   },
   mounted() {
     if (this.iframePositionAll) {
@@ -12,6 +14,9 @@ export default {
           'iframe' + this.statisticsAll.moduleId
         ).contentWindow.location.href = this.iframeAll.iframeUrl
       }
+      // this.setIframeStyle()
+      // console.log(this.settingForm.width * element.scrollWidth / 100)
+      // {'height':600+'px','width':300+'px'}
     })
   },
   watch: {
@@ -25,6 +30,16 @@ export default {
     }
   },
   methods: {
+    // iframe样式设置
+    // setIframeStyle() {
+    //   const element = this.containerElelemt
+    //     ? this.containerElelemt
+    //     : document.getElementsByClassName('my_main_content')[0]
+    //   this.iframeStyle = {
+    //     height: this.height + 'px',
+    //     width: this.settingForm.width * element.scrollWidth / 100 + 'px'
+    //   }
+    // },
     // iframe id配置
     iframeId() {
       let ids = ''

@@ -36,7 +36,7 @@ const stretch = ({
   settingForm,
   stretch,
   fatherElement,
-  fnc
+  fnc, _this
 }) => {
   stopPropagation(event)
   stopDefault(event)
@@ -47,20 +47,23 @@ const stretch = ({
   const diffX = event.clientX
   const diffY = event.clientY
   // 2 获取当前模块的宽高、位置
+  console.log(111)
   const width = (settingForm.width * fatherElement.scrollWidth) / 100
   const height = (settingForm.height * fatherElement.scrollHeight) / 100
   const top = (settingForm.top * fatherElement.scrollHeight) / 100
   const left = (settingForm.left * fatherElement.scrollWidth) / 100
   // 2执行鼠标移动
+  // const document = document.getElementsByTagName('body')[0]
   document.onmousemove = function(e) {
     // 2-1  获取鼠标移动的距离
+    e = e || window.event
     const moveX = e.clientX - diffX
     const moveY = e.clientY - diffY
     let width_c = width
     let height_c = height
     let left_c = left
     let top_c = top
-    // console.log(width_c)
+    // console.log(width_c) 我给自己留了200块噻
     // 限制条件  模块宽高均大于100
 
     if (position[0] === 'top') {
@@ -78,15 +81,18 @@ const stretch = ({
     if (position[1] === 'right') {
       width_c = width + moveX
     }
-    if (width_c > 100 && height_c > 100 && width_c <= (fatherElement.scrollWidth - left_c) && height_c <= fatherElement.scrollHeight - top_c && left_c >= 0 && top_c >= 0) {
+    _this.$nextTick(() => {
+      // if (width_c > 100 && height_c > 100 && width_c <= (fatherElement.scrollWidth - left_c) && height_c <= fatherElement.scrollHeight - top_c && left_c >= 0 && top_c >= 0) {
       settingForm.width = (width_c / fatherElement.scrollWidth) * 100
       settingForm.height = (height_c / fatherElement.scrollHeight) * 100
       settingForm.left = (left_c / fatherElement.scrollWidth) * 100
       settingForm.top = (top_c / fatherElement.scrollHeight) * 100
-    }
+      // }
+    })
   }
   // 3 鼠标松开
   document.onmouseup = function() {
+    // console.log('===============')
     this.onmousemove = null
     this.onmouseup = null
     // 修复低版本ie bug

@@ -56,7 +56,7 @@ export const ChartsMixins = {
         this.isPageDisabled = true
         this.form.options = 'POST'
         this.$refs['apiChoose'].getDataIview()
-        // 判断当前后台环境是否为node测试环境
+        // 判断当前后台环境是否为node测试环境  那就不走了呗
         if (this.settingConfig.isTestEnvironment) {
           this.form.url = '/dataView/searchResult'
         } else {
@@ -304,7 +304,7 @@ export const otherMixins = {
       // 判断当项目用于大数据编排项目时请求路径确定
       if (this.settingConfig.isBigData) {
         this.$nextTick(() => {
-          console.log(this.form.moduleType, 'his.form.moduleType')
+          // console.log(this.form.moduleType, 'his.form.moduleType')
           if (this.form.moduleType === '0') {
             this.form.url = this.settingConfig.bigData.pageDataUrl
             this.form.options = 'GET'

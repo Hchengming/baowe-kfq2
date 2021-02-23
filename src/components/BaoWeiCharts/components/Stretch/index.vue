@@ -5,7 +5,8 @@
       v-for="(item, index) in spotData"
       :key="index"
       :class="[item.position[0], item.position[1]]"
-      @mousedown="mousedown_stretch(item.position)"
+
+      @mousedown="mousedown_stretch(item.position,...arguments)"
     />
   </div>
 </template>
@@ -28,17 +29,19 @@ export default {
         { position: ['bottom', 'left'] },
         { position: ['bottom', 'center'] },
         { position: ['bottom', 'right'] }
-      ]
+      ],
+      choosePositin: []
     }
   },
   methods: {
     // 模块拉伸事件
-    mousedown_stretch(position) {
-      var event = window.event || arguments[0]
+    mousedown_stretch(position, event) {
       const element = this.containerElelemt
         ? this.containerElelemt
         : document.getElementsByClassName('my_main_content')[0]
-
+      if (this.settingForm.moduleType === '1') {
+        this.$emit('boxOffon', true)
+      }
       stretch({
         event,
         position,
@@ -46,9 +49,14 @@ export default {
         stretch: this.stretchElelemt,
         fatherElement: element,
         fnc: () => {
+          if (this.settingForm.moduleType === '1') {
+            this.$emit('boxOffon', false)
+          }
           this.$emit('stretchkeep')
-        }
+        },
+        _this: this
       })
+      // }, 10)
     }
   }
 }

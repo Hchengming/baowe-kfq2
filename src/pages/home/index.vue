@@ -54,9 +54,8 @@ export default {
         itemTitle: '测试系统', // 项目标题
         theme: '2', // 当前已配置主题选择 0:老实蓝色背景 1：大屏展示类背景风格 2：深蓝色主题风格(默认为2)
         isTestEnvironment: true, // 后台版本是否为node测试环境
-        answerId: '100', // 应用id
-        //
-        isBigData: true, // 是否为大数据编排项目使用
+        answerId: '001', // 应用id
+        isBigData: false, // 是否为大数据编排项目使用
         bigData: {// 大数据编排项目特殊配置
           bigDataTemplateId: '100', // 大数据编排项目模板页面id
           pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径

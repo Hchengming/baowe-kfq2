@@ -7,6 +7,7 @@ export default {
         width: 353,
         height: 230
       },
+      boxOffon: false, // 内容区域显示控制
       stretchElelemt: null // 被拉伸元素
     }
   },
@@ -135,7 +136,7 @@ export default {
       }
       return offon
     },
-    // 模块拖拽拉伸后保存事件
+    // 模块拖拽拉伸后保存事件 反正喜欢你又不能变了
     TZLSKeep() {
       this.$emit('componentFunc', {
         method: 'updateMoule',
@@ -146,6 +147,10 @@ export default {
           whereForm: this.whereForm
         }
       })
+    },
+    // 模块拉伸时添加遮罩避免卡顿
+    setBoxOffon(offon) {
+      this.boxOffon = offon
     }
   }
 

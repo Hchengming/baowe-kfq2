@@ -8,7 +8,9 @@
     />
   </div>
 </template>
+
 <script>
+//
 import dataMixins from './mixins.js'
 export default {
   mixins: [dataMixins],
@@ -31,6 +33,14 @@ export default {
     },
     settingConfig: {
       type: Object,
+      default: null
+    },
+    settingForm: {
+      type: Object,
+      default: null
+    },
+    containerElelemt: {
+      type: Element,
       default: null
     }
   }
