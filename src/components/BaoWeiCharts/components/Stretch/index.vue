@@ -5,7 +5,6 @@
       v-for="(item, index) in spotData"
       :key="index"
       :class="[item.position[0], item.position[1]]"
-
       @mousedown="mousedown_stretch(item.position,...arguments)"
     />
   </div>
@@ -29,8 +28,7 @@ export default {
         { position: ['bottom', 'left'] },
         { position: ['bottom', 'center'] },
         { position: ['bottom', 'right'] }
-      ],
-      choosePositin: []
+      ]
     }
   },
   methods: {
@@ -56,7 +54,6 @@ export default {
         },
         _this: this
       })
-      // }, 10)
     }
   }
 }

@@ -47,7 +47,6 @@ const stretch = ({
   const diffX = event.clientX
   const diffY = event.clientY
   // 2 获取当前模块的宽高、位置
-  console.log(111)
   const width = (settingForm.width * fatherElement.scrollWidth) / 100
   const height = (settingForm.height * fatherElement.scrollHeight) / 100
   const top = (settingForm.top * fatherElement.scrollHeight) / 100
@@ -82,12 +81,12 @@ const stretch = ({
       width_c = width + moveX
     }
     _this.$nextTick(() => {
-      // if (width_c > 100 && height_c > 100 && width_c <= (fatherElement.scrollWidth - left_c) && height_c <= fatherElement.scrollHeight - top_c && left_c >= 0 && top_c >= 0) {
-      settingForm.width = (width_c / fatherElement.scrollWidth) * 100
-      settingForm.height = (height_c / fatherElement.scrollHeight) * 100
-      settingForm.left = (left_c / fatherElement.scrollWidth) * 100
-      settingForm.top = (top_c / fatherElement.scrollHeight) * 100
-      // }
+      if (width_c > 100 && height_c > 100 && width_c <= (fatherElement.scrollWidth - left_c) && height_c <= fatherElement.scrollHeight - top_c && left_c >= 0 && top_c >= 0) {
+        settingForm.width = (width_c / fatherElement.scrollWidth) * 100
+        settingForm.height = (height_c / fatherElement.scrollHeight) * 100
+        settingForm.left = (left_c / fatherElement.scrollWidth) * 100
+        settingForm.top = (top_c / fatherElement.scrollHeight) * 100
+      }
     })
   }
   // 3 鼠标松开
