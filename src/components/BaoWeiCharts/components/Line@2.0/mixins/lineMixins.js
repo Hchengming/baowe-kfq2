@@ -13,7 +13,8 @@ export default {
           itemStyle: {
             // 柱体背景颜色
             color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
-          }
+          },
+          cursor: this.barCursor(items.key)
         }
         this.data.forEach(item => {
           obj.data.push(item[items.key])

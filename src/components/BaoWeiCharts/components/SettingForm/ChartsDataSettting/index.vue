@@ -15,7 +15,7 @@
         />
       </el-tab-pane>
       <el-tab-pane label="筛选项配置" name="second">
-        <where-setting ref="screenSetting" :form="form" />
+        <where-setting ref="screenSetting" :form="form" :setting-config="settingConfig" />
       </el-tab-pane>
       <el-tab-pane label="字段配置" name="third">
         <keys-setting

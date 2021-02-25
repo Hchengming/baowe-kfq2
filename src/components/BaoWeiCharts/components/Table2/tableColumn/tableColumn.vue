@@ -20,7 +20,7 @@
       >
         <span
           :class="[colClass(item)]"
-          :style="{ color: textColor(scope.row[item.key]) }"
+          :style="{ color: textColor(scope.row[item.key]),cursor:cellCursor(item.key) }"
           v-html="cellHtml(item, scope.row)"
         />
       </el-tooltip>

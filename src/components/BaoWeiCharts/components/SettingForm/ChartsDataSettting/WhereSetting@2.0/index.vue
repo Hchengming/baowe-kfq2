@@ -31,6 +31,7 @@
     <settingData
       ref="settingData"
       :form="form"
+      :setting-config="settingConfig"
       @itemDataConfig="itemDataConfig"
     />
     <!-- 树形弹窗 -->
@@ -53,6 +54,10 @@ export default {
   mixins: [dragDialog, WhereSettingMixins],
   props: {
     form: {
+      type: Object,
+      default: null
+    },
+    settingConfig: {
       type: Object,
       default: null
     }

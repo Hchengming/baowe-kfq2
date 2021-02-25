@@ -51,6 +51,7 @@
         <span class="hTxt82 hTxt">表格列固定</span>
         <span class="hTxt82 hTxt">表格列排序</span>
         <span class="hTxt82 hTxt">宽度占比</span>
+        <span class="hTxt82 hTxt">可点击</span>
         <span class="hTxt91 hTxt">其他配置</span>
         <!-- <span class="hTxt5 hTxt" v-if="form.clickToShow=='cell'">下钻关联字段</span> -->
         <span class="hTxt6 hTxt icons">
@@ -191,6 +192,13 @@
               :label="option.label"
               :value="option.value"
             />
+          </el-select>
+        </span>
+        <!-- 字段是否可点击 -->
+        <span class="hTxt82 hTxt">
+          <el-select v-model="item.isClick" size="small" placeholder="字段是否可点击">
+            <el-option label="否" value="0" />
+            <el-option label="是" value="1" />
           </el-select>
         </span>
         <!-- 其他配置 -->

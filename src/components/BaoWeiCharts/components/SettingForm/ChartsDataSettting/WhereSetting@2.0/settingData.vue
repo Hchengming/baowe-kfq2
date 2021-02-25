@@ -16,7 +16,8 @@
             <el-radio :disabled="customDisabled" label="custom">
               自定义配置
             </el-radio>
-            <el-radio disabled label="dataUrl">接口数据</el-radio>
+            <el-radio label="dataView">数据视图</el-radio>
+            <el-radio disabled label="dataUrl">应用接口</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item
@@ -25,6 +26,26 @@
           label-width="65px"
         >
           <el-input v-model="dataUrl" size="small" />
+        </el-form-item>
+        <el-form-item
+          v-if="dataType == 'dataView'"
+          label="视图名称"
+          label-width="75px"
+        >
+          <el-select
+            v-model="nowViewId"
+            size="small"
+            filterable
+            placeholder="视图名称"
+            @change="viewIdChange"
+          >
+            <el-option
+              v-for="option in dataViewList"
+              :key="option.id"
+              :label="option.viewCode"
+              :value="option.viewCode + '(' + option.id + ')'"
+            />
+          </el-select>
         </el-form-item>
         <div v-if="dataType == 'custom'">
           <el-row
@@ -68,7 +89,7 @@
       <span slot="footer" class="dialog-footer">
         <div>
           <el-button size="small" type="primary" @click="addData">
-            >
+            新增
           </el-button>
         </div>
         <div class="right">
@@ -83,10 +104,15 @@
 </template>
 <script>
 import { dragDialog } from '../../../../utils/mixins.js'
+import serviceAxios from '@/utils/request.js'
 export default {
   mixins: [dragDialog],
   props: {
     form: {
+      type: Object,
+      default: null
+    },
+    settingConfig: {
       type: Object,
       default: null
     }
@@ -104,26 +130,70 @@ export default {
           label: '',
           value: ''
         }
-      ]
+      ],
+      nowViewId: '', // 当前选中视图
+      dataViewList: []
     }
   },
   methods: {
+    // 数据视图列表获取
+    getDataIview() {
+      let url = ''
+      // 判断当前后台环境是否为node测试环境
+      if (this.settingConfig.isTestEnvironment) {
+        url = this.settingConfig.commonUrl + '/dataView/viewList'
+      } else {
+        url =
+          window.BaseApi +
+          '/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus='
+      }
+      serviceAxios
+        .get(url, {
+          params: {
+            appCode: this.settingConfig.answerId
+          }
+        })
+        .then(res => {
+          const code = res.code
+          const resData = res.data
+          if (code === 20000) {
+            this.dataViewList = resData.records
+          }
+        })
+    },
     // 表单确认事件
     onSubmit() {
       let data = ''
-      if (this.settingData) {
-        data = JSON.stringify(this.settingData)
+      switch (this.dataType) {
+        case 'custom':
+          if (this.settingData) {
+            data = JSON.stringify(this.settingData)
+          }
+          break
+        case 'dataView':
+          data = this.nowViewId
+          break
       }
+      this.isShow = false
       this.$emit('itemDataConfig', data)
     },
     // 弹窗显示事件
     show(val) {
       this.isShow = true
-      if (val) {
-        this.settingData = JSON.parse(val)
-      } else {
-        this.settingData = [{ label: '', value: '' }]
+      switch (this.dataType) {
+        case 'custom':
+          if (val) {
+            this.settingData = JSON.parse(val)
+          } else {
+            this.settingData = [{ label: '', value: '' }]
+          }
+          break
+        case 'dataView':
+
+          break
       }
+
+      this.getDataIview()
     },
     // 数据新增事件
     addData() {

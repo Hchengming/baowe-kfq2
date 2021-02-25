@@ -331,21 +331,21 @@ export default {
       // console.log(item)
       switch (item.type) {
         case 'input':
-          delete item.dataUrl
-          delete item.arr
+          // delete item.dataUrl
+          // delete item.arr
           break
         case 'number':
-          delete item.dataUrl
-          delete item.arr
+          // delete item.dataUrl
+          // delete item.arr
           break
         case 'date':
           item.styleType = 'date'
-          delete item.dataUrl
-          delete item.arr
+          // delete item.dataUrl
+          // delete item.arr
           break
         case 'dateTime':
-          delete item.dataUrl
-          delete item.arr
+          // delete item.dataUrl
+          // delete item.arr
           break
         case 'radio':
           item.rightWidth = null
@@ -427,7 +427,6 @@ export default {
     },
     // 数据配置确认事件
     itemDataConfig(val) {
-      // console.log(val)
       this.form.filterConfig.screenData[this.otherNowIndex]['changeData'] = val
     }
   }

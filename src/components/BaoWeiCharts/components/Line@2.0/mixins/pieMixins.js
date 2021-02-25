@@ -49,6 +49,20 @@ export default {
       // console.log(item)
       this.$emit('pieTabsClick', item)
     },
+    // 饼图饼是否可点击设置
+    pieCursor() {
+      const arr = []
+      let cursor = 'default'
+      this.settingForm.keyArr.forEach(item => {
+        if (item.isClick === '1') {
+          arr.push(item.key)
+        }
+      })
+      if (arr.length > 0 && arr.indexOf(this.chooseItem.key) > -1) {
+        cursor = 'pointer'
+      }
+      return cursor
+    },
     // 饼图、环图 series图表显示配置
     setPieSeries(options) {
       // 01 当前数据类选择
@@ -68,7 +82,8 @@ export default {
         name: this.chooseItem.explain,
         type: 'pie',
         avoidLabelOverlap: true,
-        data: seriesData
+        data: seriesData,
+        cursor: this.pieCursor()
       }]
       // 03 饼图、环图区分配置
       if (this.chartType === 'ring') {

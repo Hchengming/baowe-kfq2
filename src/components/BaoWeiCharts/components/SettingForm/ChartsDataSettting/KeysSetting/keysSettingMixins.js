@@ -21,7 +21,8 @@ export default {
         colFixed: 'null', // 表格列固定配置 null/left/right
         colSort: '0', // 列排序功能 0：否 1：是
         proportion: 12, // 详情表格类列宽
-        tableCustom: false // 表格列自适应
+        tableCustom: false, // 表格列自适应
+        isClick: '0'// 字段是否可点击
       },
       proportionAll: [
         {

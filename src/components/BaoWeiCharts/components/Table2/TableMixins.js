@@ -5,6 +5,20 @@ export default {
     }
   },
   methods: {
+    // 单元格鼠标移入状态设置
+    cellCursor(key) {
+      const arr = []
+      let cursor = 'default'
+      this.settingForm.keyArr.forEach(item => {
+        if (item.isClick === '1') {
+          arr.push(item.key)
+        }
+      })
+      if (arr.length > 0 && arr.indexOf(key) > -1) {
+        cursor = 'pointer'
+      }
+      return cursor
+    },
     // 单元格显示数据
     cellHtml(colums, rowData) {
       return this.jsMethodsFuc(colums, rowData, 'cellRenderer')

@@ -129,7 +129,7 @@
                 "
                 :span="8"
               >
-                <el-form-item label="图表头部切换显示" prop="titleShow">
+                <el-form-item label="图列是否显示" prop="titleShow">
                   <el-radio-group v-model="form.titleShow">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
@@ -172,13 +172,47 @@
             </el-row>
             <el-row>
               <el-col :span="8">
-
-                <el-form-item label="展现方式切换图标隐藏" prop="isDisplayModeHide">
+                <el-form-item
+                  label="展现方式切换图标隐藏"
+                  prop="isDisplayModeHide"
+                >
                   <el-switch v-model="form.isDisplayModeHide" />
                   <!-- <el-radio-group v-model="form.isPage">
                     <el-radio label="1">是</el-radio>
                     <el-radio label="0">否</el-radio>
                   </el-radio-group> -->
+                </el-form-item>
+              </el-col>
+              <el-col
+                v-if="
+                  ['histogram', 'bar', 'line'].indexOf(
+                    form.displayMode
+                  ) > -1
+                "
+                :span="8"
+              >
+                <el-form-item label="x轴标题" prop="xName">
+                  <el-input
+                    v-model="form.xName"
+                    placeholder="图表x轴标题名称"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col
+                v-if="
+                  ['histogram', 'bar', 'line'].indexOf(
+                    form.displayMode
+                  ) > -1
+                "
+                :span="8"
+              >
+                <el-form-item label="y轴标题" prop="yName">
+                  <el-input
+                    v-model="form.yName"
+                    placeholder="图表x轴标题名称"
+                    size="small"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -242,7 +276,11 @@
                     v-model="form.apiType"
                     @change="apiTypeChange"
                   >
-                    <el-radio :disabled="settingConfig.isBigData" label="0">数据视图</el-radio>
+                    <el-radio
+                      :disabled="settingConfig.isBigData"
+                      label="0"
+                    >数据视图</el-radio
+                    >
                     <el-radio label="1">服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
@@ -372,11 +410,11 @@
             <el-row v-if="form.displayMode === 'table'">
               <el-col :span="24">
                 <el-form-item label="表格功能组件" label-width="140px">
-
-                  <el-checkbox-group v-model="form.tablefunctionalComponents" size="small">
-                    <el-checkbox
-                      label="colFilter"
-                    >列筛选</el-checkbox>
+                  <el-checkbox-group
+                    v-model="form.tablefunctionalComponents"
+                    size="small"
+                  >
+                    <el-checkbox label="colFilter">列筛选</el-checkbox>
                   </el-checkbox-group>
                 </el-form-item>
               </el-col>

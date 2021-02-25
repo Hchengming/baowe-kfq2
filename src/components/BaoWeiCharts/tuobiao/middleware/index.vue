@@ -174,7 +174,9 @@ export default {
         tablefunctionalComponents: [], // 表格功能组件选择 colFilter:列筛选
         fatherModuleType: 'page', // 父级模块类型  page:页面  tabs:tabs切换组件
         tabsModuleId: '', // tabs模块id
-        tabsCode: '' // 父级tabs编码
+        tabsCode: '', // 父级tabs编码
+        xName: '', // x轴标题字段
+        yName: ''// y轴标题字段
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆

@@ -224,7 +224,7 @@ export default {
       }
     },
     // 其他项配置点击事件
-    otherInputClick(form, item, index) {
+    otherInputClick(form, index, item) {
       this.tableCloums.forEach(x => {
         if (x.formType === 'other') {
           if (x.children[index].click) {
