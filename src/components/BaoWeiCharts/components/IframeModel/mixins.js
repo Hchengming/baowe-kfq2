@@ -2,6 +2,7 @@ export default {
   data() {
     return {
       iframeStyle: {}
+
     }
   },
   mounted() {
@@ -18,6 +19,7 @@ export default {
       // console.log(this.settingForm.width * element.scrollWidth / 100)
       // {'height':600+'px','width':300+'px'}
     })
+    this.bigDataInit()
   },
   watch: {
     iframePositionAll: {
@@ -27,9 +29,35 @@ export default {
         }
       },
       deep: true
+    },
+    // iframe路径变化监听
+    'settingForm.iframeAll.iframeUrl': {
+      handler() {
+        this.bigDataInit()
+      },
+      deep: true
     }
   },
   methods: {
+    // 数据编排项目地图初始化
+    bigDataInit() {
+      if (
+        this.settingForm.iframeAll &&
+        this.settingForm.iframeAll.iframeType === 0 &&
+        this.settingConfig.isBigData
+      ) {
+        const doc = document.getElementById(this.iframeId())
+        const options = {
+          id: 'qwe123'
+        }
+        doc.contentWindow.postMessage(
+          `showFeatureLayer|http://portal.xxzx.com/arcgis/rest/services/Hosted/result999/featureserver/0|${JSON.stringify(
+            options
+          )}`,
+          '*'
+        )
+      }
+    },
     // iframe样式设置
     // setIframeStyle() {
     //   const element = this.containerElelemt

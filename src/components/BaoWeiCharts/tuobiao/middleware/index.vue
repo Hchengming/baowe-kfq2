@@ -129,7 +129,6 @@ export default {
           onlyKey: '', // 行数据唯一字段
           childKey: 'children' // 树形表格子级字段名
         },
-
         operateButton: [], // 列表、表格右侧操作按钮配置数据
         paramConfig: [], // 请求参数配置
         destailsTableLabelWidth: 100, // 详情列表左侧标题宽度
@@ -180,7 +179,8 @@ export default {
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
-      whereData: [] // 所有模块筛选数据
+      whereData: [], // 所有模块筛选数据
+      showSummary: false// 表格是否添加合计行
     }
   },
   mounted() {

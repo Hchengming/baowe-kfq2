@@ -175,6 +175,15 @@ export default {
               ) {
                 this.getTableData(obj, param.whereForm, newItem)
               }
+              this.pageModuleData.pageData.forEach(x => {
+                if (x.moduleId === param.moduleId) {
+                  x.contentAreaConfig = param.contentAreaConfig
+                }
+              })
+              // this.$set(this.pageModuleData.pageData, this.pageData)
+              // this.pageModuleData.pageData = JSON.parse(JSON.stringify(this.pageData))
+              // console.log(this.pageModuleData.pageData)
+              // console.log('1111111111111')
             }
           } else {
             this.$message({

@@ -5,6 +5,7 @@
       :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"
+      :modal="settingConfig.isBigData?false:true"
       :visible.sync="dialogVisible"
       class="settingForm dialog-common"
     >
@@ -177,10 +178,14 @@
                   prop="isDisplayModeHide"
                 >
                   <el-switch v-model="form.isDisplayModeHide" />
-                  <!-- <el-radio-group v-model="form.isPage">
-                    <el-radio label="1">是</el-radio>
-                    <el-radio label="0">否</el-radio>
-                  </el-radio-group> -->
+                </el-form-item>
+              </el-col>
+              <el-col v-if="form.displayMode==='table'" :span="8">
+                <el-form-item
+                  label="表格是否添加合计行"
+                  prop="showSummary"
+                >
+                  <el-switch v-model="form.showSummary" />
                 </el-form-item>
               </el-col>
               <el-col

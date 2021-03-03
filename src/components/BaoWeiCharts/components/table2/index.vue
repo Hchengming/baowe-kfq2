@@ -24,6 +24,7 @@
         hasChildren: 'hasChildren'
       }"
       :style="{ width: '100%' }"
+      :show-summary="settingForm.showSummary"
       stripe
       @cell-click="cellClick"
       @row-click="rowClick"
@@ -94,7 +95,7 @@ export default {
   },
   data() {
     return {
-      cellCursor: '',
+      // cellCursor: '',
       newClums: [],
       tableWidth: 0,
       offon: false,

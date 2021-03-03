@@ -3,50 +3,53 @@
     <div class="el-tab-pane-icon">
       <i class="el-icon-circle-plus-outline" @click="drawerShow = true" />
     </div>
-    <!-- 时间轴 -->
-    <time-axis
-      v-for="(item, index) in timeSource()"
-      ref="timeAxis"
-      :key="index"
-      :setting-config="settingConfig"
-      :setting-form="item.timeAxisConfig"
-      :module-id="item.moduleId"
-      :container-elelemt="containerElelemt"
-      @componentFunc="componentFunc"
-    />
-    <!-- 类目轴 -->
-    <axis
-      v-for="item in axisSource()"
-      :key="item.moduleId"
-      :setting-form="item.categoryConfig"
-      :setting-config="settingConfig"
-      :module-id="item.moduleId"
-      :container-elelemt="containerElelemt"
-      @componentFunc="componentFunc"
-    />
-    <!-- 图表 -->
-    <section v-for="item in pageData()" :key="item.moduleId">
-      <statistics
-        ref="statisticsAll"
-        :statistics-all="item"
-        :browser-x-y="browserXY"
+    <div >
+      <!-- 时间轴 -->
+      <time-axis
+        v-for="(item, index) in timeSource()"
+        ref="timeAxis"
+        :key="index"
         :setting-config="settingConfig"
-        :add-setting-form="addSettingForm"
+        :setting-form="item.timeAxisConfig"
+        :module-id="item.moduleId"
         :container-elelemt="containerElelemt"
         @componentFunc="componentFunc"
-      >
-        <div
-          v-if="
-            item.contentAreaConfig.blankTemplateConfig &&
-              item.contentAreaConfig.blankTemplateConfig.slot
-          "
-          :slot="item.contentAreaConfig.blankTemplateConfig.slot"
-          style="width: 100%; height: 100%"
+      />
+      <!-- 类目轴 -->
+      <axis
+        v-for="item in axisSource()"
+        :key="item.moduleId"
+        :setting-form="item.categoryConfig"
+        :setting-config="settingConfig"
+        :module-id="item.moduleId"
+        :container-elelemt="containerElelemt"
+        @componentFunc="componentFunc"
+      />
+      <!-- 图表 -->
+      <section v-for="item in pageData()" :key="item.moduleId">
+        <statistics
+          ref="statisticsAll"
+          :statistics-all="item"
+          :browser-x-y="browserXY"
+          :setting-config="settingConfig"
+          :add-setting-form="addSettingForm"
+          :container-elelemt="containerElelemt"
+          @componentFunc="componentFunc"
         >
-          <slot :name="item.contentAreaConfig.blankTemplateConfig.slot" />
-        </div>
-      </statistics>
-    </section>
+          <div
+            v-if="
+              item.contentAreaConfig.blankTemplateConfig &&
+                item.contentAreaConfig.blankTemplateConfig.slot
+            "
+            :slot="item.contentAreaConfig.blankTemplateConfig.slot"
+            style="width: 100%; height: 100%"
+          >
+            <slot :name="item.contentAreaConfig.blankTemplateConfig.slot" />
+          </div>
+        </statistics>
+      </section>
+    </div>
+
     <!-- tabs切换项新增 -->
 
     <el-drawer
@@ -57,7 +60,11 @@
       class="pageSetting"
     >
       <!-- 页面组件新增 -->
-      <assembly :assembly-data="assemblyData" @addAssembly="addAssembly" />
+      <assembly
+        :assembly-data="assemblyData"
+        :setting-config="settingConfig"
+        @addAssembly="addAssembly"
+      />
     </el-drawer>
   </div>
 </template>
@@ -85,6 +92,7 @@ export default {
       },
       drawerShow: false,
       containerElelemt: null,
+      isShow: true,
       assemblyData: [
         {
           type: 'tableChart',
@@ -125,7 +133,7 @@ export default {
           }
         })
       }
-      console.log(arr)
+
       return arr
     },
     // 时间轴数据
@@ -151,10 +159,16 @@ export default {
     // 图表数据
     pageData() {
       const arr = []
+      this.isShow = false
       if (this.pageModuleData.pageData) {
         this.pageModuleData.pageData.forEach(item => {
           if (item.contentAreaConfig.parentModuleId === this.moduleId) {
             if (this.tabsCode) {
+              console.log(
+                this.tabsCode,
+                item.contentAreaConfig.parentTabsCode,
+                this.tabsCode === item.contentAreaConfig.parentTabsCode
+              )
               if (this.tabsCode === item.contentAreaConfig.parentTabsCode) {
                 arr.push(item)
               }
@@ -164,6 +178,8 @@ export default {
           }
         })
       }
+      console.log(arr)
+      this.isShow = true
       return arr
     },
     // 组件方法暴露

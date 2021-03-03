@@ -225,7 +225,12 @@ export default {
       if (options === 'get') {
         params = {
           params: params
+
         }
+      }
+      if (this.form.apiType !== '0' && this.form.isPage === '1') {
+        params.currentPage = '1'
+        params.pageSize = '1'
       }
       let url = ''
       if (this.form.url.indexOf('http') > -1) {
