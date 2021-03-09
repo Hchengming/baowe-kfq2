@@ -6,7 +6,7 @@
 
       @tab-click="handleClick"
     >
-      <el-tab-pane label="默认参数获取" name="first">
+      <el-tab-pane v-if="!settingConfig.isBigData" label="默认参数获取" name="first">
         <param-key-config
           ref="paramKeyConfig"
           :item-api-data="itemApiData"
@@ -14,7 +14,7 @@
           :setting-config="settingConfig"
         />
       </el-tab-pane>
-      <el-tab-pane label="筛选项配置" name="second">
+      <el-tab-pane v-if="!settingConfig.isBigData" label="筛选项配置" name="second">
         <where-setting ref="screenSetting" :form="form" :setting-config="settingConfig" />
       </el-tab-pane>
       <el-tab-pane label="字段配置" name="third">

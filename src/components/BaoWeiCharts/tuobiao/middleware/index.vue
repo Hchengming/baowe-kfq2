@@ -119,6 +119,7 @@ export default {
         },
         destailTypeTheme: '0', // 详情表格展示组题样式选则 0：默认表格  1：主题一
         apiType: '1', // 0：数据视图 1：应用接口
+        viewId: '', // 视图id
         url: '', // 接口
         urlName: '', // 接口名称
         options: 'POST', // 请求方式  GET/POST
@@ -633,22 +634,22 @@ export default {
         }
         // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
-        if (this.settingConfig.isBigData) {
-          nowUrl = this.settingConfig.bigData.pageDataUrl
+        // if (this.settingConfig.isBigData) {
+        //   nowUrl = this.settingConfig.bigData.pageDataUrl
+        // } else {
+        if (config.contentAreaConfig.apiType === '0') {
+          nowUrl = window.BaseApi + obj.url
         } else {
-          if (config.contentAreaConfig.apiType === '0') {
-            nowUrl = window.BaseApi + obj.url
+          if (obj.url.indexOf('http') > -1) {
+            nowUrl = obj.url
           } else {
-            if (obj.url.indexOf('http') > -1) {
-              nowUrl = obj.url
-            } else {
-              nowUrl =
+            nowUrl =
               obj.url.indexOf('/api/service') > -1
                 ? window.config.applicationInterfaceApi + obj.url
                 : this.settingConfig.dataUrl + obj.url
-            }
           }
         }
+        // }
 
         // 当未确认接口时可直接获取测试数据
         if (

@@ -4,6 +4,11 @@ export default {
       activeName: 'first'
     }
   },
+  mounted() {
+    if (this.settingConfig.isBigData) {
+      this.activeName = 'third'
+    }
+  },
   methods: {
     // tabs切换点击事件
     handleClick() {

@@ -26,22 +26,23 @@ export const ChartsMixins = {
         colSort: '0', // 列排序功能 0：否 1：是
         proportion: 12 // 详情表格类列宽
       },
-      proportionAll: [{
-        label: '1',
-        value: 24
-      },
-      {
-        label: '2/3',
-        value: 16
-      },
-      {
-        label: '1/2',
-        value: 12
-      },
-      {
-        label: '1/3',
-        value: 8
-      }
+      proportionAll: [
+        {
+          label: '1',
+          value: 24
+        },
+        {
+          label: '2/3',
+          value: 16
+        },
+        {
+          label: '1/2',
+          value: 12
+        },
+        {
+          label: '1/3',
+          value: 8
+        }
       ]
     }
   },
@@ -74,17 +75,17 @@ export const ChartsMixins = {
       if (this.statisticsAll) {
         if (
           this.form.clickToShow === 'row' &&
-                    this.statisticsAll.isRowDrillDown === '1'
+          this.statisticsAll.isRowDrillDown === '1'
         ) {
           html =
-                        '当前单元格点击下钻已配置子级模块，是否<span class="txt1">强制切换</span>？'
+            '当前单元格点击下钻已配置子级模块，是否<span class="txt1">强制切换</span>？'
           this.$refs['judgePop2'].show(html)
         } else if (
           this.form.clickToShow === 'cell' &&
-                    this.statisticsAll.drillDownKeyAll
+          this.statisticsAll.drillDownKeyAll
         ) {
           html =
-                        '当前行点击下钻已配置子级模块，是否<span class="txt1">强制切换</span>？'
+            '当前行点击下钻已配置子级模块，是否<span class="txt1">强制切换</span>？'
           this.$refs['judgePop2'].show(html)
         }
       }
@@ -95,14 +96,14 @@ export const ChartsMixins = {
       if (this.statisticsAll) {
         if (val === 'row' && this.statisticsAll.drillDownKeyAll) {
           html =
-                        '当前单元格点击已配置子级模块，是否<span class="txt1">强制切换</span>？'
+            '当前单元格点击已配置子级模块，是否<span class="txt1">强制切换</span>？'
           this.$refs['judgePop'].show(html, 'cell')
         } else if (
           val === 'cell' &&
-                    this.statisticsAll.isRowDrillDown === '1'
+          this.statisticsAll.isRowDrillDown === '1'
         ) {
           html =
-                        '当前行点击已配置子级模块，是否<span class="txt1">强制切换</span>？'
+            '当前行点击已配置子级模块，是否<span class="txt1">强制切换</span>？'
           this.$refs['judgePop'].show(html, 'row')
         }
       }
@@ -156,7 +157,7 @@ export const iframeMixins = {
       const num = this.form.iframeAll.iframeUrl.indexOf('html')
       if (num > -1) {
         this.form.iframeAll.iframeUrl =
-                    this.form.iframeAll.iframeUrl.substring(0, num + 4) + paramsStr
+          this.form.iframeAll.iframeUrl.substring(0, num + 4) + paramsStr
       } else {
         this.form.iframeAll.iframeUrl = paramsStr
       }
@@ -190,12 +191,14 @@ export const otherMixins = {
       deleteKeyIndex: null,
       settingJsonIsShow: false,
       parentParamsAll: {}, // 父级下钻参数
-      defaultData: [{
-        title: '',
-        num: '',
-        area: '',
-        rowid: '001'
-      }]
+      defaultData: [
+        {
+          title: '',
+          num: '',
+          area: '',
+          rowid: '001'
+        }
+      ]
     }
   },
 
@@ -306,13 +309,27 @@ export const otherMixins = {
         this.$nextTick(() => {
           // console.log(this.form.moduleType, 'his.form.moduleType')
           if (this.form.moduleType === '0') {
-            this.form.url = this.settingConfig.bigData.pageDataUrl
-            this.form.options = 'GET'
+            this.form.apiType = '0'
+            this.form.viewId = this.settingConfig.bigData.viewId
+            // 判断当前后台环境是否为node测试环境  那就不走了呗
+            if (this.settingConfig.isTestEnvironment) {
+              this.form.url = '/dataView/searchResult'
+            } else {
+              this.form.url = '/.DataView/view/v1/sql/searchResult'
+            }
+            this.form.options = 'POST'
           }
 
           // 模板模块新增时生产一个模板编码
-          if (this.settingConfig.answerId === this.settingConfig.bigData.bigDataTemplateId && !this.statisticsAll) {
-            const RandomId = len => Math.random().toString(36).substr(3, len)
+          if (
+            this.settingConfig.answerId ===
+              this.settingConfig.bigData.bigDataTemplateId &&
+            !this.statisticsAll
+          ) {
+            const RandomId = len =>
+              Math.random()
+                .toString(36)
+                .substr(3, len)
             this.form.moduleCode = RandomId(10)
           }
         })

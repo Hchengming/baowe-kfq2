@@ -40,25 +40,26 @@ export default {
   data() {
     return {
       settingConfig: {
-        commonUrl: 'http://172.1.103.118:4000', // 配置数据接口公共部分
-        dataUrl: 'http://172.1.103.118:4000', // 图表、组件数据公共接口
+        commonUrl: 'http://localhost:4000', // 配置数据接口公共部分
+        dataUrl: 'http://localhost:4000', // 图表、组件数据公共接口
         // dataIviewCode: 'e6f5f802-3919-4df3-a491-cfdaadc567a8', // 数据视图获取编码/id
         systemPermissions: 'admin', // 权限管理  admin/user
         isProducrTestData: true, // 未开发接口是否直接生成测试数据
         isCustomMenu: true, // 是否启用菜单配置模块
-        systomMenuApi: 'http://172.1.103.118:4000', // 菜单配置模块公共路径
+        systomMenuApi: 'http://localhost:4000', // 菜单配置模块公共路径
         // 获取当前项目菜单接口
         // getMenuUrl: "http://23.36.123.128/api/applicationcenter/function/findAll?key=0a3724b5-74cf-4ef1-b7b2-93d2619d6270&type=1",
         // 获取项目所有接口的接口路径
-        getInterfaceUrl: 'http://172.1.103.118:4000/application/insert',
+        getInterfaceUrl: 'http://localhost:4000/application/insert',
         itemTitle: '测试系统', // 项目标题
         theme: '2', // 当前已配置主题选择 0:老实蓝色背景 1：大屏展示类背景风格 2：深蓝色主题风格(默认为2)
         isTestEnvironment: true, // 后台版本是否为node测试环境
         answerId: '001', // 应用id
-        isBigData: false, // 是否为大数据编排项目使用
+        isBigData: true, // 是否为大数据编排项目使用
         bigData: {// 大数据编排项目特殊配置
-          bigDataTemplateId: '100', // 大数据编排项目模板页面id
-          pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径
+          bigDataTemplateId: '001', // 大数据编排项目模板页面id
+          // pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径
+          viewId: '002',
           iframeDefaultUrl: 'http://23.36.250.99:666/views/showmap.html?callid=101291123'// iframe地图初始路径
         }
       }

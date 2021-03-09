@@ -282,15 +282,14 @@
                     @change="apiTypeChange"
                   >
                     <el-radio
-                      :disabled="settingConfig.isBigData"
                       label="0"
                     >数据视图</el-radio
                     >
-                    <el-radio label="1">服务接口</el-radio>
+                    <el-radio :disabled="settingConfig.isBigData" label="1">服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="!settingConfig.isBigData" :span="8">
                 <el-form-item label="数据是否添加分页" prop="isPage">
                   <el-radio-group v-model="form.isPage">
                     <el-radio label="1">是</el-radio>
@@ -298,7 +297,7 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="!settingConfig.isBigData" :span="8">
                 <el-form-item
                   v-if="form.isPage == '1'"
                   label="每页显示数据(条)"
@@ -317,6 +316,7 @@
 
             <!-- 数据接口处理部分 -->
             <api-choose
+              v-if="!settingConfig.isBigData"
               ref="apiChoose"
               :setting-config="settingConfig"
               :item-api-data.sync="itemApiData"
