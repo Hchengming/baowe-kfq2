@@ -222,6 +222,7 @@
               </el-col>
             </el-row>
             <!-- <el-row type="flex" class="row-bg">
+
               <el-col :span="8">
                 <el-form-item label="是否有子模块" prop="submodule">
                   <el-radio-group
@@ -283,8 +284,7 @@
                   >
                     <el-radio
                       label="0"
-                    >数据视图</el-radio
-                    >
+                    >数据视图</el-radio>
                     <el-radio :disabled="settingConfig.isBigData" label="1">服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>

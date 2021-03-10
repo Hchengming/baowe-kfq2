@@ -18,7 +18,9 @@ export default {
     },
     // 筛选项配置数据保存事件
     screenSubmit(fn) {
+      // if (!this.settingConfig.isBigData) {
       this.$refs['screenSetting'].screenSubmit(fn)
+      // }
     }
   }
 }

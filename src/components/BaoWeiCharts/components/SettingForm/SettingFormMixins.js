@@ -57,7 +57,7 @@ export const ChartsMixins = {
         this.isPageDisabled = true
         this.form.options = 'POST'
         this.$refs['apiChoose'].getDataIview()
-        // 判断当前后台环境是否为node测试环境  那就不走了呗
+        // 判断当前后台环境是否为node测试环境
         if (this.settingConfig.isTestEnvironment) {
           this.form.url = '/dataView/searchResult'
         } else {

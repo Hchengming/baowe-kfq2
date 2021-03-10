@@ -157,7 +157,7 @@ export default {
         clickToShow: 'row', // 子页面点击展现  row:行点击 cell:单元格点击
         isLinkMap: '0', // 是否链接iframe地图  0:不链接 1:链接
         mapPosition: '0', // 地图定位   0-定位到重庆 1-定位到区县  2-定位到开发区
-        isPage: '0', // 数据是否添加分页
+        isPage: '1', // 数据是否添加分页
         mask: '0', // 是否添加遮罩层
         pageSize: 10, // 每页显示数据条数
         isDestail: '0', // 是否添加详情弹窗
@@ -176,12 +176,12 @@ export default {
         tabsModuleId: '', // tabs模块id
         tabsCode: '', // 父级tabs编码
         xName: '', // x轴标题字段
-        yName: ''// y轴标题字段
+        yName: '' // y轴标题字段
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
       whereData: [], // 所有模块筛选数据
-      showSummary: false// 表格是否添加合计行
+      showSummary: false // 表格是否添加合计行
     }
   },
   mounted() {
@@ -716,6 +716,7 @@ export default {
         !config.contentAreaConfig.moduleType ||
         config.contentAreaConfig.moduleType === '0'
       ) {
+        console.log(this.pageData[obj.index])
         if (config.contentAreaConfig.isPage === '1') {
           this.$set(
             this.pageData[obj.index],
@@ -727,7 +728,9 @@ export default {
             pageSize: obj.pageSize,
             total: resData.total
           })
+          console.log(1)
         } else {
+          console.log(2)
           if (resData.constructor === Object) {
             resData = []
           }

@@ -116,7 +116,7 @@ export default {
       })
 
       if (!this.form.url) return false
-      console.log(window.BaseApi + this.form.url, '00000')
+      // console.log(window.BaseApi + this.form.url, '00000')
       serviceAxios
         .post(window.BaseApi + this.form.url, {
           viewId: this.form.viewId,
