@@ -3,7 +3,7 @@
     <div class="el-tab-pane-icon">
       <i class="el-icon-circle-plus-outline" @click="drawerShow = true" />
     </div>
-    <div >
+    <div>
       <!-- 时间轴 -->
       <time-axis
         v-for="(item, index) in timeSource()"

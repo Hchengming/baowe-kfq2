@@ -5,10 +5,9 @@
       v-if="['table', 'list'].indexOf(form.displayMode) > -1"
       size="small"
       @click="operateButtonSetting"
-    >右侧操作按钮配置</el-button
-    >
+    >右侧操作按钮配置</el-button>
     <el-button size="small" @click="tableHeaderSetting">多表头配置</el-button>
-    <br >
+    <br>
     <!-- <p class="tips">
                 <span v-if="!isWidth">*第一个字段必须为图表标题字段</span>
               </p> -->
@@ -28,8 +27,7 @@
                     > -->
         <span v-if="form.submodule == '1'" class="hTxt7 hTxt">下级参数</span>
         <span v-if="form.isLinkMap == '1'" class="hTxt9 hTxt">
-          地图使用字段</span
-          >
+          地图使用字段</span>
         <span class="hTxt8 hTxt">
           列表显示
           <el-checkbox v-model="listKeyAll" @change="ListkeyChooseChange" />

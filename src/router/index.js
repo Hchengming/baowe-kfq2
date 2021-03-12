@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/pages/home'
 import LandTransferSystem from '@/pages/landTransferSystem'
-
+import BigData from '@/pages/bigData'
 Vue.use(Router)
 
 export default new Router({
@@ -10,6 +10,10 @@ export default new Router({
     path: '/',
     name: 'HelloWorld',
     component: HelloWorld
+  }, {
+    path: '/bigData',
+    name: 'BigData',
+    component: BigData
   }, {
     path: '/case1',
     name: 'LandTransferSystem',

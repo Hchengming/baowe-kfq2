@@ -5,7 +5,7 @@
       :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"
-      :modal="settingConfig.isBigData?false:true"
+      :modal="settingConfig.isBigData ? false : true"
       :visible.sync="dialogVisible"
       class="settingForm dialog-common"
     >
@@ -180,19 +180,14 @@
                   <el-switch v-model="form.isDisplayModeHide" />
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.displayMode==='table'" :span="8">
-                <el-form-item
-                  label="表格是否添加合计行"
-                  prop="showSummary"
-                >
+              <el-col v-if="form.displayMode === 'table'" :span="8">
+                <el-form-item label="表格是否添加合计行" prop="showSummary">
                   <el-switch v-model="form.showSummary" />
                 </el-form-item>
               </el-col>
               <el-col
                 v-if="
-                  ['histogram', 'bar', 'line'].indexOf(
-                    form.displayMode
-                  ) > -1
+                  ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
                 "
                 :span="8"
               >
@@ -206,9 +201,7 @@
               </el-col>
               <el-col
                 v-if="
-                  ['histogram', 'bar', 'line'].indexOf(
-                    form.displayMode
-                  ) > -1
+                  ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
                 "
                 :span="8"
               >
@@ -282,10 +275,12 @@
                     v-model="form.apiType"
                     @change="apiTypeChange"
                   >
+                    <el-radio label="0">数据视图</el-radio>
                     <el-radio
-                      label="0"
-                    >数据视图</el-radio>
-                    <el-radio :disabled="settingConfig.isBigData" label="1">服务接口</el-radio>
+                      :disabled="settingConfig.isBigData"
+                      label="1"
+                    >服务接口</el-radio
+                    >
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -464,6 +459,12 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <!-- 地图iframe参数配置 -->
+            <colums-setting
+              :table-data="form.paramConfig"
+              :table-cloums="tableCloums"
+            />
+            <!-- 其他iframe参数配置 -->
             <param-key-config
               v-if="form.iframeAll.iframeType === '1'"
               ref="paramKeyConfig"
@@ -596,18 +597,19 @@
 import settingJson from './settingJson'
 import JudgePop from '../JudgePop/index.vue'
 import { dragDialog } from '../../utils/mixins.js'
-
+import ColumsSetting from '../ColumsSetting'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
 import ChartsDataSettting from './ChartsDataSettting'
-import { ChartsMixins, iframeMixins, otherMixins } from './settingFormMixins'
+import { ChartsMixins, iframeMixins, otherMixins } from './SettingFormMixins'
 export default {
   components: {
     settingJson,
     JudgePop,
     ApiChoose,
     ParamKeyConfig,
-    ChartsDataSettting
+    ChartsDataSettting,
+    ColumsSetting
   },
   mixins: [dragDialog, otherMixins, ChartsMixins, iframeMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],

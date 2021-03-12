@@ -319,7 +319,7 @@ export default {
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
-      this.getData(menuTypes, fn)
+      this.getData({ menuTypes, fn })
       this.tabsSettingSelect()
     },
     // 饼图切换模块点击事件
@@ -467,14 +467,14 @@ export default {
       this.$emit('pageLoading', offon)
     },
     // 模块图表配置数据获取
-    getData(menuTypes, fn) {
+    getData(param) {
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](
         this.settingConfig.commonUrl +
           '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
         {
-          menuId: this.menuId
+          menuId: param.menuId ? param.menuId : this.menuId
         }
       )
         .then(res => {
@@ -482,8 +482,8 @@ export default {
           const resData = res.data
 
           if (code === 20000) {
-            if (menuTypes === 'top' && resData.length === 0) {
-              fn(true)
+            if (param.menuTypes === 'top' && resData.length === 0) {
+              param.fn(true)
             }
             this.setPageData(resData)
           }

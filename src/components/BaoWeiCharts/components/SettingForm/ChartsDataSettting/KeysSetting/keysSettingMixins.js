@@ -197,28 +197,6 @@ export default {
     // 字段列表数据获取事件
     getKeys(fn) {
       let params = {}
-      // this.form.paramConfig.forEach(item => {
-      //     const paramValue = this.getParamValue(item.paramValue);
-      //     if (item.isUse) {
-      //         switch (item.dataType) {
-      //             case "number":
-      //                 if (Number(paramValue)) {
-      //                     this.$set(params, item.paramKey, Number(paramValue));
-      //                 } else {
-      //                     params[item.paramKey] = null;
-      //                 }
-      //                 break;
-      //             case "object":
-      //                 params[item.paramKey] = null;
-      //                 if (JSON.parse(paramValue)) {
-      //                     params[item.paramKey] = JSON.parse(paramValue);
-      //                 }
-      //                 break;
-      //             default:
-      //                 params[item.paramKey] = paramValue;
-      //         }
-      //     }
-      // });
       this.form.filterConfig.screenData.forEach(item => {
         let paramValue = this.getParamValue(item.defaultValue)
         // 区县单选数据处理

@@ -162,7 +162,7 @@
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
         >
-          <div v-show="boxOffon" class="boxShow"/>
+          <div v-show="boxOffon" class="boxShow" />
           <!-- 筛选模块 -->
           <where
             ref="where"

@@ -271,7 +271,14 @@ export default {
     }
   },
   methods: {
-
+    // 列表组件新增事件事件传递
+    addChartList(param) {
+      this.$refs['middleware'].addKeep(param)
+    },
+    // 列表组件数据获取事件传递
+    getData(param) {
+      this.$refs['middleware'].getData(param)
+    },
     // 项目主体(主题)配置事件
     projectConfigChange(obj) {
       this.$emit('projectConfigChange', obj)
