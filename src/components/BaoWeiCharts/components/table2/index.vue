@@ -5,6 +5,7 @@
         <col-filter ref="colFilter" :table-colums="tableColums" :setting-form="settingForm" @handleCheckChange="handleCheckChange" />
       </i>
     </div>
+    <!-- :show-summary="settingForm.showSummary" -->
     <el-table
       v-if="tableShow"
       :border="true"
@@ -24,7 +25,7 @@
         hasChildren: 'hasChildren'
       }"
       :style="{ width: '100%' }"
-      :show-summary="settingForm.showSummary"
+
       stripe
       @cell-click="cellClick"
       @row-click="rowClick"
@@ -186,6 +187,7 @@ export default {
     },
     // 递归遍历树形数据
     reduiction(data, fn) {
+      console.log(data, '00')
       data.forEach((item, index) => {
         fn(item, index)
         if (item.children && item.children.length > 0) {

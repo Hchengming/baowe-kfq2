@@ -110,6 +110,7 @@ export default {
       // console.log(this.form)
       this.form.filterConfig.screenData.forEach(item => {
         const paramValue = this.getParamValue(item.defaultValue)
+
         queryParamList.push({
           [item.key]: paramValue
         })
@@ -219,7 +220,11 @@ export default {
       //     }
       // });
       this.form.filterConfig.screenData.forEach(item => {
-        const paramValue = this.getParamValue(item.defaultValue)
+        let paramValue = this.getParamValue(item.defaultValue)
+        // 区县单选数据处理
+        if (item.type === 'country-radio') {
+          paramValue = this.countryRadioValue(paramValue)
+        }
         params[item.key] = paramValue
       })
       const options = this.form.options === 'POST' ? 'post' : 'get'

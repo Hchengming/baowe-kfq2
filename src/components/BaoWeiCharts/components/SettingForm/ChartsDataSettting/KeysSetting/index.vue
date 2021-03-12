@@ -5,9 +5,10 @@
       v-if="['table', 'list'].indexOf(form.displayMode) > -1"
       size="small"
       @click="operateButtonSetting"
-    >右侧操作按钮配置</el-button>
+    >右侧操作按钮配置</el-button
+    >
     <el-button size="small" @click="tableHeaderSetting">多表头配置</el-button>
-    <br>
+    <br >
     <!-- <p class="tips">
                 <span v-if="!isWidth">*第一个字段必须为图表标题字段</span>
               </p> -->
@@ -27,7 +28,8 @@
                     > -->
         <span v-if="form.submodule == '1'" class="hTxt7 hTxt">下级参数</span>
         <span v-if="form.isLinkMap == '1'" class="hTxt9 hTxt">
-          地图使用字段</span>
+          地图使用字段</span
+          >
         <span class="hTxt8 hTxt">
           列表显示
           <el-checkbox v-model="listKeyAll" @change="ListkeyChooseChange" />
@@ -196,7 +198,11 @@
         </span>
         <!-- 字段是否可点击 -->
         <span class="hTxt82 hTxt">
-          <el-select v-model="item.isClick" size="small" placeholder="字段是否可点击">
+          <el-select
+            v-model="item.isClick"
+            size="small"
+            placeholder="字段是否可点击"
+          >
             <el-option label="否" value="0" />
             <el-option label="是" value="1" />
           </el-select>
@@ -253,10 +259,11 @@
 import keysSettingMixins from './keysSettingMixins'
 import OperateButtonSetting from '../../OperateButtonSetting'
 import OtherKeySetting from '../../OtherKeySetting'
+import countryRadioMixins from '../../../../tuobiao/middleware/mixins/countryRadioMixins'
 import TableHeaderSetting from '../../tableHeaderSetting/index.vue'
 export default {
   components: { OperateButtonSetting, OtherKeySetting, TableHeaderSetting },
-  mixins: [keysSettingMixins],
+  mixins: [keysSettingMixins, countryRadioMixins],
   props: {
     form: {
       type: Object,

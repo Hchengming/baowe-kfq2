@@ -82,11 +82,12 @@ import SettingForm from '../../components/SettingForm'
 // mixins
 import middlewareMixins from './mixins/middlewareMixins'
 import tabsMixins from './mixins/tabsMixins'
+import countryRadioMixins from './mixins/countryRadioMixins'
 import bigDataMixins from './mixins/bigDataMixins'
 import TabsView from '../../components/Tabs'
 export default {
   components: { Statistics, SettingForm, TabSetting, TabsView },
-  mixins: [middlewareMixins, tabsMixins, bigDataMixins],
+  mixins: [middlewareMixins, tabsMixins, bigDataMixins, countryRadioMixins],
   props: {
     settingConfig: {
       type: Object,
@@ -560,6 +561,7 @@ export default {
           paramValue = JSON.parse(paramValue)
           break
       }
+      // console.log(item, val)
       return paramValue
     },
     // 数据获取参数配置
@@ -595,6 +597,9 @@ export default {
       if (whereReqData) {
         Object.assign(reqData, whereReqData)
       }
+      // 04-区县-单选数据处理
+      this.setCountryRadio(config, reqData)
+
       this.pageData[obj.index].isLoading = true
       // 返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
@@ -716,7 +721,6 @@ export default {
         !config.contentAreaConfig.moduleType ||
         config.contentAreaConfig.moduleType === '0'
       ) {
-        console.log(this.pageData[obj.index])
         if (config.contentAreaConfig.isPage === '1') {
           this.$set(
             this.pageData[obj.index],
@@ -728,9 +732,7 @@ export default {
             pageSize: obj.pageSize,
             total: resData.total
           })
-          console.log(1)
         } else {
-          console.log(2)
           if (resData.constructor === Object) {
             resData = []
           }
