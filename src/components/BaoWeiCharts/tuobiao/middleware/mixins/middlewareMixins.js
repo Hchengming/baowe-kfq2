@@ -110,22 +110,14 @@ export default {
       // contentAreaConfig, moduleId, fn, whereForm
       // 大数据编排项目修改
       if (
-        this.settingConfig.isBigData &&
-        this.settingConfig.answerId !==
-          this.settingConfig.bigData.bigDataTemplateId
+        this.settingConfig.isBigData
       ) {
-        // 判断修改配置是页面自己的模块还是模板配置的模块
-        let offon = false
-        this.nowPageData.forEach(item => {
-          if (item.moduleId === param.moduleId) {
-            offon = true
-          }
+        this.$emit('chartsMethods', {
+          methodsName: 'updateChartList',
+          name: '图表组件配置修改事件',
+          param: param
         })
-        // 如果是模板模块则调用新增
-        if (!offon) {
-          this.addKeep(param)
-          return false
-        }
+        return false
       }
 
       const reqData = {
@@ -366,6 +358,7 @@ export default {
     },
     // 新增确认事件
     addKeep(param) {
+      const menuId = param.menuId ? param.menuId : this.menuId
       if (this.parentContainerType === 'container') {
         param.contentAreaConfig.parentModuleId = this.parentModuleId
         if (this.parentTabsCode) {
@@ -377,11 +370,11 @@ export default {
           {
             contentAreaConfig: param.contentAreaConfig,
             projectId: this.settingConfig.answerId,
-            menuId: this.menuId
+            menuId: menuId
           }
         ]
       }
-      if (!this.menuId) {
+      if (!menuId) {
         this.$message({
           message: '菜单id不能为空',
           type: 'error'
