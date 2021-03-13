@@ -251,6 +251,7 @@
             :iframe-all="settingForm.iframeAll"
             :container-elelemt="containerElelemt"
             :setting-config="settingConfig"
+            @componentFunc="componentFunc"
           />
         </div>
 
@@ -347,6 +348,8 @@ export default {
     componentFunc(obj) {
       if (this[obj.method]) {
         this[obj.method](obj.param)
+      } else {
+        this.$emit('componentFunc', obj)
       }
       // else {
       //   this.$emit('componentFunc', obj)

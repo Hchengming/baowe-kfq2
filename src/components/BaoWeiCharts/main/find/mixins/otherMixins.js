@@ -14,7 +14,13 @@ export default {
   methods: {
     // 组件方法暴露
     componentFunc(obj) {
-      this[obj.method](obj.param)
+      if (this[obj.method]) {
+        this[obj.method](obj.param)
+      } else {
+        // console.log(obj)
+        obj.methodsName = obj.method
+        this.$emit('elementMethods', obj)
+      }
     },
     // 容器组件内事件传递
     pageViewAdd(obj) {

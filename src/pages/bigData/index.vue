@@ -56,31 +56,105 @@ export default {
         isTestEnvironment: true, // 后台版本是否为node测试环境
         answerId: '001', // 应用id
         isBigData: true, // 是否为大数据编排项目使用
-        bigData: {// 大数据编排项目特殊配置
+        bigData: {
+          // 大数据编排项目特殊配置
           bigDataTemplateId: '001', // 大数据编排项目模板页面id
           // pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径
           viewId: '002', // 视图id
           seriveId: '', // 任务id
           templateId: '001', // 模板id
-          iframeDefaultUrl: 'http://23.36.250.99:666/views/showmap.html?callid=101291123'// iframe地图初始路径
+          iframeDefaultUrl:
+            'http://23.36.250.99:666/views/showmap.html?callid=101291123' // iframe地图初始路径
         },
-        options: [{
-          key: 'type',
-          formType: 'select',
-          label: '类型',
-          selectArr: [{
-            lab: '分类方式',
-            val: 'classBreaksDef'
-          }, {
-            lab: '唯一值方式',
-            val: 'uniqueValueDef'
-          }]
-        }, {
-          key: 'classificationField',
-          formType: 'select',
-          selectArr: []
-        }]
+        mapPramConfig: [
+          {
+            // 地图组件默认参数配置
+            paramKey: 'type',
+            description: '类型',
+            paramValue: 'classBreaksDef',
+            isShow: true,
+            formType: 'select',
+            selectArr: [
+              {
+                lab: '分类方式',
+                val: 'classBreaksDef'
+              },
+              {
+                lab: '唯一值方式',
+                val: 'uniqueValueDef'
+              }
+            ]
+          },
+          {
+            // 地图组件默认参数配置
+            paramKey: 'fromColor',
+            description: '色带一',
+            paramValue: '#333',
+            isShow: true,
+            formType: 'color'
+          },
+          {
+            // 地图组件默认参数配置
+            paramKey: 'toColor',
+            description: '色带二',
+            paramValue: '#333',
+            isShow: true,
+            formType: 'color'
+          },
+          {
+            paramKey: 'classificationField',
+            description: '匹配值的字段名',
+            paramValue: '',
+            isShow: true,
+            formType: 'select',
+            selectArr: [
+              {
+                lab: '用地面积1',
+                val: 'class1'
+              },
+              {
+                lab: '用地面积2',
+                val: 'class2'
+              }
+            ]
+          },
+          {
+            paramKey: 'attributeField',
+            description: '唯一值1',
+            paramValue: '',
+            isShow: false,
+            formType: 'select',
+            selectArr: [
+              {
+                lab: '学校类型1',
+                val: 'class1'
+              },
+              {
+                lab: '学校类型2',
+                val: 'class2'
+              }
+            ]
+          }
+        ]
       }
+    }
+  },
+  watch: {
+    'settingConfig.mapPramConfig': {
+      handler(val) {
+        if (val[0].paramValue !== this.defaultType) {
+          this.defaultType = val[0].paramValue
+          console.log('111111111111111111111')
+          if (this.defaultType === 'classBreaksDef') {
+            val[4].isShow = false
+            val[3].isShow = true
+          } else {
+            val[4].isShow = true
+            val[3].isShow = false
+          }
+        }
+      },
+      deep: true
     }
   },
   // components:{BaoWeiCharts},
@@ -96,6 +170,10 @@ export default {
       if (this[obj.methodsName]) {
         this[obj.methodsName](obj)
       }
+    },
+    // 地图初始化事件
+    bigDataMapInit(obj) {
+      console.log(obj)
     }
   }
 }

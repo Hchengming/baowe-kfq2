@@ -5,6 +5,7 @@
       <tr>
         <td
           v-for="item in tableCloums"
+
           :key="item.key"
           :style="{ width: item.width ? item.width + 'px' : '100px' }"
         >
@@ -17,7 +18,7 @@
           />
         </td>
       </tr>
-      <tr v-for="(items, index) in tableData" :key="index">
+      <tr v-for="(items, index) in tableData" v-show="items.isShow!==false" :key="index">
         <td
           v-for="(item, num) in tableCloums"
           :key="num"
@@ -49,7 +50,7 @@
             @change="inputChange(items, index, item)"
           >
             <el-option
-              v-for="x in item.selectArr"
+              v-for="x in setSelectArr(items, index, item)"
               :key="x.val"
               :value="x.val"
               :label="x.lab"
@@ -185,6 +186,14 @@ export default {
     }
   },
   methods: {
+    // 下拉框动态数据设置
+    setSelectArr(items, index, item) {
+      if (typeof item.formType === 'string') {
+        return item.selectArr
+      } else {
+        return item.selectArr(items, index, item)
+      }
+    },
     otherKeySettingSubmit(form, index) {
       this.tableData[index] = Object.assign(this.tableData[index], form)
     },

@@ -461,8 +461,9 @@
             </el-row>
             <!-- 地图iframe参数配置 -->
             <colums-setting
-              :table-data="form.paramConfig"
-              :table-cloums="tableCloums"
+              v-if="form.iframeAll.mapPramConfig"
+              :table-data="form.iframeAll.mapPramConfig"
+              :table-cloums="mapPramCloums"
             />
             <!-- 其他iframe参数配置 -->
             <param-key-config
@@ -601,6 +602,7 @@ import ColumsSetting from '../ColumsSetting'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
 import ChartsDataSettting from './ChartsDataSettting'
+import mapMixins from './mapMixins'
 import { ChartsMixins, iframeMixins, otherMixins } from './SettingFormMixins'
 export default {
   components: {
@@ -611,7 +613,7 @@ export default {
     ChartsDataSettting,
     ColumsSetting
   },
-  mixins: [dragDialog, otherMixins, ChartsMixins, iframeMixins],
+  mixins: [dragDialog, otherMixins, ChartsMixins, iframeMixins, mapMixins],
   // props: ['form', 'dataUrl', 'statisticsAll'],
   props: {
     form: {

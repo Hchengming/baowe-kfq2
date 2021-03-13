@@ -41,21 +41,33 @@ export default {
   methods: {
     // 数据编排项目地图初始化
     bigDataInit() {
+      console.log(
+        this.settingForm.iframeAll.iframeType
+      )
       if (
         this.settingForm.iframeAll &&
-        this.settingForm.iframeAll.iframeType === 0 &&
+        this.settingForm.iframeAll.iframeType === '0' &&
         this.settingConfig.isBigData
       ) {
-        const doc = document.getElementById(this.iframeId())
-        const options = {
-          id: 'qwe123'
-        }
-        doc.contentWindow.postMessage(
-          `showFeatureLayer|http://portal.xxzx.com/arcgis/rest/services/Hosted/result999/featureserver/0|${JSON.stringify(
-            options
-          )}`,
-          '*'
-        )
+        // const doc = document.getElementById(this.iframeId())
+        // const options = {
+        //   id: 'qwe123'
+        // }
+        // doc.contentWindow.postMessage(
+        //   `showFeatureLayer|http://portal.xxzx.com/arcgis/rest/services/Hosted/result999/featureserver/0|${JSON.stringify(
+        //     options
+        //   )}`,
+        //   '*'
+        // )
+
+        this.$emit('componentFunc', {
+          method: 'bigDataMapInit',
+          name: '大数据编排地图初始化事件',
+          param: {
+            id: this.iframeId(),
+            iframeAll: this.settingForm.iframeAll
+          }
+        })
       }
     },
     // iframe样式设置

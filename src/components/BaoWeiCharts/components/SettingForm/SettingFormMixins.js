@@ -350,6 +350,11 @@ export const otherMixins = {
           })
         }
       }
+
+      // 02 地图参数配置旧版本兼容处理
+      if (this.form.iframeAll.mapPramConfig) {
+        this.$set(this.form.iframeAll, 'mapPramConfig', [])
+      }
     },
     // 图表、列表全选按钮控制
     keyChooseAllShow() {

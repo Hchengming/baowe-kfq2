@@ -138,7 +138,8 @@ export default {
         iframeAll: {
           iframeType: '0', // 0-map地图  1-其他类型
           iframeId: '', // 自定义iframe框id名
-          iframeUrl: '' // iframe嵌入路径,
+          iframeUrl: '', // iframe嵌入路径,
+          mapPramConfig: []// 地图参数配置
         },
         height: 30,
         width: 30,
