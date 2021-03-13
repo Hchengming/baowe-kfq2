@@ -34,6 +34,7 @@ import { elementMethodsMixins } from './mixins.js'
  * theme String 当前已配置主题选择 0：白色背景 1：深色背景
  * isTestEnvironment Boolean 后台版本是否为node测试环境
  * isBigData Boolean 是否为大数据编排项目
+ * mapPramData  Array  地图组件默认参数配置
  */
 export default {
   mixins: [elementMethodsMixins],
@@ -61,8 +62,79 @@ export default {
           // pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径
           viewId: '002', // 视图id
           iframeDefaultUrl: 'http://23.36.250.99:666/views/showmap.html?callid=101291123'// iframe地图初始路径
-        }
+        },
+        mapPramConfig: [{// 地图组件默认参数配置
+          paramKey: 'type',
+          description: '类型',
+          paramValue: 'classBreaksDef',
+          isShow: true,
+          formType: 'select',
+          selectArr: [{
+            lab: '分类方式',
+            val: 'classBreaksDef'
+          }, {
+            lab: '唯一值方式',
+            val: 'uniqueValueDef'
+          }]
+        }, {// 地图组件默认参数配置
+          paramKey: 'fromColor',
+          description: '色带一',
+          paramValue: '#333',
+          isShow: true,
+          formType: 'color'
+        }, {// 地图组件默认参数配置
+          paramKey: 'toColor',
+          description: '色带二',
+          paramValue: '#333',
+          isShow: true,
+          formType: 'color'
+        }, {
+          paramKey: 'classificationField',
+          description: '匹配值的字段名',
+          paramValue: '',
+          isShow: true,
+          formType: 'select',
+          selectArr: [{
+            lab: '用地面积1',
+            val: 'class1'
+          }, {
+            lab: '用地面积2',
+            val: 'class2'
+          }]
+        }, {
+          paramKey: 'attributeField',
+          description: '唯一值1',
+          paramValue: '',
+          isShow: false,
+          formType: 'select',
+          selectArr: [{
+            lab: '学校类型1',
+            val: 'class1'
+          }, {
+            lab: '学校类型2',
+            val: 'class2'
+          }]
+        }],
+        defaultType: 'classBreaksDef'
       }
+    }
+  },
+  watch: {
+    'settingConfig.mapPramConfig': {
+      handler(val) {
+        if (val[0].paramValue !== this.defaultType) {
+          this.defaultType = val[0].paramValue
+          console.log('111111111111111111111')
+          if (this.defaultType === 'classBreaksDef') {
+            val[4].isShow = false
+            val[3].isShow = true
+          } else {
+            val[4].isShow = true
+            val[3].isShow = false
+          }
+        }
+      },
+      deep: true
     }
   },
   // components:{BaoWeiCharts},
@@ -96,6 +168,7 @@ export default {
         case 'operateButtonClick': // 表格右侧按钮点击事件
           console.log('表格右侧按钮点击事件', obj)
           break
+
         // case 'cellClick'://单元格点击事件
         //   this.cellClick(obj);
         //   break
