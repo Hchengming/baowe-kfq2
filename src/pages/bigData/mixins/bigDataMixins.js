@@ -274,33 +274,37 @@ export default {
       this.$refs['baoweiCharts'].addChartList({ contentAreaConfig, menuId })
     },
     // 图表修改事件---内部传出事件
-    updateChartList(param) {
-      const reqData = {
-        secondMasterPageConfigPOS: [
-          {
-            contentAreaConfig: param.contentAreaConfig,
-            moduleId: param.moduleId
-          }
-        ]
-      }
-      serviceAxios.post(
-        this.settingConfig.commonUrl +
-          '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
-        reqData
-      ).then(res => {
+    updateChartList(obj) {
+      console.log(obj.param.contentAreaConfig.iframeAll.mapPramConfig)
+      // const reqData = {
+      //   secondMasterPageConfigPOS: [
+      //     {
+      //       contentAreaConfig: param.contentAreaConfig,
+      //       moduleId: param.moduleId
+      //     }
+      //   ]
+      // }
+      // serviceAxios.post(
+      //   this.settingConfig.commonUrl +
+      //     '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
+      //   reqData
+      // ).then(res => {
 
-      })
+      // })
     },
     // 1-大数据编排项目初始化数据获取---内部传出事件
     setBigData() {
       // 1、当前页面配置模块获取--
+      console.log(this.settingConfig.answerId)
       this.getData2(this.settingConfig.answerId, data1 => {
         if (data1.length === 0) {
           // this.getData2(this.settingConfig.bigData.templateId,(data2=>{
 
           // }))
         } else {
-          this.$refs['baoweiCharts'].getData({ menuId: this.settingConfig.answerId })
+          this.$refs['baoweiCharts'].getData({ menuId: this.settingConfig.answerId, getPageData: (pageData) => {
+            console.log(pageData, '000')
+          } })
         }
         // if (data1.length === 0) {
         //   this.settingForm1.iframeAll.iframeUrl = this.settingConfig.bigData.iframeDefaultUrl

@@ -2,6 +2,7 @@
 export default {
   methods: {
     setBigData() {
+      this.$emit('pageLoding', false)
       this.menuId = this.settingConfig.answerId
       this.$emit('chartsMethods', {
         methodsName: 'setBigData',

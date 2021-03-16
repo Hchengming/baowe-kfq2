@@ -178,7 +178,7 @@ export const iframeMixins = {
     }
   }
 }
-import dataPresentation from './dataPresentation.json'
+import dataPresentation from '../dataPresentation.json'
 export const otherMixins = {
   data() {
     return {
@@ -286,6 +286,7 @@ export const otherMixins = {
     },
     // 弹窗显示事件
     show(obj) {
+      console.log(this.form)
       this.dialogVisible = true
 
       if (obj) {
@@ -348,7 +349,7 @@ export const otherMixins = {
       }
 
       // 02 地图参数配置旧版本兼容处理
-      if (this.form.iframeAll.mapPramConfig) {
+      if (!this.form.iframeAll.mapPramConfig) {
         this.$set(this.form.iframeAll, 'mapPramConfig', [])
       }
     },

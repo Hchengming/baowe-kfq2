@@ -601,8 +601,8 @@ import ColumsSetting from '../ColumsSetting'
 import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
 import ChartsDataSettting from './ChartsDataSettting'
-import mapMixins from './mapMixins'
-import { ChartsMixins, iframeMixins, otherMixins } from './SettingFormMixins'
+import mapMixins from './mixins/mapMixins'
+import { ChartsMixins, iframeMixins, otherMixins } from './mixins/settingFormMixins'
 export default {
   components: {
     settingJson,

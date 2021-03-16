@@ -188,12 +188,12 @@ export default {
     // statistics组件--模块删除事件
     deleteMoule(param) {
       // console.log('删除')
-      let reqUrl
-      if (param.menuId) {
-        reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
-      } else {
-        reqUrl = '/busSecondmasterpageconfig/deleteDrillDownData'
-      }
+      let reqUrl = ''
+      // if (param.menuId) {
+      reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
+      // } else {
+      //   reqUrl = '/busSecondmasterpageconfig/deleteDrillDownData'
+      // }
       serviceAxios
         .post(this.settingConfig.commonUrl + reqUrl, param)
         .then(res => {
@@ -203,11 +203,11 @@ export default {
               message: '模块删除成功',
               type: 'success'
             })
-            if (this.settingConfig.isBigData) {
-              this.setBigData()
-            } else {
-              this.getData()
-            }
+            // if (this.settingConfig.isBigData) {
+            //   this.setBigData()
+            // } else {
+            this.getData()
+            // }
           }
         })
     },
@@ -359,6 +359,7 @@ export default {
     // 新增确认事件
     addKeep(param) {
       const menuId = param.menuId ? param.menuId : this.menuId
+      console.log(menuId, '----')
       if (this.parentContainerType === 'container') {
         param.contentAreaConfig.parentModuleId = this.parentModuleId
         if (this.parentTabsCode) {
@@ -393,7 +394,6 @@ export default {
               message: '模块添加成功',
               type: 'success'
             })
-
             this.$refs['settingForm'].close()
             this.getData()
           } else {

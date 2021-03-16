@@ -465,17 +465,18 @@ export default {
     },
     // 页面加载状态变化
     pageLoding(offon) {
-      this.$emit('pageLoading', offon)
+      this.$emit('pageLoding', offon)
     },
     // 模块图表配置数据获取
     getData(param) {
+      // console.log(param,this.menuId, '33')
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](
         this.settingConfig.commonUrl +
           '/busSecondmasterpageconfig/querySecondMasterPageConfigDataBegin',
         {
-          menuId: param.menuId ? param.menuId : this.menuId
+          menuId: param && param.menuId ? param.menuId : this.menuId
         }
       )
         .then(res => {
@@ -483,10 +484,10 @@ export default {
           const resData = res.data
 
           if (code === 20000) {
-            if (param.menuTypes === 'top' && resData.length === 0) {
+            if (param && param.menuTypes === 'top' && resData.length === 0) {
               param.fn(true)
             }
-            this.setPageData(resData)
+            this.setPageData(resData, param)
           }
           this.pageLoding(false)
         })
@@ -501,7 +502,7 @@ export default {
         })
     },
     // 当前页面模块数据处理
-    setPageData(resData) {
+    setPageData(resData, param) {
       this.pageData = []
       resData.forEach((item, index) => {
         this.itemGSH(item, index)
@@ -532,6 +533,9 @@ export default {
           this.getTableData(obj, {}, item, index)
         }
       })
+      if (param && param.getPageData) {
+        param.getPageData(this.pageData)
+      }
       this.pageModuleData.pageData = this.pageData
       this.chartsMethods({
         methodsName: 'getPageData',
@@ -600,8 +604,7 @@ export default {
       }
       // 04-区县-单选数据处理
       this.setCountryRadio(config, reqData)
-
-      this.pageData[obj.index].isLoading = true
+      this.$set(this.pageData[obj.index], 'isLoading', true)
       // 返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
       if (!sftsqk) {
