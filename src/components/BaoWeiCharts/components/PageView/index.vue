@@ -141,9 +141,7 @@ export default {
       const arr = []
       if (this.pageModuleData.timeAxis) {
         this.pageModuleData.timeAxis.forEach(item => {
-          // console.log(item.timeAxisConfig.parentModuleId, this.moduleId)
           if (item.timeAxisConfig.parentModuleId === this.moduleId) {
-            console.log(item.timeAxisConfig.parentTabsCode, this.tabsCode)
             if (this.tabsCode) {
               if (this.tabsCode === item.timeAxisConfig.parentTabsCode) {
                 arr.push(item)
@@ -164,11 +162,6 @@ export default {
         this.pageModuleData.pageData.forEach(item => {
           if (item.contentAreaConfig.parentModuleId === this.moduleId) {
             if (this.tabsCode) {
-              console.log(
-                this.tabsCode,
-                item.contentAreaConfig.parentTabsCode,
-                this.tabsCode === item.contentAreaConfig.parentTabsCode
-              )
               if (this.tabsCode === item.contentAreaConfig.parentTabsCode) {
                 arr.push(item)
               }
@@ -178,7 +171,6 @@ export default {
           }
         })
       }
-      console.log(arr)
       this.isShow = true
       return arr
     },
@@ -193,8 +185,6 @@ export default {
     },
     // 抽屉新增事件
     addAssembly(type) {
-      // console.log(this.pageModuleData, 'pageModuleData')
-      // console.log(type, 'type')
       this.drawerShow = false
       this.$emit('componentFunc', {
         method: 'pageViewAdd',

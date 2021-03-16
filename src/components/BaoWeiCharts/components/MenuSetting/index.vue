@@ -66,7 +66,6 @@ export default {
     // 菜单树数据查询事件
     getTreeMenu() {
       serviceAxios.post(this.commonUrl + '/menu/insertMenu', { answerId: this.settingConfig.answerId }).then(res => {
-        // console.log(res)
         const code = res.code
         const reqData = res.data
         if (code === 20000) {
@@ -77,7 +76,6 @@ export default {
     },
     // 树形单行配置
     renderContent(h, { node, data }) {
-      // console.log(data);
       const iconClass = 'iconfont ' + data.menuIcon
       return (
         <span class='custom-tree-node'>
@@ -139,7 +137,6 @@ export default {
       this.menuFormAll.menuForm.menuName = data.menuName
       this.menuFormAll.menuForm.menuIcon = data.menuIcon
       this.menuFormAll.isShow = true
-      // console.log(this.menuFormAll)
     },
     // 新增、修改菜单保存事件
     menuFormSubmit(form, fn) {

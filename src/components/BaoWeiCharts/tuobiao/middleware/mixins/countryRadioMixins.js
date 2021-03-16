@@ -7,7 +7,6 @@ export default {
         const screenData = config.contentAreaConfig.filterConfig.screenData
         screenData.forEach(item => {
           if (item.type === 'country-radio' && item.key === key) {
-            console.log(reqData[key])
             reqData[key] = this.countryRadioValue(reqData[key])
           }
         })

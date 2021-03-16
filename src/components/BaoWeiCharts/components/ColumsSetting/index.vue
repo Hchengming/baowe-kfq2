@@ -291,7 +291,6 @@ export default {
           }
         }
       })
-      // console.log(obj)
       return obj
     },
     // 列新增事件
@@ -303,7 +302,6 @@ export default {
     },
     // 列删除事件
     cloumsDelete(index) {
-      // console.log(this.tableData)
       // let data = JSON.parse(JSON.stringify(this.tableData))
       this.tableData.splice(index, 1)
       // this.tableData = data

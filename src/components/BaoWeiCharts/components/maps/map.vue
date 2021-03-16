@@ -122,7 +122,6 @@ export default {
     },
     // 拖拽、缩放后保存事件
     TZLSKeep() {
-      // console.log(this.modelStyle)
     }
   }
 }

@@ -31,7 +31,6 @@ export default {
     jsMethodsFuc(colums, rowData, keys) {
       let docHtml = ''
       if (colums[keys]) {
-        // console.log(colums)
         // eslint-disable-next-line no-eval
         const fnc = eval(`(false || ${colums[keys]})`)
         docHtml = fnc(colums, rowData)

@@ -288,7 +288,7 @@ export default {
           '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
         reqData
       ).then(res => {
-        console.log(res)
+
       })
     },
     // 1-大数据编排项目初始化数据获取---内部传出事件

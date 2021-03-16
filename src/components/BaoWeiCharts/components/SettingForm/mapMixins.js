@@ -51,10 +51,8 @@ export default {
     // 默认值变化事件
     mapParamValueChange(items, index, item) {
       this.settingConfig.mapPramConfig.forEach(val => {
-        // console.log(item, val.paramKey)
         if (val.paramKey === 'type') {
           val.paramValue = items[item.key]
-          // console.log(val.paramValue)
         }
       })
     },
@@ -68,7 +66,6 @@ export default {
             this.form.iframeAll.mapPramConfig.forEach(item => {
               if (item.paramKey === val.paramKey && val.isShow !== item.isShow) {
                 item.isShow = val.isShow
-                console.log(item, item.isShow)
               }
             })
           })

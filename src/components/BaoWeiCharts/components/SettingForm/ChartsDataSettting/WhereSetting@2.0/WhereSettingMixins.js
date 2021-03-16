@@ -142,7 +142,6 @@ export default {
               },
               click(form, fatherIndex, item) {
                 _this.itemDataChange(form, fatherIndex, item)
-                // console.log('配置数据/接口')
               }
             },
             {
@@ -260,7 +259,6 @@ export default {
     },
     // 树形弹窗确认事件
     elTreeSubmit(data) {
-      console.log(data)
       // const item = this.form.paramConfig[this.nowIndex]
       this.nowItem.defaultValue = '${' + data.paramKey + '}'
       // item.dataType = data.dataType
@@ -328,7 +326,6 @@ export default {
       if (['date', 'dateTime'].indexOf(item.type) === -1) {
         item.sfjssj = '0'
       }
-      // console.log(item)
       switch (item.type) {
         case 'input':
           // delete item.dataUrl
@@ -403,17 +400,7 @@ export default {
           message: err1 + err2
         })
       } else {
-        // const datas = JSON.parse(
-        //     JSON.stringify({
-        //         screenData: conditionAreaConfig,
-        //         btnSettingData: this.btnSettingData,
-        //         // commonFilterData: this.commonFilterData,
-        //         isShowInsertButton: this.isShowInsertButton
-        //     })
-        // )
-        // console.log(conditionAreaConfig, 'conditionAreaConfig')
         fn()
-        // this.$emit('screenKeep', datas)
       }
     },
     screenSubmit(fn) {

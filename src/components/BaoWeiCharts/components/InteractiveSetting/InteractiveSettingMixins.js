@@ -144,7 +144,6 @@ export default {
           items.moduleType = obj.type
         }
       })
-      // console.log(items, '模块类型选择变化事件')
     },
     // 交互配置新增事件
     addInteractive() {

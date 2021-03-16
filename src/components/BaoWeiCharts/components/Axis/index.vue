@@ -76,7 +76,6 @@ export default {
       const element = this.containerElelemt
         ? this.containerElelemt
         : document.getElementsByClassName('my_main_content')[0]
-      // console.log(this.settingForm, element.clientHeight, 'this.settingForm')
       const style = {
         top:
           parseFloat((this.settingForm.top * element.clientHeight) / 100) +

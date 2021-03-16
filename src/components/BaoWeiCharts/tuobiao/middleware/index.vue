@@ -491,7 +491,7 @@ export default {
           this.pageLoding(false)
         })
         .catch(msg => {
-          console.log('33333')
+          // console.log('请求失败')
           this.$message({
             message: '请求失败' + msg,
             type: 'error'

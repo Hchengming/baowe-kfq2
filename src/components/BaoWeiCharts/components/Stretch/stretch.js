@@ -62,7 +62,6 @@ const stretch = ({
     let height_c = height
     let left_c = left
     let top_c = top
-    // console.log(width_c) 我给自己留了200块噻
     // 限制条件  模块宽高均大于100
 
     if (position[0] === 'top') {
@@ -91,7 +90,6 @@ const stretch = ({
   }
   // 3 鼠标松开
   document.onmouseup = function() {
-    // console.log('===============')
     this.onmousemove = null
     this.onmouseup = null
     // 修复低版本ie bug

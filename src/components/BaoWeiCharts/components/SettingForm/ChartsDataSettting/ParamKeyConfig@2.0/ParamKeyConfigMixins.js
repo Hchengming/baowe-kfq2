@@ -61,7 +61,6 @@ export default {
       } else {
         url = window.BaseApi + `/.DataView/view/v1/${this.form.viewId}/paramlist`
       }
-      // console.log(url)
       serviceAxios
         .get(url)
         .then(res => {
@@ -92,7 +91,6 @@ export default {
         this.getViewParams()
       } else {
         const arrKey = []
-        // console.log(this.itemApiData)
         this.itemApiData.forEach(items => {
           if (items.aaaRequestUrl === this.form.url && items.param) {
             items.param.forEach(item => {

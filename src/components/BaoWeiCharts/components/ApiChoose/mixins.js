@@ -17,7 +17,6 @@ export default {
   methods: {
     // 项目所有接口获取--应用接口列表获取
     getItemApi() {
-      // console.log('serviceId')
       const method = this.settingConfig.isCustomMenu ? 'post' : 'get'
       let url = ''
 
@@ -71,7 +70,6 @@ export default {
     },
     // 接口名称变化事件
     urlNameChange(val) {
-      //  console.log(val)
       this.itemApiData.forEach(item => {
         if (item.apeName === val) {
           this.form.url = item.aaaRequestUrl

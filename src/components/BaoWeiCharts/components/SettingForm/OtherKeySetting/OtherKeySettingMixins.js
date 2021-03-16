@@ -43,7 +43,6 @@ export default {
       //         cellRenderer: null,
       //         tipRenderer: null
       //     }
-      // console.log(this.form.keyArr[this.keyNowIndex])
     },
     // textarea放大事件---js脚本
     enlarge(key) {

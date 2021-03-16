@@ -76,7 +76,6 @@ export default {
         if (this.offon) {
           this.offon = false
           setTimeout(() => {
-            console.log()
             this.offon = true
           }, 100)
           const myChart = this.$echarts.init(this.$refs['myCharts'])
@@ -174,8 +173,6 @@ export default {
       })
 
       // 绘制图表
-      // console.log(this.chartType)
-      // console.log(options)
       myChart.setOption(options)
     },
     // 7、图表其他设置
@@ -285,10 +282,8 @@ export default {
         if (['histogram', 'line', 'radar'].indexOf(this.chartType) > -1) {
           const num = Math.floor(vauleMaxlength / 3)
           gridLeft = vauleMaxlength * 5 + num * 5 + 15
-          // console.log(vauleMaxlength, num, 'bar')
         } else if (['bar'].indexOf(this.chartType) > -1) {
           gridLeft = titleMaxlength * 11 + 20
-          // console.log(titleMaxlength, 'histogram', gridLeft)
         }
       }
       if (!this.titleShow) {
@@ -355,7 +350,6 @@ export default {
     // 图表高度配置
     chartsHeight() {
       let chartsHeight = this.height
-      // console.log(['pie', 'ring'].indexOf(this.chartType))
       if (
         this.chartColumns.length > 1 && ['pie', 'ring'].indexOf(this.chartType) > -1
       ) {

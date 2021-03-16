@@ -378,6 +378,7 @@ export default {
     statisticsAllChange(moduleId, viewchange, wh) {
       if (this.statisticsAll.moduleId === moduleId) {
         viewchange(this.statisticsAll)
+        this.settingForm = this.statisticsAll.contentAreaConfig
         this.whereHeight = wh
       }
     },

@@ -144,7 +144,7 @@ export default {
       handler(val) {
         if (val[0].paramValue !== this.defaultType) {
           this.defaultType = val[0].paramValue
-          console.log('111111111111111111111')
+
           if (this.defaultType === 'classBreaksDef') {
             val[4].isShow = false
             val[3].isShow = true
@@ -173,7 +173,7 @@ export default {
     },
     // 地图初始化事件
     bigDataMapInit(obj) {
-      console.log(obj)
+
     }
   }
 }

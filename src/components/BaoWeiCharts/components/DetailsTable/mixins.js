@@ -37,7 +37,6 @@ export default {
     // 展示数据配置事件
     setDestailSetting() {
       const tableItem = this.tableData
-      // console.log(tableItem)
       const detailsAreaConfig = JSON.parse(
         JSON.stringify(this.settingForm.keyArr)
       )

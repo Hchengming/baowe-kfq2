@@ -76,7 +76,7 @@ export default {
           this.rowClick(obj)
           break
         case 'operateButtonClick': // 表格右侧按钮点击事件
-          console.log('表格右侧按钮点击事件', obj)
+
           break
         // case 'cellClick'://单元格点击事件
         //   this.cellClick(obj);

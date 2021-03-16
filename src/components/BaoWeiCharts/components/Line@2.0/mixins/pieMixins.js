@@ -46,7 +46,6 @@ export default {
     pieChange(item) {
       this.chooseItem = item
       this.echartsInit()
-      // console.log(item)
       this.$emit('pieTabsClick', item)
     },
     // 饼图饼是否可点击设置
@@ -69,7 +68,6 @@ export default {
       if (!this.chooseItem) {
         this.chooseItem = this.chartColumns[0]
       }
-      // console.log(this.chooseItem)
       // 02 series配置
       const seriesData = []
       this.data.forEach(item => {

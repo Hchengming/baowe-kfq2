@@ -224,7 +224,6 @@ export const otherMixins = {
     // form数据初始化
     formInit() {
       if (!this.form) return
-      // console.log(this.form, 'this.form')
       if (!this.form.blankTemplateConfig) {
         this.form.blankTemplateConfig = {}
       }
@@ -246,7 +245,6 @@ export const otherMixins = {
         )
         dom.onscroll = function(e) {
           _this.scrollTop = e.target.scrollTop
-          // console.log(this.scrollTop)
         }
       })
     },
@@ -289,11 +287,11 @@ export const otherMixins = {
     // 弹窗显示事件
     show(obj) {
       this.dialogVisible = true
-      // console.log(this.form)
+
       if (obj) {
         this.parentParamsAll = obj
       }
-      //   console.log(this.form);
+
       // 配置数据旧版本兼容处理
       this.compatibleProcessing()
 
@@ -302,12 +300,10 @@ export const otherMixins = {
       this.elDialogBodyScroll()
       // 图表、列表全选按钮控制
       this.keyChooseAllShow()
-      // console.log(this.form)
 
       // 判断当项目用于大数据编排项目时请求路径确定
       if (this.settingConfig.isBigData) {
         this.$nextTick(() => {
-          // console.log(this.form.moduleType, 'his.form.moduleType')
           if (this.form.moduleType === '0') {
             this.form.apiType = '0'
             this.form.viewId = this.settingConfig.bigData.viewId
@@ -376,7 +372,6 @@ export const otherMixins = {
       if (!this.form.moduleType || this.form.moduleType === '0') {
         this.$refs['chartsDataSettting'].screenSubmit(() => {
           // this.form.conditionAreaConfig = conditionAreaConfig
-          // console.log(this.form);
           this.$emit('componentFunc', {
             method: 'addKeep',
             name: '模块新增',
@@ -399,7 +394,6 @@ export const otherMixins = {
     },
     // 接口名称变化事件
     urlNameChange(val) {
-      //  console.log(val)
       this.itemApiData.forEach(item => {
         if (item.apeName === val) {
           this.form.url = item.aaaRequestUrl

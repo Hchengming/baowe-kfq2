@@ -107,10 +107,10 @@ export default {
     }
   },
   watch: {
-    // colums(val) {
-    //   this.getTableColums()
-    //   console.log('000000')
-    // }
+    colums() {
+      this.newClums = JSON.parse(JSON.stringify(this.colums))
+      this.getTableColums()
+    }
   },
   mounted() {
     this.newClums = JSON.parse(JSON.stringify(this.colums))
@@ -187,7 +187,6 @@ export default {
     },
     // 递归遍历树形数据
     reduiction(data, fn) {
-      console.log(data, '00')
       data.forEach((item, index) => {
         fn(item, index)
         if (item.children && item.children.length > 0) {

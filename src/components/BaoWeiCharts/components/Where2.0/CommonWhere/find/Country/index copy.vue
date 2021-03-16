@@ -112,9 +112,8 @@ export default {
     chooseInit() {
       let offon = false
       // 01-默认选中为区域
-      console.log(this.form, '0000111')
+
       countryData.forEach(items => {
-        console.log(items.value, this.form[this.commonItem.key])
         if (items.value === this.form[this.commonItem.key]) {
           this.country.father = items.value
           offon = true

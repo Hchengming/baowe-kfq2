@@ -107,7 +107,6 @@ export default {
     // 数据视图配置字段获取事件
     getViewKeysData() {
       const queryParamList = []
-      // console.log(this.form)
       this.form.filterConfig.screenData.forEach(item => {
         const paramValue = this.getParamValue(item.defaultValue)
 
@@ -117,7 +116,6 @@ export default {
       })
 
       if (!this.form.url) return false
-      // console.log(window.BaseApi + this.form.url, '00000')
       serviceAxios
         .post(window.BaseApi + this.form.url, {
           viewId: this.form.viewId,

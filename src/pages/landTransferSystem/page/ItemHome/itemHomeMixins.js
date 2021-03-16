@@ -33,7 +33,6 @@ export const commonMixins = {
   mounted() {
     const _this = this
     window.addEventListener('message', function(event) {
-      console.log('=============')
       if (!(typeof event.data === 'string')) return
       const str = event.data.split('|')[1]
       const datas = JSON.parse(str)

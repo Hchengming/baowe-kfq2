@@ -6,30 +6,16 @@ export default {
     }
   },
   mounted() {
-    if (this.iframePositionAll) {
-      this.setMapPosition()
-    }
     this.$nextTick(() => {
       if (this.iframeAll.iframeUrl.indexOf('#') === 1) {
         document.getElementById(
           'iframe' + this.statisticsAll.moduleId
         ).contentWindow.location.href = this.iframeAll.iframeUrl
       }
-      // this.setIframeStyle()
-      // console.log(this.settingForm.width * element.scrollWidth / 100)
-      // {'height':600+'px','width':300+'px'}
     })
     this.bigDataInit()
   },
   watch: {
-    iframePositionAll: {
-      handler(val) {
-        if (val) {
-          this.setMapPosition()
-        }
-      },
-      deep: true
-    },
     // iframe路径变化监听
     'settingForm.iframeAll.iframeUrl': {
       handler() {
@@ -41,9 +27,6 @@ export default {
   methods: {
     // 数据编排项目地图初始化
     bigDataInit() {
-      console.log(
-        this.settingForm.iframeAll.iframeType
-      )
       if (
         this.settingForm.iframeAll &&
         this.settingForm.iframeAll.iframeType === '0' &&
@@ -126,23 +109,6 @@ export default {
       } else {
         fn(url)
       }
-    },
-    // 地图定位
-    setMapPosition() {
-      // console.log(this.iframePositionAll)
-      // const area = this.iframePositionAll.area
-      // const doc = document.getElementById('ifrmmap')
-      // switch (this.iframePositionAll.mapPosition) {
-      //   case '0': // 显示整个重庆地图(地图恢复到初始显示范围)
-      //     doc.contentWindow.postMessage('SetInitExtent|', '*')
-      //     break
-      //   case '1': // 定位到区县
-      //     doc.contentWindow.postMessage(`LocalQxbyname|${area}`, '*')
-      //     break
-      //   case '2': // 定位到开发区
-      //     doc.contentWindow.postMessage(`LocalKFQBYName|${area}`, '*')
-      //     break
-      // }
     }
   }
 }

@@ -124,7 +124,6 @@ export default {
       handler(val) {
         if (val[0].paramValue !== this.defaultType) {
           this.defaultType = val[0].paramValue
-          console.log('111111111111111111111')
           if (this.defaultType === 'classBreaksDef') {
             val[4].isShow = false
             val[3].isShow = true
@@ -144,6 +143,11 @@ export default {
     localStorage.setItem('country', '市局')
     this.$refs['baoweiCharts'].startRender()
     // }, 1000)
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.changeChartsData()
+      }, 1000)
+    })
   },
   methods: {
     dtcs() {
@@ -166,7 +170,7 @@ export default {
           this.rowClick(obj)
           break
         case 'operateButtonClick': // 表格右侧按钮点击事件
-          console.log('表格右侧按钮点击事件', obj)
+
           break
 
         // case 'cellClick'://单元格点击事件

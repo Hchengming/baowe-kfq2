@@ -74,7 +74,6 @@ export default {
         cursor: this.cursor,
         height: (this.settingForm.height * element.scrollHeight) / 100 + 'px'
       }
-      // console.log(this.settingForm)
       return style
     },
     isAdmin() {
@@ -82,7 +81,6 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.$store.gettes.getCustomComponentsParam(), '444')
     this.stretchElelemt = this.$refs['listWrap']
     this.pageGetWidget()
   },

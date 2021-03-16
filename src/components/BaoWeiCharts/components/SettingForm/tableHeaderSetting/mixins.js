@@ -34,7 +34,6 @@ export default {
       this.form.tableHeaderConfig = this.tableHeaderConfig
       this.isShow = false
       // this.$emit('setTableHeaderConfig', this.tableHeaderConfig)
-      // console.log(this.tableHeaderConfig)
     },
     handleCheckChange() {},
     // 新增按钮点击事件
@@ -51,14 +50,12 @@ export default {
       const type =
         data.hierarchy < this.tableHeaderConfig.hierarchy - 1 ? '0' : '1'
       this.$refs['edit'].show(null, type)
-      // console.log(data)
     },
     // 修改按钮点击事件
     update(data) {
       this.chooseItem = data
       const type = data.hierarchy < this.tableHeaderConfig.hierarchy ? '0' : '1'
       this.$refs['edit'].show(data.label, type)
-      // console.log(data)
     },
     // 删除按钮点击事件
     remove(data) {
@@ -77,7 +74,7 @@ export default {
     reduiction(data, fn) {
       data.forEach((item, index) => {
         fn(item, index)
-        // console.log('======')
+
         if (item.children && item.children.length > 0) {
           this.reduiction(item.children, fn)
         }
@@ -85,7 +82,6 @@ export default {
     },
     // 标题新增/修改弹窗保存事件
     headerNameSubmit(dataArr, dialogType) {
-      // console.log(dataArr)
       if (dialogType === 'add') {
         // 01 新增保存
         this.reduiction(this.tableHeaderConfig.headerSetting, item => {
@@ -101,7 +97,6 @@ export default {
             })
           }
         })
-        // console.log(this.tableHeaderConfig.headerSetting)
       } else {
         // 01 修改保存
         this.reduiction(this.tableHeaderConfig.headerSetting, item => {

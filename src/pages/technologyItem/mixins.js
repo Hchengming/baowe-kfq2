@@ -38,7 +38,7 @@ export const elementMethodsMixins = {
         pageSize: 10
       })
       .then(res => {
-        console.log(res)
+
         // if (res.data.code === 20000) {
         //   let resData = res.data.data
         //   fn(resData)
@@ -332,7 +332,6 @@ export const elementMethodsMixins = {
         obj.tsqkData(data)
       } else if (obj.config.moduleId === '202cd225e93f424ea7cc235a2b44a031') {
         obj.sftsqk(true)
-        console.log('asdfg=====')
         const data = [
           {
             gg:

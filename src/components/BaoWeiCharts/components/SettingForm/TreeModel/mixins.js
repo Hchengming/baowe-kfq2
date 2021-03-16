@@ -31,7 +31,6 @@ export default {
     },
     handleCheckChange(data) {
       this.$refs.elTree.setCheckedKeys([data.id])
-      // console.log(data)
     },
     // 树形自定义配置
     renderContent(h, { node }) {

@@ -41,7 +41,6 @@ export default {
           max = items[item.key] > max ? items[item.key] : max
         })
         const length = Math.floor(max).toString().length - 2
-        // console.log(max, Math.pow(10, length))
         options.radar.indicator.push({
           name: items[this.titleKey],
           max: max + Math.pow(10, length) * 2

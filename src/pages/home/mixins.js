@@ -24,25 +24,123 @@ export const elementMethodsMixins = {
         xmlb: '测试项目',
         jssj: '2020-04-08 11:22:22'
       }
+      ],
+      keyArr: [
+        {
+          key: 'name',
+          explain: '姓名',
+          dw: '',
+          width: 120,
+          isShow: true,
+          isCruxKey: false,
+          isMapKey: false,
+          ischartsTitle: false,
+          ischartsShow: false,
+          zBgColor: '',
+          cellRenderer: null,
+          tipRenderer: null,
+          colFixed: 'null',
+          colSort: '0',
+          proportion: 12,
+          tableCustom: false,
+          isClick: '0'
+        },
+        {
+          key: 'height',
+          explain: '身高',
+          dw: '',
+          width: 120,
+          isShow: true,
+          isCruxKey: false,
+          isMapKey: false,
+          ischartsTitle: false,
+          ischartsShow: false,
+          zBgColor: '',
+          cellRenderer: null,
+          tipRenderer: null,
+          colFixed: 'null',
+          colSort: '0',
+          proportion: 12,
+          tableCustom: false,
+          isClick: '0'
+        },
+        {
+          key: 'weight',
+          explain: '体重',
+          dw: '',
+          width: 120,
+          isShow: true,
+          isCruxKey: false,
+          isMapKey: false,
+          ischartsTitle: false,
+          ischartsShow: false,
+          zBgColor: '',
+          cellRenderer: null,
+          tipRenderer: null,
+          colFixed: 'null',
+          colSort: '0',
+          proportion: 12,
+          tableCustom: false,
+          isClick: '0'
+        },
+        {
+          key: 'age',
+          explain: '年龄',
+          dw: '',
+          width: 120,
+          isShow: true,
+          isCruxKey: false,
+          isMapKey: false,
+          ischartsTitle: false,
+          ischartsShow: false,
+          zBgColor: '',
+          cellRenderer: null,
+          tipRenderer: null,
+          colFixed: 'null',
+          colSort: '0',
+          proportion: 12,
+          tableCustom: false,
+          isClick: '0'
+        },
+        {
+          key: 'sr',
+          explain: 'sr',
+          dw: '',
+          width: 120,
+          isShow: true,
+          isCruxKey: false,
+          isMapKey: false,
+          ischartsTitle: false,
+          ischartsShow: false,
+          zBgColor: '',
+          cellRenderer: null,
+          tipRenderer: null,
+          colFixed: 'null',
+          colSort: '0',
+          proportion: 12,
+          tableCustom: false,
+          isClick: '0'
+        }
       ]
       // 详情列表测试数据
       // destailTableCS:{}
     }
   },
   methods: {
+
     // 改变图表渲染数据
     changeChartsData() {
-      // this.$refs['baoweiCharts'].changeChartsData((data)=>{
-
-      // })
+      this.$refs['baoweiCharts'].changePageData('0944ebb07a3111ebb99b8ddd28c155e2', (item) => {
+        this.$set(item.contentAreaConfig, 'keyArr', this.keyArr)
+      })
     },
     // 菜单点击事件
     menuClick() {
       this.changeChartsData()
     },
     // 图表组件行点击事件
-    rowClick(obj) {
-      console.log(obj)
+    rowClick() {
+
       // if (obj.moduleId === 'c0b9411a32474571a5bf14cc1337a4bc') {
       //   switch (obj.rowItem.xmjd) {
       //     case '申报':

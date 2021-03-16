@@ -40,13 +40,12 @@ export default {
           nums = index
         }
       })
-      // console.log(nums)
+
       if (nums) {
         const obj = arr[nums]
         arr.splice(nums, 1)
         arr.splice(0, 0, obj)
       }
-      // console.log(arr)
       return arr
     },
     chartEvents() {
@@ -61,7 +60,6 @@ export default {
     chartData() {
       const chartData = {}
       if (!this.data || this.data.length === 0) return {}
-      // console.log(123)
       chartData.columns = []
       this.chartColumns.forEach(item => {
         const dw = item.dw ? `(${item.dw})` : ''
@@ -81,7 +79,6 @@ export default {
       if (this.chartType === 'bar') {
         chartData.rows.reverse()
       }
-      // console.log(chartData)
       this.setHistogramOptions()
       this.setBarOptions()
       return chartData
@@ -108,7 +105,6 @@ export default {
       } else {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.pieType = this.chartColumns[1].explain
-        // console.log(this.chartColumns[1])
         chartData.columns.push(this.chartColumns[1].explain)
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.pieDW = this.chartColumns[1].dw
@@ -171,19 +167,6 @@ export default {
         formatter: '{b} : {c}'
         // formatter: '{b} : {c} ({d}%)'
       }
-      // 饼图颜色自定义
-      // obj.itemStyle={
-      //   color:function(params) {
-      //     console.log(params)
-      //                //自定义颜色
-      //                var colorList = [
-      //                        'red','#B5C334','#FCCE10','#E87C25','#27727B',
-      //                        '#FE8463','#9BCA63','#FAD860','#F3A43B','#60C0DD',
-      //                        '#D7504B','#C6E579','#F4E001','#F0805A','#26C0C0'
-      //                    ];
-      //                    return colorList[params.dataIndex]
-      //                 }
-      // }
       return obj
     }
   },
@@ -218,7 +201,6 @@ export default {
     },
     // 图表边距位置设置
     setGrid(options) {
-      // console.log(this.titleShow)
       if (!this.titleShow) {
         this.$set(options, 'grid', {
           top: 15,
