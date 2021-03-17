@@ -104,7 +104,8 @@
     <span slot="footer" class="dialog-footer">
       <el-button size="small" @click="close">取 消</el-button>
       <el-button type="primary" size="small" @click="onSubmit">确 定</el-button>
-  </span></el-dialog>
+    </span>
+  </el-dialog>
 </template>
 <script>
 // import CustomComponentsSettingMixins from './CustomComponentsSettingMixins'

@@ -162,7 +162,6 @@
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
         >
-          {{ statisticsAll.isLoading }}
           <div v-show="boxOffon" class="boxShow" />
           <!-- 筛选模块 -->
           <where

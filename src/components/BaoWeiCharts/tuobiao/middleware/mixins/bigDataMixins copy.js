@@ -2,6 +2,7 @@ import serviceAxios from '@/utils/request.js'
 export default {
   data() {
     return {
+      nowPageData: [], // 当前页面自定义配置模块集合
       bigDataArr: [],
       rowKey: {
         key: '', // 字段名
@@ -267,58 +268,29 @@ export default {
     }
   },
   methods: {
-    // 图表新增事件
-    addChartList(contentAreaConfig) {
-      // const contentAreaConfig = contentAreaConfig// 新增模块配置数据
-      const menuId = this.settingConfig.answerId // 菜单id
-      this.$refs['baoweiCharts'].addChartList({ contentAreaConfig, menuId })
-    },
-    // 图表修改事件---内部传出事件
-    updateChartList(obj) {
-      console.log(obj.param.contentAreaConfig.iframeAll.mapPramConfig)
-      // const reqData = {
-      //   secondMasterPageConfigPOS: [
-      //     {
-      //       contentAreaConfig: param.contentAreaConfig,
-      //       moduleId: param.moduleId
-      //     }
-      //   ]
-      // }
-      // serviceAxios.post(
-      //   this.settingConfig.commonUrl +
-      //     '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
-      //   reqData
-      // ).then(res => {
-
-      // })
-    },
-    // 1-大数据编排项目初始化数据获取---内部传出事件
     setBigData() {
-      // 1、当前页面配置模块获取--
-      console.log(this.settingConfig.answerId)
+      this.menuId = this.settingConfig.answerId
+      this.$emit('chartsMethods', {
+        methodsName: 'setBigData',
+        name: '大数据编排项目初始化数据获取',
+        param: {}
+      })
+    },
+    // 大数据编排项目初始化数据获取
+    setBigData1() {
+      this.menuId = this.settingConfig.answerId
+      // 1、当前页面配置模块获取
       this.getData2(this.settingConfig.answerId, data1 => {
         if (data1.length === 0) {
-          // this.getData2(this.settingConfig.bigData.templateId,(data2=>{
-          this.addChartList(this.settingForm1)
-          this.addChartList(this.settingForm2)
-          // }))
+          this.settingForm1.iframeAll.iframeUrl = this.settingConfig.bigData.iframeDefaultUrl
+          this.addKeep({ contentAreaConfig: this.settingForm1 })
+          this.settingForm2.viewId = this.settingConfig.bigData.viewId
+          this.getViewKeysData(() => {
+            this.addKeep({ contentAreaConfig: this.settingForm2 })
+          })
         } else {
-          this.$refs['baoweiCharts'].getData({ menuId: this.settingConfig.answerId, getPageData: (pageData) => {
-            console.log(pageData, '000')
-          } })
+          this.getData()
         }
-        // if (data1.length === 0) {
-        //   this.settingForm1.iframeAll.iframeUrl = this.settingConfig.bigData.iframeDefaultUrl
-        //   this.addKeep({ contentAreaConfig: this.settingForm1 })
-        //   this.settingForm2.viewId = this.settingConfig.bigData.viewId
-        //   this.getViewKeysData(() => {
-        //     this.addKeep({ contentAreaConfig: this.settingForm2 })
-        //   })
-        // } else {
-        //   // this.getData()
-        //   const menuId = this.settingConfig.answerId
-        //   this.$refs['baoweiCharts'].getData({ menuId })
-        // }
       })
     },
     // 数据视图配置字段获取事件

@@ -286,7 +286,6 @@ export const otherMixins = {
     },
     // 弹窗显示事件
     show(obj) {
-      console.log(this.form)
       this.dialogVisible = true
 
       if (obj) {

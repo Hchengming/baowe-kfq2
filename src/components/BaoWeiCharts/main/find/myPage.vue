@@ -72,6 +72,7 @@
       </div>
     </div>
     <el-drawer
+      :model="!settingConfig.isBigData"
       :visible.sync="settingDrawer"
       :title="rightDrawerTypeTitle"
       :before-close="drawerClose"

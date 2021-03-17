@@ -634,6 +634,10 @@ export default {
             queryParamList: queryParamList
           }
           nowIndex *= 200
+          if (!reqData.viewId) {
+            this.$set(this.pageData[obj.index], 'isLoading', false)
+            return false
+          }
         }
 
         if (options === 'get') {
