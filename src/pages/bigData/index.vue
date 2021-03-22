@@ -73,6 +73,7 @@ export default {
             description: '类型',
             paramValue: 'classBreaksDef',
             isShow: true,
+            disabled: true,
             formType: 'select',
             selectArr: [
               {

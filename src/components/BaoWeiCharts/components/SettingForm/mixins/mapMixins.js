@@ -9,7 +9,10 @@ export default {
           key: 'paramKey',
           label: '参数名',
           width: 250,
-          formType: 'input'
+          formType: 'input',
+          disabled(items, index, item) {
+            return items.disabled
+          }
         },
         {
           key: 'description',
