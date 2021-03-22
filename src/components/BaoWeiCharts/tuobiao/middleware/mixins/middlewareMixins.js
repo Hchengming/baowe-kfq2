@@ -117,6 +117,7 @@ export default {
           name: '图表组件配置修改事件',
           param: param
         })
+        this.$refs['settingForm'].close()
         return false
       }
 
@@ -144,39 +145,36 @@ export default {
             if (param.fn) {
               param.fn()
             }
-            if (this.settingConfig.isBigData) {
-              this.setBigData()
-            } else {
-              const obj = {}
-              let newItem = {}
-              this.pageData.forEach((item, index) => {
-                if (item.moduleId === param.moduleId) {
-                  obj.index = index
-                  newItem = item
-                }
-              })
-              obj.index = this.pageData.length - 1
-              obj.url = param.contentAreaConfig.url
-              if (param.contentAreaConfig.isPage === '1') {
-                obj.pageSize = param.contentAreaConfig.pageSize
-                obj.currentPage = 1
+
+            const obj = {}
+            let newItem = {}
+            this.pageData.forEach((item, index) => {
+              if (item.moduleId === param.moduleId) {
+                obj.index = index
+                newItem = item
               }
-              if (
-                param.contentAreaConfig.moduleType !== '1' &&
-                param.contentAreaConfig.moduleType !== '3'
-              ) {
-                this.getTableData(obj, param.whereForm, newItem)
-              }
-              this.pageModuleData.pageData.forEach(x => {
-                if (x.moduleId === param.moduleId) {
-                  x.contentAreaConfig = param.contentAreaConfig
-                }
-              })
-              // this.$set(this.pageModuleData.pageData, this.pageData)
-              // this.pageModuleData.pageData = JSON.parse(JSON.stringify(this.pageData))
-              // console.log(this.pageModuleData.pageData)
-              // console.log('1111111111111')
+            })
+            obj.index = this.pageData.length - 1
+            obj.url = param.contentAreaConfig.url
+            if (param.contentAreaConfig.isPage === '1') {
+              obj.pageSize = param.contentAreaConfig.pageSize
+              obj.currentPage = 1
             }
+            if (
+              param.contentAreaConfig.moduleType !== '1' &&
+                param.contentAreaConfig.moduleType !== '3'
+            ) {
+              this.getTableData(obj, param.whereForm, newItem)
+            }
+            this.pageModuleData.pageData.forEach(x => {
+              if (x.moduleId === param.moduleId) {
+                x.contentAreaConfig = param.contentAreaConfig
+              }
+            })
+            // this.$set(this.pageModuleData.pageData, this.pageData)
+            // this.pageModuleData.pageData = JSON.parse(JSON.stringify(this.pageData))
+            // console.log(this.pageModuleData.pageData)
+            // console.log('1111111111111')
           } else {
             this.$message({
               message: '模块修改失败',

@@ -60,7 +60,7 @@ export default {
           // 大数据编排项目特殊配置
           bigDataTemplateId: 'bigData', // 大数据编排项目模板页面id
           // pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径
-          viewId: '002', // 视图id
+          viewId: '', // 视图id
           seriveId: '', // 任务id
           templateId: '001', // 模板id
           iframeDefaultUrl:

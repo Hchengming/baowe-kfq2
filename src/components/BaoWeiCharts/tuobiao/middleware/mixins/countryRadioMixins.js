@@ -14,21 +14,25 @@ export default {
     },
     // 数据值数组化
     countryRadioValue(val) {
-      let arr = []
+      let str = ''
       if (val === '市局') {
         country.forEach(item => {
           if (item.children) {
             item.children.forEach(x => {
               if (x !== '所有') {
-                arr.push(x)
+                if (str === '') {
+                  str = x
+                } else {
+                  str += (',' + x)
+                }
               }
             })
           }
         })
       } else {
-        arr = val.split(',')
+        str = val
       }
-      return arr
+      return str
     }
   }
 }
