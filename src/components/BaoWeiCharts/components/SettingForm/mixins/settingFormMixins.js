@@ -391,6 +391,9 @@ export const otherMixins = {
         })
         // this.$emit('submit', this.form)
       }
+      if (this.settingConfig.isBigData) {
+        this.close()
+      }
     },
     // 接口名称变化事件
     urlNameChange(val) {

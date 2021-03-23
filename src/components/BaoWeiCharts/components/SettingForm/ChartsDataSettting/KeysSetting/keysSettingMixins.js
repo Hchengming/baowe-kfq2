@@ -22,7 +22,7 @@ export default {
         colSort: '0', // 列排序功能 0：否 1：是
         proportion: 12, // 详情表格类列宽
         tableCustom: false, // 表格列自适应
-        isClick: '0'// 字段是否可点击
+        isClick: '0' // 字段是否可点击
       },
       proportionAll: [
         {
@@ -108,8 +108,11 @@ export default {
     getViewKeysData() {
       const queryParamList = []
       this.form.filterConfig.screenData.forEach(item => {
-        const paramValue = this.getParamValue(item.defaultValue)
-
+        let paramValue = this.getParamValue(item.defaultValue)
+        // 区县单选数据处理
+        if (item.type === 'country-radio') {
+          paramValue = this.countryRadioValue(paramValue)
+        }
         queryParamList.push({
           [item.key]: paramValue
         })
@@ -207,7 +210,6 @@ export default {
       if (options === 'get') {
         params = {
           params: params
-
         }
       }
       if (this.form.apiType !== '0' && this.form.isPage === '1') {
@@ -218,7 +220,10 @@ export default {
       if (this.form.url.indexOf('http') > -1) {
         url = this.form.url
       } else {
-        url = this.form.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + this.form.url : this.settingConfig.dataUrl + this.form.url
+        url =
+          this.form.url.indexOf('/api/service') > -1
+            ? window.config.applicationInterfaceApi + this.form.url
+            : this.settingConfig.dataUrl + this.form.url
       }
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {

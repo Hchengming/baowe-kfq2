@@ -1,6 +1,6 @@
 <template>
   <div
-    v-loading="pageLoading"
+    v-loading="false"
     class="my_main_content"
     element-loading-text="页面加载中"
     element-loading-spinner="el-icon-loading"

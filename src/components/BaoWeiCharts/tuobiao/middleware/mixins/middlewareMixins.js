@@ -117,7 +117,6 @@ export default {
           name: '图表组件配置修改事件',
           param: param
         })
-        this.$refs['settingForm'].close()
         return false
       }
 
