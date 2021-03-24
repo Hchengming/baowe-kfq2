@@ -15,7 +15,7 @@ export default {
     // 数据值数组化
     countryRadioValue(val) {
       let str = ''
-      if (val === '市局') {
+      if (val === '市局' || val === '所有') {
         country.forEach(item => {
           if (item.children) {
             item.children.forEach(x => {

@@ -50,7 +50,10 @@ export default {
     }
   },
   mounted() {
-
+    // 地图模块默认参数初始化配置
+    if (this.form.iframeAll && this.form.iframeAll.mapPramConfig) {
+      this.mapPramConfigChange()
+    }
   },
   methods: {
     // 默认值变化事件
