@@ -451,9 +451,9 @@ export default {
         // eslint-disable-next-line no-eval
         const test = eval('(false || ' + funcStr + ')')
         test({
-          axios,
-          message: this.$message,
-          getData: () => {
+          axios, // axios
+          message: this.$message, // message
+          getData: () => { // 模块数据刷新事件
             const form = JSON.parse(JSON.stringify(this.whereAll.form))
             this.$emit('whereSubmit', form)
           }

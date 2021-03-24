@@ -64,7 +64,8 @@
       <li
         v-for="(item, index) in form.keyArr"
         :key="index"
-        class="zdpz_list_content"
+        :class="['zdpz_list_content',{'active':chooseRowIndex===index}]"
+        @click="rowClick(item,index)"
       >
         <span class="hTxt1 hTxt">
           <el-input
@@ -208,6 +209,7 @@
         <!-- 其他配置 -->
         <span class="hTxt91 hTxt">
           <el-button
+            :style="otherButtonStyle(item)"
             type="primary"
             size="mini"
             icon="el-icon-edit"
@@ -283,3 +285,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+   .zdpz_list_content.active{
+     box-shadow: 0 0 4px #bf7777;
+     position: relative;
+     z-index: 9;
+   }
+</style>

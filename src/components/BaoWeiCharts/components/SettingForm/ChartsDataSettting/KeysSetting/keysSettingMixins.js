@@ -5,6 +5,7 @@ export default {
       isPageDisabled: false,
       listKeyAll: false, // 列表全选
       chartsKeyAll: false, // 图表全选
+      chooseRowIndex: null, // 当前选中行索引
       rowKey: {
         key: '', // 字段名
         explain: '', // 含义
@@ -58,6 +59,19 @@ export default {
     }
   },
   methods: {
+    // 其他按钮背景配置
+    otherButtonStyle(item) {
+      const style = {}
+      if (item.cellRenderer || item.cellRenderer || item.cellRenderer) {
+        style.background = '#7f6b6b9e'
+        style.borderColor = '#7f6b6b9e'
+      }
+      return style
+    },
+    // 配置行点击事件
+    rowClick(item, index) {
+      this.chooseRowIndex = index
+    },
     // 图表标题选中切换事件
     chartsTitleChange(key) {
       this.$nextTick(() => {
