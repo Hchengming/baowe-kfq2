@@ -276,21 +276,24 @@ export default {
     // 图表修改事件---内部传出事件
     updateChartList(obj) {
       console.log(obj.param.contentAreaConfig.iframeAll.mapPramConfig)
-      // const reqData = {
-      //   secondMasterPageConfigPOS: [
-      //     {
-      //       contentAreaConfig: param.contentAreaConfig,
-      //       moduleId: param.moduleId
-      //     }
-      //   ]
-      // }
-      // serviceAxios.post(
-      //   this.settingConfig.commonUrl +
-      //     '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
-      //   reqData
-      // ).then(res => {
-
-      // })
+      const reqData = {
+        secondMasterPageConfigPOS: [
+          {
+            contentAreaConfig: obj.param.contentAreaConfig,
+            moduleId: obj.param.moduleId
+          }
+        ]
+      }
+      serviceAxios.post(
+        this.settingConfig.commonUrl +
+          '/busSecondmasterpageconfig/updateSecondMasterPageConfigData',
+        reqData
+      ).then(res => {
+        this.$message({
+          message: '修改成功',
+          type: 'scccess'
+        })
+      })
     },
     // 1-大数据编排项目初始化数据获取---内部传出事件
     setBigData() {

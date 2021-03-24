@@ -181,6 +181,7 @@ import '../../utils/utils.js'
 import CommonWhere from './CommonWhere'
 // 时间段选择组件
 import TimeSlot from './TimeSlot'
+import axios from 'axios'
 export default {
   components: { CommonWhere, TimeSlot },
   props: {
@@ -353,7 +354,11 @@ export default {
               JSON.parse(item.defaultValue)
             )
           } else {
-            this.$set(this.whereAll.form, item.key, this.getParamValue(item.defaultValue, item))
+            this.$set(
+              this.whereAll.form,
+              item.key,
+              this.getParamValue(item.defaultValue, item)
+            )
           }
         } else {
           if (item.type === 'number') {
@@ -445,7 +450,10 @@ export default {
         const funcStr = buttonSetting.jsMethods
         // eslint-disable-next-line no-eval
         const test = eval('(false || ' + funcStr + ')')
-        test()
+        test({
+          axios,
+          message: this.$message
+        })
       }
       this.$emit('whereOtherBtnClick', buttonSetting)
     }

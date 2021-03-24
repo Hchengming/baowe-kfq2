@@ -330,6 +330,10 @@ export const otherMixins = {
           }
         })
       }
+      // 地图模块默认参数初始化配置
+      if (this.form.iframeAll && this.form.iframeAll.mapPramConfig) {
+        this.mapPramConfigChange()
+      }
     },
     // 配置数据旧版本兼容处理
     compatibleProcessing() {

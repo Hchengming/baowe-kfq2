@@ -40,15 +40,17 @@ export default {
   watch: {
     'settingConfig.mapPramConfig': {
       handler() {
-        this.mapPramConfigChange()
+        this.mapPramConfigChange((item, val) => {
+          if (val.isShow !== item.isShow) {
+            item.isShow = val.isShow
+          }
+        })
       },
       deep: true
     }
   },
   mounted() {
-    if (this.form.iframeAll && this.form.iframeAll.mapPramConfig) {
-      this.mapPramConfigChange()
-    }
+
   },
   methods: {
     // 默认值变化事件
@@ -56,19 +58,25 @@ export default {
       this.settingConfig.mapPramConfig.forEach(val => {
         if (val.paramKey === 'type') {
           val.paramValue = items[item.key]
+          this.$set(val, 'value', items[item.key])
         }
       })
     },
     // 默认参数配置数据更新
-    mapPramConfigChange() {
+    mapPramConfigChange(fn) {
       if (this.settingConfig.mapPramConfig && this.form.iframeAll.mapPramConfig) {
         if (this.form.iframeAll.mapPramConfig.length === 0) {
           this.form.iframeAll.mapPramConfig = this.settingConfig.mapPramConfig
         } else {
           this.settingConfig.mapPramConfig.forEach(val => {
             this.form.iframeAll.mapPramConfig.forEach(item => {
-              if (item.paramKey === val.paramKey && val.isShow !== item.isShow) {
-                item.isShow = val.isShow
+              if (item.paramKey === val.paramKey) {
+                if (fn) {
+                  fn(item, val)
+                }
+                if (item.formType === 'select' && item.selectArr.toString() !== val.selectArr.toString()) {
+                  item.selectArr = val.selectArr
+                }
               }
             })
           })

@@ -128,11 +128,17 @@ export default {
             selectArr: [
               {
                 lab: '学校类型1',
-                val: 'class1'
+                val: 'class11'
               },
               {
                 lab: '学校类型2',
-                val: 'class2'
+                val: 'class22'
+              }, {
+                lab: '学校类型3',
+                val: 'class33'
+              }, {
+                lab: '学校类型4',
+                val: 'class44'
               }
             ]
           }
