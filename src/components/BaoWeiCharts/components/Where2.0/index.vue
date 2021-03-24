@@ -452,7 +452,11 @@ export default {
         const test = eval('(false || ' + funcStr + ')')
         test({
           axios,
-          message: this.$message
+          message: this.$message,
+          getData: () => {
+            const form = JSON.parse(JSON.stringify(this.whereAll.form))
+            this.$emit('whereSubmit', form)
+          }
         })
       }
       this.$emit('whereOtherBtnClick', buttonSetting)

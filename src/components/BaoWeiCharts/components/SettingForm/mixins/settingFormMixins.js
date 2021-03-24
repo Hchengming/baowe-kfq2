@@ -334,6 +334,10 @@ export const otherMixins = {
       if (this.form.iframeAll && this.form.iframeAll.mapPramConfig) {
         this.mapPramConfigChange()
       }
+      if (!this.statisticsAll && this.settingConfig.chartsKeyArr) {
+        this.form.keyArr = this.form.keyArr.concat(this.settingConfig.chartsKeyArr)
+        console.log(this.form)
+      }
     },
     // 配置数据旧版本兼容处理
     compatibleProcessing() {

@@ -275,7 +275,7 @@ export default {
     },
     // 图表修改事件---内部传出事件
     updateChartList(obj) {
-      console.log(obj.param.contentAreaConfig.iframeAll.mapPramConfig)
+      // console.log(obj.param.contentAreaConfig.iframeAll.mapPramConfig)
       const reqData = {
         secondMasterPageConfigPOS: [
           {

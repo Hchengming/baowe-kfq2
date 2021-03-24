@@ -35,6 +35,7 @@ import { elementMethodsMixins } from './mixins.js'
  * isTestEnvironment Boolean 后台版本是否为node测试环境
  * isBigData Boolean 是否为大数据编排项目
  * mapPramData  Array  地图组件默认参数配置
+ * isLoading 页面加载中状态配置
  */
 export default {
   mixins: [elementMethodsMixins],
@@ -63,6 +64,8 @@ export default {
           viewId: '002', // 视图id
           iframeDefaultUrl: 'http://23.36.250.99:666/views/showmap.html?callid=101291123'// iframe地图初始路径
         },
+        isLoading: false,
+        chartsKeyArr: [],
         mapPramConfig: [{// 地图组件默认参数配置
           paramKey: 'type',
           description: '类型',
@@ -141,8 +144,30 @@ export default {
     // 组件开始渲染加载数据事件
     // setTimeout(() => {
     localStorage.setItem('country', '市局')
+    this.settingConfig.chartsKeyArr = [
+      {
+        key: 'name',
+        explain: 'name',
+        dw: '',
+        width: 120,
+        isShow: true,
+        isCruxKey: false,
+        isMapKey: false,
+        ischartsTitle: false,
+        ischartsShow: false,
+        zBgColor: '',
+        cellRenderer: null,
+        tipRenderer: null,
+        colFixed: 'null',
+        colSort: '0',
+        proportion: 12,
+        tableCustom: false,
+        isClick: '0'
+      }
+
+    ]
     this.$refs['baoweiCharts'].startRender()
-    // }, 1000)
+
     this.$nextTick(() => {
       setTimeout(() => {
         this.changeChartsData()
