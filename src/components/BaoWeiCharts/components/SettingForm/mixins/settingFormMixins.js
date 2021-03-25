@@ -263,7 +263,8 @@ export const otherMixins = {
     },
     // 模板类型选择变化事件
     moduleTypeChange() {
-      this.form.keyArr = []
+      console.log('0000000000000000')
+      // this.form.keyArr = []
       this.form.operateButton = []
       this.form.paramConfig = []
       this.form.detailsTableAll = []
@@ -334,9 +335,11 @@ export const otherMixins = {
       if (this.form.iframeAll && this.form.iframeAll.mapPramConfig) {
         this.mapPramConfigChange()
       }
+      // 初始配置字段录入
       if (!this.statisticsAll && this.settingConfig.chartsKeyArr) {
-        this.form.keyArr = this.form.keyArr.concat(this.settingConfig.chartsKeyArr)
-        console.log(this.form)
+        setTimeout(() => {
+          this.form.keyArr = this.form.keyArr.concat(this.settingConfig.chartsKeyArr)
+        }, 100)
       }
     },
     // 配置数据旧版本兼容处理

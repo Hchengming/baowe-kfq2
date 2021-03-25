@@ -37,8 +37,13 @@ export default {
     },
     // 配置确认事件
     onSubmit() {
-      Object.assign(this.form.keyArr[this.keyNowIndex], this.otherKeySetting)
+      // Object.assign(this.form.keyArr[this.keyNowIndex], this.otherKeySetting)
+      for (const key in this.otherKeySetting) {
+        this.$set(this.form.keyArr[this.keyNowIndex], key, this.otherKeySetting[key])
+      }
       this.isShow = false
+      // this.form.keyArr[this.keyNowIndex].cellRenderer = this.otherKeySetting.cellRenderer
+      // console.log(this.form.keyArr[this.keyNowIndex])
       // this.otherKeySetting = {
       //         cellRenderer: null,
       //         tipRenderer: null

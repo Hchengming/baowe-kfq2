@@ -168,6 +168,28 @@ export default {
   mounted() {
     // 组件开始渲染加载数据事件
     // setTimeout(() => {
+    this.settingConfig.chartsKeyArr = [
+      {
+        key: 'name',
+        explain: 'name',
+        dw: '',
+        width: 120,
+        isShow: true,
+        isCruxKey: false,
+        isMapKey: false,
+        ischartsTitle: false,
+        ischartsShow: false,
+        zBgColor: '',
+        cellRenderer: null,
+        tipRenderer: null,
+        colFixed: 'null',
+        colSort: '0',
+        proportion: 12,
+        tableCustom: false,
+        isClick: '0'
+      }
+
+    ]
     this.$refs['baoweiCharts'].startRender()
     // }, 1000)
   },
