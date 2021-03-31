@@ -51,11 +51,11 @@ export default {
       this.treeData = tableColums
       this.defaultCheckedKeys = []
 
-      this.reduiction(this.treeData, (item) => {
+      this.reduiction(this.treeData, item => {
         if (item.isShow) {
           if (
             this.settingForm.tableHeaderConfig &&
-        this.settingForm.tableHeaderConfig.hierarchy > 1
+            this.settingForm.tableHeaderConfig.hierarchy > 1
           ) {
             this.defaultCheckedKeys.push(item.id)
           } else {
@@ -79,21 +79,26 @@ export default {
       return key
     },
     // 节点点击事件
-    handleCheckChange(val, offon) {
+    handleCheckChange(val, node) {
+      // console.log(val, offon)
       if (
         this.settingForm.tableHeaderConfig &&
         this.settingForm.tableHeaderConfig.hierarchy > 1
       ) {
         this.reduiction(this.treeData, item => {
-          if (item.id === val.id) {
-            if (item.children && item.children.length > 0) {
-              item.children.forEach(xx => {
-                xx.isShow = !xx.isShow
-              })
-            } else {
-              item.isShow = !item.isShow
-            }
-          }
+          item.isShow = node.checkedKeys.indexOf(item.id) > -1
+          // if (item.id === val.id) {
+          //   item.isShow = !item.isShow
+          // if (item.children && item.children.length > 0) {
+          //   item.children.forEach(xx => {
+          //     xx.isShow = !xx.isShow
+          //   })
+          // }
+          // console.log(item.isShow)
+          // this.reduiction(item.children, (xx) => {
+
+          // })
+          // }
         })
       } else {
         this.treeData.forEach(item => {
@@ -114,7 +119,7 @@ export default {
   z-index: 9;
   padding: 10px;
   box-shadow: 0 0 5px #3b85d8;
-  max-height:600px;
+  max-height: 600px;
   overflow: auto;
 }
 </style>

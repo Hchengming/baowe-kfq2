@@ -3,7 +3,7 @@ import serviceAxios from '@/utils/request.js'
 export default {
   data() {
     return {
-      leftMenuWidth: '200px', // 左侧区域宽度
+      leftMenuWidth: '250px', // 左侧区域宽度
       themeClass: 'charts-theme2', // 项目主题类名
       nowMenuId: '', // 当前menuid
       menuSetting: {

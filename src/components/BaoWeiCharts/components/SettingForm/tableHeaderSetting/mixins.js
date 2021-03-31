@@ -86,12 +86,12 @@ export default {
         // 01 新增保存
         this.reduiction(this.tableHeaderConfig.headerSetting, item => {
           if (item.id === this.chooseItem.id) {
-            dataArr.forEach(obj => {
+            dataArr.forEach((obj, index) => {
               item.children.push({
                 label: obj.headerName,
                 key: obj.key,
                 hierarchy: item.hierarchy + 1,
-                id: `${this.chooseItem.id}-${item.children.length + 1}`,
+                id: `${this.chooseItem.id}-${index + 1}`,
                 children: []
               })
             })

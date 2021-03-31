@@ -113,7 +113,7 @@ export default {
 @import '../css/theme/theme1.scss';
 @import '../css/theme/theme2.scss';
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: 250px;
   min-height: 400px;
 }
 </style>

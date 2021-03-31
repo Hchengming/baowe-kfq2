@@ -179,7 +179,6 @@ export default {
     // 列筛选按钮点击事件
     colFilterClick() {
       // 1、获取当前最新字段信息
-      // console.log(this.tableColums)
       if (this.colFilterTableColums.length === 0) {
         this.colFilterTableColums = JSON.parse(JSON.stringify(this.tableColums))
       }
@@ -187,7 +186,6 @@ export default {
     },
     // 表格列筛选变化事件
     handleCheckChange(treeData) {
-      console.log(treeData)
       this.tableShow = false
       this.colFilterTableColums = treeData
       this.$nextTick(() => {
