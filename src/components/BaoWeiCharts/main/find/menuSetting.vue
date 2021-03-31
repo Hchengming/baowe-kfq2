@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-drag
-    :title="'菜单配置-'+menuSetting.type"
+    :title="'菜单执行脚本配置-'+menuSetting.type"
     :append-to-body="true"
     :visible.sync="menuSetting.isShow"
     class="settingForm dialog-common"

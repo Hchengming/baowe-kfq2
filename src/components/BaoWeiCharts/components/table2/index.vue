@@ -101,7 +101,7 @@ export default {
       tableWidth: 0,
       offon: false,
       tableColums: [], // 列配置数据
-      tableColumsClone: [], // 初始列配置数据
+      colFilterTableColums: [], // 列筛选数据
       tableShow: true
 
     }
@@ -139,8 +139,11 @@ export default {
         // 02 普通表格
         tableColums = this.newClums
       }
-      this.tableColumsClone = tableColums
+      // this.tableColumsClone = tableColums
       this.tableColums = tableColums
+      if (this.colFilterTableColums.length > 0) {
+        this.tableColums = this.tableColumsFilter(this.colFilterTableColums)
+      }
     },
     // 多表头列配置数据筛选
     tableColumsFilter(tableColums) {
@@ -175,11 +178,18 @@ export default {
     },
     // 列筛选按钮点击事件
     colFilterClick() {
-      this.$refs['colFilter'].show(this.tableColumsClone)
+      // 1、获取当前最新字段信息
+      // console.log(this.tableColums)
+      if (this.colFilterTableColums.length === 0) {
+        this.colFilterTableColums = JSON.parse(JSON.stringify(this.tableColums))
+      }
+      this.$refs['colFilter'].show(this.colFilterTableColums)
     },
     // 表格列筛选变化事件
     handleCheckChange(treeData) {
+      console.log(treeData)
       this.tableShow = false
+      this.colFilterTableColums = treeData
       this.$nextTick(() => {
         this.tableColums = this.tableColumsFilter(treeData)
         this.tableShow = true

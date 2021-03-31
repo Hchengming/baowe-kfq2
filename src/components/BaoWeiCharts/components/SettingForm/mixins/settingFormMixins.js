@@ -263,8 +263,9 @@ export const otherMixins = {
     },
     // 模板类型选择变化事件
     moduleTypeChange() {
-      console.log('0000000000000000')
-      // this.form.keyArr = []
+      if (!this.settingConfig.isBigData) {
+        this.form.keyArr = []
+      }
       this.form.operateButton = []
       this.form.paramConfig = []
       this.form.detailsTableAll = []

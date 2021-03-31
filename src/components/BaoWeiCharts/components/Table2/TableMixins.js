@@ -40,7 +40,6 @@ export default {
       if (typeof docHtml === 'number') {
         docHtml = docHtml.toString()
       }
-
       return docHtml
     },
     // 单元格类名设置

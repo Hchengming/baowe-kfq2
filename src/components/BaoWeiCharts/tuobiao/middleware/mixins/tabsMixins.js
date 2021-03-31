@@ -53,16 +53,6 @@ export default {
           //
           res.data.map(item => { item.tabsConfig = JSON.parse(item.tabsConfig) })
           this.tabsSettingData = res.data
-          // console.log(this.tabsSettingData, 'this.tabsSettingData')
-          // res.data.forEach(item => {
-          //   item.timeAxisConfig = JSON.parse(item.timeAxisConfig)
-          // })
-          // this.timeSource = res.data
-          // this.getTimeAxisDatas(res.data)
-          // this.$message({
-          //   type: 'success',
-          //   message: '选项卡所有配置数据查询成功'
-          // })
         })
         .catch(() => {
           this.$message({

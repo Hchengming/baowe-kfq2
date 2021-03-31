@@ -99,19 +99,20 @@ export default {
     colWidth(item) {
       let widths = item.width ? Number(item.width) : 100
       if (item.tableCustom) {
-        let maxWidth = 0
-        this.colums.forEach(item => {
-          if (item.key && item.isShow) {
-            if (item.width) {
-              maxWidth += Number(item.width)
-            } else {
-              maxWidth += 100
-            }
-          }
-        })
-        if (maxWidth < this.width) {
-          widths = Number(item.width) + this.width - maxWidth - 11
-        }
+        widths = undefined
+        // let maxWidth = 0
+        // this.colums.forEach(item => {
+        //   if (item.key && item.isShow) {
+        //     if (item.width) {
+        //       maxWidth += Number(item.width)
+        //     } else {
+        //       maxWidth += 100
+        //     }
+        //   }
+        // })
+        // if (maxWidth < this.width) {
+        //   widths = Number(item.width) + this.width - maxWidth - 11
+        // }
       }
       return widths
     }

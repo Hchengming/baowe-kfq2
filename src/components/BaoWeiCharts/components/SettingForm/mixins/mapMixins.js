@@ -59,7 +59,7 @@ export default {
     // 默认值变化事件
     mapParamValueChange(items, index, item) {
       this.settingConfig.mapPramConfig.forEach(val => {
-        if (val.paramKey === 'type') {
+        if (val.paramKey === 'type' && items.paramKey === 'type') {
           val.paramValue = items[item.key]
           this.$set(val, 'value', items[item.key])
         }
