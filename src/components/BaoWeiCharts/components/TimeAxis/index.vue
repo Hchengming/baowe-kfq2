@@ -2,7 +2,7 @@
   <div
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="['time-axis', { 'time-axis-admin': isAdmin },settingForm.class]"
+    :class="['time-axis', { 'time-axis-admin': isAdmin }, settingForm.class]"
     @mousedown="mousedown_tz"
   >
     <div class="operation">
@@ -27,6 +27,19 @@
         {{ settingForm.label }}:
       </div>
       <ul class="time-list">
+        <li
+          :style="{
+            'padding-right': liP + 'px',
+            width: '22px'
+          }"
+          class="all">
+          <span
+            :class="['text', { active: !listChooseYear }]"
+            @click="listClick({time:''})"
+          >
+            <span>全部</span>
+          </span>
+        </li>
         <li
           v-for="(item, index) in timeListData()"
           :key="index"
@@ -85,7 +98,7 @@ export default {
       labelWidth: null, // 标签宽度
       // listData: [],
       timeConfig: {},
-      lip: '',
+      liP: null,
       isAdmin: this.settingConfig.systemPermissions === 'admin'
     }
   },
@@ -180,6 +193,7 @@ export default {
     },
     // 年度点击事件
     listClick(item, index) {
+      console.log(item)
       this.listChooseYear = item.time
       this.$emit('componentFunc', {
         method: 'timeClick',
@@ -211,12 +225,13 @@ export default {
           time: i.toString()
         })
       }
-      const li_size = listData.length
+      const li_size = listData.length + 1
       this.labelWidth = this.settingForm.label
         ? this.settingForm.label.length * 18 + 10
         : 0
       const ul_w =
-        (this.settingForm.width * element.scrollWidth) / 100 - this.labelWidth
+        (this.settingForm.width * element.scrollWidth) / 100 - this.labelWidth - 50
+
       const li_w_all = ul_w - 50
       const li_w = parseFloat(li_w_all / li_size)
       // 时间间距

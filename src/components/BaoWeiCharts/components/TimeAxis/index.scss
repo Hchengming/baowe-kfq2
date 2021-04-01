@@ -71,6 +71,11 @@ $--color-primary: #4472c4;
                 cursor: no-drop;
             }
         }
+        li.all {
+            .text {
+                left: -22px
+            }
+        }
         li:nth-child(2n-1) {
             .text span {
                 top: -65%;

@@ -5,6 +5,7 @@
         <col-filter ref="colFilter" :table-colums="tableColums" :setting-form="settingForm" @handleCheckChange="handleCheckChange" />
       </i>
     </div>
+
     <!-- :show-summary="settingForm.showSummary" -->
     <el-table
       v-if="tableShow"
