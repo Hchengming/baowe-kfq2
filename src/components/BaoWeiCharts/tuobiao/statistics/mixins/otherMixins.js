@@ -76,14 +76,19 @@ export default {
       let Height = null
 
       // 判断是否有查询模块
+      Height = this.modelStyle.height - 56
       if (
         this.statisticsAll.conditionAreaConfig &&
         this.statisticsAll.conditionAreaConfig.screenData &&
         this.statisticsAll.conditionAreaConfig.screenData.length > 0
       ) {
-        Height = this.modelStyle.height - 56 - this.whereHeight
-      } else {
-        Height = this.modelStyle.height - 56
+        let offon = false
+        this.statisticsAll.conditionAreaConfig.screenData.forEach(item => {
+          if (item.isShow) {
+            offon = true
+          }
+        })
+        if (offon)Height = this.modelStyle.height - 56 - this.whereHeight
       }
 
       // iframe模块

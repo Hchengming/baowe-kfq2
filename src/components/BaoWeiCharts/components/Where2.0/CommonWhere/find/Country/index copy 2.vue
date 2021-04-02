@@ -122,6 +122,13 @@ export default {
   },
   mounted() {
     this.chooseInit()
+    const arr1 = this.countryData[1].children.slice(1)
+    const arr2 = this.countryData[2].children.slice(1)
+    const arr3 = this.countryData[3].children.slice(1)
+    // console.log(arr1, arr2, arr3)
+    this.$set(this.countryData[0], 'child', arr1.concat(arr2).concat(arr3))
+    this.countryChild = arr1.concat(arr2).concat(arr3)
+    console.log(this.countryChild)
     this.setStyle()
   },
   methods: {
@@ -212,9 +219,12 @@ export default {
     // 父级数据变化事件
     fatherChange(val) {
       this.country.child = ''
+
       this.countryData.forEach(item => {
+        console.log(val, item.value)
         if (val === item.value) {
           this.countryChild = item.children
+          console.log(this.children, '111')
           if (item.children) {
             this.form[this.commonItem.key] = item.children.slice(1).toString()
             this.country.child = item.children[0]
