@@ -140,8 +140,13 @@ export default {
     getDataIview() {
       let url = ''
       // 判断当前后台环境是否为node测试环境
-      if (this.settingConfig.isTestEnvironment) {
-        url = this.settingConfig.commonUrl + '/dataView/viewList'
+      const isTestEnvironment = this.settingConfig.isTestEnvironment
+      if (isTestEnvironment) {
+        if (isTestEnvironment === 'java') {
+          url = this.settingConfig.commonUrl + '/dataView/selectViewAllData'
+        } else {
+          url = this.settingConfig.commonUrl + '/dataView/viewList'
+        }
       } else {
         url =
           window.BaseApi +

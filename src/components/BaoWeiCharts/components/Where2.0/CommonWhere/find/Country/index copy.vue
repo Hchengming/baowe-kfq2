@@ -1,6 +1,10 @@
 <template>
   <!-- 区县-单选-通用组件 -->
-  <div class="country-radio">
+  <div
+    ref="countryRadio"
+    class="country-radio"
+    style="display: flex;padding:10px"
+  >
     <!-- <div class="label">区县</div> -->
     <div class="country-box">
       <el-radio-group
@@ -15,6 +19,7 @@
           :label="item.value"
         />
       </el-radio-group>
+      <br >
       <el-radio-group
         v-model="country.child"
         :disabled="childDisabled()"
@@ -31,43 +36,107 @@
   </div>
 </template>
 <script>
-import countryData from './country.json'
 export default {
-  props: {
-    form: { type: Object, default: null },
-    commonItem: {
-      type: Object,
-      default: null
-    }
-  },
   data() {
     return {
-      countryData: countryData, // 区县数据
+      countryData: [
+        {
+          value: '所有'
+        },
+        {
+          value: '主城都市区',
+          children: [
+            '所有',
+            '渝中区',
+            '大渡口区',
+            '江北区',
+            '沙坪坝区',
+            '高新区',
+            '九龙坡区',
+            '南岸区',
+            '北碚区',
+            '渝北区',
+            '巴南区',
+            '两江新区',
+            '涪陵区',
+            '长寿区',
+            '江津区',
+            '合川区',
+            '永川区',
+            '南川区',
+            '綦江区',
+            '大足区',
+            '璧山区',
+            '铜梁区',
+            '潼南区',
+            '荣昌区',
+            '万盛区',
+            '双桥区'
+          ]
+        },
+        {
+          value: '渝东北',
+          children: [
+            '所有',
+            '万州区',
+            '开州区',
+            '梁平区',
+            '城口县',
+            '丰都县',
+            '垫江县',
+            '忠县',
+            '云阳县',
+            '奉节县',
+            '巫山县',
+            '巫溪县'
+          ]
+        },
+        {
+          value: '渝东南',
+          children: [
+            '所有',
+            '黔江区',
+            '武隆区',
+            '石柱县',
+            '秀山县',
+            '酉阳县',
+            '彭水县'
+          ]
+        }
+      ], // 区县数据
       countryChild: [],
       oldCountry: '',
-
       country: {
         father: '所有',
         child: ''
-      }
-    }
-  },
-  watch: {
-    form: {
-      handler(val) {
-        if (val.country !== this.country.father) {
-          if (val.country === '所有' || val.country !== this.country.child) {
-            this.chooseInit()
-          }
-        }
       },
-      deep: true
+      commonItem: {
+        isAddPower: false,
+        key: 'country'
+      },
+      form: {
+        country: ''
+      }
     }
   },
   mounted() {
     this.chooseInit()
+    this.setStyle()
   },
   methods: {
+    setStyle() {
+      this.$nextTick(() => {
+        const countryRadios = this.$refs['countryRadio']
+        if (!countryRadios) return
+        const inner = countryRadios.querySelectorAll(
+          '.country-2 .el-radio-button'
+        )
+        inner.forEach(x => {
+          console.log(x)
+          x.querySelector('.el-radio-button__inner').style.border = 'none'
+        })
+      })
+    },
     // 判断父级是否不可点击
     fatherDisabled() {
       let offon = true
@@ -92,7 +161,7 @@ export default {
         if (country === '市局') {
           offon = false
         } else {
-          countryData.forEach(items => {
+          this.countryData.forEach(items => {
             if (items.children) {
               items.children.forEach(item => {
                 if (item === country) {
@@ -112,8 +181,7 @@ export default {
     chooseInit() {
       let offon = false
       // 01-默认选中为区域
-
-      countryData.forEach(items => {
+      this.countryData.forEach(items => {
         if (items.value === this.form[this.commonItem.key]) {
           this.country.father = items.value
           offon = true
@@ -128,7 +196,7 @@ export default {
       })
       // 02-默认选中为区县
       if (!offon) {
-        countryData.forEach(items => {
+        this.countryData.forEach(items => {
           if (items.children) {
             items.children.forEach((item, index) => {
               if (index !== 0 && item === this.form[this.commonItem.key]) {
@@ -143,8 +211,8 @@ export default {
     },
     // 父级数据变化事件
     fatherChange(val) {
-      // if (this.commonItem.isDisabled) { return }
       this.country.child = ''
+
       this.countryData.forEach(item => {
         if (val === item.value) {
           this.countryChild = item.children
@@ -156,13 +224,54 @@ export default {
           }
         }
       })
-      this.$emit('cuntryChange')
+      if (val === '所有') {
+        this.form[this.commonItem.key] = this.countryRadioValue()
+      }
+      this.setStyle()
+      this.submit()
     },
     // 子级数据变化事件
     childChange(val) {
       this.form[this.commonItem.key] =
         val === '所有' ? this.countryChild.slice(1).toString() : val
-      this.$emit('cuntryChange')
+      this.submit()
+    },
+    submit() {
+      // 组件交互
+      const arr = ['37480bb3090549539adef30f9e997e1e']
+      let num = 1
+      arr.forEach(moduleId => {
+        num++
+        setTimeout(() => {
+          const obj = {
+            interactiveModuleId: moduleId, // 交互组件id
+            param: {
+              // 传递参数
+              AreaName: this.form.country
+            }
+          }
+          localStorage.setItem('customComponentsParam', JSON.stringify(obj))
+        }, 100 * num)
+      })
+    },
+    // 数据值数组化
+    countryRadioValue() {
+      let str = ''
+      this.forEach(item => {
+        if (item.children) {
+          item.children.forEach(x => {
+            if (x !== '所有') {
+              if (str === '') {
+                str = x
+              } else {
+                str += ',' + x
+              }
+            }
+          })
+        }
+      })
+
+      return str
     }
   }
 }

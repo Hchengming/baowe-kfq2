@@ -45,20 +45,32 @@ export default {
     // 数据视图列表获取
     getDataIview() {
       let url = ''
-      // 判断当前后台环境是否为node测试环境
-      if (this.settingConfig.isTestEnvironment) {
-        url = this.settingConfig.commonUrl + '/dataView/viewList'
+      let options = 'get'
+      // 判断当前后台环境是 node/java
+      const isTestEnvironment = this.settingConfig.isTestEnvironment
+      let reqData = {
+        params: {
+          appCode: this.settingConfig.answerId
+        }
+      }
+      if (isTestEnvironment) {
+        if (isTestEnvironment === 'java') {
+          url = this.settingConfig.commonUrl + '/dataView/selectViewAllData'
+          options = 'post'
+          reqData = {
+            appCode: this.settingConfig.answerId,
+            pageCurrent: 1,
+            pageSize: 10000
+          }
+        } else {
+          url = this.settingConfig.commonUrl + '/dataView/viewList'
+        }
       } else {
         url = window.BaseApi + '/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus='
       }
-      serviceAxios
-        .get(
-          url, {
-            params: {
-              appCode: this.settingConfig.answerId
-            }
-          }
-        )
+      serviceAxios[options](
+        url, reqData
+      )
         .then(res => {
           const code = res.code
           const resData = res.data
