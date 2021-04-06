@@ -84,7 +84,7 @@ export default {
       ) {
         let offon = false
         this.statisticsAll.conditionAreaConfig.screenData.forEach(item => {
-          if (item.isShow) {
+          if (item.isShow === '1') {
             offon = true
           }
         })

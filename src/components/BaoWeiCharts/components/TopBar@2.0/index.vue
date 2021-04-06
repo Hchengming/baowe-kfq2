@@ -29,7 +29,7 @@
       <li
         v-for="(obj, indexs) in topBarAll.data"
         :key="indexs"
-        :style="{ height: liHeight(), background: listBackground(obj, indexs) }"
+        :style="{ height: liHeight(), background: listBackground(obj, indexs),'flex': obj.data.length}"
         class="theme-bg-color"
         @click="topBarClick(obj)"
       >

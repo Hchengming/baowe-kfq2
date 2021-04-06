@@ -277,7 +277,7 @@ export default {
       const map = document.getElementById('ifrmmap')
       console.log(map)
       map.contentWindow.postMessage(
-        `locationToArea|['黔江区','酉阳','秀山','石柱']`,
+        `locationToArea|['江北区']`,
         '*'
       )
     },
