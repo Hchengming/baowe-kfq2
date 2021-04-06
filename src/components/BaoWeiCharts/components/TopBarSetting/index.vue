@@ -77,6 +77,21 @@
             />
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item
+            label="位置X轴(页面占比)"
+            label-width="120px"
+            prop="top"
+          >
+            <el-input-number
+              v-model="form.top"
+              :min="0"
+              :max="100"
+              :precision="2"
+              size="small"
+            />
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">

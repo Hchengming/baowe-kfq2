@@ -1,6 +1,6 @@
 <template>
   <div
-    :style="{ height: liHeight(), background: wrapBg(), width: wrapWidth() }"
+    :style="{ height: liHeight(), background: wrapBg(), width: wrapWidth(),top:liTop() }"
     class="top-bar-wrap"
   >
     <div v-if="settingConfig.systemPermissions === 'admin'" class="operation">
@@ -20,7 +20,12 @@
         <i slot="reference" title="删除" class="el-icon-delete" />
       </el-popconfirm>
     </div>
-    <ul id="top-bar-box">
+    <ul
+      v-loading="!topBarAll.data||topBarAll.data.length===0"
+      id="top-bar-box"
+      element-loading-text="数据加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.2)">
       <li
         v-for="(obj, indexs) in topBarAll.data"
         :key="indexs"
@@ -94,6 +99,13 @@ export default {
     Interactive() {
       // console.log(this.topBarAll)
       this.$emit('interactive')
+    },
+    liTop() {
+      let top = 0
+      if (this.topBarAll.form && this.topBarAll.form.top) {
+        top = this.topBarAll.form.top + '%'
+      }
+      return top
     },
     wrapWidth() {
       return this.topBarAll.form && this.topBarAll.form.width

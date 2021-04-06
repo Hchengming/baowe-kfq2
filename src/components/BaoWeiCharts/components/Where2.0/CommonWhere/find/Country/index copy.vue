@@ -121,6 +121,19 @@ export default {
     }
   },
   mounted() {
+    const arr1 = this.countryData[1].children.slice(1)
+    const arr2 = this.countryData[2].children.slice(1)
+    const arr3 = this.countryData[3].children.slice(1)
+    const arr = ['所有']
+      .concat(arr1)
+      .concat(arr2)
+      .concat(arr3)
+    this.$set(
+      this.countryData[0],
+      'children',
+      arr
+    )
+    this.countryChild = arr
     this.chooseInit()
     this.setStyle()
   },
@@ -227,7 +240,7 @@ export default {
         this.form[this.commonItem.key] = this.countryRadioValue()
       }
       this.setStyle()
-      this.submit()
+      // this.submit()
     },
     // 子级数据变化事件
     childChange(val) {
@@ -238,7 +251,14 @@ export default {
     submit() {
       // 组件交互
       // eb4b6552f509458382bdd84769213794  地图
-      const arr = ['37480bb3090549539adef30f9e997e1e', '4e8fd00de6354ff9b1ca472013c1115b']
+      const arr = [
+        '37480bb3090549539adef30f9e997e1e',
+        '4e8fd00de6354ff9b1ca472013c1115b',
+        '371fe2bc92c64eb6b6a7fb7bf825b49e',
+        '49adeb92d5944b16b8e8240a12b345c5',
+        '5cf346dd54ff45e89d6e5b52aee720a4',
+        'eb4b6552f509458382bdd84769213794'
+      ]
       let num = 1
       arr.forEach(moduleId => {
         num += 1
@@ -253,6 +273,13 @@ export default {
           localStorage.setItem('customComponentsParam', JSON.stringify(obj))
         }, 100 * num)
       })
+
+      const map = document.getElementById('ifrmmap')
+      console.log(map)
+      map.contentWindow.postMessage(
+        `locationToArea|['黔江区','酉阳','秀山','石柱']`,
+        '*'
+      )
     },
     // 数据值数组化
     countryRadioValue() {
@@ -276,27 +303,29 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
-.country-radio {
-  display: flex;
-  .country-box {
-    .el-radio-group {
-      display: block;
-    }
-    >>> .el-radio-group.country-2 {
-      .el-radio-button .el-radio-button__inner {
-        border: none;
-      }
-      .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-        background: none;
-        box-shadow: -1px 0 0 0 white;
-      }
-    }
-  }
-  .label {
-    display: block;
-    width: 33px;
-    min-width: 33px;
-  }
-}
+// .country-radio {
+//   display: flex;
+//   .country-box {
+//     .el-radio-group {
+//       display: block;
+//     }
+//     >>> .el-radio-group.country-2 {
+//       .el-radio-button .el-radio-button__inner {
+//         border: none;
+//       }
+//       .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+//         background: none;
+//         box-shadow: -1px 0 0 0 white;
+//       }
+//     }
+//   }
+//   .label {
+//     display: block;
+//     width: 33px;
+//     min-width: 33px;
+//   }
+// }
+//
 </style>

@@ -65,6 +65,12 @@ export default {
     }
   },
   mounted() {
+    // const arr1 = this.countryData[1].children.slice(1)
+    // const arr2 = this.countryData[2].children.slice(1)
+    // const arr3 = this.countryData[3].children.slice(1)
+    // // console.log(arr1, arr2, arr3)
+    // this.$set(this.countryData[0], 'children', ['所有'].concat(arr1).concat(arr2).concat(arr3))
+    // this.countryChild = arr1.concat(arr2).concat(arr3)
     this.chooseInit()
   },
   methods: {
@@ -121,6 +127,7 @@ export default {
             this.country.child = items.children[0]
           } else {
             this.countryChild = []
+
             this.country.child = ''
           }
         }
