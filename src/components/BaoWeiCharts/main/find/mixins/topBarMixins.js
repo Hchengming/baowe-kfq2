@@ -123,6 +123,7 @@ export default {
         if (interactiveParams) {
           reqData = Object.assign(reqData, interactiveParams)
         }
+        this.topBarAll.data = []
         reqData = options === 'get' ? { params: reqData } : reqData
         serviceAxios[options](nowUrl, reqData).then(res => {
           const code = res.code

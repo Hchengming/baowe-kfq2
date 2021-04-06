@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-export default {
+export default{
   data() {
     return {
       countryData: [
@@ -117,7 +117,8 @@ export default {
       },
       form: {
         country: ''
-      }
+      },
+      mapArr: []
     }
   },
   mounted() {
@@ -134,6 +135,7 @@ export default {
       arr
     )
     this.countryChild = arr
+    this.mapArr = []
     this.chooseInit()
     this.setStyle()
   },
@@ -225,14 +227,17 @@ export default {
     // 父级数据变化事件
     fatherChange(val) {
       this.country.child = ''
+      this.mapArr = []
       this.countryData.forEach(item => {
         if (val === item.value) {
           this.countryChild = item.children
           if (item.children) {
             this.form[this.commonItem.key] = item.children.slice(1).toString()
             this.country.child = item.children[0]
+            this.mapArr = item.children.slice(1)
           } else {
             this.form[this.commonItem.key] = val
+            this.mapArr = [val]
           }
         }
       })
@@ -240,12 +245,13 @@ export default {
         this.form[this.commonItem.key] = this.countryRadioValue()
       }
       this.setStyle()
-      // this.submit()
+      this.submit()
     },
     // 子级数据变化事件
     childChange(val) {
       this.form[this.commonItem.key] =
         val === '所有' ? this.countryChild.slice(1).toString() : val
+      this.mapArr = val === '所有' ? this.countryChild.slice(1) : [val]
       this.submit()
     },
     submit() {
@@ -259,6 +265,14 @@ export default {
         '5cf346dd54ff45e89d6e5b52aee720a4',
         'eb4b6552f509458382bdd84769213794'
       ]
+      const obj1 = {
+        interactiveModuleId: '1b65a852-eca4-41b9-aee8-69e05208e58d', // 交互组件id
+        param: {
+          // 传递参数
+          areaName: this.form.country
+        }
+      }
+      localStorage.setItem('customComponentsParam', JSON.stringify(obj1))
       let num = 1
       arr.forEach(moduleId => {
         num += 1
@@ -273,16 +287,15 @@ export default {
           localStorage.setItem('customComponentsParam', JSON.stringify(obj))
         }, 100 * num)
       })
-
       const map = document.getElementById('ifrmmap')
-      console.log(map)
       map.contentWindow.postMessage(
-        `locationToArea|['江北区']`,
+        `locationToArea|${JSON.stringify(this.mapArr)}`,
         '*'
       )
     },
     // 数据值数组化
     countryRadioValue() {
+      this.mapArr = []
       let str = ''
       this.countryData.forEach(item => {
         if (item.children) {
@@ -302,6 +315,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
