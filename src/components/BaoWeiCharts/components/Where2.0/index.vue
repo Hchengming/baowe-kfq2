@@ -457,6 +457,7 @@ export default {
         test({
           axios, // axios
           message: this.$message, // message
+          form: this.whereAll.form,
           getData: () => { // 模块数据刷新事件
             const form = JSON.parse(JSON.stringify(this.whereAll.form))
             this.$emit('whereSubmit', form)

@@ -1,5 +1,9 @@
 // 模块拖拽拉伸 位置配置
 import drag from '../../../utils/drag'
+import exportExcel from '../export/export'
+import XLSX from 'xlsx'
+import Vue from 'vue'
+Vue.prototype.XLSX = XLSX
 export default {
   data() {
     return {
@@ -71,6 +75,27 @@ export default {
     }
   },
   methods: {
+    // 本地导出excel事件
+    localExportExcel() {
+      const cloums = []
+      this.nowClums().forEach(item => {
+        cloums.push({
+          field: item.key,
+          headerName: item.explain
+        })
+      })
+
+      exportExcel(cloums, this.statisticsAll.data, this.settingForm.title, 'text', [], [], this)
+
+      // console.log(copyTableColumns,
+      //   copyTableData,
+      //   name,
+      //   firstWorkName,
+      //   this.exportExcelAll.filter,
+      //   this.exportExcelAll.otherTable,
+      //   this)
+      console.log(this.nowClums())
+    },
     // 表单内容区域高度
     boxHeight() {
       let Height = null

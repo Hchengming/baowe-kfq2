@@ -24,7 +24,10 @@ export default {
     // 页面显示事件
     show() {
       this.isShow = true
-      if (this.form.tableHeaderConfig && this.form.tableHeaderConfig.headerSetting) {
+      if (
+        this.form.tableHeaderConfig &&
+        this.form.tableHeaderConfig.headerSetting
+      ) {
         this.tableHeaderConfig.hierarchy = this.form.tableHeaderConfig.hierarchy
         this.tableHeaderConfig.headerSetting = this.form.tableHeaderConfig.headerSetting
       }
@@ -69,6 +72,8 @@ export default {
           })
         }
       })
+      console.log(this.tableHeaderConfig.headerSetting)
+      // this.tableHeaderConfig.headerSetting = []
     },
     // 递归遍历树形数据
     reduiction(data, fn) {
@@ -91,7 +96,7 @@ export default {
                 label: obj.headerName,
                 key: obj.key,
                 hierarchy: item.hierarchy + 1,
-                id: `${this.chooseItem.id}-${index + 1}`,
+                id: this.genID(32),
                 children: []
               })
             })
@@ -105,6 +110,13 @@ export default {
           }
         })
       }
+    },
+    genID(length) {
+      Number(
+        Math.random()
+          .toString()
+          .substr(3, length) + Date.now()
+      ).toString(36)
     },
     // 树形自定义配置
     renderContent(h, { node, data }) {

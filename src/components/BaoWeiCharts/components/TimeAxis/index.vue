@@ -32,7 +32,8 @@
             'padding-right': liP + 'px',
             width: '22px'
           }"
-          class="all">
+          class="all"
+        >
           <span
             :class="['text', { active: !listChooseYear }]"
             @click="listClick({time:''})"

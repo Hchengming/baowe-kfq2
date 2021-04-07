@@ -326,6 +326,10 @@ export const screenMixins = {
     },
     // 查询模块其他按钮点击事件
     whereOtherBtnClick(item) {
+      if (item.methodsName === 'localExportExcel') {
+        this.localExportExcel(item)
+      }
+      // console.log(item, '查询模块其他按钮点击事件')
       this.$emit('componentFunc', {
         method: 'whereOtherBtnClick',
         name: '查询模块其他按钮点击事件',
@@ -335,6 +339,8 @@ export const screenMixins = {
         }
       })
     },
+    // 本地导出excel事件
+
     // 当前筛选数据缓存
     whereFormKeep(form) {
       this.whereForm = form
