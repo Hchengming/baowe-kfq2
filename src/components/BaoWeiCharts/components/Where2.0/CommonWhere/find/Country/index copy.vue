@@ -147,9 +147,13 @@ export default{
         const inner = countryRadios.querySelectorAll(
           '.country-2 .el-radio-button'
         )
+
         inner.forEach(x => {
           x.querySelector('.el-radio-button__inner').style.border = 'none'
+          x.querySelector('.el-radio-button__inner').style['box-shadow'] = '-1px 0 0 0 white'
+          // console.log(x.querySelector('.el-radio-button__inner').style)
         })
+        document.querySelector('.country-2 .is-active .el-radio-button__inner').style['box-shadow'] = '-1px 0 0 0 white'
       })
     },
     // 判断父级是否不可点击
@@ -253,6 +257,7 @@ export default{
         val === '所有' ? this.countryChild.slice(1).toString() : val
       this.mapArr = val === '所有' ? this.countryChild.slice(1) : [val]
       this.submit()
+      this.setStyle()
     },
     submit() {
       // 组件交互

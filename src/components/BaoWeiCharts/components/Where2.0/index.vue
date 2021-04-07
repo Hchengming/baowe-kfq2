@@ -192,6 +192,10 @@ export default {
     whereHeight: {
       type: Number,
       default: null
+    },
+    settingForm: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -456,7 +460,8 @@ export default {
           getData: () => { // 模块数据刷新事件
             const form = JSON.parse(JSON.stringify(this.whereAll.form))
             this.$emit('whereSubmit', form)
-          }
+          },
+          settingForm: this.settingForm
         })
       }
       this.$emit('whereOtherBtnClick', buttonSetting)

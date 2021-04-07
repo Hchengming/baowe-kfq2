@@ -168,6 +168,7 @@
             ref="where"
             :condition-area-config="statisticsAll.conditionAreaConfig"
             :where-height.sync="whereHeight"
+            :setting-form="settingForm"
             @whereOtherBtnClick="whereOtherBtnClick"
             @whereFormKeep="whereFormKeep"
             @whereSubmit="whereSubmit"

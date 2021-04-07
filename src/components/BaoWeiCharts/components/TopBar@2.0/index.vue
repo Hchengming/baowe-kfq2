@@ -25,7 +25,8 @@
       id="top-bar-box"
       element-loading-text="数据加载中"
       element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.2)">
+      element-loading-background="rgba(0, 0, 0, 0.2)"
+      style="height:100%">
       <li
         v-for="(obj, indexs) in topBarAll.data"
         :key="indexs"

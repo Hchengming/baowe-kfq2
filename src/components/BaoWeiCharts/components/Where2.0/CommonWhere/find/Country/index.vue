@@ -174,19 +174,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+// >>> .el-radio-button__inner {
+//   box-shadow:-1px 0 0 0 white !important;
+// }
 .country-radio {
   display: flex;
   .country-box {
     .el-radio-group {
       display: block;
     }
-    >>> .el-radio-group.country-2 {
+      >>> .el-radio-group.country-2 {
       .el-radio-button .el-radio-button__inner {
         border: none;
       }
       .el-radio-button__orig-radio:checked + .el-radio-button__inner {
         background: none;
-        box-shadow: -1px 0 0 0 white;
+        box-shadow: -1px 0 0 0 white !important;
       }
     }
   }
