@@ -36,6 +36,7 @@ export default {
       if (this.chartType === 'histogram') {
         myChart.setOption({
           xAxis: {
+            show: false,
             axisLabel: {
               textStyle: {
                 color: function(value, index) {

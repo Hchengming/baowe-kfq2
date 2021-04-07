@@ -19,11 +19,10 @@ export default {
       } else if (this.settingType === '2') {
         // 筛选右侧按钮初始默认函数
         if (!this.jsMethods || !this.jsMethods.replace(/\s*/g, '')) {
-          this.jsMethods = `function(){} `
+          this.jsMethods = `function(obj){} `
         }
         this.warn = ''
       }
-
       this.isShow = true
     },
     onSubmit() {
