@@ -9,9 +9,14 @@ var _drag = _interopRequireDefault(require("../../../utils/drag"));
 
 var _export = _interopRequireDefault(require("../export/export"));
 
+var _xlsx = _interopRequireDefault(require("xlsx"));
+
+var _vue = _interopRequireDefault(require("vue"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // 模块拖拽拉伸 位置配置
+_vue["default"].prototype.XLSX = _xlsx["default"];
 var _default = {
   data: function data() {
     return {
@@ -21,7 +26,9 @@ var _default = {
       },
       boxOffon: false,
       // 内容区域显示控制
-      stretchElelemt: null // 被拉伸元素
+      stretchElelemt: null,
+      // 被拉伸元素
+      defaultForm: {} // 表单项默认参数
 
     };
   },
@@ -35,6 +42,12 @@ var _default = {
     settingForm: {
       handler: function handler() {
         this.setDemos();
+      },
+      deep: true
+    },
+    'statisticsAll.isShow': {
+      handler: function handler() {
+        this.$refs['where'].setWhereAll(this.statisticsAll.conditionAreaConfig);
       },
       deep: true
     }
@@ -85,7 +98,7 @@ var _default = {
           headerName: item.explain
         });
       });
-      (0, _export["default"])(cloums, this.statisticsAll.data, this.settingForm.title, [], this); // console.log(copyTableColumns,
+      (0, _export["default"])(cloums, this.statisticsAll.data, this.settingForm.title, 'text', [], [], this); // console.log(copyTableColumns,
       //   copyTableData,
       //   name,
       //   firstWorkName,
@@ -104,7 +117,7 @@ var _default = {
       if (this.statisticsAll.conditionAreaConfig && this.statisticsAll.conditionAreaConfig.screenData && this.statisticsAll.conditionAreaConfig.screenData.length > 0) {
         var offon = false;
         this.statisticsAll.conditionAreaConfig.screenData.forEach(function (item) {
-          if (item.isShow === '1') {
+          if (item.isShow !== '0') {
             offon = true;
           }
         });

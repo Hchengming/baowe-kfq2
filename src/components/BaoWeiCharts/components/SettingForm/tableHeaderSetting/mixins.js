@@ -23,6 +23,7 @@ export default {
   methods: {
     // 页面显示事件
     show() {
+      console.log(this.genID(32))
       this.isShow = true
       if (
         this.form.tableHeaderConfig &&
@@ -72,7 +73,7 @@ export default {
           })
         }
       })
-      console.log(this.tableHeaderConfig.headerSetting)
+      // console.log(this.tableHeaderConfig.headerSetting)
       // this.tableHeaderConfig.headerSetting = []
     },
     // 递归遍历树形数据
@@ -112,7 +113,7 @@ export default {
       }
     },
     genID(length) {
-      Number(
+      return Number(
         Math.random()
           .toString()
           .substr(3, length) + Date.now()

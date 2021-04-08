@@ -121,6 +121,9 @@ body {
 .KFQ_wrap > .el-container {
   height: calc(100% - 38px);
 }
+.KFQ_wrap.isBigData > .el-container {
+  height: 100%;
+}
 .KFQ_wrap .el-aside {
   height: 100%;
   background: white;
@@ -256,18 +259,18 @@ body {
   height: auto;
   padding-bottom: 10px;
 }
-#bao-wei-charts .pageSetting .el-drawer {
+.pageSetting .el-drawer {
   width: 265px !important;
   position: absolute;
 }
-#bao-wei-charts .pageSetting .assembly_wrap {
+.pageSetting .assembly_wrap {
   margin-left: 20px;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   padding: 0;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li {
+.pageSetting .assembly_wrap li {
   width: 100px;
   padding: 10px 0;
   text-align: center;
@@ -278,17 +281,17 @@ body {
   margin: 5px;
   list-style: none;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li i {
+.pageSetting .assembly_wrap li i {
   font-size: 40px;
   line-height: 50px;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li p {
+.pageSetting .assembly_wrap li p {
   font-size: 16px;
   line-height: 30px;
   padding: 0;
   margin: 0;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li .mengban {
+.pageSetting .assembly_wrap li .mengban {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -302,10 +305,10 @@ body {
   line-height: 100px;
   color: white;
 }
-#bao-wei-charts .pageSetting .assembly_wrap li:hover .mengban {
+.pageSetting .assembly_wrap li:hover .mengban {
   display: block;
 }
-/*queryStatistics*/
+/*queryStatistics */
 .queryStatistics {
   display: flex;
 }
@@ -332,7 +335,6 @@ body {
 .statisticsWrap {
   border-width: 0px;
   width: 336px;
-  overflow: hidden;
   background: inherit;
   background-color: #ffffff;
   border: none;
@@ -350,7 +352,7 @@ body {
   margin-bottom: 0;
 }
 .statistics_title {
-  z-index: 999999;
+  z-index: 9999;
   position: relative;
   height: 36px;
   border-bottom: 1px solid #d8d8d8;
@@ -441,14 +443,31 @@ body {
 .statistics_title .box .pic:hover .t_list {
   display: block;
 }
+#bw_table .table-functional-components {
+  text-align: right;
+  line-height: 40px;
+  padding-right: 30px;
+}
+#bw_table .table-functional-components i {
+  font-size: 25px;
+  display: inline-block;
+  width: 30px;
+  line-height: 30px;
+  border: 1px solid #CACACA;
+  text-align: center;
+  color: #1D1D1D;
+  cursor: pointer;
+  margin-left: 10px;
+  position: relative;
+}
 #bw_table td {
-  padding: 2px 3px;
+  padding: 0;
 }
 #bw_table th {
   padding: 0;
 }
 #bw_table .caret-wrapper {
-  height: 26px;
+  height: 40px;
 }
 #bw_table .caret-wrapper .sort-caret.ascending {
   top: 2px;
@@ -458,11 +477,12 @@ body {
 }
 #bw_table .el-table__row .cell {
   padding: 0;
-  height: 26px;
-  line-height: 26px;
+  height: 40px;
+  line-height: 40px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-indent: 3px;
 }
 #bw_list thead .cell,
 #bw_table thead .cell {
@@ -535,6 +555,12 @@ body {
 .YDGCStatistics2 .statistics_box .YDGCStatisticsRight {
   width: 50%;
 }
+.statisticsWrapCase2.admin .statisticsBox:hover {
+  border: 1px dashed #3b85d8;
+}
+.statisticsWrapCase2.admin .statisticsBox:hover .stretch {
+  display: block;
+}
 .statisticsWrapCase2 {
   position: absolute;
   top: 300px;
@@ -544,6 +570,9 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  border: 1px dashed transparent;
+  overflow: hidden;
 }
 .statisticsWrapCase2 .statisticsBox .statistics-content {
   padding: 5px;
@@ -606,6 +635,10 @@ body {
   width: 60px;
   height: auto;
   text-align: center;
+}
+.zdpz_list li .hTxt1,
+.zdpz_list li .hTxt2 {
+  width: 100px;
 }
 .zdpz_list li .hTxt9 {
   width: 100px;
@@ -1129,7 +1162,7 @@ body {
   width: 120px;
 }
 .destail-setting .el-dialog .zdpz_list li .hTxt1 {
-  width: 75px;
+  width: 115px;
 }
 .destail-setting .el-dialog .zdpz_list li .hTxt1 .el-input-number--small {
   width: 100%;
@@ -1311,12 +1344,13 @@ body {
   position: relative;
   z-index: 4;
   padding: 5px 5px 0;
+  box-sizing: border-box;
 }
 .top-bar-wrap .operation {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 99;
+  z-index: 9999;
   display: inline-block;
   background: #ffffffbd;
   display: none;
@@ -1555,7 +1589,7 @@ body {
 }
 /*tabs切换配置模块*/
 .tabs-setting-form-dialog .el-dialog {
-  width: 1000px;
+  width: 1200px;
 }
 .tabs-setting-form-dialog .el-dialog .el-form-item {
   margin-bottom: 12px;

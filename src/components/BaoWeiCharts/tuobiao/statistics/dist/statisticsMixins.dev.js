@@ -166,6 +166,7 @@ var childMixins = {
       var _this = this;
 
       var arr = [];
+      this.defaultForm = {};
 
       if (this.statisticsAll.conditionAreaConfig && this.statisticsAll.conditionAreaConfig.screenData) {
         this.statisticsAll.conditionAreaConfig.screenData.forEach(function (item) {
@@ -185,6 +186,7 @@ var childMixins = {
                 nowDataType = 'string';
             }
 
+            _this.defaultForm[item.key] = _this.whereForm[item.key];
             arr.push({
               paramKey: item.key,
               description: item.label,

@@ -12,7 +12,8 @@ export default {
         height: 230
       },
       boxOffon: false, // 内容区域显示控制
-      stretchElelemt: null // 被拉伸元素
+      stretchElelemt: null, // 被拉伸元素
+      defaultForm: {}// 表单项默认参数
     }
   },
   watch: {
@@ -25,6 +26,12 @@ export default {
     settingForm: {
       handler() {
         this.setDemos()
+      },
+      deep: true
+    },
+    'statisticsAll.isShow': {
+      handler() {
+        this.$refs['where'].setWhereAll(this.statisticsAll.conditionAreaConfig)
       },
       deep: true
     }
@@ -109,7 +116,7 @@ export default {
       ) {
         let offon = false
         this.statisticsAll.conditionAreaConfig.screenData.forEach(item => {
-          if (item.isShow === '1') {
+          if (item.isShow !== '0') {
             offon = true
           }
         })

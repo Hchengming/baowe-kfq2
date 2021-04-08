@@ -177,6 +177,7 @@ export const childMixins = {
     // 父级筛选条件可传入子级条件筛选
     getParentWhereFormUse() {
       const arr = []
+      this.defaultForm = {}
       if (
         this.statisticsAll.conditionAreaConfig &&
                 this.statisticsAll.conditionAreaConfig.screenData
@@ -194,6 +195,7 @@ export const childMixins = {
               default:
                 nowDataType = 'string'
             }
+            this.defaultForm[item.key] = this.whereForm[item.key]
             arr.push({
               paramKey: item.key,
               description: item.label,
@@ -204,6 +206,7 @@ export const childMixins = {
           }
         })
       }
+
       return arr
     },
     // 下钻代入参数-值获取  下钻父级查询模块代入子级参数-值获取
