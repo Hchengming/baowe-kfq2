@@ -1,0 +1,132 @@
+#bao-wei-charts.charts-theme3 {
+    $--color-primary: #3b85d8;
+    .theme-color {
+        color: $--color-primary !important;
+    }
+    .theme-bg-color {
+        background: $--color-primary !important;
+    }
+    .theme-box-shadow {
+        box-shadow: 0 0 5px $--color-primary;
+    }
+    .theme-border-color {
+        border-color: $--color-primary !important;
+    }
+    .menu-bg-color {
+        background: $--color-primary !important;
+    }
+    .system-cs {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        z-index: 999;
+    }
+    .bao-wei-charts-slot {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .el-button--primary {
+        background-color: #{$--color-primary};
+        border-color: #{$--color-primary};
+    }
+    .el-button--primary:focus,
+    .el-button--primary:hover {
+        background-color: #{$--color-primary}bd;
+        border-color: #{$--color-primary}bd;
+    }
+    .el-radio__input.is-checked .el-radio__inner {
+        border-color: $--color-primary;
+        background: $--color-primary;
+    }
+    .el-radio__input.is-checked+.el-radio__label {
+        color: $--color-primary;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+        background-color: $--color-primary;
+        border-color: $--color-primary;
+    }
+    .el-dropdown .el-dropdown__caret-button.el-button--default::before {
+        background: rgba(220, 223, 230, .5)
+    }
+    .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+        background-color: $--color-primary;
+        border-color: $--color-primary;
+    }
+    .el-radio-group.country-2 .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+        color: $--color-primary;
+        background-color: white;
+        border-color: white;
+    }
+    #bw_table thead .cell {
+        padding: 10px 0;
+        line-height: 1.15;
+        font-weight: bold;
+        background: #fff;
+        color: #3b85d8;
+    }
+    .el-table tbody tr {
+        height: 45px;
+    }
+    .el-table tbody tr:nth-child(odd) {
+        background: linear-gradient(180deg, #fff 0, #eef6ff);
+    }
+    .el-table thead.is-group th {
+        background-color: #fff;
+    }
+    .el-table--striped .el-table__body tr.el-table__row--striped td {
+        background: #fff;
+    }
+    .el-pagination {
+        padding: 10px;
+        text-align: center;
+    }
+    .statisticsBox {
+        .el-icon-close {
+            color: $--color-primary;
+        }
+    }
+    .el-menu-vertical-demo .el-menu-item.is-active {
+        background-color: #5aa9ecd1;
+    }
+    .el-menu-vertical-demo .el-menu-item.is-active {
+        background-color: #5aa9ecd1;
+    }
+    .statistics_title {
+        line-height: 42px;
+        height: 42px;
+        font-size: 18px;
+        color: #3d7cb0;
+        border-radius: 4px 4px 0 0;
+        -webkit-box-shadow: 0 -1px 0 0 #e9f1f9;
+        box-shadow: 0 -1px 0 0 #e9f1f9;
+        background: #f8fafc !important;
+        font-weight: 700;
+        padding: 0;
+        padding-left: 14px;
+        .box {
+            height: 100%;
+            line-height: inherit;
+            border: none;
+            .left .txt1 {
+                margin-left: 0;
+            }
+            .right .el-icon-setting {
+                line-height: inherit;
+            }
+            .right .el-icon-delete {
+                color: inherit;
+            }
+            .t_list {
+                font-size: 14px;
+            }
+            .more {
+                color: $--color-primary;
+                padding-right: 10px;
+            }
+        }
+    }
+}

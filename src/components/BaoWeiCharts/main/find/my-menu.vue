@@ -6,7 +6,6 @@
   >
     <template slot="title">
       <i
-        v-if="menuItem.menuIcon"
         :class="['iconfont',menuItem.menuIcon]"
       />
       <span
@@ -39,7 +38,6 @@
       @click="leftMenuClick(menuItem)"
     >
       <i
-        v-if="menuItem.menuIcon"
         :class="['iconfont',menuItem.menuIcon]"
       />
       <span

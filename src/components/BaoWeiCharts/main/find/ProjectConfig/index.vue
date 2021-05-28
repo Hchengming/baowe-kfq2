@@ -45,6 +45,9 @@ export default {
         {
           label: '大屏展示类背景风格',
           value: 1
+        }, {
+          label: '深蓝色主题风格2',
+          value: 3
         }
       ]
     }

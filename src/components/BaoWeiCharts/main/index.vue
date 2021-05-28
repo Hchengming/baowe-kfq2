@@ -86,7 +86,7 @@ import '../css/index.css'
 import MyMenu from './find/my-menu'
 import MyPage from './find/myPage'
 // eslint-disable-next-line no-unused-vars
-import defaultData from './menuData.json'
+// import defaultData from './menuData.json'
 import menuSetting from './find/menuSetting'
 import { commonMethods } from '../utils/mixins.js'
 import JSMixins from './mainMixins.js'

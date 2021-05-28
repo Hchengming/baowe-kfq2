@@ -1,6 +1,7 @@
 import serviceAxios from '@/utils/request.js'
-// import defaultData from './menuData.json'
+import countryRadioMixins from '../tuobiao/middleware/mixins/countryRadioMixins'
 export default {
+  mixins: [countryRadioMixins],
   data() {
     return {
       leftMenuWidth: '250px', // 左侧区域宽度
@@ -27,8 +28,23 @@ export default {
     if (this.settingConfig.theme) {
       this.themeClass = 'charts-theme' + this.settingConfig.theme
     }
+    // 登录用户数据处理
+    this.userDataInit()
   },
   methods: {
+    // 登录用户数据处理-获取登录用户地区权限
+    userDataInit() {
+      let user =
+        localStorage.getItem('userInfo') || localStorage.getItem('user')
+      if (!user) return
+      user = JSON.parse(user)
+
+      // user.area = '渝北区'
+      console.log(user)
+      localStorage.setItem('country', user.area)
+      const area = this.countryRadioValue(user.area)
+      localStorage.setItem('area', area)
+    },
     // 列表组件新增事件事件传递
     addChartList(param) {
       this.$refs['myPage'].addChartList(param)
@@ -261,21 +277,22 @@ export default {
             const code = res.code
             const resData = res.data
             if (code === 20000) {
+              this.$emit('elementMethods', {
+                name: '菜单数据获取事件',
+                methodsName: 'getMenuData',
+                menuData: resData
+              })
               this.menuData = resData
               if (this.menuData[0]) {
                 this.$refs['myPage'].menuClick(this.menuData[0])
                 this.leftMenu = this.menuData[0].children
               }
-              this.$emit('elementMethods', {
-                name: '菜单数据获取事件',
-                methodsName: 'getMenuData',
-                menuData: this.menuData
-              })
             }
           })
       } else {
         // 项目-直接菜单数据获取
         // const url = `${window.BaseApi}/applicationcenter/function/findAll?key=a18f4adc-94aa-4aa4-a9cd-e24ec52e2abe&type=1`
+        console.log(this.settingConfig, '0')
         const url = `${window.BaseApi}/applicationcenter/function/findAll?key=${this.settingConfig.answerId}&type=1`
         serviceAxios.get(url, {}).then(res => {
           const code = res.code
@@ -287,12 +304,13 @@ export default {
               item.children = item.children ? item.children : []
               item.menuId = item.apeKey
             })
-            this.menuData = resData
+
             this.$emit('elementMethods', {
               name: '菜单数据获取事件',
               methodsName: 'getMenuData',
-              menuData: this.menuData
+              menuData: resData
             })
+            this.menuData = resData
             if (this.menuData[0]) {
               this.$refs['myPage'].menuClick(this.menuData[0])
               this.leftMenu = this.menuData[0].children

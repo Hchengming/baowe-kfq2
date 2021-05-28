@@ -19,7 +19,7 @@
           :label="item.value"
         />
       </el-radio-group>
-      <br >
+      <br>
       <el-radio-group
         v-model="country.child"
         :disabled="childDisabled()"
@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-export default{
+export default {
   data() {
     return {
       countryData: [
@@ -324,27 +324,5 @@ export default{
 </script>
 
 <style lang="scss" scoped>
-// .country-radio {
-//   display: flex;
-//   .country-box {
-//     .el-radio-group {
-//       display: block;
-//     }
-//     >>> .el-radio-group.country-2 {
-//       .el-radio-button .el-radio-button__inner {
-//         border: none;
-//       }
-//       .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-//         background: none;
-//         box-shadow: -1px 0 0 0 white;
-//       }
-//     }
-//   }
-//   .label {
-//     display: block;
-//     width: 33px;
-//     min-width: 33px;
-//   }
-// }
-//
+
 </style>

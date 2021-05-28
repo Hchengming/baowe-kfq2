@@ -58,66 +58,86 @@ export default {
         isTestEnvironment: 'node', // 后台版本是否为node测试环境
         answerId: '001', // 应用id
         isBigData: false, // 是否为大数据编排项目使用
-        bigData: {// 大数据编排项目特殊配置
+        bigData: {
+          // 大数据编排项目特殊配置
           bigDataTemplateId: '001', // 大数据编排项目模板页面id
           // pageDataUrl: 'http://23.36.71.111:8082/flowBDService/v1/columnList?id=04d3d87a-e69c-e71e-7531-a084c0708498', // 当前项目列表页面数据请求路径
           viewId: '002', // 视图id
-          iframeDefaultUrl: 'http://23.36.250.99:666/views/showmap.html?callid=101291123'// iframe地图初始路径
+          iframeDefaultUrl:
+            'http://23.36.250.99:666/views/showmap.html?callid=101291123' // iframe地图初始路径
         },
         isLoading: false,
         chartsKeyArr: [],
-        mapPramConfig: [{// 地图组件默认参数配置
-          paramKey: 'type',
-          description: '类型',
-          paramValue: 'classBreaksDef',
-          isShow: true,
-          formType: 'select',
-          selectArr: [{
-            lab: '分类方式',
-            val: 'classBreaksDef'
-          }, {
-            lab: '唯一值方式',
-            val: 'uniqueValueDef'
-          }]
-        }, {// 地图组件默认参数配置
-          paramKey: 'fromColor',
-          description: '色带一',
-          paramValue: '#333',
-          isShow: true,
-          formType: 'color'
-        }, {// 地图组件默认参数配置
-          paramKey: 'toColor',
-          description: '色带二',
-          paramValue: '#333',
-          isShow: true,
-          formType: 'color'
-        }, {
-          paramKey: 'classificationField',
-          description: '匹配值的字段名',
-          paramValue: '',
-          isShow: true,
-          formType: 'select',
-          selectArr: [{
-            lab: '用地面积1',
-            val: 'class1'
-          }, {
-            lab: '用地面积2',
-            val: 'class2'
-          }]
-        }, {
-          paramKey: 'attributeField',
-          description: '唯一值1',
-          paramValue: '',
-          isShow: false,
-          formType: 'select',
-          selectArr: [{
-            lab: '学校类型1',
-            val: 'class1'
-          }, {
-            lab: '学校类型2',
-            val: 'class2'
-          }]
-        }],
+        mapPramConfig: [
+          {
+            // 地图组件默认参数配置
+            paramKey: 'type',
+            description: '类型',
+            paramValue: 'classBreaksDef',
+            isShow: true,
+            formType: 'select',
+            selectArr: [
+              {
+                lab: '分类方式',
+                val: 'classBreaksDef'
+              },
+              {
+                lab: '唯一值方式',
+                val: 'uniqueValueDef'
+              }
+            ]
+          },
+          {
+            // 地图组件默认参数配置
+            paramKey: 'fromColor',
+            description: '色带一',
+            paramValue: '#333',
+            isShow: true,
+            formType: 'color'
+          },
+          {
+            // 地图组件默认参数配置
+            paramKey: 'toColor',
+            description: '色带二',
+            paramValue: '#333',
+            isShow: true,
+            formType: 'color'
+          },
+          {
+            paramKey: 'classificationField',
+            description: '匹配值的字段名',
+            paramValue: '',
+            isShow: true,
+            formType: 'select',
+            selectArr: [
+              {
+                lab: '用地面积1',
+                val: 'class1'
+              },
+              {
+                lab: '用地面积2',
+                val: 'class2'
+              }
+            ]
+          },
+          {
+            paramKey: 'attributeField',
+            description: '唯一值1',
+            paramValue: '',
+            isShow: false,
+            formType: 'select',
+            selectArr: [
+              {
+                lab: '学校类型1',
+                val: 'class1'
+              },
+              {
+                lab: '学校类型2',
+                val: 'class2'
+              }
+            ]
+          }
+        ],
         defaultType: 'classBreaksDef'
       }
     }
@@ -164,7 +184,6 @@ export default {
         tableCustom: false,
         isClick: '0'
       }
-
     ]
     this.$refs['baoweiCharts'].startRender()
 
@@ -195,14 +214,20 @@ export default {
           this.rowClick(obj)
           break
         case 'operateButtonClick': // 表格右侧按钮点击事件
-
           break
-
+        case 'getMenuData':
+          this.getMenuData(obj)
+          break
         // case 'cellClick'://单元格点击事件
         //   this.cellClick(obj);
         //   break
       }
       // console.log(obj, 'elementMethods')
+    },
+    // 菜单获取事件
+    getMenuData(obj) {
+      const menuData = obj.menuData
+      menuData[3].children[0].menuIcon = 'icondangan'
     }
   }
 }

@@ -59,8 +59,7 @@
             </button>
           </div>
           <span v-show="picRingBtnArr.length > 1" class="txt">
-            单位({{ pieDW }})</span
-            >
+            单位({{ pieDW }})</span>
         </div>
         <div class="pie_box">
           <ve-pie

@@ -28,10 +28,11 @@
       element-loading-background="rgba(0, 0, 0, 0.2)"
       style="height:100%"
     >
+      <!-- 'flex':indexs===2?5:((indexs===0||indexs===3||indexs===5)?3:4) -->
       <li
         v-for="(obj, indexs) in topBarAll.data"
         :key="indexs"
-        :style="{ height: liHeight(), background: listBackground(obj, indexs),'flex': obj.data.length}"
+        :style="{ height: liHeight(), background: listBackground(obj, indexs),'flex':obj.data.length?obj.data.length:2 }"
         class="theme-bg-color"
         @click="topBarClick(obj)"
       >
@@ -93,9 +94,9 @@ export default {
       default: null
     }
   },
-  data() {
-    return {}
-  },
+  // data() {
+  //   return {}
+  // },
   methods: {
     // 顶部栏交互按钮点击事件
     Interactive() {

@@ -15,41 +15,6 @@ export default {
     }
   },
   methods: {
-    // 项目所有接口获取--应用接口列表获取
-    // getItemApi() {
-    //   // Authorization: this.Authorization
-    //   const method = this.settingConfig.isCustomMenu ? 'post' : 'get'
-    //   let url = ''
-    //   if (!this.settingConfig.isCustomMenu) {
-    //     const serviceId = this.settingConfig.serviceId ? this.settingConfig.serviceId : this.settingConfig.answerId
-    //     url = `${window.BaseApi}/shareservice/app/authorizeListByApp?uuid=${serviceId}`
-    //   } else {
-    //     url = this.settingConfig.getInterfaceUrl
-    //   }
-    //   serviceAxios[method](url, {}).then(res => {
-    //     if (res.code === 20000) {
-    //       this.itemApiData = res.data
-    //     }
-    //   })
-    // },
-    // 数据视图列表获取
-    // getDataIview() {
-    //   serviceAxios
-    //     .get(
-    //       `${window.BaseApi}/.DataView/view/v1/list?pageNumber=1&pageSize=10000&datasourceId=&viewType=&parentViewId=&viewCodeOrComment=&viewStatus=`, {
-    //         params: {
-    //           appCode: this.settingConfig.answerId
-    //         }
-    //       }
-    //     )
-    //     .then(res => {
-    //       const code = res.code
-    //       const resData = res.data
-    //       if (code === 20000) {
-    //         this.dataViewList = resData.records
-    //       }
-    //     })
-    // },
     // 顶部栏查询事件
     getTopBarConfig() {
       this.topListShow = false
@@ -115,7 +80,7 @@ export default {
         if (form.paramConfig && form.paramConfig.length > 0) {
           form.paramConfig.forEach(item => {
             if (item.isUse) {
-              reqData[item.paramKey] = item.paramValue
+              reqData[item.paramKey] = this.getParamValue(item.paramValue, item)
             }
           })
         }
@@ -133,6 +98,31 @@ export default {
           }
         })
       }
+    },
+    // 自定义参数-值获取
+    getParamValue(val, item) {
+      let paramValue = ''
+      if (val && typeof val === 'string' && val.indexOf('${') === 0) {
+        const num = val.length - 1
+        const key = val.substring(2, num)
+        paramValue = localStorage.getItem(key)
+      } else {
+        paramValue = val
+      }
+      switch (item.dataType) {
+        case 'number':
+          if (Number(paramValue)) {
+            paramValue = Number(paramValue)
+          } else {
+            paramValue = null
+          }
+          break
+        case 'object':
+          paramValue = JSON.parse(paramValue)
+          break
+      }
+      // console.log(item, val)
+      return paramValue
     },
     // 顶部栏新增事件
     topBarAdd(elementConfig, fn) {
