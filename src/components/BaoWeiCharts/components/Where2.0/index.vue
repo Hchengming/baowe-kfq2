@@ -23,9 +23,10 @@
             :style="{ width: item.rightWidth + 'px' }"
             :title="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           />
           <!-- 下拉框 -->
+
           <el-select
             v-if="item.type == 'select'"
             v-model="whereAll.form[item.key]"
@@ -33,7 +34,7 @@
             :style="{ width: item.rightWidth + 'px' }"
             size="small"
             placeholder="请选择"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           >
             <el-option
               v-for="option in item.arr"
@@ -142,11 +143,11 @@
           />
 
           <!-- 其他 通用配置项 -->
-          <div v-if="['country-radio'].indexOf(item.type) > -1">
+          <div v-if="['country-radio','country-select'].indexOf(item.type) > -1">
             <common-where
               :form="whereAll.form"
               :common-item="item"
-              @formSubmit="onSubmit(true)"
+              @formSubmit="onSubmit(true,item)"
             />
           </div>
         </el-form-item>
@@ -427,6 +428,7 @@ export default {
     // },
     // 查询按钮点击事件
     onSubmit(offon, item) {
+      this.iptChangeJs(item)
       if (item) {
         // 时间日期格式转换
         if (item.type === 'date') {
@@ -444,6 +446,21 @@ export default {
       const form = JSON.parse(JSON.stringify(this.whereAll.form))
       // console.log(form)
       this.$emit('whereSubmit', form)
+    },
+    // 表单数值变化监听，执行js脚本
+    iptChangeJs(item) {
+      if (
+        item.ChangeJs &&
+        item.ChangeJs.replace(/\s*/g, '') !== ''
+      ) {
+        const funcStr = item.ChangeJs
+        // eslint-disable-next-line no-eval
+        const test = eval('(false || ' + funcStr + ')')
+        test({
+          form: this.whereAll.form,
+          key: item.key
+        })
+      }
     },
     // 其他按钮点击事件
     whereOtherBtnClick(buttonSetting) {

@@ -139,7 +139,7 @@ export default {
           iframeType: '0', // 0-map地图  1-其他类型
           iframeId: '', // 自定义iframe框id名
           iframeUrl: '', // iframe嵌入路径,
-          mapPramConfig: []// 地图参数配置
+          mapPramConfig: [] // 地图参数配置
         },
         height: 30,
         width: 30,
@@ -438,7 +438,15 @@ export default {
       if (filterConfig) {
         filterConfig.screenData.forEach(item => {
           if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
-            item.arr = item.changeData ? JSON.parse(item.changeData) : []
+            if (item.changeData) {
+              if (typeof item.changeData === 'string') {
+                item.arr = JSON.parse(item.changeData)
+              } else {
+                item.arr = item.changeData
+                item.changeData = JSON.stringify(item.changeData)
+              }
+            }
+            // item.arr = item.changeData ? typeof item.changeData === 'string' ? JSON.parse(item.changeData) : item.changeData : []
           }
         })
         // 新旧筛选内容整合
@@ -484,8 +492,12 @@ export default {
           const resData = res.data
 
           if (code === 20000) {
-            if (param && param.menuTypes === 'top' && resData.length === 0) {
-              param.fn(true)
+            if (param && param.fn) {
+              if (resData.length === 0) {
+                param.fn(true)
+              } else {
+                param.fn(false)
+              }
             }
             this.setPageData(resData, param)
           }

@@ -38,6 +38,7 @@
         <!-- 左侧导航栏 -->
         <el-aside v-if="leftMenu.length > 0" :width="leftMenuWidth">
           <el-menu
+            ref="elMenu"
             :default-active="defaultActive"
             :collapse="isCollapse"
             class="el-menu-vertical-demo menu-bg-color"

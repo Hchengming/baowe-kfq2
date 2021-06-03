@@ -1,23 +1,23 @@
 <template>
   <el-submenu
-    v-if="menuItem.children&&menuItem.children.length>0"
+    v-if="menuItem.children && menuItem.children.length > 0"
     :popper-append-to-body="false"
     :index="menuItem.menuCode"
+    :class="[menuItem.menuCode,'el-submenu-bw']"
+
   >
     <template slot="title">
-      <i
-        :class="['iconfont',menuItem.menuIcon]"
-      />
-      <span
-        v-if="!menuItem.url"
-        slot="title"
-      >{{ menuItem.menuName }}</span>
-      <a
-        v-if="menuItem.url"
-        slot="title"
-        :href="menuItem.url"
-        target="_blank"
-      >{{ menuItem.menuName }}</a>
+      <span style="display:block" @click="leftMenuClick(menuItem)">
+        <i :class="['iconfont', menuItem.menuIcon]" />
+        <span v-if="!menuItem.url" slot="title">{{ menuItem.menuName }}</span>
+        <a
+          v-if="menuItem.url"
+          slot="title"
+          :href="menuItem.url"
+          target="_blank"
+        >{{ menuItem.menuName }}</a
+        >
+      </span>
     </template>
     <my-menu
       v-for="item in menuItem.children"
@@ -28,35 +28,20 @@
       @leftMenuClick="leftMenuClick"
     />
   </el-submenu>
-  <el-menu-item
-    v-else
-    :index="menuItem.menuCode"
-    :class="menuItem.menuCode"
-  >
-    <span
-      class="txt"
-      @click="leftMenuClick(menuItem)"
-    >
-      <i
-        :class="['iconfont',menuItem.menuIcon]"
-      />
-      <span
-        v-if="!menuItem.url"
-        slot="title"
-      >{{ menuItem.menuName }}</span>
+  <el-menu-item v-else :index="menuItem.menuCode" :class="[menuItem.menuCode,'el-menu-item-bw']">
+    <span class="txt" @click="leftMenuClick(menuItem)">
+      <i :class="['iconfont', menuItem.menuIcon]" />
+      <span v-if="!menuItem.url" slot="title">{{ menuItem.menuName }}</span>
     </span>
     <i
-      v-if="settingConfig.systemPermissions==='admin'"
+      v-if="settingConfig.systemPermissions === 'admin'"
       title="菜单设置"
       class="el-icon-setting"
       @click="menuSettingClick"
     />
-    <a
-      v-if="menuItem.url"
-      slot="title"
-      :href="menuItem.url"
-      target="_blank"
-    >{{ menuItem.menuName }}</a>
+    <a v-if="menuItem.url" slot="title" :href="menuItem.url" target="_blank">{{
+      menuItem.menuName
+    }}</a>
   </el-menu-item>
 </template>
 <script>
@@ -74,13 +59,15 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      nowMenuCode: ''
+    }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // 左侧菜单点击事件
     leftMenuClick(menuItem) {
+      this.nowMenuCode = menuItem.menuCode
       this.$emit('leftMenuClick', menuItem)
       // sessionStorage.setItem("leftMenuCode",menuItem.menuCode)
     },

@@ -188,13 +188,16 @@ export default {
       switch (this.dataType) {
         case 'custom':
           if (val) {
-            this.settingData = JSON.parse(val)
+            if (typeof val === 'string') {
+              this.settingData = JSON.parse(val)
+            } else {
+              this.settingData = val
+            }
           } else {
             this.settingData = [{ label: '', value: '' }]
           }
           break
         case 'dataView':
-
           break
       }
 

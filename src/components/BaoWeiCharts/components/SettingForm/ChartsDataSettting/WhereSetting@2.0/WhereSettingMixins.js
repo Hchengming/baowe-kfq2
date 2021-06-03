@@ -6,6 +6,7 @@ export default {
     return {
       dialogRef: 'screenFormDialog',
       treeData: [],
+      nowForm: {}, // 当前选中行数据设置
       tableCloums: [
         {
           label: '表单类型',
@@ -47,6 +48,9 @@ export default {
             {
               val: 'country-radio',
               lab: '区县-单选'
+            }, {
+              val: 'country-select',
+              lab: '区县-下拉'
             }
           ]
         },
@@ -143,6 +147,13 @@ export default {
               click(form, fatherIndex, item) {
                 _this.itemDataChange(form, fatherIndex, item)
               }
+            }, {
+              label: '数值变化监听',
+              key: 'ChangeJs',
+              formType: 'input',
+              inputType: 'textarea',
+              placeholder: 'function(obj){}',
+              rows: 3
             },
             {
               label: '显示样式',
@@ -316,7 +327,7 @@ export default {
     // 标签名变化事件--获取自适应右侧标签宽度
     labelChange(items, index, item) {
       // let length=items[item.key]
-      if (item.key === 'label') {
+      if (item.key === 'label' && items.label) {
         const length = items.label.length
         this.$set(items, 'labelWidth', length * 16 + 1)
       }
@@ -375,7 +386,8 @@ export default {
           offon = true
         }
         if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
-          if (item.changeData) {
+          if (item.changeData && typeof item.changeData === 'string') {
+            console.log(typeof item.changeData === 'string')
             item.changeData = JSON.parse(item.changeData)
           }
         }
@@ -409,12 +421,18 @@ export default {
     // 表单提交事件
     // 数据配置框获取焦点事件
     itemDataChange(form, fatherIndex, item) {
+      this.nowForm = form // 当前选中行数据设置
       this.otherNowIndex = fatherIndex
       this.$refs.settingData.show(form[item.key])
     },
     // 数据配置确认事件
     itemDataConfig(val) {
-      this.form.filterConfig.screenData[this.otherNowIndex]['changeData'] = val
+      // this.$set(this.form.filterConfig.screenData[this.otherNowIndex], 'changeData', val)
+      // console.log(this.form.filterConfig.screenData[this.otherNowIndex])
+      // console.log(typeof val)
+
+      this.nowForm.changeData = val
+      // this.form.filterConfig.screenData[this.otherNowIndex]['changeData'] = val
     }
   }
 }

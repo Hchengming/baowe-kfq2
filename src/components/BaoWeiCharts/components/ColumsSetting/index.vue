@@ -234,13 +234,19 @@ export default {
     },
     // 其他项配置点击事件
     otherInputClick(form, index, item) {
-      this.tableCloums.forEach(x => {
-        if (x.formType === 'other') {
-          if (x.children[index].click) {
-            x.children[index].click(form, this.nowIndex, item)
-          }
-        }
-      })
+      // console.log(item, 'ppp')
+      // this.tableCloums.forEach(x => {
+      //   if (x.formType === 'other') {
+      //     // console.log(index, x.children[index].click)
+      //     if (item.click) {
+      //       console.log(123)
+      //       item.click(form, this.nowIndex, item)
+      //     }
+      //   }
+      // })
+      if (item.click) {
+        item.click(form, this.nowIndex, item)
+      }
     },
     // 其他配置按钮点击事件
     otherKeySettingClick(items, index, item) {

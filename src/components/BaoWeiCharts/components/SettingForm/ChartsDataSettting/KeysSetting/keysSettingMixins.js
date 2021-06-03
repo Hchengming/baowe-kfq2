@@ -231,6 +231,7 @@ export default {
         params.pageSize = '1'
       }
       let url = ''
+
       if (this.form.url.indexOf('http') > -1) {
         url = this.form.url
       } else {

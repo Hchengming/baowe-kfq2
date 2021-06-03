@@ -226,11 +226,34 @@ export default {
     leftMenuClick(menuItem) {
       this.menuJS(menuItem.menuId)
       this.defaultActive = menuItem.menuCode
-      this.$refs['myPage'].menuClick(menuItem)
+      // this.$refs['myPage'].menuClick(menuItem)
+      this.menuClickRedusion(menuItem)
       this.$emit('elementMethods', {
         name: '左侧菜单点击事件',
         methodsName: 'menuClick',
         menuItem
+      })
+    },
+    // 左侧菜单点击样式修改
+    leftMenuStyleChange(menuItem) {
+      this.$nextTick(() => {
+        const submenu = [...document.getElementsByClassName('el-submenu-bw')]
+        const menuitem = [...document.getElementsByClassName('el-menu-item-bw')]
+        menuitem.forEach(doc => {
+          doc.classList.remove('is-active')
+          // console.log(doc.className, 'doc.className')
+          if (doc.className.indexOf(menuItem.menuCode) > -1) {
+            // console.log(doc, menuItem.menuCode)
+            doc.classList.add('is-active')
+          }
+        })
+        submenu.forEach(doc => {
+          const elSubmenutitle = doc.querySelector('.el-submenu__title')
+          elSubmenutitle.classList.remove('is-active')
+          if (doc.className.indexOf(menuItem.menuCode) > -1) {
+            elSubmenutitle.classList.add('is-active')
+          }
+        })
       })
     },
     // 顶部菜单点击事件
@@ -239,25 +262,38 @@ export default {
       this.menuActiveIndex = index
       this.leftMenu = item.children
       this.$refs['myPage'].mainStyleChange()
-      this.$refs['myPage'].menuClick(item, 'top', offon => {
-        if (offon && this.settingConfig.systemPermissions === 'user') {
-          // this.menuJump(item.children[0].menuCode)
-          this.redusion(item)
-        }
-      })
+      this.menuClickRedusion(item)
       this.$emit('elementMethods', {
         name: '顶部菜单点击事件',
         methodsName: 'menuClick',
         menuItem: item
       })
     },
+    // 顶部栏、左侧有子级菜单点击事件
+    menuClickRedusion(item) {
+      this.$refs['myPage'].menuClick(item, 'top', offon => {
+        if (this.settingConfig.systemPermissions === 'user') {
+          if (offon) {
+            if (offon && item.children && item.children.length > 0) {
+              this.menuClickRedusion(item.children[0])
+            }
+          } else {
+            this.leftMenuStyleChange(item)
+            this.redusion(item)
+          }
+        }
+      })
+      if (this.settingConfig.systemPermissions !== 'user') {
+        this.leftMenuStyleChange(item)
+      }
+    },
     // 顶部栏点击为配置页面跳转
     redusion(item) {
-      if (item.children && item.children.length > 0) {
-        this.redusion(item.children[0])
-      } else {
-        this.menuJump(item.menuCode)
-      }
+      // if (item.children && item.children.length > 0) {
+      //   this.redusion(item.children[0])
+      // } else {
+      this.menuJump(item.menuCode)
+      // }
     },
     // 菜单树数据查询事件
     getTreeMenu() {

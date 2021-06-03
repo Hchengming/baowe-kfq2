@@ -425,7 +425,7 @@
             class="content-dy-box iframe-dy-box"
           >
             <el-row>
-              <el-col :span="8">
+              <!-- <el-col :span="8">
                 <el-form-item label="iframe类型" prop="iframeType">
                   <el-radio-group
                     v-model="form.iframeAll.iframeType"
@@ -435,7 +435,7 @@
                     <el-radio label="1">其他</el-radio>
                   </el-radio-group>
                 </el-form-item>
-              </el-col>
+              </el-col> -->
               <el-col :span="8">
                 <el-form-item label="iframe框id" prop="iframeId">
                   <el-input
@@ -445,10 +445,7 @@
                   />
                 </el-form-item>
               </el-col>
-            </el-row>
-
-            <el-row>
-              <el-col :span="24">
+              <el-col :span="16">
                 <el-form-item label="iframe路径" prop="iframeUrl">
                   <el-input
                     v-model="form.iframeAll.iframeUrl"
@@ -458,6 +455,10 @@
                 </el-form-item>
               </el-col>
             </el-row>
+
+            <!-- <el-row>
+
+            </el-row> -->
             <!-- 地图iframe参数配置 -->
             <colums-setting
               v-if="form.iframeAll.mapPramConfig"

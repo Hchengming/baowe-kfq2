@@ -66,11 +66,13 @@ export default {
           this.topBarAll.data = data
         }
       })
+      console.log(form, ' console.log(form.url)')
       if (!sftsqk) {
         const options = form.options === 'GET' ? 'get' : 'post'
         // form.url = '/kfqcxtj/getKfqmjqkData'
         // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
+        console.log(form.url)
         if (form.url.indexOf('http') > -1) {
           nowUrl = form.url
         } else {
