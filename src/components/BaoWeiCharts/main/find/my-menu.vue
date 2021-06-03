@@ -3,7 +3,7 @@
     v-if="menuItem.children && menuItem.children.length > 0"
     :popper-append-to-body="false"
     :index="menuItem.menuCode"
-    :class="[menuItem.menuCode,'el-submenu-bw']"
+    :class="[menuItem.menuCode,menuItem.menuId,'el-submenu-bw']"
 
   >
     <template slot="title">
@@ -28,7 +28,7 @@
       @leftMenuClick="leftMenuClick"
     />
   </el-submenu>
-  <el-menu-item v-else :index="menuItem.menuCode" :class="[menuItem.menuCode,'el-menu-item-bw']">
+  <el-menu-item v-else :index="menuItem.menuCode" :class="[menuItem.menuCode,menuItem.menuId,'el-menu-item-bw']">
     <span class="txt" @click="leftMenuClick(menuItem)">
       <i :class="['iconfont', menuItem.menuIcon]" />
       <span v-if="!menuItem.url" slot="title">{{ menuItem.menuName }}</span>

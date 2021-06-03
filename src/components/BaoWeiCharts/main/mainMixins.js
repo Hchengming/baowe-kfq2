@@ -242,7 +242,7 @@ export default {
         menuitem.forEach(doc => {
           doc.classList.remove('is-active')
           // console.log(doc.className, 'doc.className')
-          if (doc.className.indexOf(menuItem.menuCode) > -1) {
+          if (doc.className.indexOf(menuItem.menuId) > -1) {
             // console.log(doc, menuItem.menuCode)
             doc.classList.add('is-active')
           }
@@ -250,7 +250,7 @@ export default {
         submenu.forEach(doc => {
           const elSubmenutitle = doc.querySelector('.el-submenu__title')
           elSubmenutitle.classList.remove('is-active')
-          if (doc.className.indexOf(menuItem.menuCode) > -1) {
+          if (doc.className.indexOf(menuItem.menuId) > -1) {
             elSubmenutitle.classList.add('is-active')
           }
         })
@@ -276,6 +276,8 @@ export default {
           if (offon) {
             if (offon && item.children && item.children.length > 0) {
               this.menuClickRedusion(item.children[0])
+            } else {
+              this.leftMenuStyleChange(item)
             }
           } else {
             this.leftMenuStyleChange(item)
