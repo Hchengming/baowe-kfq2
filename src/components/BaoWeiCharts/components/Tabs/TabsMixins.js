@@ -4,8 +4,8 @@ export default {
     return {
       drawerShow: false, // 新增抽屉显示
       stretchElelemt: null, // 被拉伸元素
-      isAdmin: this.settingConfig.systemPermissions === 'admin', // 权限控制
-      activeName: this.settingForm.titleData[0].tabsCode, // 选中选项编码
+      isAdmin: true, // 权限控制
+      activeName: '', // 选中选项编码
       wrapRefs: 'listWrap', // 当前组件的refs
       fatherClassName: 'my_main_content' // 相对定位父级元素类名(当前项目具有唯一性)
 
@@ -13,6 +13,10 @@ export default {
   },
   mounted() {
     this.stretchElelemt = this.$refs['listWrap']
+    this.isAdmin = this.settingConfig.systemPermissions === 'admin'
+    if (this.settingForm.titleData.length > 0) {
+      this.activeName = this.settingForm.titleData[0].tabsCode
+    }
   },
   computed: {
 

@@ -124,7 +124,7 @@ export default {
       this.form.filterConfig.screenData.forEach(item => {
         let paramValue = this.getParamValue(item.defaultValue)
         // 区县单选数据处理
-        if (item.type === 'country-radio') {
+        if (['country-radio', 'country-select'].indexOf(item.type) > -1) {
           paramValue = this.countryRadioValue(paramValue)
         }
         queryParamList.push({
@@ -215,7 +215,7 @@ export default {
       this.form.filterConfig.screenData.forEach(item => {
         let paramValue = this.getParamValue(item.defaultValue)
         // 区县单选数据处理
-        if (item.type === 'country-radio') {
+        if (['country-radio', 'country-select'].indexOf(item.type) > -1) {
           paramValue = this.countryRadioValue(paramValue)
         }
         params[item.key] = paramValue

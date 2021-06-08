@@ -32,6 +32,7 @@
 </template>
 <script>
 import countryData from './country.json'
+import countryData2 from './country2.json'
 export default {
   props: {
     form: { type: Object, default: null },
@@ -42,7 +43,7 @@ export default {
   },
   data() {
     return {
-      countryData: countryData, // 区县数据
+      // countryData: countryData, // 区县数据
       countryChild: [],
       oldCountry: '',
 
@@ -50,6 +51,11 @@ export default {
         father: '所有',
         child: ''
       }
+    }
+  },
+  computed: {
+    countryData() {
+      return this.commonItem.countryDivide === '1' ? countryData2 : countryData
     }
   },
   watch: {
@@ -65,12 +71,6 @@ export default {
     }
   },
   mounted() {
-    // const arr1 = this.countryData[1].children.slice(1)
-    // const arr2 = this.countryData[2].children.slice(1)
-    // const arr3 = this.countryData[3].children.slice(1)
-    // // console.log(arr1, arr2, arr3)
-    // this.$set(this.countryData[0], 'children', ['所有'].concat(arr1).concat(arr2).concat(arr3))
-    // this.countryChild = arr1.concat(arr2).concat(arr3)
     this.chooseInit()
   },
   methods: {
@@ -98,7 +98,7 @@ export default {
         if (country === '市局') {
           offon = false
         } else {
-          countryData.forEach(items => {
+          this.countryData.forEach(items => {
             if (items.children) {
               items.children.forEach(item => {
                 if (item === country) {
@@ -118,7 +118,7 @@ export default {
     chooseInit() {
       let offon = false
       // 01-默认选中为区域
-      countryData.forEach(items => {
+      this.countryData.forEach(items => {
         if (items.value === this.form[this.commonItem.key]) {
           this.country.father = items.value
           offon = true
@@ -134,7 +134,7 @@ export default {
       })
       // 02-默认选中为区县
       if (!offon) {
-        countryData.forEach(items => {
+        this.countryData.forEach(items => {
           if (items.children) {
             items.children.forEach((item, index) => {
               if (index !== 0 && item === this.form[this.commonItem.key]) {

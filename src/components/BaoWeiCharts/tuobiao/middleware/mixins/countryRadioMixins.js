@@ -6,7 +6,7 @@ export default {
       for (const key in reqData) {
         const screenData = config.contentAreaConfig.filterConfig.screenData
         screenData.forEach(item => {
-          if (item.type === 'country-radio' && item.key === key) {
+          if (['country-radio', 'country-select'].indexOf(item.type) > -1 && item.key === key) {
             reqData[key] = this.countryRadioValue(reqData[key])
           }
         })
@@ -15,7 +15,7 @@ export default {
     // 数据值数组化
     countryRadioValue(val) {
       let str = ''
-      if (val === '市局' || val === '所有') {
+      if (val === '市局' || val === '所有' || val === '全市') {
         country.forEach(item => {
           if (item.children) {
             item.children.forEach(x => {

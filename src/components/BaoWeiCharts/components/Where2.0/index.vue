@@ -48,7 +48,7 @@
             v-if="item.type == 'radio' && item.styleType !== '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           >
             <el-radio
               v-for="radioItem in item.arr"
@@ -63,7 +63,7 @@
             v-if="item.type == 'radio' && item.styleType === '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           >
             <el-radio-button
               v-for="radioItem in item.arr"
@@ -79,7 +79,7 @@
             v-if="item.type == 'checkbox' && item.styleType !== '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           >
             <el-checkbox
               v-for="(obj, iii) in item.arr"
@@ -94,7 +94,7 @@
             v-if="item.type == 'checkbox' && item.styleType === '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           >
             <el-checkbox-button
               v-for="checkboxItem in item.arr"
@@ -110,7 +110,7 @@
             v-model="whereAll.form[item.key]"
             :title="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1')"
+            @change="onSubmit(item.isInsert == '1',item)"
           />
           <!-- 日期框  -->
           <el-date-picker
@@ -118,7 +118,7 @@
             v-model="whereAll.form[item.key]"
             :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
-            :type="item.styleType ? item.styleType : 'date'"
+            :type="item.dateType ? item.dateType : 'date'"
             :placeholder="datePlaceholder(item, index)"
             size="small"
             @change="onSubmit(item.isInsert == '1', item)"
@@ -487,3 +487,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  >>>.el-date-editor .el-input__inner{
+    padding-left: 30px !important;
+  }
+</style>

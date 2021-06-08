@@ -12,7 +12,8 @@
       v-if="commonItem.type==='country-select'"
       :form="form"
       :common-item="commonItem"
-      @cuntryChange="cuntryChange" />
+      @cuntryChange="cuntryChange"
+    />
   </div>
 </template>
 <script>

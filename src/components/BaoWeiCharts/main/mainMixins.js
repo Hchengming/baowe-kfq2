@@ -40,7 +40,7 @@ export default {
       user = JSON.parse(user)
 
       // user.area = '渝北区'
-      console.log(user)
+      // console.log(user)
       localStorage.setItem('country', user.area)
       const area = this.countryRadioValue(user.area)
       localStorage.setItem('area', area)
@@ -330,7 +330,6 @@ export default {
       } else {
         // 项目-直接菜单数据获取
         // const url = `${window.BaseApi}/applicationcenter/function/findAll?key=a18f4adc-94aa-4aa4-a9cd-e24ec52e2abe&type=1`
-        console.log(this.settingConfig, '0')
         const url = `${window.BaseApi}/applicationcenter/function/findAll?key=${this.settingConfig.answerId}&type=1`
         serviceAxios.get(url, {}).then(res => {
           const code = res.code

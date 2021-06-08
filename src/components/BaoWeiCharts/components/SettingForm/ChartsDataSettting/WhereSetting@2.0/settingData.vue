@@ -191,7 +191,7 @@ export default {
             if (typeof val === 'string') {
               this.settingData = JSON.parse(val)
             } else {
-              this.settingData = val
+              this.settingData = JSON.parse(JSON.stringify(val))
             }
           } else {
             this.settingData = [{ label: '', value: '' }]

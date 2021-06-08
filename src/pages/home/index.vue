@@ -45,7 +45,7 @@ export default {
         commonUrl: 'http://localhost:4000', // 配置数据接口公共部分
         dataUrl: 'http://localhost:4000', // 图表、组件数据公共接口
         // dataIviewCode: 'e6f5f802-3919-4df3-a491-cfdaadc567a8', // 数据视图获取编码/id
-        systemPermissions: 'user', // 权限管理  admin/user
+        systemPermissions: 'admin', // 权限管理  admin/user
         isProducrTestData: true, // 未开发接口是否直接生成测试数据
         isCustomMenu: true, // 是否启用菜单配置模块
         systomMenuApi: 'http://localhost:4000', // 菜单配置模块公共路径

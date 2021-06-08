@@ -4,7 +4,6 @@
     :popper-append-to-body="false"
     :index="menuItem.menuCode"
     :class="[menuItem.menuCode,menuItem.menuId,'el-submenu-bw']"
-
   >
     <template slot="title">
       <span style="display:block" @click="leftMenuClick(menuItem)">
@@ -15,8 +14,7 @@
           slot="title"
           :href="menuItem.url"
           target="_blank"
-        >{{ menuItem.menuName }}</a
-        >
+        >{{ menuItem.menuName }}</a>
       </span>
     </template>
     <my-menu

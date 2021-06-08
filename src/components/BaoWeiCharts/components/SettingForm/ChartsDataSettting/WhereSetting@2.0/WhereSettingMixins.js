@@ -48,7 +48,8 @@ export default {
             {
               val: 'country-radio',
               lab: '区县-单选'
-            }, {
+            },
+            {
               val: 'country-select',
               lab: '区县-下拉'
             }
@@ -147,7 +148,8 @@ export default {
               click(form, fatherIndex, item) {
                 _this.itemDataChange(form, fatherIndex, item)
               }
-            }, {
+            },
+            {
               label: '数值变化监听',
               key: 'ChangeJs',
               formType: 'input',
@@ -160,7 +162,7 @@ export default {
               key: 'styleType',
               formType: 'select',
               isHide(form) {
-                return ['checkbox'].indexOf(form.type) === -1
+                return ['checkbox', 'radio'].indexOf(form.type) === -1
               },
               selectArr: [
                 { lab: '默认样式', val: '0' },
@@ -191,6 +193,20 @@ export default {
               defaultValue: false
             },
             {
+              label: '日期类型',
+              key: 'dateType',
+              formType: 'select',
+              isHide(form) {
+                return ['date'].indexOf(form.type) === -1
+              },
+              selectArr: [
+                { lab: '年', val: 'year' },
+                { lab: '年-月', val: 'month' },
+                { lab: '年-月-日', val: 'date' }
+              ],
+              defaultValue: 'date'
+            },
+            {
               label: '是否添加时间段选择器',
               key: 'iSaddTimeSlot',
               formType: 'switch',
@@ -215,7 +231,33 @@ export default {
                 return ['country-radio'].indexOf(form.type) === -1
               },
               defaultValue: false
+            },
+            {
+              label: '区县划分',
+              key: 'countryDivide',
+              formType: 'select',
+              isHide(form, index) {
+                return ['country-radio'].indexOf(form.type) === -1
+              },
+              selectArr: [
+                { lab: '三大片区', val: '0' },
+                { lab: '四大片区', val: '1' }
+              ],
+              defaultValue: '0'
             }
+            // , {
+            //   label: '选择框显示类型',
+            //   key: 'styleType',
+            //   formType: 'select',
+            //   isHide(form) {
+            //     return ['checkbox', 'radio'].indexOf(form.type) === -1
+            //   },
+            //   selectArr: [
+            //     { lab: '默认显示', val: '1' },
+            //     { lab: '按钮组显示', val: '2' }
+            //   ],
+            //   defaultValue: '1'
+            // }
           ],
           width: 80
         }
@@ -224,7 +266,7 @@ export default {
       isShowInsertButton: '1', // 是否显示查询按钮  1:是 0：否
       // form.filterConfig.screenData: [],
       otherNowIndex: null,
-      nowItem: {}// 当前配置行数据
+      nowItem: {} // 当前配置行数据
     }
   },
   mounted() {},
@@ -347,7 +389,7 @@ export default {
           // delete item.arr
           break
         case 'date':
-          item.styleType = 'date'
+          // item.styleType = 'date'
           // delete item.dataUrl
           // delete item.arr
           break
@@ -385,12 +427,15 @@ export default {
         if (!item.key || !item.type) {
           offon = true
         }
-        if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
-          if (item.changeData && typeof item.changeData === 'string') {
-            console.log(typeof item.changeData === 'string')
-            item.changeData = JSON.parse(item.changeData)
-          }
-        }
+        // if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
+        //   if (item.changeData && typeof item.changeData === 'string') {
+        //     console.log(typeof item.changeData === 'string', item.changeData)
+        //     item.changeData = JSON.parse(item.changeData)
+        //     console.log('11')
+        //   } else {
+        //     console.log(typeof item.changeData === 'string')
+        //   }
+        // }
       })
       // 其他按钮配置数据校验
       let offon2 = false
