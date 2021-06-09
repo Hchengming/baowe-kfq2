@@ -786,11 +786,13 @@ export default {
           if (resData.constructor === Object) {
             resData = []
           }
+
           this.$set(
             this.pageData[obj.index],
             'data',
             this.dataFormat(config, resData)
           )
+          console.log(this.pageData[obj.index].data, 'this.pageData[obj.index].data')
           this.$emit('chartsMethods', {
             methodsName: 'getTableData',
             param: {

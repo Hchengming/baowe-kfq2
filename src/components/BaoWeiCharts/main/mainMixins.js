@@ -375,6 +375,7 @@ export default {
     },
     // 最外层--通过menuCode触发菜单跳转事件
     menuJump(menuCode) {
+      console.log(menuCode)
       this.menuData.forEach((items, index) => {
         if (items.menuCode === menuCode) {
           this.menuActiveIndex = index

@@ -88,7 +88,6 @@ export default {
   methods: {
     // 默认区县选择
     defaultCountry() {
-      console.log(this.commonItem)
       // if(this.commonItem)
       const defaultValue = this.commonItem.defaultValue
       if (this.commonItem.defaultValue) {
@@ -146,7 +145,10 @@ export default {
           }
         }
       })
+
       this.form[this.commonItem.key] = arr.toString()
+      // this.$set(this.form, this.commonItem.key, arr.toString())
+      // console.log(this.form, this.form[this.commonItem.key], 'val')
     },
     // 区县变化事件
     childChange(val) {

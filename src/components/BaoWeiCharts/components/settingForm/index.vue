@@ -203,7 +203,8 @@
                 ['histogram', 'bar', 'line', 'radar','ring', 'pie'].indexOf(
                   form.displayMode
                 ) > -1
-              ">
+              "
+            >
               <el-col :span="12">
                 <el-form-item label="图表上边距" prop="barGroup">
                   <el-input-number
@@ -369,8 +370,7 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio
-                    >
+                    >服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>

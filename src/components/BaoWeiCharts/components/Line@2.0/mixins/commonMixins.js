@@ -87,7 +87,7 @@ export default {
     },
     // 数据变化监听
     data: {
-      handler() {
+      handler(val) {
         if (this.offon) {
           this.offon = false
           setTimeout(() => {
@@ -95,6 +95,7 @@ export default {
           }, 100)
           const myChart = this.$echarts.init(this.$refs['myCharts'])
           myChart.resize()
+          console.log(val)
           this.echartsInit()
         }
       },
@@ -130,7 +131,8 @@ export default {
     },
     // echart初始化
     echartsInit() {
-      if (!this.data || this.data.length === 0) return
+      if (!this.data) return
+
       // e-charts图表清空，然后重新加载
       if (this.$refs['myCharts'].innerHTML) {
         this.$refs['myCharts'].innerHTML = ''
