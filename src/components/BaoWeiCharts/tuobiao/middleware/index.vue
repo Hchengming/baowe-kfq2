@@ -188,7 +188,7 @@ export default {
       legendOrient: 'horizontal', // 图例布局
       legendLocation: 'center', // 图例显示位置
       barGroup: 0, // 柱体间距(%)
-      barMaxWidth: 100// 柱体最大宽度(px)
+      barMaxWidth: 100 // 柱体最大宽度(px)
     }
   },
   mounted() {
@@ -770,6 +770,16 @@ export default {
             pageSize: obj.pageSize,
             total: resData.total
           })
+          this.$emit('chartsMethods', {
+            methodsName: 'getTableData',
+            param: {
+              tableData: this.dataFormat(config, resData.list),
+              currentPage: obj.currentPage,
+              pageSize: obj.pageSize,
+              total: resData.total,
+              moduleId: this.pageData[obj.index].moduleId
+            }
+          })
         } else {
           if (resData.constructor === Object) {
             resData = []
@@ -779,6 +789,13 @@ export default {
             'data',
             this.dataFormat(config, resData)
           )
+          this.$emit('chartsMethods', {
+            methodsName: 'getTableData',
+            param: {
+              tableData: this.dataFormat(config, resData),
+              moduleId: this.pageData[obj.index].moduleId
+            }
+          })
           this.$set(this.pageData[obj.index], 'paginationAll', undefined)
         }
       }

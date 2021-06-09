@@ -136,6 +136,9 @@ export default {
         case 'getMenuData':
           this.getMenuData(obj)
           break
+        case 'getTableData':
+          console.log(obj)
+          break
         // case 'cellClick'://单元格点击事件
         //   this.cellClick(obj);
         //   break

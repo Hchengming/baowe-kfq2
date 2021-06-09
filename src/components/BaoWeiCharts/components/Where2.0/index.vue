@@ -428,8 +428,8 @@ export default {
     // },
     // 查询按钮点击事件
     onSubmit(offon, item) {
-      this.iptChangeJs(item)
       if (item) {
+        this.iptChangeJs(item)
         // 时间日期格式转换
         if (item.type === 'date') {
           this.whereAll.form[item.key] = new Date(
