@@ -83,12 +83,58 @@ export default {
     }
   },
   mounted() {
+    this.defaultCountry()
   },
   methods: {
+    // 默认区县选择
+    defaultCountry() {
+      console.log(this.commonItem)
+      // if(this.commonItem)
+      const defaultValue = this.commonItem.defaultValue
+      if (this.commonItem.defaultValue) {
+        this.countryData.forEach(x => {
+          if (x.value === defaultValue) {
+            this.country.father = x.value
+            if (x.children) {
+              this.country.child = '所有'
+            }
+            this.formValue(x.value)
+          } else {
+            if (x.children) {
+              x.children.forEach(y => {
+                if (y === defaultValue) {
+                  this.country.father = x.value
+                  this.country.child = y
+                  this.form[this.commonItem.key] = y
+                }
+              })
+            }
+          }
+        })
+      }
+    },
     // 片区变化事件
     fatherChange(val) {
       this.country.child = '所有'
       // 对应字段值变化事件
+      // let arr = []
+      // countryData.forEach(x => {
+      //   if (x.value === val) {
+      //     if (val === '全市') {
+      //       arr = this.moreCountry
+      //     } else {
+      //       arr = x.children
+      //       arr.splice(0, 1)
+      //     }
+      //   }
+      // })
+      // this.form[this.commonItem.key] = arr.toString()
+      this.formValue(val)
+      // console.log(this.form[this.commonItem.key], 'this.form[this.commonItem.key]')
+      this.$emit('cuntryChange')
+    },
+    // 片区变化事件
+    formValue(val) {
       let arr = []
       countryData.forEach(x => {
         if (x.value === val) {
@@ -101,10 +147,7 @@ export default {
         }
       })
       this.form[this.commonItem.key] = arr.toString()
-      // console.log(this.form[this.commonItem.key], 'this.form[this.commonItem.key]')
-      this.$emit('cuntryChange')
     },
-
     // 区县变化事件
     childChange(val) {
       this.form[this.commonItem.key] = val

@@ -122,21 +122,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col
-                v-if="
-                  ['histogram', 'bar', 'line', 'radar'].indexOf(
-                    form.displayMode
-                  ) > -1
-                "
-                :span="8"
-              >
-                <el-form-item label="图列是否显示" prop="titleShow">
-                  <el-radio-group v-model="form.titleShow">
-                    <el-radio label="1">是</el-radio>
-                    <el-radio label="0">否</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
+
               <el-col
                 v-if="['histogram', 'bar'].indexOf(form.displayMode) > -1"
                 :span="8"
@@ -168,6 +154,110 @@
                     controls-position="right"
                     size="small"
                   />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row
+              v-if="
+                ['histogram', 'bar', 'line', 'radar'].indexOf(
+                  form.displayMode
+                ) > -1
+              "
+            >
+              <el-col :span="8">
+                <el-form-item label="图列是否显示" prop="titleShow">
+                  <el-radio-group v-model="form.titleShow">
+                    <el-radio label="1">是</el-radio>
+                    <el-radio label="0">否</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="图例显示位置" prop="legendLocation">
+                  <el-select
+                    v-model="form.legendLocation"
+                    size="small"
+                    placeholder="请选择"
+                  >
+                    <el-option label="左侧" value="left" />
+                    <el-option label="居中" value="center" />
+                    <el-option label="右侧" value="right" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="图例布局" prop="legendOrient">
+                  <el-select
+                    v-model="form.legendOrient"
+                    size="small"
+                    placeholder="请选择"
+                  >
+                    <el-option label="水平" value="horizontal" />
+                    <el-option label="垂直" value="vertical" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row
+              v-if="
+                ['histogram', 'bar', 'line', 'radar','ring', 'pie'].indexOf(
+                  form.displayMode
+                ) > -1
+              ">
+              <el-col :span="12">
+                <el-form-item label="图表上边距" prop="barGroup">
+                  <el-input-number
+                    v-model="form.gridTop"
+                    :min="0"
+                    :max="1000"
+                    :precision="0"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="图表下边距" prop="barGroup">
+                  <el-input-number
+                    v-model="form.gridBottom"
+                    :min="0"
+                    :max="1000"
+                    :precision="0"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="图表左边距" prop="barGroup">
+                  <el-input-number
+                    v-model="form.gridLeft"
+                    :min="0"
+                    :max="1000"
+                    :precision="0"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="图表右边距" prop="barGroup">
+                  <el-input-number
+                    v-model="form.gridRight"
+                    :min="0"
+                    :max="1000"
+                    :precision="0"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row v-if="['histogram', 'bar'].indexOf(form.displayMode) > -1">
+              <el-col :span="8">
+                <el-form-item label="柱体间距(%)" prop="barGroup">
+                  <el-slider v-model="form.barGroup" :max="100" :min="0" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="柱体最大宽度(px)" prop="barMaxWidth">
+                  <el-slider v-model="form.barMaxWidth" :max="100" :min="0" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -279,7 +369,8 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio>
+                    >服务接口</el-radio
+                    >
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -603,7 +694,11 @@ import ApiChoose from '../ApiChoose/index.vue'
 import ParamKeyConfig from './ParamKeyConfig/index'
 import ChartsDataSettting from './ChartsDataSettting'
 import mapMixins from './mixins/mapMixins'
-import { ChartsMixins, iframeMixins, otherMixins } from './mixins/settingFormMixins'
+import {
+  ChartsMixins,
+  iframeMixins,
+  otherMixins
+} from './mixins/settingFormMixins'
 export default {
   components: {
     settingJson,

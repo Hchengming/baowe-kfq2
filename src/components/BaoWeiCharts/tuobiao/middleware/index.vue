@@ -183,7 +183,12 @@ export default {
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
       whereData: [], // 所有模块筛选数据
-      showSummary: false // 表格是否添加合计行
+      showSummary: false, // 表格是否添加合计行
+      titleShow: '1', // 图列是否显示  1 是 0 否
+      legendOrient: 'horizontal', // 图例布局
+      legendLocation: 'center', // 图例显示位置
+      barGroup: 0, // 柱体间距(%)
+      barMaxWidth: 100// 柱体最大宽度(px)
     }
   },
   mounted() {
@@ -415,6 +420,19 @@ export default {
           menuTapKey: '', // 点击触发跳转字段
           menuCodeKey: '' // 菜单编码字段
         }
+      }
+      // 柱状图柱体间距加内容
+      if (
+        ['histogram', 'bar'].indexOf(item.contentAreaConfig.displayMode) > -1 &&
+        item.contentAreaConfig.barGroup === undefined
+      ) {
+        item.contentAreaConfig.barGroup = 0
+        item.contentAreaConfig.barMaxWidth = 100
+      }
+      // 图例显示位置
+      if (item.contentAreaConfig.legendLocation === undefined) {
+        item.contentAreaConfig.legendLocation = 'center'
+        item.contentAreaConfig.legendOrient = 'horizontal'
       }
       // 表格功能组件选择旧版本兼容
       if (!item.contentAreaConfig.tablefunctionalComponents) {

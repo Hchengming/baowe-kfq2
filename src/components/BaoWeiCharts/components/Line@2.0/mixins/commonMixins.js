@@ -218,12 +218,13 @@ export default {
       if (['pie', 'ring'].indexOf(this.chartType) === -1) {
         options.legend = {
           top: 5,
-          left: 'center',
+          type: 'scroll',
+          left: this.settingForm.legendLocation,
+          orient: this.settingForm.legendOrient,
           data: [],
           textStyle: {
             color: 'white'
           }
-
         }
         switch (this.settingConfig.theme) {
           case 1:
@@ -256,50 +257,65 @@ export default {
     },
     // 图表边距位置设置
     setGridsetGrid(options) {
-      let gridLeft = 10
-      // 柱状图/条形图/折线图/雷达图 配置
-      if (['histogram', 'bar', 'line', 'radar'].indexOf(this.chartType) > -1) {
-        let titleMaxlength = 0
-        let vauleMaxlength = 0
-        // 获取y轴为标题轴，数值轴宽度
-        this.data.forEach(items => {
-          if (
-            items[this.titleKey] &&
-                        items[this.titleKey].length > titleMaxlength
-          ) {
-            titleMaxlength = items[this.titleKey].length
-          }
-          this.chartColumns.forEach(item => {
+      // const grid=
+      if (this.settingForm.gridLeft === undefined) {
+        // 旧版本-自动设置图表边距
+        let gridLeft = 10
+        // 柱状图/条形图/折线图/雷达图 配置
+        if (
+          ['histogram', 'bar', 'line', 'radar'].indexOf(this.chartType) > -1
+        ) {
+          let titleMaxlength = 0
+          let vauleMaxlength = 0
+          // 获取y轴为标题轴，数值轴宽度
+          this.data.forEach(items => {
             if (
-              item.key !== this.titleKey &&
-                            items[item.key] &&
-                            items[item.key].toString().length > vauleMaxlength
+              items[this.titleKey] &&
+              items[this.titleKey].length > titleMaxlength
             ) {
-              vauleMaxlength = items[item.key].toString().length
+              titleMaxlength = items[this.titleKey].length
             }
+            this.chartColumns.forEach(item => {
+              if (
+                item.key !== this.titleKey &&
+                items[item.key] &&
+                items[item.key].toString().length > vauleMaxlength
+              ) {
+                vauleMaxlength = items[item.key].toString().length
+              }
+            })
           })
-        })
-        if (['histogram', 'line', 'radar'].indexOf(this.chartType) > -1) {
-          const num = Math.floor(vauleMaxlength / 3)
-          gridLeft = vauleMaxlength * 5 + num * 5 + 15
-        } else if (['bar'].indexOf(this.chartType) > -1) {
-          gridLeft = titleMaxlength * 11 + 20
+          if (['histogram', 'line', 'radar'].indexOf(this.chartType) > -1) {
+            const num = Math.floor(vauleMaxlength / 3)
+            gridLeft = vauleMaxlength * 5 + num * 5 + 15
+          } else if (['bar'].indexOf(this.chartType) > -1) {
+            gridLeft = titleMaxlength * 11 + 20
+          }
         }
-      }
-      if (!this.titleShow) {
-        this.$set(options, 'grid', {
-          top: 15,
-          left: gridLeft,
-          bottom: 40,
-          right: 5
-        })
+
+        if (!this.titleShow) {
+          this.$set(options, 'grid', {
+            top: 15,
+            left: gridLeft,
+            bottom: 40,
+            right: 5
+          })
+        } else {
+          this.$set(options, 'grid', {
+            top: 35,
+            left: gridLeft,
+            bottom: 40,
+            right: 5
+          })
+        }
       } else {
-        this.$set(options, 'grid', {
-          top: 35,
-          left: gridLeft,
-          bottom: 40,
-          right: 5
-        })
+        // 新版本-手动设置图表边距
+        options.grid = {
+          top: this.settingForm.gridTop || 15,
+          left: this.settingForm.gridLeft || 40,
+          bottom: this.settingForm.gridBottom || 40,
+          right: this.settingForm.gridRight || 5
+        }
       }
     },
     // 6、悬浮框 tooltip 配置
@@ -351,7 +367,8 @@ export default {
     chartsHeight() {
       let chartsHeight = this.height
       if (
-        this.chartColumns.length > 1 && ['pie', 'ring'].indexOf(this.chartType) > -1
+        this.chartColumns.length > 1 &&
+        ['pie', 'ring'].indexOf(this.chartType) > -1
       ) {
         chartsHeight -= 25
       }

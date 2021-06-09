@@ -81,7 +81,8 @@ export default {
         const obj = {
           name: items.title,
           type: 'bar',
-          barGap: 0,
+          barGap: this.settingForm.barGroup ? this.settingForm.barGroup / 100 : 0,
+          barMaxWidth: this.settingForm.barMaxWidth ? this.settingForm.barMaxWidth : 100,
           data: [],
           label: {
             show: true, // 开启显示
