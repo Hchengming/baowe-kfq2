@@ -702,7 +702,8 @@ export default {
           this.viewDataTranslation(
             this.setCSdata(config.contentAreaConfig),
             obj,
-            config
+            config,
+            reqData
           )
           return false
         }
@@ -717,7 +718,7 @@ export default {
             .then(res => {
               this.pageData[obj.index].isLoading = false
               const resData = res.data
-              this.viewDataTranslation(resData, obj, config)
+              this.viewDataTranslation(resData, obj, config, reqData)
             })
             .catch(msg => {
               this.$message({
@@ -747,14 +748,14 @@ export default {
       reqObj.tsqkData = data => {
         // 特殊情况数据处理后返回
         this.pageData[obj.index].isLoading = false
-        this.viewDataTranslation(data, obj, config)
+        this.viewDataTranslation(data, obj, config, reqData)
       }
 
       this.$emit('chartsMethods', reqObj)
       return sftsqk
     },
     // 图表渲染数据处理
-    viewDataTranslation(resData, obj, config) {
+    viewDataTranslation(resData, obj, config, reqData) {
       if (
         !config.contentAreaConfig.moduleType ||
         config.contentAreaConfig.moduleType === '0'
@@ -777,7 +778,8 @@ export default {
               currentPage: obj.currentPage,
               pageSize: obj.pageSize,
               total: resData.total,
-              moduleId: this.pageData[obj.index].moduleId
+              moduleId: this.pageData[obj.index].moduleId,
+              reqData
             }
           })
         } else {
@@ -793,7 +795,8 @@ export default {
             methodsName: 'getTableData',
             param: {
               tableData: this.dataFormat(config, resData),
-              moduleId: this.pageData[obj.index].moduleId
+              moduleId: this.pageData[obj.index].moduleId,
+              reqData
             }
           })
           this.$set(this.pageData[obj.index], 'paginationAll', undefined)
