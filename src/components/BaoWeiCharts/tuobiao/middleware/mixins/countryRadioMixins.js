@@ -18,7 +18,7 @@ export default {
     },
     // 区县-下拉默认值
     countrySelectValue(defaultValue) {
-      let str = ''
+      let str = defaultValue
       country2.forEach(x => {
         if (x.value === defaultValue) {
           if (x.children) {

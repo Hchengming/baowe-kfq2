@@ -88,7 +88,6 @@ export default {
   methods: {
     // 默认区县选择
     defaultCountry() {
-      // if(this.commonItem)
       const defaultValue = this.commonItem.defaultValue
       if (this.commonItem.defaultValue) {
         this.countryData.forEach(x => {
@@ -115,21 +114,7 @@ export default {
     // 片区变化事件
     fatherChange(val) {
       this.country.child = '所有'
-      // 对应字段值变化事件
-      // let arr = []
-      // countryData.forEach(x => {
-      //   if (x.value === val) {
-      //     if (val === '全市') {
-      //       arr = this.moreCountry
-      //     } else {
-      //       arr = x.children
-      //       arr.splice(0, 1)
-      //     }
-      //   }
-      // })
-      // this.form[this.commonItem.key] = arr.toString()
-      this.formValue(val)
-      // console.log(this.form[this.commonItem.key], 'this.form[this.commonItem.key]')
+      this.form[this.commonItem.key] = this.formValue(val)
       this.$emit('cuntryChange')
     },
     // 片区变化事件
@@ -145,10 +130,7 @@ export default {
           }
         }
       })
-
-      this.form[this.commonItem.key] = arr.toString()
-      // this.$set(this.form, this.commonItem.key, arr.toString())
-      // console.log(this.form, this.form[this.commonItem.key], 'val')
+      return arr.toString()
     },
     // 区县变化事件
     childChange(val) {

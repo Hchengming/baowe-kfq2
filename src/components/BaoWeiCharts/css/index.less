@@ -163,9 +163,11 @@ body {
   &>.el-container {
     height: ~"calc(100% - 38px)";
   }
-  &.isBigData>.el-container{
+
+  &.isBigData>.el-container {
     height: 100%;
   }
+
   .el-aside {
     height: 100%;
     background: white;
@@ -726,7 +728,7 @@ body {
 }
 
 // case2
-.statisticsWrapCase2.admin{
+.statisticsWrapCase2.admin {
   .statisticsBox:hover {
     border: 1px dashed rgb(59, 133, 216);
 
@@ -735,6 +737,7 @@ body {
     }
   }
 }
+
 .statisticsWrapCase2 {
   position: absolute;
   top: 300px;
@@ -747,6 +750,7 @@ body {
     box-sizing: border-box;
     border: 1px dashed transparent;
     overflow: hidden;
+
     .statistics-content {
       padding: 5px;
     }
@@ -831,9 +835,12 @@ body {
       height: auto;
       text-align: center;
     }
-    .hTxt1,.hTxt2 {
+
+    .hTxt1,
+    .hTxt2 {
       width: 100px;
     }
+
     .hTxt9 {
       width: 100px;
     }
@@ -2129,7 +2136,14 @@ body {
 
 
 /*区县组件*/
-.country-radio .country-2 .el-radio-button .el-radio-button__inner{
-  border: none;
-  box-shadow: -1px 0 0 0 white !important;
+.country-radio {
+  margin-bottom: 1px;
+  .country-1 .el-radio-button .el-radio-button__inner{
+    padding: 8px 16px;
+  }
+  .country-2 .el-radio-button .el-radio-button__inner {
+    border: none;
+    box-shadow: -1px 0 0 0 white !important;
+    padding: 8px 16px;
+  }
 }

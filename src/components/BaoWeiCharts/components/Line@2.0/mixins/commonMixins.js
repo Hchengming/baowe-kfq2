@@ -127,6 +127,10 @@ export default {
           this.xAxisLabel.textStyle.color = '#333333'
           this.yAxisLabel.textStyle.color = '#333333'
           break
+        case 3:
+          this.xAxisLabel.textStyle.color = '#333333'
+          this.yAxisLabel.textStyle.color = '#333333'
+          break
       }
     },
     // echart初始化
@@ -233,6 +237,9 @@ export default {
             options.legend.textStyle.color = 'white'
             break
           case 2:
+            options.legend.textStyle.color = '#333333'
+            break
+          case 3:
             options.legend.textStyle.color = '#333333'
             break
         }

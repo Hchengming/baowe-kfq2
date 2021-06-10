@@ -6,6 +6,202 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "554031",
+      "name": "编辑",
+      "font_class": "iconset0136",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "1440900",
+      "name": "交易",
+      "font_class": "jiaoyi",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "2205274",
+      "name": "链接，锁链",
+      "font_class": "linkurlbuild",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "2677961",
+      "name": "时间",
+      "font_class": "shijian",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "2678615",
+      "name": "金钱",
+      "font_class": "jinqian",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "3743569",
+      "name": "银行卡",
+      "font_class": "icon-test",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "6841090",
+      "name": "flag",
+      "font_class": "flag",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "7336818",
+      "name": "警告",
+      "font_class": "jinggao",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "7791966",
+      "name": "确定",
+      "font_class": "ziyuanxhdpi",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "8312083",
+      "name": "公告",
+      "font_class": "gonggao",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "9512603",
+      "name": "握手",
+      "font_class": "hands",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "10199171",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "10470865",
+      "name": "菜单",
+      "font_class": "menu1",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "11121417",
+      "name": "计划任务",
+      "font_class": "jihuarenwu",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "11121430",
+      "name": "标签",
+      "font_class": "biaoqian",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "12331683",
+      "name": "进度",
+      "font_class": "jindu",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "15812322",
+      "name": "喇叭",
+      "font_class": "laba",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "15816227",
+      "name": "043立方体",
+      "font_class": "043lifangti",
+      "unicode": "e7ba",
+      "unicode_decimal": 59322
+    },
+    {
+      "icon_id": "17816281",
+      "name": "信息",
+      "font_class": "xinxi-01",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "18164960",
+      "name": "报警,警报,报警灯,危险",
+      "font_class": "alarm",
+      "unicode": "e871",
+      "unicode_decimal": 59505
+    },
+    {
+      "icon_id": "18890523",
+      "name": "数据库",
+      "font_class": "shujuku",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "19280671",
+      "name": "人员",
+      "font_class": "renyuan",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "21163417",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "3262895",
+      "name": "纸飞机",
+      "font_class": "zhifeiji",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "4784093",
+      "name": "计划",
+      "font_class": "jihua",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "9722905",
+      "name": "主页",
+      "font_class": "zhuye",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "10487550",
+      "name": "计划",
+      "font_class": "jihua1",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "1145109",
+      "name": "筛选",
+      "font_class": "shaixuan1",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
       "icon_id": "6589921",
       "name": "更多",
       "font_class": "gengduo",

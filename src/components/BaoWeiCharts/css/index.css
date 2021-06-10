@@ -1595,7 +1595,14 @@ body {
   margin-bottom: 12px;
 }
 /*区县组件*/
+.country-radio {
+  margin-bottom: 1px;
+}
+.country-radio .country-1 .el-radio-button .el-radio-button__inner {
+  padding: 8px 16px;
+}
 .country-radio .country-2 .el-radio-button .el-radio-button__inner {
   border: none;
   box-shadow: -1px 0 0 0 white !important;
+  padding: 8px 16px;
 }

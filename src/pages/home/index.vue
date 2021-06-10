@@ -36,6 +36,7 @@ import { elementMethodsMixins } from './mixins.js'
  * isBigData Boolean 是否为大数据编排项目
  * mapPramData  Array  地图组件默认参数配置
  * isLoading 页面加载中状态配置
+ menuUniqueOpened  左侧菜单是否只展开一个子菜单
  */
 export default {
   mixins: [elementMethodsMixins],
@@ -56,7 +57,8 @@ export default {
         itemTitle: '测试系统', // 项目标题
         theme: '2', // 当前已配置主题选择 0:老实蓝色背景 1：大屏展示类背景风格 2：深蓝色主题风格(默认为2)
         isTestEnvironment: 'node', // 后台版本是否为node测试环境
-        answerId: '001' // 应用id
+        answerId: '001', // 应用id
+        menuUniqueOpened: false
       }
     }
   },

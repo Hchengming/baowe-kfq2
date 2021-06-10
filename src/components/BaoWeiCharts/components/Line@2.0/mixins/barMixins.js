@@ -33,13 +33,14 @@ export default {
     // 柱状图、条形图出现点击状态事件
     barClick(params, options, myChart) {
       // 柱状图
+
       if (this.chartType === 'histogram') {
         myChart.setOption({
           xAxis: {
-            show: false,
             axisLabel: {
               textStyle: {
                 color: function(value, index) {
+                  console.log(index === params.dataIndex ? '#0091FF' : '#333333')
                   return index === params.dataIndex ? '#0091FF' : '#333333'
                 }
               }

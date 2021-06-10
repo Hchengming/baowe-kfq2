@@ -178,6 +178,7 @@ export default {
         tabsModuleId: '', // tabs模块id
         tabsCode: '', // 父级tabs编码
         xName: '', // x轴标题字段
+        xRotate: 25, // x轴标题倾斜角度
         yName: '' // y轴标题字段
       },
       addSettingFormClone: {},
@@ -410,33 +411,39 @@ export default {
       if (item.detailsAreaConfig) {
         item.detailsAreaConfig = JSON.parse(item.detailsAreaConfig)
       }
-
-      // 模块配置数据格式转换
-      item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
-      // 菜单跳转字段旧版本未添加处理
-      if (!item.contentAreaConfig.menuTapAll) {
-        item.contentAreaConfig.menuTapAll = {
-          isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
-          menuTapKey: '', // 点击触发跳转字段
-          menuCodeKey: '' // 菜单编码字段
+      // 页面配置
+      if (item.contentAreaConfig) {
+        // 模块配置数据格式转换
+        item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
+        // 菜单跳转字段旧版本未添加处理
+        if (!item.contentAreaConfig.menuTapAll) {
+          item.contentAreaConfig.menuTapAll = {
+            isMenuTap: '0', // 是否执行菜单页面跳转   0:否 1:是
+            menuTapKey: '', // 点击触发跳转字段
+            menuCodeKey: '' // 菜单编码字段
+          }
         }
-      }
-      // 柱状图柱体间距加内容
-      if (
-        ['histogram', 'bar'].indexOf(item.contentAreaConfig.displayMode) > -1 &&
-        item.contentAreaConfig.barGroup === undefined
-      ) {
-        item.contentAreaConfig.barGroup = 0
-        item.contentAreaConfig.barMaxWidth = 100
-      }
-      // 图例显示位置
-      if (item.contentAreaConfig.legendLocation === undefined) {
-        item.contentAreaConfig.legendLocation = 'center'
-        item.contentAreaConfig.legendOrient = 'horizontal'
-      }
-      // 表格功能组件选择旧版本兼容
-      if (!item.contentAreaConfig.tablefunctionalComponents) {
-        item.contentAreaConfig.tablefunctionalComponents = []
+        // 柱状图柱体间距加内容
+        if (
+          ['histogram', 'bar'].indexOf(item.contentAreaConfig.displayMode) >
+            -1 &&
+          item.contentAreaConfig.barGroup === undefined
+        ) {
+          item.contentAreaConfig.barGroup = 0
+          item.contentAreaConfig.barMaxWidth = 100
+        }
+        // 图例显示位置
+        if (item.contentAreaConfig.legendLocation === undefined) {
+          item.contentAreaConfig.legendLocation = 'center'
+          item.contentAreaConfig.legendOrient = 'horizontal'
+        }
+        // 表格功能组件选择旧版本兼容
+        if (!item.contentAreaConfig.tablefunctionalComponents) {
+          item.contentAreaConfig.tablefunctionalComponents = []
+        }
+        if (item.contentAreaConfig.xRotate === undefined) {
+          item.contentAreaConfig.xRotate = 25
+        }
       }
 
       // 筛选配置数据格式转换
@@ -792,7 +799,6 @@ export default {
             'data',
             this.dataFormat(config, resData)
           )
-          console.log(this.pageData[obj.index].data, 'this.pageData[obj.index].data')
           this.$emit('chartsMethods', {
             methodsName: 'getTableData',
             param: {

@@ -262,6 +262,41 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row
+              v-if="
+                ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
+              "
+            >
+              <el-col
+                :span="8"
+              >
+                <el-form-item label="x轴标题" prop="xName">
+                  <el-input
+                    v-model="form.xName"
+                    placeholder="图表x轴标题名称"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col
+                :span="8"
+              >
+                <el-form-item label="x轴标签倾斜角度" prop="xRotate">
+                  <el-slider v-model="form.xRotate" :max="90" :min="0" />
+                </el-form-item>
+              </el-col>
+              <el-col
+                :span="8"
+              >
+                <el-form-item label="y轴标题" prop="yName">
+                  <el-input
+                    v-model="form.yName"
+                    placeholder="图表x轴标题名称"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-row>
               <el-col :span="8">
                 <el-form-item
@@ -274,34 +309,6 @@
               <el-col v-if="form.displayMode === 'table'" :span="8">
                 <el-form-item label="表格是否添加合计行" prop="showSummary">
                   <el-switch v-model="form.showSummary" />
-                </el-form-item>
-              </el-col>
-              <el-col
-                v-if="
-                  ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
-                "
-                :span="8"
-              >
-                <el-form-item label="x轴标题" prop="xName">
-                  <el-input
-                    v-model="form.xName"
-                    placeholder="图表x轴标题名称"
-                    size="small"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col
-                v-if="
-                  ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
-                "
-                :span="8"
-              >
-                <el-form-item label="y轴标题" prop="yName">
-                  <el-input
-                    v-model="form.yName"
-                    placeholder="图表x轴标题名称"
-                    size="small"
-                  />
                 </el-form-item>
               </el-col>
             </el-row>

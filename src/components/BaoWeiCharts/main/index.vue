@@ -41,6 +41,7 @@
             ref="elMenu"
             :default-active="defaultActive"
             :collapse="isCollapse"
+            :unique-opened="settingConfig.menuUniqueOpened"
             class="el-menu-vertical-demo menu-bg-color"
           >
             <my-menu
@@ -113,6 +114,7 @@ export default {
 @import '../css/theme/theme0.scss';
 @import '../css/theme/theme1.scss';
 @import '../css/theme/theme2.scss';
+@import '../css/theme/theme3.scss';
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 250px;
   min-height: 400px;

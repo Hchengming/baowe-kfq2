@@ -99,11 +99,11 @@
         line-height: 42px;
         height: 42px;
         font-size: 18px;
-        color: #3d7cb0;
+        color: white;
         border-radius: 4px 4px 0 0;
         -webkit-box-shadow: 0 -1px 0 0 #e9f1f9;
         box-shadow: 0 -1px 0 0 #e9f1f9;
-        background: #f8fafc !important;
+        // background: #f8fafc !important;
         font-weight: 700;
         padding: 0;
         padding-left: 14px;
@@ -126,6 +126,73 @@
             .more {
                 color: $--color-primary;
                 padding-right: 10px;
+            }
+        }
+    }
+    .el-header {
+        border-bottom: 1px solid #ffffff;
+        height: 60px !important;
+        box-sizing: border-box;
+        .logo {
+            height: 60px;
+            span {
+                line-height: 60px;
+                font-size: 22px;
+            }
+        }
+        .header_menu {
+            height: 60px;
+            li.active {
+                height: 60px;
+                box-sizing: border-box;
+            }
+            li {
+                height: 60px;
+                span {
+                    height: 60px;
+                    line-height: 60px;
+                    box-sizing: border-box;
+                }
+            }
+        }
+    }
+    .el-menu {
+        .el-submenu {
+            border-bottom: 1px solid #ffffff;
+            border-top: 1px solid #ffffff;
+            box-sizing: border-box;
+            .el-submenu {
+                background-color: #02A7F0;
+                .el-menu-item {
+                    border-top: 1px solid #ffffff;
+                    border-bottom: 1px solid #ffffff;
+                    background-color: #81D3F8;
+                    box-sizing: border-box;
+                }
+                .el-menu-item.is-active {
+                    background-color: rgba(21, 114, 232, 1);
+                    box-shadow: 5px 5px 20px 0px rgba(0, 0, 255, 1) inset;
+                }
+            }
+            .el-submenu__title {
+                height: 50px;
+                i,
+                span {
+                    height: 50px;
+                    line-height: 50px;
+                    font-size: 18px;
+                }
+                .el-icon-arrow-down {
+                    top: 10px;
+                    font-weight: bolder;
+                }
+            }
+            .el-submenu__title.is-active {
+                background-color: rgba(21, 114, 232, 1);
+                box-shadow: 5px 5px 20px 0px rgba(0, 0, 255, 1) inset;
+            }
+            .iconfont {
+                color: #ffffff;
             }
         }
     }
