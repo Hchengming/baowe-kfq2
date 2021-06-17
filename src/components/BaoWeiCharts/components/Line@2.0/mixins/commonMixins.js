@@ -7,10 +7,12 @@ export default {
       fontColor: '#333333',
       xAxisLabel: {
         // x轴label公共配置
-        interval: 0,
+        interval: 'auto',
         rotate: 25,
         fontSize: 12,
+        fontWeight: '500',
         textStyle: {}
+        // borderWidth: 0
       },
       yAxisLabel: {
         fontSize: 12,

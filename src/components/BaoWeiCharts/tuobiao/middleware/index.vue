@@ -179,17 +179,16 @@ export default {
         tabsCode: '', // 父级tabs编码
         xName: '', // x轴标题字段
         xRotate: 25, // x轴标题倾斜角度
-        yName: '' // y轴标题字段
+        yName: '', // y轴标题字段
+        showSummary: false, // 表格是否添加合计行
+        legendOrient: 'horizontal', // 图例布局
+        legendLocation: 'center', // 图例显示位置
+        barGroup: 0, // 柱体间距(%)
+        barMaxWidth: 100 // 柱体最大宽度(px)
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
-      whereData: [], // 所有模块筛选数据
-      showSummary: false, // 表格是否添加合计行
-      titleShow: '1', // 图列是否显示  1 是 0 否
-      legendOrient: 'horizontal', // 图例布局
-      legendLocation: 'center', // 图例显示位置
-      barGroup: 0, // 柱体间距(%)
-      barMaxWidth: 100 // 柱体最大宽度(px)
+      whereData: [] // 所有模块筛选数据
     }
   },
   mounted() {

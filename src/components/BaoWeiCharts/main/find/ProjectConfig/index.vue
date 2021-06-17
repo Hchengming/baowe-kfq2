@@ -48,6 +48,9 @@ export default {
         }, {
           label: '深蓝色主题风格2',
           value: 3
+        }, {
+          label: '主题4',
+          value: 4
         }
       ]
     }
