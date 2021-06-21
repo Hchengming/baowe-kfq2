@@ -53,22 +53,25 @@ export default {
         }
       }
       // 判断当前字段是否已配置单元格下钻子页面
-      if (
-        this.statisticsAll.drillDownKeyAll &&
-                this.statisticsAll.drillDownKeyAll.indexOf(item.key) > -1
-      ) {
-        colClass = 'theme-color cursor-pointer'
-      }
+      // if (
+      //   this.statisticsAll.drillDownKeyAll &&
+      //           this.statisticsAll.drillDownKeyAll.indexOf(item.key) > -1
+      // ) {
+      //   colClass = 'theme-color cursor-pointer'
+      // }
       // 判断是否已配置详情功能
-      if (this.settingForm.isDestail === '1') {
-        colClass = 'cursor-pointer'
-      }
-      // 判断是否为行下钻
-      if (
-        this.settingForm.submodule === '1' &&
-                this.settingForm.clickToShow === 'row'
-      ) {
-        colClass = 'cursor-pointer'
+      // if (this.settingForm.isDestail === '1') {
+      //   colClass = 'cursor-pointer'
+      // }
+      // // 判断是否为行下钻
+      // if (
+      //   this.settingForm.submodule === '1' &&
+      //           this.settingForm.clickToShow === 'row'
+      // ) {
+      //   colClass = 'cursor-pointer'
+      // }
+      if (item.isClick === '1') {
+        colClass = 'theme-color cursor-pointer'
       }
       return colClass
     },

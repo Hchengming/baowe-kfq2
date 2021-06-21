@@ -200,7 +200,7 @@
             </el-row>
             <el-row
               v-if="
-                ['histogram', 'bar', 'line', 'radar','ring', 'pie'].indexOf(
+                ['histogram', 'bar', 'line', 'radar', 'ring', 'pie'].indexOf(
                   form.displayMode
                 ) > -1
               "
@@ -263,13 +263,9 @@
               </el-col>
             </el-row>
             <el-row
-              v-if="
-                ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
-              "
+              v-if="['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1"
             >
-              <el-col
-                :span="8"
-              >
+              <el-col :span="8">
                 <el-form-item label="x轴标题" prop="xName">
                   <el-input
                     v-model="form.xName"
@@ -278,16 +274,12 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col
-                :span="8"
-              >
+              <el-col :span="8">
                 <el-form-item label="x轴标签倾斜角度" prop="xRotate">
                   <el-slider v-model="form.xRotate" :max="90" :min="0" />
                 </el-form-item>
               </el-col>
-              <el-col
-                :span="8"
-              >
+              <el-col :span="8">
                 <el-form-item label="y轴标题" prop="yName">
                   <el-input
                     v-model="form.yName"
@@ -312,59 +304,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <!-- <el-row type="flex" class="row-bg">
-
-              <el-col :span="8">
-                <el-form-item label="是否有子模块" prop="submodule">
-                  <el-radio-group
-                    v-model="form.submodule"
-                    @change="submoduleChange"
-                  >
-                    <el-radio label="1">有</el-radio>
-                    <el-radio label="0">没有</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="form.submodule == '1'" :span="8">
-                <el-form-item label="子模块点击展现" prop="clickToShow">
-                  <el-radio-group
-                    v-model="form.clickToShow"
-                    @change="clickToShowChange"
-                  >
-                    <el-radio label="row">行点击</el-radio>
-                    <el-radio label="cell">单元格点击</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-
-              <el-col v-if="form.submodule == '0'" :span="8">
-                <el-form-item label="是否添加详情展示" prop="isDestail">
-                  <el-radio-group v-model="form.isDestail">
-                    <el-radio label="0">否</el-radio>
-                    <el-radio label="1">是</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="是否链接地图" prop="isLinkMap">
-                  <el-radio-group v-model="form.isLinkMap">
-                    <el-radio label="1">是</el-radio>
-                    <el-radio label="0">否</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="form.isLinkMap === '1'" :span="16">
-                <el-form-item label="地图定位" prop="mapPosition">
-                  <el-radio-group v-model="form.mapPosition">
-                    <el-radio label="0">重庆</el-radio>
-                    <el-radio label="1">区县</el-radio>
-                    <el-radio label="2">开发区</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-            </el-row> -->
 
             <el-row>
               <el-col :span="8">
@@ -377,7 +316,8 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio>
+                    >服务接口</el-radio
+                    >
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -415,6 +355,18 @@
               :data-view-list.sync="dataViewList"
               :form="form"
             />
+            <el-row>
+              <el-col v-if="form.apiType==='0'" :span="12">
+                <el-form-item label="视图参数传递方式" prop="viewParamType">
+                  <el-radio-group
+                    v-model="form.viewParamType"
+                  >
+                    <el-radio label="0">queryParamList</el-radio>
+                    <el-radio label="1">where语句</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+            </el-row>
             <charts-data-settting
               ref="chartsDataSettting"
               :setting-config="settingConfig"

@@ -8,7 +8,8 @@ export default {
       interactiveModuleAll: [], // 可交互模块集合
       interactiveData: [], // 交互配置数据
       interactiveModuleId: '', // 当前交互配置模块id
-      interactiveType: 'add'// 判断当前点击交互配置按钮下时新增(add)/修改(update)
+      interactiveType: 'add', // 判断当前点击交互配置按钮下时新增(add)/修改(update)
+      statisticsAll: null // 交互组件类型
     }
   },
   methods: {
@@ -39,6 +40,7 @@ export default {
           })
         }
       })
+      this.statisticsAll = statisticsAll
     },
     // 顶部栏交互配置按钮点击事件--顶部栏
     topBarInteractiveIconClick() {
@@ -176,12 +178,16 @@ export default {
         getTabsData.forEach((item, index) => {
           this.interactiveModuleAll.push({
             moduleId: item.moduleId,
-            moduleName: item.tabsConfig.title ? item.tabsConfig.title : 'tabs' + index,
+            moduleName: item.tabsConfig.title
+              ? item.tabsConfig.title
+              : 'tabs' + index,
             type: 'tabs',
-            interactiveParams: [{
-              val: 'tabsCode',
-              lab: '标签编码'
-            }]
+            interactiveParams: [
+              {
+                val: 'tabsCode',
+                lab: '标签编码'
+              }
+            ]
           })
         })
       }
@@ -217,7 +223,10 @@ export default {
           interactiveData: this.interactiveData
         }
         serviceAxios
-          .post(this.settingConfig.commonUrl + '/jhConfig/updateJhConfig', reqObj)
+          .post(
+            this.settingConfig.commonUrl + '/jhConfig/updateJhConfig',
+            reqObj
+          )
           .then(res => {
             this.$message({
               type: 'success',
@@ -229,7 +238,9 @@ export default {
     // 交互配置数据删除事件
     interactiveDataDelete() {
       serviceAxios
-        .post(this.settingConfig.commonUrl + '/jhConfig/deleteJhConfig', { moduleId: this.interactiveModuleId })
+        .post(this.settingConfig.commonUrl + '/jhConfig/deleteJhConfig', {
+          moduleId: this.interactiveModuleId
+        })
         .then(res => {
           this.$message({
             type: 'success',
@@ -259,9 +270,13 @@ export default {
     interactiveChartsClick(reqObj) {
       this.interactiveModuleId = reqObj.moduleId
       const contentAreaConfig = reqObj.statisticsAll.contentAreaConfig
-      const arr = ['pie', 'ring', 'histogram', 'bar', 'line', 'radar']
+      const arr = ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table']
       if (arr.indexOf(contentAreaConfig.displayMode) > -1) {
-        this.interactiveImplement(reqObj)
+        this.interactiveImplement(
+          reqObj,
+          contentAreaConfig.displayMode,
+          'rowClick'
+        )
       }
     },
     // (表格、列表、详情)通过表格单元格点击触发交互事件
@@ -273,7 +288,11 @@ export default {
           contentAreaConfig.displayMode
         ) > -1
       ) {
-        this.interactiveImplement(reqObj)
+        this.interactiveImplement(
+          reqObj,
+          contentAreaConfig.displayMode,
+          'cellClick'
+        )
       }
     },
 
@@ -305,7 +324,7 @@ export default {
     /* 阶段四-交互执行*/
 
     // 交互事件被触发公告事件
-    interactiveImplement(reqObj) {
+    interactiveImplement(reqObj, displayMode, triggerEvent) {
       // 获取图表类型集合
       const chartsTypeArr = []
       dataPresentation.forEach(obj => {
@@ -321,8 +340,20 @@ export default {
               if (item.moduleType) {
                 if (chartsTypeArr.indexOf(item.moduleType) > -1) {
                   // 图表组件集
-
-                  this.chartsBeInteractive(reqObj, items, item)
+                  console.log(items)
+                  if (displayMode === 'table') {
+                    if (
+                      (items.triggerEvent === 'cellClick' ||
+                        items.triggerEvent === 'click') &&
+                      triggerEvent === 'cellClick'
+                    ) {
+                      this.chartsBeInteractive(reqObj, items, item)
+                    } else if (items.triggerEvent === triggerEvent && triggerEvent === 'rowClick') {
+                      this.chartsBeInteractive(reqObj, items, item)
+                    }
+                  } else {
+                    this.chartsBeInteractive(reqObj, items, item)
+                  }
                 } else {
                   switch (item.moduleType) {
                     case 'iframe': // iframe嵌入框

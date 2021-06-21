@@ -121,6 +121,7 @@
       :interactive-module-all="interactiveModuleAll"
       :before-params-data="beforeParamsData"
       :interactive-data="interactiveData"
+      :statistics-all="statisticsAll"
       @interactiveSubmit="interactiveDataEmit"
     />
     <!-- 类目轴 -->

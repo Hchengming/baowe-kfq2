@@ -141,7 +141,23 @@
             size="small"
             @change="onSubmit(item.isInsert == '1', item)"
           />
-
+          <!-- 字段-下拉 -->
+          <el-select
+            v-if="item.type == 'key-select'"
+            v-model="whereAll.form[item.key]"
+            :title="whereAll.form[item.key]"
+            :style="{ width: item.rightWidth + 'px' }"
+            size="small"
+            placeholder="请选择12"
+            @change="onSubmit(item.isInsert == '1',item)"
+          >
+            <el-option
+              v-for="option in keySelectOption()"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
+          </el-select>
           <!-- 其他 通用配置项 -->
           <div v-if="['country-radio','country-select'].indexOf(item.type) > -1">
             <common-where
@@ -232,6 +248,19 @@ export default {
     this.getWhereHeight()
   },
   methods: {
+    // 字段下拉项
+    keySelectOption() {
+      const options = []
+      this.settingForm.keyArr.forEach(x => {
+        if (x.isShow === true) {
+          options.push({
+            label: x.title || x.key,
+            value: x.key
+          })
+        }
+      })
+      return options
+    },
     // 模块是否显示事件
     isShowWhere() {
       let offon = true

@@ -121,6 +121,7 @@ export default {
         destailTypeTheme: '0', // 详情表格展示组题样式选则 0：默认表格  1：主题一
         apiType: '1', // 0：数据视图 1：应用接口
         viewId: '', // 视图id
+        viewParamType: '0', // 视图参数传递类型
         url: '', // 接口
         urlName: '', // 接口名称
         options: 'POST', // 请求方式  GET/POST
@@ -184,7 +185,11 @@ export default {
         legendOrient: 'horizontal', // 图例布局
         legendLocation: 'center', // 图例显示位置
         barGroup: 0, // 柱体间距(%)
-        barMaxWidth: 100 // 柱体最大宽度(px)
+        barMaxWidth: 100, // 柱体最大宽度(px)
+        gridTop: 15, // 图表边距-顶部
+        gridLeft: 40, // 图表边距-左侧
+        gridBottom: 40, // 图表边距-底部
+        gridRight: 5// 图表边距-右侧
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -443,6 +448,10 @@ export default {
         if (item.contentAreaConfig.xRotate === undefined) {
           item.contentAreaConfig.xRotate = 25
         }
+        // 视图参数传递类型 旧版本兼容
+        if (item.contentAreaConfig.viewParamType === undefined) {
+          item.contentAreaConfig.viewParamType = '0'
+        }
       }
 
       // 筛选配置数据格式转换
@@ -652,6 +661,7 @@ export default {
 
         if (config.contentAreaConfig.apiType === '0') {
           const queryParamList = []
+          let sqlCondition = ' 1=1 '
           for (const key in reqData) {
             if (
               key !== 'pageSize' &&
@@ -661,14 +671,21 @@ export default {
               queryParamList.push({
                 [key]: reqData[key]
               })
+              sqlCondition += `  and  ${key} = '${reqData[key]}'`
             }
           }
           reqData = {
             viewId: config.contentAreaConfig.viewId,
             pageSize: reqData.pageSize,
-            pageNumber: obj.currentPage,
-            queryParamList: queryParamList
+            pageNumber: obj.currentPage
+            // queryParamList: queryParamList
           }
+          if (config.contentAreaConfig.viewParamType === '1') {
+            reqData.sqlCondition = sqlCondition
+          } else {
+            reqData.queryParamList = queryParamList
+          }
+
           nowIndex *= 200
           if (!reqData.viewId) {
             this.$set(this.pageData[obj.index], 'isLoading', false)

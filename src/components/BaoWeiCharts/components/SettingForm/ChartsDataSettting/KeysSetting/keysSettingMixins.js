@@ -121,6 +121,7 @@ export default {
     // 数据视图配置字段获取事件
     getViewKeysData() {
       const queryParamList = []
+      let sqlCondition = ' 1=1 '
       this.form.filterConfig.screenData.forEach(item => {
         let paramValue = this.getParamValue(item.defaultValue)
         // 区县单选数据处理
@@ -130,16 +131,22 @@ export default {
         queryParamList.push({
           [item.key]: paramValue
         })
+        sqlCondition += `  and  ${item.key} = '${paramValue}'`
       })
 
       if (!this.form.url) return false
+      const reqData = { viewId: this.form.viewId,
+        pageSize: 1,
+        pageNumber: 1 }
+      // 数据视图参数配置(where语句拼接)
+      if (this.form.viewParamType === '1') {
+        // where语句拼接
+        reqData.sqlCondition = sqlCondition
+      } else {
+        reqData.queryParamList = queryParamList
+      }
       serviceAxios
-        .post(window.BaseApi + this.form.url, {
-          viewId: this.form.viewId,
-          pageSize: 1,
-          pageNumber: 1,
-          queryParamList: queryParamList
-        })
+        .post(window.BaseApi + this.form.url, reqData)
         .then(res => {
           const code = res.code
           const resData = res.data

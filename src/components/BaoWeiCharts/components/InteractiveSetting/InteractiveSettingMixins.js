@@ -12,6 +12,10 @@ export default {
     interactiveData: {
       type: Array,
       default: null
+    },
+    statisticsAll: {
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -20,10 +24,10 @@ export default {
       dialogVisible: false,
       fatherIndex: null, // 配置行索引
       nowIndex: null, // 被交互选中模块索引
-      triggerEventAll: [{
-        lab: '点击触发',
-        val: 'click'
-      }],
+      // triggerEventAll: [{
+      //   lab: '点击触发',
+      //   val: 'click'
+      // }],
       tableCloums: [{
         key: 'moduleId',
         label: '模块名称',
@@ -95,6 +99,26 @@ export default {
     this.setModyleTypeArr()
   },
   methods: {
+    // 事件触发方式
+    triggerEventAll() {
+      let arr = [{
+        lab: '点击触发',
+        val: 'click'
+      }]
+      if (this.statisticsAll && this.statisticsAll.contentAreaConfig.displayMode === 'table') {
+        arr = [{
+          lab: '点击触发',
+          val: 'click'
+        }, {
+          lab: '单元格点击事件',
+          val: 'cellClick'
+        }, {
+          lab: '行点击事件',
+          val: 'rowClick'
+        }]
+      }
+      return arr
+    },
     // 模块类型集合数据配置
     setModyleTypeArr() {
       this.tableCloums[1].selectArr = [{

@@ -13,8 +13,8 @@ export default {
           key: 'type',
           width: 120,
           formType: 'select',
-          change(items) {
-            _this.typeChange(items)
+          change(items, index, item) {
+            _this.typeChange(items, index, item)
           },
           selectArr: [
             {
@@ -52,6 +52,9 @@ export default {
             {
               val: 'country-select',
               lab: '区县-下拉'
+            }, {
+              val: 'key-select',
+              lab: '字段-下拉'
             }
           ]
         },
@@ -375,7 +378,8 @@ export default {
       }
     },
     // 表单类型变化事件
-    typeChange(item) {
+    typeChange(item, index, config) {
+      console.log(item, index, config, 'item,config')
       if (['date', 'dateTime'].indexOf(item.type) === -1) {
         item.sfjssj = '0'
       }

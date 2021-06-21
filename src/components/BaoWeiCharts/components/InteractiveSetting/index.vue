@@ -44,11 +44,11 @@
               <span>触发方式:</span>
               <el-select
                 v-model="items.triggerEvent"
-                disabled
+                :disabled="!statisticsAll||statisticsAll.contentAreaConfig.displayMode !== 'table'"
                 placeholder="触发方式"
               >
                 <el-option
-                  v-for="x in triggerEventAll"
+                  v-for="x in triggerEventAll()"
                   :key="x.val"
                   :value="x.val"
                   :label="x.lab"
