@@ -240,7 +240,7 @@ export default {
         const submenu = [...document.getElementsByClassName('el-submenu-bw')]
         const menuitem = [...document.getElementsByClassName('el-menu-item-bw')]
         menuitem.forEach(doc => {
-          doc.classList.remove('is-active')
+          // doc.classList.remove('is-active')
           // console.log(doc.className, 'doc.className')
           if (doc.className.indexOf(menuItem.menuId) > -1) {
             // console.log(doc, menuItem.menuCode)
@@ -249,7 +249,7 @@ export default {
         })
         submenu.forEach(doc => {
           const elSubmenutitle = doc.querySelector('.el-submenu__title')
-          elSubmenutitle.classList.remove('is-active')
+          // elSubmenutitle.classList.remove('is-active')
           if (doc.className.indexOf(menuItem.menuId) > -1) {
             elSubmenutitle.classList.add('is-active')
           }

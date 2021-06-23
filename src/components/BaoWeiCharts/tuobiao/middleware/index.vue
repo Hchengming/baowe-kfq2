@@ -539,9 +539,15 @@ export default {
                 param.fn(true)
               } else {
                 param.fn(false)
+                this.setPageData(resData, param)
               }
+            } else {
+              // console.log(resData, param)
+
             }
-            this.setPageData(resData, param)
+            if (!param) {
+              this.setPageData(resData, param)
+            }
           }
           this.pageLoding(false)
         })

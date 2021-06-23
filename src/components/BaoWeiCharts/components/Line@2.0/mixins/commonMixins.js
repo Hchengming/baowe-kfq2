@@ -89,7 +89,7 @@ export default {
     },
     // 数据变化监听
     data: {
-      handler(val) {
+      handler() {
         if (this.offon) {
           this.offon = false
           setTimeout(() => {
@@ -97,7 +97,6 @@ export default {
           }, 100)
           const myChart = this.$echarts.init(this.$refs['myCharts'])
           myChart.resize()
-          console.log(val)
           this.echartsInit()
         }
       },
@@ -120,18 +119,12 @@ export default {
   methods: {
     // 主题切换
     themeConfjg() {
+      this.xAxisLabel.textStyle.color = '#333333'
+      this.yAxisLabel.textStyle.color = '#333333'
       switch (this.settingConfig.theme) {
         case 1:
           this.xAxisLabel.textStyle.color = 'white'
           this.yAxisLabel.textStyle.color = 'white'
-          break
-        case 2:
-          this.xAxisLabel.textStyle.color = '#333333'
-          this.yAxisLabel.textStyle.color = '#333333'
-          break
-        case 3:
-          this.xAxisLabel.textStyle.color = '#333333'
-          this.yAxisLabel.textStyle.color = '#333333'
           break
       }
     },
@@ -234,15 +227,10 @@ export default {
             color: 'white'
           }
         }
+        options.legend.textStyle.color = '#333333'
         switch (this.settingConfig.theme) {
           case 1:
             options.legend.textStyle.color = 'white'
-            break
-          case 2:
-            options.legend.textStyle.color = '#333333'
-            break
-          case 3:
-            options.legend.textStyle.color = '#333333'
             break
         }
         this.chartColumns.forEach(item => {

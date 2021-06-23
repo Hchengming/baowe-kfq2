@@ -149,7 +149,6 @@ export default {
   watch: {
     'settingConfig.mapPramConfig': {
       handler(val) {
-        console.log(val)
         if (val[0].paramValue !== this.defaultType) {
           this.defaultType = val[0].paramValue
 

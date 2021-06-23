@@ -214,17 +214,19 @@
                             font-size: 16px;
                             color: #333333;
                         }
-                        // .el-submenu__icon-arrow {
-                        //     margin-top: 0;
-                        // }
+                        &.is-active {
+                            color: red;
+                        }
                     }
                     .el-menu-item {
                         color: #333333;
+                        font-size: 16px;
                     }
                 }
                 >.el-menu-item {
                     padding-left: 25px !important;
                     color: #333333;
+                    font-size: 16px;
                 }
                 .el-menu-item:hover {
                     background: #DAE6F2;
