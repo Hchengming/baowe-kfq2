@@ -88,7 +88,7 @@ export default {
           label: {
             show: true, // 开启显示
             position: this.chartType === 'bar' ? 'right' : 'top', // 在上方显示
-            fontSize: 10
+            fontSize: 15
           },
           itemStyle: {
             // 柱体背景颜色

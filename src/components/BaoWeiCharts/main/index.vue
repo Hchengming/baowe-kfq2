@@ -4,7 +4,7 @@
     <el-container :class="['KFQ_wrap',{'isBigData':settingConfig.isBigData}]">
       <el-header v-if="!settingConfig.isBigData" class="theme-bg-color">
         <div class="logo">
-          <img :src="settingConfig.logoUrl">
+          <img :src="settingConfig.logoUrl?settingConfig.logoUrl:LogoObj.logo">
           <span>{{ settingConfig.itemTitle }}</span>
           <i
             v-if="leftMenu.length > 0"
@@ -92,6 +92,7 @@ import MyPage from './find/myPage'
 import menuSetting from './find/menuSetting'
 import { commonMethods } from '../utils/mixins.js'
 import JSMixins from './mainMixins.js'
+
 export default {
   name: 'Wrap',
   components: { MyMenu, MyPage, menuSetting },

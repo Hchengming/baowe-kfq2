@@ -1,9 +1,11 @@
 import serviceAxios from '@/utils/request.js'
 import countryRadioMixins from '../tuobiao/middleware/mixins/countryRadioMixins'
+import LogoObj from '../images/logo.json'
 export default {
   mixins: [countryRadioMixins],
   data() {
     return {
+      LogoObj,
       leftMenuWidth: '250px', // 左侧区域宽度
       themeClass: 'charts-theme2', // 项目主题类名
       nowMenuId: '', // 当前menuid
@@ -236,25 +238,23 @@ export default {
     },
     // 左侧菜单点击样式修改
     leftMenuStyleChange(menuItem) {
-      this.$nextTick(() => {
-        const submenu = [...document.getElementsByClassName('el-submenu-bw')]
-        const menuitem = [...document.getElementsByClassName('el-menu-item-bw')]
-        menuitem.forEach(doc => {
-          // doc.classList.remove('is-active')
-          // console.log(doc.className, 'doc.className')
-          if (doc.className.indexOf(menuItem.menuId) > -1) {
-            // console.log(doc, menuItem.menuCode)
-            doc.classList.add('is-active')
-          }
-        })
-        submenu.forEach(doc => {
-          const elSubmenutitle = doc.querySelector('.el-submenu__title')
-          // elSubmenutitle.classList.remove('is-active')
-          if (doc.className.indexOf(menuItem.menuId) > -1) {
-            elSubmenutitle.classList.add('is-active')
-          }
-        })
-      })
+      // this.$nextTick(() => {
+      //   const submenu = [...document.getElementsByClassName('el-submenu-bw')]
+      //   const menuitem = [...document.getElementsByClassName('el-menu-item-bw')]
+      //   menuitem.forEach(doc => {
+      //     doc.classList.remove('is-active')
+      //     if (doc.className.indexOf(menuItem.menuId) > -1) {
+      //       doc.classList.add('is-active')
+      //     }
+      //   })
+      //   submenu.forEach(doc => {
+      //     const elSubmenutitle = doc.querySelector('.el-submenu__title')
+      //     elSubmenutitle.classList.remove('is-active')
+      //     if (doc.className.indexOf(menuItem.menuId) > -1) {
+      //       elSubmenutitle.classList.add('is-active')
+      //     }
+      //   })
+      // })
     },
     // 顶部菜单点击事件
     topMenuClick(item, index) {
@@ -271,7 +271,6 @@ export default {
     },
     // 顶部栏、左侧有子级菜单点击事件
     menuClickRedusion(item) {
-      console.log(item, 'menuClickRedusion')
       this.$refs['myPage'].menuClick(item, 'top', offon => {
         if (this.settingConfig.systemPermissions === 'user') {
           if (offon) {
@@ -282,7 +281,7 @@ export default {
             }
           } else {
             this.leftMenuStyleChange(item)
-            this.redusion(item)
+            // this.redusion(item)
           }
         }
       })
