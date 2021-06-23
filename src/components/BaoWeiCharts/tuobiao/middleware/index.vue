@@ -462,6 +462,9 @@ export default {
         if (item.contentAreaConfig.isShow === undefined) {
           item.contentAreaConfig.isShow = '1'
         }
+        if (this.settingConfig.isBigData) {
+          this.settingConfig.url = '/.DataView/view/v1/sql/resultAppend'
+        }
       }
 
       // 筛选配置数据格式转换
@@ -542,8 +545,7 @@ export default {
                 this.setPageData(resData, param)
               }
             } else {
-              // console.log(resData, param)
-
+              this.setPageData(resData, param)
             }
             if (!param) {
               this.setPageData(resData, param)

@@ -271,6 +271,7 @@ export default {
     },
     // 顶部栏、左侧有子级菜单点击事件
     menuClickRedusion(item) {
+      console.log(item, 'menuClickRedusion')
       this.$refs['myPage'].menuClick(item, 'top', offon => {
         if (this.settingConfig.systemPermissions === 'user') {
           if (offon) {
@@ -375,7 +376,6 @@ export default {
     },
     // 最外层--通过menuCode触发菜单跳转事件
     menuJump(menuCode) {
-      console.log(menuCode)
       this.menuData.forEach((items, index) => {
         if (items.menuCode === menuCode) {
           this.menuActiveIndex = index

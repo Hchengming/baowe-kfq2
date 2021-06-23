@@ -313,7 +313,7 @@ export const otherMixins = {
             if (this.settingConfig.isTestEnvironment) {
               this.form.url = '/dataView/searchResult'
             } else {
-              this.form.url = '/.DataView/view/v1/sql/searchResult'
+              this.form.url = '/.DataView/view/v1/sql/resultAppend'
             }
             this.form.options = 'POST'
           }
