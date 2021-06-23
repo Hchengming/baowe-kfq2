@@ -28,63 +28,88 @@ export default {
       //   lab: '点击触发',
       //   val: 'click'
       // }],
-      tableCloums: [{
-        key: 'moduleId',
-        label: '模块名称',
-        width: 180,
-        formType: 'select',
-        selectArr: [],
-        change(items) {
-          _this.moduleNameChange(items)
-        }
-      },
-      {
-        key: 'moduleType',
-        label: '模块类型',
-        width: 100,
-        formType: 'select',
-        disabled: true,
-        selectArr: []
-      }, {
-        key: 'corParams',
-        label: '交互对应参数',
-        width: 180,
-        disabled(items) {
-          return items.moduleType === 'iframe'
-        },
-        formType: 'inputButton',
-        click(items, index, item) {
-          _this.nowIndex = index
-          let interactiveParams = []
-          _this.interactiveModuleAll.forEach(obj => {
-            if (items.moduleId === obj.moduleId) {
-              interactiveParams = obj.interactiveParams
-            }
-          })
-          _this.$refs.correspondingParamSetting.show(items.corParams, interactiveParams)
-        }
-        // formType(items) {
-        //   return ['iframe', 'topBar', 'timeAxis', 'categoryAxis'].indexOf(items.moduleType) > -1 ? 'input' : 'select'
-        // },
-        // selectArr: []
-      }, {
-        key: 'jsMethods',
-        label: 'js脚本',
-        width: 200,
-        formType: 'input',
-        inputType: 'textarea',
-        rows: 1,
-        disabled(items) {
-          return items.moduleType !== 'iframe'
-        },
-        click(items, index) {
-          if (items.moduleType === 'iframe') {
-            _this.nowIndex = index
-
-            _this.$refs['jsMethodsSetting'].show(items)
+      tableCloums: [
+        {
+          key: 'moduleId',
+          label: '模块名称',
+          width: 180,
+          formType: 'select',
+          selectArr: [],
+          change(items) {
+            _this.moduleNameChange(items)
           }
+        },
+        {
+          key: 'moduleType',
+          label: '模块类型',
+          width: 100,
+          formType: 'select',
+          disabled: true,
+          selectArr: []
+        },
+        {
+          key: 'corParams',
+          label: '交互对应参数',
+          width: 180,
+          disabled(items) {
+            return items.moduleType === 'iframe'
+          },
+          formType: 'inputButton',
+          click(items, index, item) {
+            _this.nowIndex = index
+            let interactiveParams = []
+            _this.interactiveModuleAll.forEach(obj => {
+              if (items.moduleId === obj.moduleId) {
+                interactiveParams = obj.interactiveParams
+              }
+            })
+            _this.$refs.correspondingParamSetting.show(
+              items.corParams,
+              interactiveParams
+            )
+          }
+          // formType(items) {
+          //   return ['iframe', 'topBar', 'timeAxis', 'categoryAxis'].indexOf(items.moduleType) > -1 ? 'input' : 'select'
+          // },
+          // selectArr: []
+        },
+        {
+          key: 'jsMethods',
+          label: 'js脚本',
+          width: 200,
+          formType: 'input',
+          inputType: 'textarea',
+          rows: 1,
+          // disabled(items) {
+          //   return items.moduleType !== 'iframe'
+          // },
+          click(items, index) {
+            if (items.moduleType === 'iframe') {
+              _this.nowIndex = index
+
+              _this.$refs['jsMethodsSetting'].show(items)
+            }
+          }
+        },
+        {
+          key: 'hideShow',
+          label: '显示/隐藏',
+          width: 100,
+          formType: 'select',
+          disabled(items) {
+            return ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table', 'list', 'destailTable'].indexOf(items.moduleType) === -1
+          },
+          selectArr: [
+            {
+              lab: '显示',
+              val: '1'
+            },
+            {
+              lab: '隐藏',
+              val: '0'
+            }
+          ]
         }
-      }
       ],
       interactiveObj: {
         paramsChoose: '', // 已选择参数
@@ -101,30 +126,49 @@ export default {
   methods: {
     // 事件触发方式
     triggerEventAll() {
-      let arr = [{
-        lab: '点击触发',
-        val: 'click'
-      }]
-      if (this.statisticsAll && this.statisticsAll.contentAreaConfig.displayMode === 'table') {
-        arr = [{
+      let arr = [
+        {
           lab: '点击触发',
           val: 'click'
-        }, {
-          lab: '单元格点击事件',
-          val: 'cellClick'
-        }, {
-          lab: '行点击事件',
-          val: 'rowClick'
-        }]
+        }
+      ]
+      if (
+        this.statisticsAll &&
+        this.statisticsAll.contentAreaConfig.displayMode === 'table'
+      ) {
+        arr = [
+          {
+            lab: '点击触发',
+            val: 'click'
+          },
+          {
+            lab: '单元格点击事件',
+            val: 'cellClick'
+          },
+          {
+            lab: '行点击事件',
+            val: 'rowClick'
+          }
+        ]
+        if (this.statisticsAll && this.statisticsAll.contentAreaConfig.operateButton) {
+          this.statisticsAll.contentAreaConfig.operateButton.forEach(item => {
+            arr.push({
+              lab: `${item.name}操作点击事件`,
+              val: item.name
+            })
+          })
+        }
       }
       return arr
     },
     // 模块类型集合数据配置
     setModyleTypeArr() {
-      this.tableCloums[1].selectArr = [{
-        lab: 'iframe框',
-        val: 'iframe'
-      }]
+      this.tableCloums[1].selectArr = [
+        {
+          lab: 'iframe框',
+          val: 'iframe'
+        }
+      ]
       dataPresentation.forEach(item => {
         this.tableCloums[1].selectArr.push({
           lab: item.title,
@@ -158,7 +202,9 @@ export default {
     },
     // js脚本配置后返回数据
     changeJsMethods(data) {
-      this.interactiveData[this.fatherIndex].otherModuleConfig[this.nowIndex].jsMethods = data
+      this.interactiveData[this.fatherIndex].otherModuleConfig[
+        this.nowIndex
+      ].jsMethods = data
     },
     // 模块类型选择变化事件
     moduleNameChange(items) {
@@ -183,7 +229,9 @@ export default {
     },
     // 参数配置选中确认事件
     correspondingSubmit(corParams) {
-      this.interactiveData[this.fatherIndex].otherModuleConfig[this.nowIndex].corParams = corParams
+      this.interactiveData[this.fatherIndex].otherModuleConfig[
+        this.nowIndex
+      ].corParams = corParams
     }
   }
 }

@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4986233",
+      "name": "详情",
+      "font_class": "xiangqing",
+      "unicode": "e74b",
+      "unicode_decimal": 59211
+    },
+    {
+      "icon_id": "18261995",
+      "name": "定位",
+      "font_class": "Frame1",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
       "icon_id": "554031",
       "name": "编辑",
       "font_class": "iconset0136",

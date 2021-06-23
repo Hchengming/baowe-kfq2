@@ -39,6 +39,7 @@
         :setting-form="settingForm"
         :colums="newClums"
         :width="width"
+        @operateButtonClick="operateButtonClick2"
       />
     </el-table>
     <el-pagination
@@ -118,6 +119,19 @@ export default {
     this.getTableColums()
   },
   methods: {
+    operateButtonClick2(buttonSetting, rowItem) {
+      if (
+        buttonSetting.jsMethods &&
+                buttonSetting.jsMethods.replace(/\s*/g, '') !== ''
+      ) {
+        const funcStr = buttonSetting.jsMethods
+        // eslint-disable-next-line no-eval
+        const test = eval('(false || ' + funcStr + ')')
+        // console.log('(false || ' + funcStr + ')')
+        test(rowItem)
+      }
+      this.$emit('operateButtonClick', buttonSetting, rowItem)
+    },
     // 表格列配置初始化
     getTableColums() {
       let tableColums = []

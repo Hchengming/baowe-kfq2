@@ -20,18 +20,25 @@
       >
         <span
           :class="[colClass(item)]"
-          :style="{ color: textColor(scope.row[item.key]),cursor:cellCursor(item.key) }"
+          :style="{
+            color: textColor(scope.row[item.key]),
+            cursor: cellCursor(item.key)
+          }"
           v-html="cellHtml(item, scope.row)"
         />
       </el-tooltip>
       <div v-else class="right-operate-button">
         <el-button
           v-for="val in settingForm.operateButton"
+          :class="[val.showBorder==='0'?'nowBorder':'showBorder','theme-color']"
           :key="val.name"
           :type="val.type"
-          size="mini"
+          :icon="val.renderType === '0' ? '' : 'iconfont ' + val.icon"
+          :title="val.name"
+          size="small"
           @click="operateButtonClick(val, scope.row)"
-        >{{ val.name }}</el-button>
+        >{{ val.renderType === '1' ? '' : val.name }}</el-button
+        >
       </div>
       <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
     </template>
@@ -45,6 +52,7 @@
       :statistics-all="statisticsAll"
       :item="val"
       :width="width"
+      @operateButtonClick="operateButtonClick"
     />
   </el-table-column>
 </template>
@@ -100,22 +108,53 @@ export default {
       let widths = item.width ? Number(item.width) : 100
       if (item.tableCustom) {
         widths = undefined
-        // let maxWidth = 0
-        // this.colums.forEach(item => {
-        //   if (item.key && item.isShow) {
-        //     if (item.width) {
-        //       maxWidth += Number(item.width)
-        //     } else {
-        //       maxWidth += 100
-        //     }
-        //   }
-        // })
-        // if (maxWidth < this.width) {
-        //   widths = Number(item.width) + this.width - maxWidth - 11
-        // }
       }
       return widths
+    },
+    // 右侧其他按钮点击事件
+    operateButtonClick(buttonSetting, rowItem) {
+      // if (
+      //   buttonSetting.jsMethods &&
+      //           buttonSetting.jsMethods.replace(/\s*/g, '') !== ''
+      // ) {
+      //   const funcStr = buttonSetting.jsMethods
+      //   // eslint-disable-next-line no-eval
+      //   const test = eval('(false || ' + funcStr + ')')
+      //   // console.log('(false || ' + funcStr + ')')
+      //   test(rowItem)
+      // }
+      this.$emit('operateButtonClick', buttonSetting, rowItem)
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+.right-operate-button {
+  padding: 0 5px;
+  box-sizing: border-box;
+  display: flex;
+  >>> .el-button {
+    height: 32px;
+    line-height: 32px;
+    display: flex;
+    justify-items: center;
+    font-size: 16px;
+    margin-top: 4px;
+    // min-width: 30px;
+    // text-align: center;
+    margin: 0 5px;
+    .iconfont {
+      margin-right: 3px;
+      font-size: 18px;
+
+    }
+    &.nowBorder{
+      padding: 0;
+      border:none;
+    }
+    &.showBorder{
+      padding: 0 10px;
+    }
+  }
+}
+</style>

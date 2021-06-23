@@ -75,20 +75,7 @@ export default {
       }
       return colClass
     },
-    // 右侧其他按钮点击事件
-    operateButtonClick(buttonSetting, rowItem) {
-      if (
-        buttonSetting.jsMethods &&
-                buttonSetting.jsMethods.replace(/\s*/g, '') !== ''
-      ) {
-        const funcStr = buttonSetting.jsMethods
-        // eslint-disable-next-line no-eval
-        const test = eval('(false || ' + funcStr + ')')
-        // console.log('(false || ' + funcStr + ')')
-        test(rowItem)
-      }
-      this.$emit('operateButtonClick', buttonSetting, rowItem)
-    },
+
     // topTitle显示位置控制
     setPlacement(data) {
       let index = 0

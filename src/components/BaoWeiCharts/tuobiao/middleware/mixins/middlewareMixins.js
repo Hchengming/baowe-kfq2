@@ -21,6 +21,25 @@ export default {
     _this = this
   },
   methods: {
+    // 组件数据加载完成后执行事件
+    dataLoadingFnc(componenInfo, reqData) {
+      const fnc = componenInfo.contentAreaConfig.jsMethods
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        try {
+          // eslint-disable-next-line no-eval
+          const test = eval('(false || ' + fnc + ')')
+          test({
+            componenInfo,
+            reqData
+          })
+        } catch (e) {
+          this.$message({
+            type: 'error',
+            message: '组件数据加载完成后执行脚本问题：' + e
+          })
+        }
+      }
+    },
     setOptions(param) {
       const obj = {
         methodsName: 'setOptions',

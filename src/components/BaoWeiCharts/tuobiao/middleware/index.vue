@@ -189,7 +189,8 @@ export default {
         gridTop: 15, // 图表边距-顶部
         gridLeft: 40, // 图表边距-左侧
         gridBottom: 40, // 图表边距-底部
-        gridRight: 5// 图表边距-右侧
+        gridRight: 5, // 图表边距-右侧
+        jsMethods: ''// 数据加载完成后执行js脚本
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -231,10 +232,10 @@ export default {
       }
     },
     // 图表组件被交互事件
-    interactiveCover(params, moduleId) {
+    interactiveCover(params, interactiveCondig) {
       let reqObj = {}
       this.whereData.forEach(item => {
-        if (item.moduleId === moduleId) {
+        if (item.moduleId === interactiveCondig.moduleId && params) {
           for (const key in params) {
             reqObj = item.form
             reqObj[key] = params[key]
@@ -245,14 +246,16 @@ export default {
       // let currentPage=pageAll.currentPage?
       let nowItem = {}
       this.pageData.forEach((item, index) => {
-        if (item.moduleId === moduleId) {
+        if (item.moduleId === interactiveCondig.moduleId) {
           obj.index = index
           if (item.contentAreaConfig.isPage === '1') {
             obj.pageSize = item.contentAreaConfig.pageSize
             obj.currentPage = 1
           }
-
           obj.url = item.contentAreaConfig.url
+          if (interactiveCondig.hideShow) {
+            item.isShow = interactiveCondig.hideShow !== '0'
+          }
           nowItem = item
         }
       })
@@ -310,12 +313,14 @@ export default {
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
     operateButtonClick(param) {
+      console.log(1234567)
       this.chartsMethods({
         moduleId: param.moduleId,
         name: '表格、列表右侧其他按钮点击事件',
         methodsName: 'operateButtonClick',
         buttonSetting: param.buttonSetting,
-        rowItem: param.rowItem
+        rowItem: param.rowItem,
+        statisticsAll: param.statisticsAll
       })
     },
     // 头部右侧更多按钮点击事件
@@ -510,7 +515,6 @@ export default {
     },
     // 模块图表配置数据获取
     getData(param) {
-      // console.log(param,this.menuId, '33')
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](
@@ -742,6 +746,8 @@ export default {
               this.pageData[obj.index].isLoading = false
               const resData = res.data
               this.viewDataTranslation(resData, obj, config, reqData)
+              // 数据加载完成后js执行
+              this.dataLoadingFnc(this.pageData[obj.index], reqData)
             })
             .catch(msg => {
               this.$message({

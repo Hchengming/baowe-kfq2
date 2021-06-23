@@ -1,11 +1,11 @@
 <template>
   <div class="icon-container">
     <el-dialog
-      title="图标库"
       :show-close="false"
       :close-on-press-escape="false"
       :close-on-click-modal="false"
       :visible.sync="showSelectIcon"
+      title="图标库"
       width="60%"
       center
       @open="open"

@@ -33,13 +33,21 @@ export default {
       // let isPage=statisticsAll.contentAreaConfig.isPage;
       this.beforeParamsData = []
       statisticsAll.contentAreaConfig.keyArr.forEach(item => {
-        if (item.isShow) {
+        if (item.isShow && item.explain !== '操作') {
           this.beforeParamsData.push({
             lab: item.explain,
             val: item.key
           })
         }
       })
+      // if (statisticsAll.contentAreaConfig.operateButton) {
+      //   statisticsAll.contentAreaConfig.operateButton.forEach(item => {
+      //     this.beforeParamsData.push({
+      //       lab: `操作-${item.name}`,
+      //       val: item.name
+      //     })
+      //   })
+      // }
       this.statisticsAll = statisticsAll
     },
     // 顶部栏交互配置按钮点击事件--顶部栏
@@ -264,13 +272,30 @@ export default {
       if (reqObj.methodsName === 'rowClick') {
         this.interactiveChartsClick(reqObj)
       }
+      // 表格右侧按钮点击事件
+      if (reqObj.methodsName === 'operateButtonClick') {
+        this.interactiveTableButtonClick(reqObj)
+      }
     },
-
+    // 表格右侧按钮点击事件
+    interactiveTableButtonClick(reqObj) {
+      console.log(reqObj, 'reqObj')
+      this.interactiveModuleId = reqObj.moduleId
+      const contentAreaConfig = reqObj.statisticsAll.contentAreaConfig
+      const arr = ['table', 'list']
+      if (arr.indexOf(contentAreaConfig.displayMode) > -1) {
+        this.interactiveImplement(
+          reqObj,
+          contentAreaConfig.displayMode,
+          'operationClick'
+        )
+      }
+    },
     // (图表)点击触发交互事件
     interactiveChartsClick(reqObj) {
       this.interactiveModuleId = reqObj.moduleId
       const contentAreaConfig = reqObj.statisticsAll.contentAreaConfig
-      const arr = ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table']
+      const arr = ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table', 'list']
       if (arr.indexOf(contentAreaConfig.displayMode) > -1) {
         this.interactiveImplement(
           reqObj,
@@ -340,8 +365,7 @@ export default {
               if (item.moduleType) {
                 if (chartsTypeArr.indexOf(item.moduleType) > -1) {
                   // 图表组件集
-                  console.log(items)
-                  if (displayMode === 'table') {
+                  if (['table', 'list'].indexOf(displayMode) > -1) {
                     if (
                       (items.triggerEvent === 'cellClick' ||
                         items.triggerEvent === 'click') &&
@@ -349,6 +373,8 @@ export default {
                     ) {
                       this.chartsBeInteractive(reqObj, items, item)
                     } else if (items.triggerEvent === triggerEvent && triggerEvent === 'rowClick') {
+                      this.chartsBeInteractive(reqObj, items, item)
+                    } else if (triggerEvent === 'operationClick' && reqObj.buttonSetting.name === items.triggerEvent) {
                       this.chartsBeInteractive(reqObj, items, item)
                     }
                   } else {
@@ -407,7 +433,7 @@ export default {
       const params = {}
       params[item.corParams] = reqObj.rowItem[items.paramsChoose]
 
-      this.$refs['middleware'].interactiveCover(params, item.moduleId)
+      this.$refs['middleware'].interactiveCover(params, item)
     },
     // 图表被交互事件
     interactiveCharts(reqObj) {

@@ -346,6 +346,16 @@ export default {
           this.form.keyArr.splice(num, 1)
         }
       }
+    },
+    // 数据加载完成后js脚本配置--弹出显示
+    loadJsMethodsSettingShow() {
+      this.$refs['JsMethodsSetting'].show({
+        jsMethods: this.form.jsMethods
+      })
+    },
+    // 数据加载完成后js脚本配置--确认事件
+    loadJsMethodsSettingSubmit(jsMethods) {
+      this.form.jsMethods = jsMethods
     }
   }
 }

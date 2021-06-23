@@ -271,20 +271,15 @@ export const childMixins = {
     // 表格、列表右侧按钮点击事件
     operateButtonClick(buttonSetting, rowItem) {
       this.$emit('componentFunc', {
-        method: 'whereSubmit',
-        name: '筛选保存事件',
+        method: 'operateButtonClick',
+        name: '右侧操作按钮点击事件',
         param: {
           moduleId: this.statisticsAll.moduleId,
           buttonSetting,
-          rowItem
+          rowItem,
+          statisticsAll: this.statisticsAll
         }
       })
-      // this.$emit(
-      //   'operateButtonClick',
-      //   buttonSetting,
-      //   rowItem,
-      //   this.statisticsAll.moduleId
-      // )
     }
   }
 }

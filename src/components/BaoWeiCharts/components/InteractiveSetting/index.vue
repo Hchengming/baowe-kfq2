@@ -100,7 +100,7 @@ export default {
 <style lang="scss" scoped>
 .interactive-setting-dialog {
   >>> .el-dialog {
-    width: 1005px;
+    width: 1200px;
     .dialog-box {
       border-top: 1px solid #0000004d;
       border-left: 1px solid #0000004d;
@@ -134,7 +134,7 @@ export default {
           }
         }
         .right {
-          width: 600px;
+          width: 806px;
         }
         .icon {
           width: 50px;

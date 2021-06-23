@@ -9,6 +9,33 @@ export default {
         'warning',
         'danger'
       ],
+      iconArr: [
+        {
+          label: '定位',
+          value: 'iconFrame1'
+        }, {
+          label: '详情',
+          value: 'iconxiangqing'
+        }, {
+          label: '删除',
+          value: 'iconshanchu'
+        }, {
+          label: '新增',
+          value: 'iconzengjia'
+        }, {
+          label: '编辑',
+          value: 'iconbianji'
+        }
+      ],
+      // renderTypeOptions: [
+      //   {
+      //     label: '按钮',
+      //     value: 'button'
+      //   },{
+      //     label: '按钮',
+      //     value: 'button'
+      //   }
+      // ],
       // isShow: false,
       nowIndex: 0
       // operateButton: []
@@ -31,6 +58,9 @@ export default {
         name: '',
         methodsName: '',
         jsMethods: '',
+        showBorder: '1',
+        renderType: '0',
+        icon: '',
         type: 'primary'
       })
     },

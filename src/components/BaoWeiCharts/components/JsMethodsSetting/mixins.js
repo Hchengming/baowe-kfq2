@@ -28,6 +28,9 @@ export default {
       } else if (this.settingType === '4') {
         this.warn = '默认参数params为当前模块选择参数键值对'
         this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(params){} `
+      } else if (this.settingType === '5') {
+        this.warn = '默认参数params为当前组件信息和事件参数{ componenInfo,reqData}'
+        this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(params){} `
       }
 
       this.isShow = true
