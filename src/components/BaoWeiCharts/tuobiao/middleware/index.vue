@@ -109,6 +109,7 @@ export default {
         subtitle1: '', // 副标题1
         subtitle2: '', // 副标题2
         elementId: '', // 模块元素id
+        isShow: '1', // 组件初始显示/隐藏
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)
         moduleType: '0', // 模块内容  0:图表 1:iframe地图  3：空白模板
@@ -457,6 +458,10 @@ export default {
         if (item.contentAreaConfig.viewParamType === undefined) {
           item.contentAreaConfig.viewParamType = '0'
         }
+        // 初始显示/隐藏初始化
+        if (item.contentAreaConfig.isShow === undefined) {
+          item.contentAreaConfig.isShow = '1'
+        }
       }
 
       // 筛选配置数据格式转换
@@ -580,6 +585,10 @@ export default {
           item.contentAreaConfig.moduleType !== '3'
         ) {
           this.getTableData(obj, {}, item, index)
+        }
+        // 初始隐藏组件
+        if (item.contentAreaConfig.isShow === '0' && this.settingConfig.systemPermissions === 'user') {
+          item.isShow = false
         }
       })
       if (param && param.getPageData) {
@@ -750,10 +759,11 @@ export default {
               this.dataLoadingFnc(this.pageData[obj.index], reqData)
             })
             .catch(msg => {
-              this.$message({
-                message: '数据请求失败' + msg,
-                type: 'error'
-              })
+              // this.$message({
+              //   message: '数据请求失败' + msg,
+              //   type: 'error'
+              // })
+              console.log('数据请求失败' + msg)
               return false
             })
         }, nowIndex)

@@ -30,15 +30,14 @@
       <div v-else class="right-operate-button">
         <el-button
           v-for="val in settingForm.operateButton"
-          :class="[val.showBorder==='0'?'nowBorder':'showBorder','theme-color']"
           :key="val.name"
+          :class="[val.showBorder==='0'?'nowBorder':'showBorder','theme-color']"
           :type="val.type"
           :icon="val.renderType === '0' ? '' : 'iconfont ' + val.icon"
           :title="val.name"
           size="small"
           @click="operateButtonClick(val, scope.row)"
-        >{{ val.renderType === '1' ? '' : val.name }}</el-button
-        >
+        >{{ val.renderType === '1' ? '' : val.name }}</el-button>
       </div>
       <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
     </template>

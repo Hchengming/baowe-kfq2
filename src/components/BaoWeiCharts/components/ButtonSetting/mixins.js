@@ -25,6 +25,12 @@ export default {
         }, {
           label: '编辑',
           value: 'iconbianji'
+        }, {
+          label: '文档',
+          value: 'iconwendang'
+        }, {
+          label: '宗地',
+          value: 'iconzongdi'
         }
       ],
       // renderTypeOptions: [

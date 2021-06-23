@@ -41,17 +41,17 @@
         <td>
           <el-select v-model="item.icon" size="small" placeholder="按钮图标">
             <el-option
-              v-for="item in iconArr"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="x in iconArr"
+              :key="x.value"
+              :label="x.label"
+              :value="x.value"
               class="btn-color-choose"
             >
               <span
-                :class="['iconfont', item.value]"
+                :class="['iconfont', x.value]"
                 style="padding-right:5px; display: inline-block;width: 30px;text-align: center;"
               />
-              {{ item.label }}
+              {{ x.label }}
             </el-option>
           </el-select>
         </td>

@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "20081195",
+      "name": "文档",
+      "font_class": "wendang",
+      "unicode": "e6a8",
+      "unicode_decimal": 59048
+    },
+    {
+      "icon_id": "20145200",
+      "name": "宗地",
+      "font_class": "zongdi",
+      "unicode": "e8d6",
+      "unicode_decimal": 59606
+    },
+    {
       "icon_id": "4986233",
       "name": "详情",
       "font_class": "xiangqing",

@@ -39,6 +39,14 @@
           </el-row>
           <el-row type="flex" class="row-bg">
             <el-col :span="8">
+              <el-form-item label="显示/隐藏" prop="isShow">
+                <el-radio-group v-model="form.isShow">
+                  <el-radio label="1">显示</el-radio>
+                  <el-radio label="0">隐藏</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
               <el-form-item label="模块ID" prop="moreUrl">
                 <el-input
                   v-model="form.elementId"
@@ -316,8 +324,7 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio
-                    >
+                    >服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
