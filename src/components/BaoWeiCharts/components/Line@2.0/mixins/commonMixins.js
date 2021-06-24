@@ -9,13 +9,13 @@ export default {
         // x轴label公共配置
         interval: 'auto',
         rotate: 25,
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: '500',
         textStyle: {}
         // borderWidth: 0
       },
       yAxisLabel: {
-        fontSize: 12,
+        fontSize: 14,
         interval: 0,
         textStyle: {}
       },
@@ -257,7 +257,7 @@ export default {
     // 图表边距位置设置
     setGridsetGrid(options) {
       // const grid=
-      if (this.settingForm.gridLeft === undefined) {
+      if (this.settingForm.gridLeft === undefined && this.settingForm.gridTop === undefined && this.settingForm.gridRight === undefined && this.settingForm.gridBottom === undefined) {
         // 旧版本-自动设置图表边距
         let gridLeft = 10
         // 柱状图/条形图/折线图/雷达图 配置

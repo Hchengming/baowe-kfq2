@@ -41,7 +41,7 @@
             ref="elMenu"
             :default-active="defaultActive"
             :collapse="isCollapse"
-            :unique-opened="settingConfig.menuUniqueOpened"
+            :unique-opened="settingConfig.menuUniqueOpened===undefined?true:settingConfig.menuUniqueOpened"
             class="el-menu-vertical-demo menu-bg-color"
           >
             <my-menu

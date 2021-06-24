@@ -232,6 +232,13 @@
                 }
             }
         }
+        .el-aside {
+            .el-submenu.is-opened {
+                >.el-submenu__title {
+                    background: rgba(75, 105, 131, 0.839216);
+                }
+            }
+        }
     }
 }
 

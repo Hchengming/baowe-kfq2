@@ -145,7 +145,8 @@ export default {
           color: this.settingConfig.theme === 1 ? '#d3c6c6' : '#3b85d8'
         }
       }
-      this.xAxisLabel.rotate = this.settingConfig.xRotate
+      // console.log(this.settingConfig)
+      this.xAxisLabel.rotate = this.settingForm.xRotate
       options.xAxis.axisLabel = this.xAxisLabel
       options.yAxis.axisLabel = this.yAxisLabel
     }

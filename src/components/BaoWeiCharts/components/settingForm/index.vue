@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog
-      :id="settingFormId()"
       v-drag
+      :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"
       :modal="settingConfig.isBigData ? false : true"

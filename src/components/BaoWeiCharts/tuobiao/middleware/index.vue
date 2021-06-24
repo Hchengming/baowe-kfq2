@@ -188,10 +188,10 @@ export default {
         barGroup: 0, // 柱体间距(%)
         barMaxWidth: 100, // 柱体最大宽度(px)
         gridTop: 15, // 图表边距-顶部
-        gridLeft: 40, // 图表边距-左侧
+        gridLeft: 60, // 图表边距-左侧
         gridBottom: 40, // 图表边距-底部
         gridRight: 5, // 图表边距-右侧
-        jsMethods: ''// 数据加载完成后执行js脚本
+        jsMethods: '' // 数据加载完成后执行js脚本
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -314,7 +314,6 @@ export default {
     },
     // 表格、列表右侧其他按钮点击事件(按钮配置数据，模块id)
     operateButtonClick(param) {
-      console.log(1234567)
       this.chartsMethods({
         moduleId: param.moduleId,
         name: '表格、列表右侧其他按钮点击事件',
@@ -480,7 +479,7 @@ export default {
     },
     // 筛选数据整合
     filterConfigZH(item) {
-      const filterConfig = item.contentAreaConfig.filterConfig
+      let filterConfig = item.contentAreaConfig.filterConfig
       if (filterConfig) {
         filterConfig.screenData.forEach(item => {
           if (['radio', 'checkbox', 'select'].indexOf(item.type) > -1) {
@@ -515,6 +514,8 @@ export default {
         item.conditionAreaConfig.btnSettingData = filterConfig.btnSettingData
         item.conditionAreaConfig.isShowInsertButton =
           filterConfig.isShowInsertButton
+      } else {
+        filterConfig = this.filterConfig
       }
     },
     // 页面加载状态变化
@@ -595,13 +596,17 @@ export default {
           this.getTableData(obj, {}, item, index)
         }
         // 初始隐藏组件
-        if (item.contentAreaConfig.isShow === '0' && this.settingConfig.systemPermissions === 'user') {
+        if (
+          item.contentAreaConfig.isShow === '0' &&
+          this.settingConfig.systemPermissions === 'user'
+        ) {
           item.isShow = false
         }
       })
       if (param && param.getPageData) {
         param.getPageData(this.pageData)
       }
+
       this.pageModuleData.pageData = this.pageData
       this.chartsMethods({
         methodsName: 'getPageData',
@@ -637,10 +642,12 @@ export default {
     },
     // 数据获取参数配置
     setParams(config, reqData) {
-      const screenData = config.contentAreaConfig.filterConfig.screenData
-      screenData.forEach(item => {
-        reqData[item.key] = this.getParamValue(item.defaultValue, item)
-      })
+      if (config.contentAreaConfig.filterConfig) {
+        const screenData = config.contentAreaConfig.filterConfig.screenData
+        screenData.forEach(item => {
+          reqData[item.key] = this.getParamValue(item.defaultValue, item)
+        })
+      }
     },
     // 图表数据获取
     getTableData(obj, whereReqData, config, nowIndex) {
@@ -669,7 +676,9 @@ export default {
         Object.assign(reqData, whereReqData)
       }
       // 04-区县-单选数据处理
-      this.setCountryRadio(config, reqData)
+      if (config.contentAreaConfig.filterConfig) {
+        this.setCountryRadio(config, reqData)
+      }
       this.$set(this.pageData[obj.index], 'isLoading', true)
       // 返回特殊情况数据处理
       const sftsqk = this.specialRequest(reqData, config, obj)
