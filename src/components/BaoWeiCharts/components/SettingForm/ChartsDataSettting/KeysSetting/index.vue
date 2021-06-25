@@ -45,7 +45,16 @@
           "
           class="hTxt83 hTxt"
         >
-          柱背景颜色
+          柱背景色
+        </span>
+        <span
+          v-if="
+            form.moduleType === '0' &&
+              ['bar', 'histogram'].indexOf(form.displayMode) > -1
+          "
+          class="hTxt83 hTxt"
+        >
+          柱渐变色
         </span>
         <span class="hTxt82 hTxt">图表标题字段</span>
         <span class="hTxt82 hTxt">表格列自适应</span>
@@ -139,12 +148,20 @@
             :disabled="item.key === 'operationButton'"
             size="mini"
           />
-          <!-- <el-input v-if="item.ischartsShow"
-                    v-model="item.zBgColor"
-                    size="mini"
-                    placeholder="背景颜色"
-                    type="color"
-                    :disabled="item.key === 'operationButton'" /> -->
+        </span>
+        <span
+          v-if="
+            form.moduleType === '0' &&
+              ['bar', 'histogram'].indexOf(form.displayMode) > -1
+          "
+          class="hTxt83 hTxt"
+        >
+          <el-color-picker
+            v-if="item.ischartsShow"
+            v-model="item.zBgColor2"
+            :disabled="item.key === 'operationButton'"
+            size="mini"
+          />
         </span>
         <!-- 图表标题字段 -->
         <span class="hTxt82 hTxt">

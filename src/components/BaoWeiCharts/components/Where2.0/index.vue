@@ -5,6 +5,7 @@
         <el-form-item
           v-for="(item, index) in whereAll.data"
           v-show="item.isShow !== '0'"
+          :class="'form-' + item.key"
           :key="index"
           :label="label(item)"
           :style="formItemStyle(item)"
@@ -23,7 +24,7 @@
             :style="{ width: item.rightWidth + 'px' }"
             :title="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           />
           <!-- 下拉框 -->
 
@@ -34,7 +35,7 @@
             :style="{ width: item.rightWidth + 'px' }"
             size="small"
             placeholder="请选择"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           >
             <el-option
               v-for="option in item.arr"
@@ -48,13 +49,14 @@
             v-if="item.type == 'radio' && item.styleType !== '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           >
             <el-radio
               v-for="radioItem in item.arr"
               :key="radioItem.value"
               :border="item.styleType === '1'"
               :label="radioItem.value"
+              style="background:red"
             >
               {{ radioItem.label }}
             </el-radio>
@@ -63,7 +65,7 @@
             v-if="item.type == 'radio' && item.styleType === '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="radioChange(item)"
           >
             <el-radio-button
               v-for="radioItem in item.arr"
@@ -79,7 +81,7 @@
             v-if="item.type == 'checkbox' && item.styleType !== '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           >
             <el-checkbox
               v-for="(obj, iii) in item.arr"
@@ -94,7 +96,7 @@
             v-if="item.type == 'checkbox' && item.styleType === '2'"
             v-model="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           >
             <el-checkbox-button
               v-for="checkboxItem in item.arr"
@@ -110,7 +112,7 @@
             v-model="whereAll.form[item.key]"
             :title="whereAll.form[item.key]"
             size="small"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           />
           <!-- 日期框  -->
           <el-date-picker
@@ -149,7 +151,7 @@
             :style="{ width: item.rightWidth + 'px' }"
             size="small"
             placeholder="请选择12"
-            @change="onSubmit(item.isInsert == '1',item)"
+            @change="onSubmit(item.isInsert == '1', item)"
           >
             <el-option
               v-for="option in keySelectOption()"
@@ -159,11 +161,13 @@
             />
           </el-select>
           <!-- 其他 通用配置项 -->
-          <div v-if="['country-radio','country-select'].indexOf(item.type) > -1">
+          <div
+            v-if="['country-radio', 'country-select'].indexOf(item.type) > -1"
+          >
             <common-where
               :form="whereAll.form"
               :common-item="item"
-              @formSubmit="onSubmit(true,item)"
+              @formSubmit="onSubmit(true, item)"
             />
           </div>
         </el-form-item>
@@ -230,6 +234,8 @@ export default {
     conditionAreaConfig: {
       handler() {
         this.setWhereAll(this.conditionAreaConfig)
+        // 表单样式初始化
+        this.formStyleInit(this.conditionAreaConfig)
       },
       deep: true
     },
@@ -245,9 +251,50 @@ export default {
   },
   mounted() {
     this.setWhereAll(this.conditionAreaConfig)
+    this.$nextTick(() => {
+      this.formStyleInit(this.conditionAreaConfig)
+    })
+
     this.getWhereHeight()
   },
   methods: {
+    // 单选变化事件
+    radioChange(item) {
+      this.onSubmit(item.isInsert === '1', item)
+      this.formStyleInit(this.conditionAreaConfig)
+    },
+    // 表单样式初始化
+    formStyleInit(conditionAreaConfig) {
+      if (conditionAreaConfig && conditionAreaConfig.screenData.length > 0) {
+        this.conditionAreaConfig.screenData.forEach(item => {
+          if (item.type === 'radio') {
+            if (item.styleType === '2') {
+              this.setRadioButton(item)
+            }
+          }
+        })
+      }
+    },
+    // 单选按钮组--按钮背景设置
+    setRadioButton(item) {
+      const group = document.querySelector('.form-' + item.key)
+      const label = group.querySelectorAll(
+        '.el-radio-group .el-radio-button .el-radio-button__inner'
+      )
+      item.arr.forEach((x, i) => {
+        if (x.bgColor) {
+          label[i].style.background = x.bgColor
+          label[i].style.borderColor = x.bgColor
+          label[i].style.color = x.color || 'white'
+        }
+        if (this.whereAll.form[item.key] === x.value) {
+          label[i].style.background = '#1890FF'
+          label[i].style.borderColor = '#1890FF'
+          label[i].style.color = 'white'
+        }
+      })
+      // .console.log(label)
+    },
     // 字段下拉项
     keySelectOption() {
       const options = []
@@ -477,10 +524,7 @@ export default {
     },
     // 表单数值变化监听，执行js脚本
     iptChangeJs(item) {
-      if (
-        item.ChangeJs &&
-        item.ChangeJs.replace(/\s*/g, '') !== ''
-      ) {
+      if (item.ChangeJs && item.ChangeJs.replace(/\s*/g, '') !== '') {
         const funcStr = item.ChangeJs
         // eslint-disable-next-line no-eval
         const test = eval('(false || ' + funcStr + ')')
@@ -503,7 +547,8 @@ export default {
           axios, // axios
           message: this.$message, // message
           form: this.whereAll.form,
-          getData: () => { // 模块数据刷新事件
+          getData: () => {
+            // 模块数据刷新事件
             const form = JSON.parse(JSON.stringify(this.whereAll.form))
             this.$emit('whereSubmit', form)
           },
@@ -516,7 +561,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  >>>.el-date-editor .el-input__inner{
-    padding-left: 30px !important;
-  }
+>>> .el-date-editor .el-input__inner {
+  padding-left: 30px !important;
+}
 </style>

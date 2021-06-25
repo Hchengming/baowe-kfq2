@@ -635,6 +635,7 @@ body {
   width: 60px;
   height: auto;
   text-align: center;
+  font-size: 12px;
 }
 .zdpz_list li .hTxt1,
 .zdpz_list li .hTxt2 {
@@ -649,7 +650,7 @@ body {
 .zdpz_list li .hTxt82,
 .zdpz_list li .hTxt8,
 .zdpz_list li .hTxt81 {
-  width: 90px;
+  width: 78px;
 }
 .zdpz_list li .hTxt83 {
   width: 78px;

@@ -1,3 +1,4 @@
+import echarts from 'echarts'
 export default {
   data() {
     return {}
@@ -40,7 +41,9 @@ export default {
             axisLabel: {
               textStyle: {
                 color: function(value, index) {
-                  console.log(index === params.dataIndex ? '#0091FF' : '#333333')
+                  console.log(
+                    index === params.dataIndex ? '#0091FF' : '#333333'
+                  )
                   return index === params.dataIndex ? '#0091FF' : '#333333'
                 }
               }
@@ -82,8 +85,12 @@ export default {
         const obj = {
           name: items.title,
           type: 'bar',
-          barGap: this.settingForm.barGroup ? this.settingForm.barGroup / 100 : 0,
-          barMaxWidth: this.settingForm.barMaxWidth ? this.settingForm.barMaxWidth : 100,
+          barGap: this.settingForm.barGroup
+            ? this.settingForm.barGroup / 100
+            : 0,
+          barMaxWidth: this.settingForm.barMaxWidth
+            ? this.settingForm.barMaxWidth
+            : 100,
           data: [],
           label: {
             show: true, // 开启显示
@@ -92,7 +99,7 @@ export default {
           },
           itemStyle: {
             // 柱体背景颜色
-            color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
+            color: this.setItemStyle(items, indexs)
           },
           cursor: this.barCursor(items.key)
         }
@@ -103,6 +110,28 @@ export default {
 
         options.series.push(obj)
       })
+    },
+    // 柱图背景样式设置
+    setItemStyle(items, indexs) {
+      if (!items.zBgColor) {
+        return this.colorArr[indexs]
+      } else {
+        if (items.zBgColor2) {
+          if (this.chartType === 'bar') {
+            return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+              { offset: 0, color: items.zBgColor },
+              { offset: 1, color: items.zBgColor2 }
+            ])
+          } else {
+            return new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+              { offset: 0, color: items.zBgColor },
+              { offset: 1, color: items.zBgColor2 }
+            ])
+          }
+        } else {
+          return items.zBgColor
+        }
+      }
     },
     // x轴、y轴公共配置
     setBarAxis(options) {

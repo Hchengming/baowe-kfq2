@@ -16,7 +16,7 @@
             <el-radio :disabled="customDisabled" label="custom">
               自定义配置
             </el-radio>
-            <el-radio label="dataView">数据视图</el-radio>
+            <el-radio disabled label="dataView">数据视图</el-radio>
             <el-radio disabled label="dataUrl">应用接口</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -48,7 +48,7 @@
           </el-select>
         </el-form-item>
         <div v-if="dataType == 'custom'">
-          <el-row
+          <!-- <el-row
             v-for="(item, index) in settingData"
             :key="index"
             type="flex"
@@ -83,14 +83,15 @@
                 <i class="el-icon-delete" @click="screenDelete(item, index)" />
               </div>
             </el-col>
-          </el-row>
+          </el-row> -->
+          <ColumsSetting :table-data="settingData" :table-cloums="tableCloums"/>
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <div>
-          <el-button size="small" type="primary" @click="addData">
+          <!-- <el-button size="small" type="primary" @click="addData">
             新增
-          </el-button>
+          </el-button> -->
         </div>
         <div class="right">
           <el-button size="small" @click="isShow = false">取 消</el-button>
@@ -105,7 +106,9 @@
 <script>
 import { dragDialog } from '../../../../utils/mixins.js'
 import serviceAxios from '@/utils/request.js'
+import ColumsSetting from '../../../ColumsSetting'
 export default {
+  components: { ColumsSetting },
   mixins: [dragDialog],
   props: {
     form: {
@@ -130,6 +133,29 @@ export default {
           label: '',
           value: ''
         }
+      ],
+      tableCloums: [{
+        label: '值',
+        key: 'value',
+        formType: 'input',
+        width: 200
+      }, {
+        label: '标签名',
+        key: 'label',
+        formType: 'input',
+        width: 200
+      }, {
+        label: '按钮颜色',
+        key: 'bgColor',
+        formType: 'color',
+        width: 100
+      },
+      {
+        label: '字体颜色',
+        key: 'color',
+        formType: 'color',
+        width: 100
+      }
       ],
       nowViewId: '', // 当前选中视图
       dataViewList: []
@@ -204,12 +230,12 @@ export default {
       this.getDataIview()
     },
     // 数据新增事件
-    addData() {
-      this.settingData.push({
-        label: '',
-        value: ''
-      })
-    },
+    // addData() {
+    //   this.settingData.push({
+    //     label: '',
+    //     value: ''
+    //   })
+    // },
     // 向上排序
     sortPrev(item, index, offon) {
       if (offon) return

@@ -1,6 +1,7 @@
 import serviceAxios from '@/utils/request.js'
 import countryRadioMixins from '../tuobiao/middleware/mixins/countryRadioMixins'
 import LogoObj from '../images/logo.json'
+// import serviceAxios from '@/utils/request.js'
 export default {
   mixins: [countryRadioMixins],
   data() {
@@ -32,8 +33,16 @@ export default {
     }
     // 登录用户数据处理
     this.userDataInit()
+    // 项目常用缓存数据设置
+    this.setlocalStorage()
   },
   methods: {
+    // 项目常用缓存数据设置
+    setlocalStorage() {
+      const date = new Date().Format('yyyy-MM-dd')
+      // console.log(date)
+      localStorage.setItem('currentDate', date)
+    },
     // 登录用户数据处理-获取登录用户地区权限
     userDataInit() {
       let user =
@@ -80,6 +89,7 @@ export default {
     },
     // 项目主题编辑事件
     projectConfigEmit(projectConfig) {
+      console.log(projectConfig)
       serviceAxios
         .post(
           this.settingConfig.commonUrl +

@@ -17,6 +17,7 @@ export default {
         ischartsTitle: false, // 是否为图表标题字段
         ischartsShow: false, // 图表是否显示该字段
         zBgColor: '', // 图表当前字段柱状图，条形图柱背景颜色设置
+        zBgColor2: '', // 渐变色
         cellRenderer: null, // 单元格数据自定义js脚本渲染
         tipRenderer: null, // 单元格鼠标移入悬浮框内容自定义js脚本渲染
         colFixed: 'null', // 表格列固定配置 null/left/right
