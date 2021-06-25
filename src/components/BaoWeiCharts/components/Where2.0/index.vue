@@ -5,8 +5,8 @@
         <el-form-item
           v-for="(item, index) in whereAll.data"
           v-show="item.isShow !== '0'"
-          :class="'form-' + item.key"
           :key="index"
+          :class="'form-' + item.key"
           :label="label(item)"
           :style="formItemStyle(item)"
           :label-width="

@@ -105,10 +105,17 @@ export default {
     // 模块高度变化监听
     settingForm: {
       handler(news, olds) {
-        if (news.height !== olds.height || news.width !== olds.width) {
+        // if (news.height !== olds.height || news.width !== olds.width) {
+        if (this.offon) {
+          this.offon = false
+          setTimeout(() => {
+            this.offon = true
+          }, 100)
           const myChart = this.$echarts.init(this.$refs['myCharts'])
           myChart.resize()
+          this.echartsInit()
         }
+        // }
       },
       deep: true
     }

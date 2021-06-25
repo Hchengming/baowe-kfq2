@@ -84,7 +84,7 @@
               </div>
             </el-col>
           </el-row> -->
-          <ColumsSetting :table-data="settingData" :table-cloums="tableCloums"/>
+          <ColumsSetting :table-data="settingData" :table-cloums="tableCloums" />
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">

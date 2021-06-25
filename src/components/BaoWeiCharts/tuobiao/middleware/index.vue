@@ -22,6 +22,7 @@
          @chartsMethods   传出事件集合
     -->
     <section v-for="(item, index) in pageDatas(pageData)" :key="index">
+
       <statistics
         ref="statisticsAll"
         :statistics-all="item"
@@ -234,6 +235,7 @@ export default {
     },
     // 图表组件被交互事件
     interactiveCover(params, interactiveCondig) {
+      console.log(interactiveCondig, 'interactiveCondig')
       let reqObj = {}
       this.whereData.forEach(item => {
         if (item.moduleId === interactiveCondig.moduleId && params) {
@@ -335,7 +337,14 @@ export default {
     // 菜单点击事件
     menuClick(menuItem, menuTypes, fn) {
       this.menuId = menuItem.menuId
-      this.getData({ menuTypes, fn })
+      // this.$nextTick(() => {
+      if (menuTypes || fn) {
+        this.getData({ menuTypes, fn })
+      } else {
+        this.getData()
+      }
+      // })
+
       this.tabsSettingSelect()
     },
     // 饼图切换模块点击事件
@@ -545,17 +554,17 @@ export default {
                 param.fn(false)
                 this.setPageData(resData, param)
               }
-            } else {
-              this.setPageData(resData, param)
             }
+            // else {
+            //   this.setPageData(resData, param)
+            // }
             if (!param) {
-              this.setPageData(resData, param)
+              this.setPageData(resData)
             }
           }
           this.pageLoding(false)
         })
         .catch(msg => {
-          // console.log('请求失败')
           this.$message({
             message: '请求失败' + msg,
             type: 'error'
@@ -637,7 +646,7 @@ export default {
           paramValue = JSON.parse(paramValue)
           break
       }
-      // console.log(item, val)
+
       return paramValue
     },
     // 数据获取参数配置
@@ -658,7 +667,6 @@ export default {
         // keys: obj.keys,
       }
       // 01-默认请求参数导入
-
       if (config.contentAreaConfig.paramConfig) {
         config.contentAreaConfig.paramConfig.forEach(item => {
           if (!reqData[item.paramKey] && item.isUse) {
@@ -766,14 +774,16 @@ export default {
           this.$set(this.pageData[obj.index], 'data', [])
           return
         }
+        const _this = this
+
         setTimeout(() => {
           serviceAxios[options](nowUrl, reqData)
             .then(res => {
-              this.pageData[obj.index].isLoading = false
+              _this.pageData[obj.index].isLoading = false
               const resData = res.data
-              this.viewDataTranslation(resData, obj, config, reqData)
+              _this.viewDataTranslation(resData, obj, config, reqData)
               // 数据加载完成后js执行
-              this.dataLoadingFnc(this.pageData[obj.index], reqData)
+              _this.dataLoadingFnc(this.pageData[obj.index], reqData)
             })
             .catch(msg => {
               // this.$message({

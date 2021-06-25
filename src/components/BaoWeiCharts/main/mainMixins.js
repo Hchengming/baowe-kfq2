@@ -39,9 +39,10 @@ export default {
   methods: {
     // 项目常用缓存数据设置
     setlocalStorage() {
-      const date = new Date().Format('yyyy-MM-dd')
+      const date = new Date()
       // console.log(date)
-      localStorage.setItem('currentDate', date)
+      localStorage.setItem('currentDate', date.Format('yyyy-MM-dd'))
+      localStorage.setItem('currentMonth', date.Format('MM'))
     },
     // 登录用户数据处理-获取登录用户地区权限
     userDataInit() {
@@ -89,7 +90,6 @@ export default {
     },
     // 项目主题编辑事件
     projectConfigEmit(projectConfig) {
-      console.log(projectConfig)
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
@@ -281,17 +281,13 @@ export default {
     },
     // 顶部栏、左侧有子级菜单点击事件
     menuClickRedusion(item) {
+      this.defaultActive = item.menuCode
       this.$refs['myPage'].menuClick(item, 'top', offon => {
         if (this.settingConfig.systemPermissions === 'user') {
           if (offon) {
             if (offon && item.children && item.children.length > 0) {
               this.menuClickRedusion(item.children[0])
-            } else {
-              this.leftMenuStyleChange(item)
             }
-          } else {
-            this.leftMenuStyleChange(item)
-            // this.redusion(item)
           }
         }
       })

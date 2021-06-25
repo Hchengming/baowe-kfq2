@@ -66,7 +66,6 @@ export default {
           this.topBarAll.data = data
         }
       })
-      console.log(form, ' console.log(form.url)')
       if (!sftsqk) {
         const options = form.options === 'GET' ? 'get' : 'post'
         // form.url = '/kfqcxtj/getKfqmjqkData'

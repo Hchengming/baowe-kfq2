@@ -131,6 +131,7 @@ export default {
       组件交互
       const obj = {
         interactiveModuleId: moduleId, // 交互组件id
+        hideShow:1,//交互组件显示隐藏控制
         param: {//传递参数
           asd: this.num
         }

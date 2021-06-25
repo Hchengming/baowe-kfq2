@@ -29,19 +29,23 @@ export default {
         const str = localStorage.getItem('customComponentsParam')
         if (str !== this.customComponentsParamStr) {
           this.customComponentsParamStr = str
+
           this.customInteractive(JSON.parse(str))
         }
       }, 50)
     },
     // 交互对象判断
     customInteractive(object) {
+      // console.log(object, 'object')
       let offon = false
       if (!object || !object.interactiveModuleId) return
       // 1、判断是否为图表组件集交互
       const pageData = this.$refs['middleware'].pageData
+
       pageData.forEach(config => {
         if (config.moduleId === object.interactiveModuleId) {
-          this.$refs['middleware'].interactiveCover(object.param, object.interactiveModuleId)
+          this.$refs['middleware'].interactiveCover(object.param, { moduleId: object.interactiveModuleId,
+            hideShow: object.hideShow })
           offon = true
         }
       })
