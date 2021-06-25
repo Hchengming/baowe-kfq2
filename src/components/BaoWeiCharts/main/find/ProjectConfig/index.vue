@@ -1,24 +1,30 @@
 <template>
   <div class="project-config-wrap">
     <div class="theme-choose">
-      <span>主题风格</span>
-      <el-radio-group
-        v-model="nowProjectConfig.theme"
-        @change="themeChange"
-      >
-        <el-radio
-          v-for="(item, index) in themeData"
-          :key="index"
-          :label="item.value"
-          border
-          size="medium"
-        >{{ item.label }}</el-radio>
-      </el-radio-group>
+      <div>
+        <span>主题风格</span>
+        <el-radio-group v-model="nowProjectConfig.theme" @change="themeChange">
+          <el-radio
+            v-for="(item, index) in themeData"
+            :key="index"
+            :label="item.value"
+            border
+            size="medium"
+          >{{ item.label }}</el-radio
+          >
+        </el-radio-group>
+      </div>
+      <div class="js-methods">
+        <span>页面初始化js脚本</span>
+        <el-input
+          v-model="nowProjectConfig.jsMethods"
+          placeholder="function(){}"
+          type="textarea"
+        />
+      </div>
+
       <div class="bottom-confirm">
-        <el-button
-          type="primary"
-          @click="onSubmit"
-        >确 认</el-button>
+        <el-button type="primary" @click="onSubmit">确 认</el-button>
       </div>
     </div>
   </div>
@@ -27,7 +33,8 @@
 export default {
   props: {
     nowProjectConfig: {
-      type: Object, default: null
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -45,10 +52,12 @@ export default {
         {
           label: '大屏展示类背景风格',
           value: 1
-        }, {
+        },
+        {
           label: '深蓝色主题风格2',
           value: 3
-        }, {
+        },
+        {
           label: '主题4',
           value: 4
         }
@@ -73,13 +82,25 @@ export default {
   height: 100%;
   position: relative;
   .theme-choose {
-    > span {
-      color: black;
-      font-size: 16px;
+    > div {
+      > span {
+        color: black;
+        font-size: 16px;
+        // padding-bottom: 5px;
+      }
+      .el-radio.is-bordered {
+        margin-left: 0;
+        margin-top: 5px;
+      }
     }
-    .el-radio.is-bordered {
-      margin-left: 0;
-      margin-top: 5px;
+    .js-methods {
+      margin-top: 10px;
+      .el-textarea{
+        margin-top: 5px;
+        textarea{
+          height: 300px;
+        }
+      }
     }
   }
   .bottom-confirm {

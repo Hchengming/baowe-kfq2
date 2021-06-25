@@ -24,7 +24,12 @@ export default {
       menuActiveIndex: 0, // 顶部菜单选中索引
       // 侧导航数据
       leftMenu: [],
-      nowProjectConfig: { theme: 2 } // 当前查询后主题配置页面数据
+      menuOffon: false,
+      themeOffon: false,
+      nowProjectConfig: {
+        theme: 2,
+        jsMethods: ''
+      } // 当前查询后主题配置页面数据
     }
   },
   mounted() {
@@ -82,11 +87,33 @@ export default {
         .then(res => {
           // console.log(res, 'res')
           if (res.data && res.data.projectConfigs) {
+            this.themeOffon = true
             this.nowProjectConfig = JSON.parse(res.data.projectConfigs)
             this.themeClass = 'charts-theme' + this.nowProjectConfig.theme
             this.settingConfig.theme = this.nowProjectConfig.theme
+            this.initJsMethodsImplement()
           }
         })
+    },
+    // 菜单数据获取完成后页面初始化js脚本执行
+    initJsMethodsImplement() {
+      if (this.themeOffon && this.menuOffon) {
+        this.$nextTick(() => {
+          const fnc = this.nowProjectConfig.jsMethods
+          if (fnc && fnc.replace(/\s*/g, '')) {
+            try {
+              // eslint-disable-next-line no-eval
+              const test = eval('(false || ' + fnc + ')')
+              test()
+            } catch (e) {
+              this.$message({
+                type: 'error',
+                message: '页面初始化js脚本执行脚本问题：' + e
+              })
+            }
+          }
+        })
+      }
     },
     // 项目主题编辑事件
     projectConfigEmit(projectConfig) {
@@ -326,11 +353,14 @@ export default {
                 methodsName: 'getMenuData',
                 menuData: resData
               })
+
               this.menuData = resData
               if (this.menuData[0]) {
                 this.$refs['myPage'].menuClick(this.menuData[0])
                 this.leftMenu = this.menuData[0].children
               }
+              this.menuOffon = true
+              this.initJsMethodsImplement()
             }
           })
       } else {
@@ -358,10 +388,13 @@ export default {
               this.$refs['myPage'].menuClick(this.menuData[0])
               this.leftMenu = this.menuData[0].children
             }
+            this.menuOffon = true
+            this.initJsMethodsImplement()
           }
         })
       }
     },
+
     // 菜单id获取
     getMenuId() {
       const fn = (data, fnc) => {
