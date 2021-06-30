@@ -221,6 +221,16 @@ export const otherMixins = {
     })
   },
   methods: {
+    // 是否堆叠变化事件
+    // barHisShowTypeChange(val) {
+    //   console.log(123)
+    //   if (val === '0') return
+    //   this.form.keyArr.forEach(item => {
+    //     if (item.ischartsShow && !item.ischartsTitle && !item.stack) {
+    //       item.stack = '堆栈'
+    //     }
+    //   })
+    // },
     // form数据初始化
     formInit() {
       if (!this.form) return
