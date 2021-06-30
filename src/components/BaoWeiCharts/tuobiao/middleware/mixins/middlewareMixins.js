@@ -21,6 +21,15 @@ export default {
     _this = this
   },
   methods: {
+    // iframe组件显示隐藏控制
+    iframeHideShow(reqObj, items, item) {
+      // console.log(reqObj, items, item, 'iframe组件显示隐藏控制')
+      this.pageData.forEach(x => {
+        if (x.moduleId === item.moduleId) {
+          x.isShow = item.hideShow === '1'
+        }
+      })
+    },
     // 组件数据加载完成后执行事件
     dataLoadingFnc(componenInfo, reqData) {
       const fnc = componenInfo.contentAreaConfig.jsMethods
@@ -29,7 +38,7 @@ export default {
           // eslint-disable-next-line no-eval
           const test = eval('(false || ' + fnc + ')')
           test({
-            componenInfo,
+            componenInfo: componenInfo,
             reqData
           })
         } catch (e) {

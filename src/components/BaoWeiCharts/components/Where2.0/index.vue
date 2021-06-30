@@ -6,7 +6,8 @@
           v-for="(item, index) in whereAll.data"
           v-show="item.isShow !== '0'"
           :key="index"
-          :class="'form-' + item.key"
+          :class="['form-' + item.key,{'form-start-time':item.sfjssj === '0'&&(item.type === 'date' || item.type === 'dateTime')}
+          ]"
           :label="label(item)"
           :style="formItemStyle(item)"
           :label-width="
@@ -17,6 +18,7 @@
                 : '0'
           "
         >
+
           <!-- 输入框 -->
           <el-input
             v-if="item.type == 'input'"

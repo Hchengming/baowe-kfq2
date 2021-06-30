@@ -194,7 +194,7 @@ export default {
     },
     // 年度点击事件
     listClick(item, index) {
-      console.log(item)
+      // console.log(item)
       this.listChooseYear = item.time
       this.$emit('componentFunc', {
         method: 'timeClick',

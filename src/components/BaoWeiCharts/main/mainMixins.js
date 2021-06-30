@@ -85,18 +85,18 @@ export default {
           }
         )
         .then(res => {
-          // console.log(res, 'res')
           if (res.data && res.data.projectConfigs) {
-            this.themeOffon = true
             this.nowProjectConfig = JSON.parse(res.data.projectConfigs)
             this.themeClass = 'charts-theme' + this.nowProjectConfig.theme
             this.settingConfig.theme = this.nowProjectConfig.theme
-            this.initJsMethodsImplement()
           }
+          this.themeOffon = true
+          this.initJsMethodsImplement()
         })
     },
     // 菜单数据获取完成后页面初始化js脚本执行
     initJsMethodsImplement() {
+      console.log(this.themeOffon, this.menuOffon)
       if (this.themeOffon && this.menuOffon) {
         this.$nextTick(() => {
           const fnc = this.nowProjectConfig.jsMethods
@@ -104,13 +104,19 @@ export default {
             try {
               // eslint-disable-next-line no-eval
               const test = eval('(false || ' + fnc + ')')
-              test()
+              test({
+                menuData: this.menuData
+              })
             } catch (e) {
               this.$message({
                 type: 'error',
                 message: '页面初始化js脚本执行脚本问题：' + e
               })
             }
+          }
+          if (this.menuData) {
+            this.topMenuClick(this.menuData[0], 0)
+            console.log(this.leftMenu, 'this.menuData[0]')
           }
         })
       }
@@ -355,10 +361,7 @@ export default {
               })
 
               this.menuData = resData
-              if (this.menuData[0]) {
-                this.$refs['myPage'].menuClick(this.menuData[0])
-                this.leftMenu = this.menuData[0].children
-              }
+
               this.menuOffon = true
               this.initJsMethodsImplement()
             }
@@ -373,6 +376,7 @@ export default {
           if (code === 20000) {
             this.recursion(resData, 'children', item => {
               item.menuCode = item.apeCode
+              item.menuIcon = item.apeCode
               item.menuName = item.apeName
               item.children = item.children ? item.children : []
               item.menuId = item.apeKey
@@ -384,11 +388,12 @@ export default {
               menuData: resData
             })
             this.menuData = resData
-            if (this.menuData[0]) {
-              this.$refs['myPage'].menuClick(this.menuData[0])
-              this.leftMenu = this.menuData[0].children
-            }
+            // if (this.menuData[0]) {
+            //   this.$refs['myPage'].menuClick(this.menuData[0])
+            //   this.leftMenu = this.menuData[0].children
+            // }
             this.menuOffon = true
+            console.log(1)
             this.initJsMethodsImplement()
           }
         })

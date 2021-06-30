@@ -84,11 +84,10 @@ export default {
           //   return items.moduleType !== 'iframe'
           // },
           click(items, index) {
-            if (items.moduleType === 'iframe') {
-              _this.nowIndex = index
-
-              _this.$refs['jsMethodsSetting'].show(items)
-            }
+            // if (items.moduleType === 'iframe') {
+            _this.nowIndex = index
+            _this.$refs['jsMethodsSetting'].show(items)
+            // }
           }
         },
         {
@@ -96,9 +95,9 @@ export default {
           label: '显示/隐藏',
           width: 100,
           formType: 'select',
-          disabled(items) {
-            return ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table', 'list', 'destailTable'].indexOf(items.moduleType) === -1
-          },
+          // disabled(items) {
+          //   return ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table', 'list', 'destailTable'].indexOf(items.moduleType) === -1
+          // },
           selectArr: [
             {
               lab: '显示',

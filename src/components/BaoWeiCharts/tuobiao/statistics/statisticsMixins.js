@@ -10,13 +10,21 @@ export const childMixins = {
     }
   },
   watch: {
-    'statisticsAll.contentAreaConfig'() {
-      this.settingForm = JSON.parse(
-        JSON.stringify(this.statisticsAll.contentAreaConfig)
-      )
-    },
-    deep: true
+    'statisticsAll.contentAreaConfig': {
+      handler() {
+        this.settingForm = JSON.parse(
+          JSON.stringify(this.statisticsAll.contentAreaConfig)
+        )
+      },
+      deep: true
+    }
   },
+  // computed:{
+  //   contentAreaConfig(){
+  //     console.log('12345')
+  //     return statisticsAll.contentAreaConfig
+  //   }
+  // },
   mounted() {
     this.settingForm = JSON.parse(
       JSON.stringify(this.statisticsAll.contentAreaConfig)

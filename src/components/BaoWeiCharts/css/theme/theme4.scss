@@ -233,7 +233,7 @@
                             color: #333333;
                         }
                         &.is-active {
-                            color: red;
+                            color: #1890FF;
                         }
                         &:hover {
                             background: #DAE6F2;
@@ -253,13 +253,13 @@
                     background: #DAE6F2;
                 }
                 .el-menu-item.is-active {
-                    color: red;
+                    color: #1890FF;
                     background-color: #F8FAFC;
                     // box-shadow: 0 0 3px red;
                     // text-shadow: 0 0 1px red;
                     font-weight: bold;
                     .iconfont {
-                        color: red;
+                        color: #1890FF;
                     }
                 }
             }
@@ -310,5 +310,68 @@
     }
     .staticWhereBottom {
         margin-top: -2px;
+    }
+    .static-where-2 {
+        .where-form .el-form-item {
+            margin-right: 35px;
+            .label {
+                font-size: 15px;
+            }
+            &.form-start-time {
+                margin-right: 5px;
+            }
+            font-size: 15px;
+            .el-radio-button__inner,
+            .el-input__inner {
+                font-size: 15px;
+            }
+            .el-date-editor--date input,
+            .el-date-editor--datetime input {
+                text-indent: 10px;
+            }
+            .el-radio-button .el-radio-button__inner {
+                padding: 8px 16px;
+            }
+        }
+    }
+    .statistics-histogram {
+        .static-where-2 .where-form .el-form-item {
+            margin-right: 5px;
+        }
+    }
+    #znyj {
+        .el-tabs__nav {
+            >div {
+                width: 20%;
+                text-align: center;
+            }
+        }
+    }
+    .tabs-view {
+        .top-wrap {
+            .title {
+                color: #333333 !important;
+                font-weight: normal;
+                padding-left: 5px;
+            }
+        }
+        .el-tabs__nav {
+            width: 100%;
+            >div {
+                font-size: 15px;
+            }
+            >div.is-active {
+                background: $--color-primary;
+                color: white;
+                font-weight: bold;
+            }
+        }
+        .el-tab-pane {
+            border: 1px solid #DFE4ED;
+            border-top: none;
+            .statisticsWrap {
+                box-shadow: none;
+            }
+        }
     }
 }

@@ -783,7 +783,7 @@ export default {
               const resData = res.data
               _this.viewDataTranslation(resData, obj, config, reqData)
               // 数据加载完成后js执行
-              _this.dataLoadingFnc(this.pageData[obj.index], reqData)
+              _this.dataLoadingFnc(_this.pageData[obj.index], reqData)
             })
             .catch(msg => {
               // this.$message({

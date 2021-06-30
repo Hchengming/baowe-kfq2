@@ -10,8 +10,7 @@
             :label="item.value"
             border
             size="medium"
-          >{{ item.label }}</el-radio
-          >
+          >{{ item.label }}</el-radio>
         </el-radio-group>
       </div>
       <div class="js-methods">

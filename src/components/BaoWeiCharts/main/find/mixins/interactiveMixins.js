@@ -295,7 +295,16 @@ export default {
     interactiveChartsClick(reqObj) {
       this.interactiveModuleId = reqObj.moduleId
       const contentAreaConfig = reqObj.statisticsAll.contentAreaConfig
-      const arr = ['pie', 'ring', 'histogram', 'bar', 'line', 'radar', 'table', 'list']
+      const arr = [
+        'pie',
+        'ring',
+        'histogram',
+        'bar',
+        'line',
+        'radar',
+        'table',
+        'list'
+      ]
       if (arr.indexOf(contentAreaConfig.displayMode) > -1) {
         this.interactiveImplement(
           reqObj,
@@ -343,6 +352,7 @@ export default {
       const reqObj = {
         rowItem: rowItem
       }
+      console.log(reqObj, '1')
       this.interactiveImplement(reqObj)
     },
 
@@ -362,6 +372,7 @@ export default {
           const offon = reqObj.key ? reqObj.key === items.paramsChoose : true
           if (offon) {
             items.otherModuleConfig.forEach(item => {
+              console.log(item.moduleType, 'item.moduleType')
               if (item.moduleType) {
                 if (chartsTypeArr.indexOf(item.moduleType) > -1) {
                   // 图表组件集
@@ -372,23 +383,52 @@ export default {
                       triggerEvent === 'cellClick'
                     ) {
                       this.chartsBeInteractive(reqObj, items, item)
-                    } else if (items.triggerEvent === triggerEvent && triggerEvent === 'rowClick') {
+                    } else if (
+                      items.triggerEvent === triggerEvent &&
+                      triggerEvent === 'rowClick'
+                    ) {
                       this.chartsBeInteractive(reqObj, items, item)
-                    } else if (triggerEvent === 'operationClick' && reqObj.buttonSetting.name === items.triggerEvent) {
+                    } else if (
+                      triggerEvent === 'operationClick' &&
+                      reqObj.buttonSetting.name === items.triggerEvent
+                    ) {
                       this.chartsBeInteractive(reqObj, items, item)
                     }
                   } else {
                     this.chartsBeInteractive(reqObj, items, item)
                   }
                 } else {
+                  // 添加交互开关
+                  let offon2 = false
+                  if (triggerEvent) {
+                    if (items.triggerEvent === triggerEvent) {
+                      offon2 = true
+                    } else {
+                      if (triggerEvent === 'cellClick' && items.triggerEvent === 'click') {
+                        offon2 = true
+                      }
+                      if (triggerEvent === 'operationClick' && reqObj.buttonSetting.name === items.triggerEvent) {
+                        offon2 = true
+                      }
+                    }
+                  } else {
+                    offon2 = true
+                  }
+                  if (!offon2) return
                   switch (item.moduleType) {
                     case 'iframe': // iframe嵌入框
+                      this.$refs['middleware'].iframeHideShow(
+                        reqObj,
+                        items,
+                        item
+                      )
                       this.iframeBeInteractive(reqObj, items, item)
                       break
                     case 'topBar': // 顶部栏
                       this.topBarBeInteractive(reqObj, items, item)
                       break
                     case 'timeAxis': // 时间轴
+                      console.log(reqObj, items, item)
                       this.timeAxisBeInteractive(reqObj, items, item)
                       break
                     case 'tabs': // tabs切换
@@ -396,6 +436,8 @@ export default {
                       break
                   }
                 }
+              } else {
+                this.iframeBeInteractive(reqObj, items, item)
               }
             })
           }
@@ -413,13 +455,23 @@ export default {
       const moduleId = item.moduleId
       this.getTimeAxisDatas2(obj, moduleId)
     },
-    // (iframe)被交互事件
+    // (iframe)被交互事件 或其他js脚本执行
     iframeBeInteractive(reqObj, items, item) {
       // eslint-disable-next-line no-eval
-      const fnc = eval(`(false || ${item.jsMethods})`)
-      fnc({
-        [item.corParams]: reqObj.rowItem[items.paramsChoose]
-      })
+      if (item.jsMethods && item.jsMethods.replace(/\s*/g, '')) {
+        try {
+          // eslint-disable-next-line no-eval
+          const test = eval(`(false || ${item.jsMethods})`)
+          test({
+            [item.corParams]: reqObj.rowItem[items.paramsChoose]
+          }, reqObj.rowItem)
+        } catch (e) {
+          this.$message({
+            type: 'error',
+            message: 'iframe执行脚本问题：' + e
+          })
+        }
+      }
     },
     // (顶部栏)被交互事件
     topBarBeInteractive(reqObj, items, item) {

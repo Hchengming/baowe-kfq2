@@ -44,6 +44,8 @@ import Stretch from '../Stretch'
 import drag from '../../utils/drag'
 import CustomComponentsSetting from '../CustomComponentsSetting'
 import Vue from 'vue'
+import serviceAxios from '@/utils/request.js'
+Vue.prototype.$serviceAxios = serviceAxios
 export default {
   components: { Stretch, CustomComponentsSetting },
   props: {
@@ -54,7 +56,8 @@ export default {
   data() {
     return {
       stretchElelemt: null, // 被拉伸元素
-      num: 1
+      num: 1,
+      isShow: true
       // customComponentsConfig: {}
     }
   },
@@ -87,7 +90,11 @@ export default {
   methods: {
     // 动态组件挂载
     pageGetWidget() {
+      this.isShow = false
       if (this.settingForm.js && this.settingForm.temp) {
+        this.isShow = true
+        console.log(document.querySelector('#custom-' + this.moduleId), '1')
+        // document.querySelector('#custom-' + this.moduleId).innerHTML = ''
         // 这个组件结构是先定义好,动态组件的template  methods以及其他
         // eslint-disable-next-line no-eval
         const componentContent = eval(
@@ -97,7 +104,9 @@ export default {
         // 注册动态组件内容
         const DynamicComponent = Vue.extend(componentContent)
         // 将组成的组件挂载到指定的DOM
-        new DynamicComponent().$mount('#custom-' + this.moduleId)
+        if (document.querySelector('#custom-' + this.moduleId)) {
+          new DynamicComponent().$mount('#custom-' + this.moduleId)
+        }
       }
     },
     // 事件传递
