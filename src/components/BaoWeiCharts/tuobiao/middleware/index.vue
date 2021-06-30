@@ -22,7 +22,6 @@
          @chartsMethods   传出事件集合
     -->
     <section v-for="(item, index) in pageDatas(pageData)" :key="index">
-
       <statistics
         ref="statisticsAll"
         :statistics-all="item"
@@ -188,6 +187,8 @@ export default {
         legendLocation: 'center', // 图例显示位置
         barGroup: 0, // 柱体间距(%)
         barMaxWidth: 100, // 柱体最大宽度(px)
+        labelShow: true, // 图形上文本标签
+        barPosition: 'top', // 标签显示位置
         gridTop: 15, // 图表边距-顶部
         gridLeft: 60, // 图表边距-左侧
         gridBottom: 40, // 图表边距-底部
@@ -469,6 +470,11 @@ export default {
         // 初始显示/隐藏初始化
         if (item.contentAreaConfig.isShow === undefined) {
           item.contentAreaConfig.isShow = '1'
+        }
+        // 柱、条图 图形上文本标签、标签显示位置设置
+        if (item.contentAreaConfig.labelShow === undefined) {
+          item.contentAreaConfig.labelShow = true
+          item.contentAreaConfig.barPosition = 'top'
         }
         if (this.settingConfig.isBigData) {
           this.settingConfig.url = '/.DataView/view/v1/sql/resultAppend'

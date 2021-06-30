@@ -24,7 +24,8 @@ export default {
         colSort: '0', // 列排序功能 0：否 1：是
         proportion: 12, // 详情表格类列宽
         tableCustom: false, // 表格列自适应
-        isClick: '0' // 字段是否可点击
+        isClick: '0', // 字段是否可点击
+        stack: '堆栈'// 堆栈值
       },
       proportionAll: [
         {

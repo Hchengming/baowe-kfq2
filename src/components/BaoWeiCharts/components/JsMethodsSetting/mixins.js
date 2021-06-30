@@ -30,8 +30,8 @@ export default {
         this.warn = '默认参数param1为当前模块选中传递值，param2为当前点击行所有参数'
         this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(param1,param2){} `
       } else if (this.settingType === '5') {
-        this.warn = '默认参数params为当前组件信息和事件参数{ componenInfo,reqData}'
-        this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(params){} `
+        this.warn = '默认参数componenInfo为当前组件信息,reqData为事件参数,_this指向当前vue页面 function({componenInfo,reqData,_this}){}'
+        this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(componenInfo,reqData,_this){} `
       }
 
       this.isShow = true

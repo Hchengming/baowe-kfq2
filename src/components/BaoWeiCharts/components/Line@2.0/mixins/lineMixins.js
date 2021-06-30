@@ -10,6 +10,9 @@ export default {
           type: 'line',
           barGap: 0,
           data: [],
+          label: {
+            show: true
+          },
           itemStyle: {
             // 柱体背景颜色
             color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]

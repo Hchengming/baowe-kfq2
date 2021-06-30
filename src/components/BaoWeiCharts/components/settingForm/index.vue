@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog
-      :id="settingFormId()"
       v-drag
+      :id="settingFormId()"
       :append-to-body="true"
       :rules="rules"
       :modal="settingConfig.isBigData ? false : true"
@@ -270,6 +270,25 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            <el-row v-if="['histogram', 'bar'].indexOf(form.displayMode) > -1">
+              <el-col :span="8">
+                <el-form-item label="图形上文本标签" prop="labelShow">
+                  <el-switch v-model="form.labelShow" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="标签显示位置" prop="barPosition">
+                  <el-select
+                    v-model="form.barPosition"
+                    size="small"
+                    placeholder="请选择"
+                  >
+                    <el-option label="顶部" value="top" />
+                    <el-option label="内部" value="center" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-row
               v-if="['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1"
             >
@@ -299,10 +318,7 @@
             </el-row>
             <el-row>
               <el-col :span="8">
-                <el-form-item
-                  label="展现方式切换图标隐藏"
-                  prop="isDisplayModeHide"
-                >
+                <el-form-item label="展现切换图标" prop="isDisplayModeHide">
                   <el-switch v-model="form.isDisplayModeHide" />
                 </el-form-item>
               </el-col>
@@ -324,7 +340,8 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio>
+                    >服务接口</el-radio
+                    >
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -363,11 +380,9 @@
               :form="form"
             />
             <el-row>
-              <el-col v-if="form.apiType==='0'" :span="12">
+              <el-col v-if="form.apiType === '0'" :span="12">
                 <el-form-item label="视图参数传递方式" prop="viewParamType">
-                  <el-radio-group
-                    v-model="form.viewParamType"
-                  >
+                  <el-radio-group v-model="form.viewParamType">
                     <el-radio label="0">queryParamList</el-radio>
                     <el-radio label="1">where语句</el-radio>
                   </el-radio-group>

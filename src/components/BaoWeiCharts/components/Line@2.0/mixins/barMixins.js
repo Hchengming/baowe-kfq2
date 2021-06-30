@@ -76,6 +76,30 @@ export default {
       }
       return cursor
     },
+    labelOption() {
+      let obj = {
+        show: this.settingForm.labelShow, // 开启显示
+        position: this.chartType === 'bar' ? 'right' : 'top', // 在上方显示
+
+        fontSize: 15
+      }
+      // 柱状图
+      if (this.settingForm.barPosition === 'center') {
+        if (this.chartType === 'histogram') {
+          obj = Object.assign(obj, {
+            position: 'insideBottom',
+            rotate: 90,
+            align: 'left',
+            verticalAlign: 'middle',
+            distance: 15
+          })
+        } else {
+          obj.position = 'insideLeft'
+        }
+      }
+
+      return obj
+    },
     // series图表显示配置
     setBarSeries(options) {
       this.chartColumns.forEach((items, indexs) => {
@@ -89,11 +113,8 @@ export default {
             ? this.settingForm.barMaxWidth
             : 100,
           data: [],
-          label: {
-            show: true, // 开启显示
-            position: this.chartType === 'bar' ? 'right' : 'top', // 在上方显示
-            fontSize: 15
-          },
+          stack: this.setStack(items),
+          label: this.labelOption(),
           itemStyle: {
             // 柱体背景颜色
             color: this.setItemStyle(items, indexs)
@@ -107,6 +128,14 @@ export default {
 
         options.series.push(obj)
       })
+    },
+    // 堆栈设置
+    setStack(items) {
+      if (this.settingForm.barHisShowType !== '1') {
+        return undefined
+      } else {
+        return items.stack
+      }
     },
     // 柱图背景样式设置
     setItemStyle(items, indexs) {

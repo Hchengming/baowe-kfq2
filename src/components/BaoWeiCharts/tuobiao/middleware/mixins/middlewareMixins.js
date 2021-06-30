@@ -39,7 +39,8 @@ export default {
           const test = eval('(false || ' + fnc + ')')
           test({
             componenInfo: componenInfo,
-            reqData
+            reqData,
+            _this: this
           })
         } catch (e) {
           this.$message({

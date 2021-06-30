@@ -1,5 +1,5 @@
 <template>
-  <article :id="settingForm.domId" ref="listWrap" :style="listWrapStyle" class="tabs-view">
+  <article ref="listWrap" :id="settingForm.domId" :style="listWrapStyle" class="tabs-view">
     <div class="tabs-view-wrap">
       <div
 

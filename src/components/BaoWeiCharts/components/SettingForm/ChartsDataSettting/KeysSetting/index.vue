@@ -5,10 +5,15 @@
       v-if="['table', 'list'].indexOf(form.displayMode) > -1"
       size="small"
       @click="operateButtonSetting"
-    >右侧操作按钮配置</el-button>
+    >右侧操作按钮配置</el-button
+    >
     <el-button size="small" @click="tableHeaderSetting">多表头配置</el-button>
-    <el-button size="small" @click="loadJsMethodsSettingShow">数据加载完成js脚本配置</el-button>
-    <br>
+    <el-button
+      size="small"
+      @click="loadJsMethodsSettingShow"
+    >数据加载完成js脚本配置</el-button
+    >
+    <br >
     <!-- <p class="tips">
                 <span v-if="!isWidth">*第一个字段必须为图表标题字段</span>
               </p> -->
@@ -28,7 +33,8 @@
                     > -->
         <span v-if="form.submodule == '1'" class="hTxt7 hTxt">下级参数</span>
         <span v-if="form.isLinkMap == '1'" class="hTxt9 hTxt">
-          地图使用字段</span>
+          地图使用字段</span
+          >
         <span class="hTxt8 hTxt">
           列表显示
           <el-checkbox v-model="listKeyAll" @change="ListkeyChooseChange" />
@@ -37,7 +43,16 @@
           图表显示
           <el-checkbox v-model="chartsKeyAll" @change="ChartskeyChooseChange" />
         </span>
-
+        <span class="hTxt82 hTxt">图表标题字段</span>
+        <span
+          v-if="
+            form.moduleType === '0' &&
+              ['bar', 'histogram'].indexOf(form.displayMode) > -1 &&
+              form.barHisShowType === '1'
+          "
+          class="hTxt82 hTxt"
+        >堆栈</span
+        >
         <span
           v-if="
             form.moduleType === '0' &&
@@ -56,11 +71,15 @@
         >
           柱渐变色
         </span>
-        <span class="hTxt82 hTxt">图表标题字段</span>
+
         <span class="hTxt82 hTxt">表格列自适应</span>
         <span class="hTxt82 hTxt">表格列固定</span>
         <span class="hTxt82 hTxt">表格列排序</span>
-        <span class="hTxt82 hTxt">宽度占比</span>
+        <span
+          v-if="form.displayMode === 'destailTable'"
+          class="hTxt82 hTxt"
+        >宽度占比</span
+        >
         <span class="hTxt82 hTxt">可点击</span>
         <span class="hTxt91 hTxt">其他配置</span>
         <!-- <span class="hTxt5 hTxt" v-if="form.clickToShow=='cell'">下钻关联字段</span> -->
@@ -134,6 +153,30 @@
             :disabled="item.key === 'operationButton'"
           />
         </span>
+        <!-- 图表标题字段 -->
+        <span class="hTxt82 hTxt">
+          <el-checkbox
+            v-model="item.ischartsTitle"
+            :disabled="item.key === 'operationButton'"
+            @change="chartsTitleChange(item.key)"
+          />
+        </span>
+        <!-- stack 堆栈设置 -->
+        <span
+          v-if="
+            form.moduleType === '0' &&
+              ['bar', 'histogram'].indexOf(form.displayMode) > -1 &&
+              form.barHisShowType === '1'
+          "
+          class="hTxt83 hTxt"
+        >
+          <el-input
+            v-model="item.stack"
+            :disabled="!item.ischartsShow||item.ischartsTitle"
+            size="mini"
+            placeholder="堆栈设置"
+          />
+        </span>
         <!-- 柱背景颜色 -->
         <span
           v-if="
@@ -149,6 +192,7 @@
             size="mini"
           />
         </span>
+        <!-- 柱背渐变色 -->
         <span
           v-if="
             form.moduleType === '0' &&
@@ -163,14 +207,7 @@
             size="mini"
           />
         </span>
-        <!-- 图表标题字段 -->
-        <span class="hTxt82 hTxt">
-          <el-checkbox
-            v-model="item.ischartsTitle"
-            :disabled="item.key === 'operationButton'"
-            @change="chartsTitleChange(item.key)"
-          />
-        </span>
+
         <!-- 表格列自适应 -->
         <span class="hTxt82 hTxt">
           <el-checkbox
@@ -199,7 +236,8 @@
             <el-option label="是" value="1" />
           </el-select>
         </span>
-        <span class="hTxt82 hTxt">
+        <!-- 详情表格宽度占比 -->
+        <span v-if="form.displayMode === 'destailTable'" class="hTxt82 hTxt">
           <el-select
             v-model="item.proportion"
             size="small"
@@ -272,7 +310,11 @@
     <!-- 图表其他字段配置弹窗 -->
     <other-key-setting ref="otherKeySetting" :form="form" />
     <!-- js脚本配置弹窗 -->
-    <JsMethodsSetting ref="JsMethodsSetting" setting-type="5" @submit="loadJsMethodsSettingSubmit" />
+    <JsMethodsSetting
+      ref="JsMethodsSetting"
+      setting-type="5"
+      @submit="loadJsMethodsSettingSubmit"
+    />
   </div>
 </template>
 <script>
