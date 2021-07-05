@@ -96,7 +96,6 @@ export default {
     },
     // 菜单数据获取完成后页面初始化js脚本执行
     initJsMethodsImplement() {
-      console.log(this.themeOffon, this.menuOffon)
       if (this.themeOffon && this.menuOffon) {
         this.$nextTick(() => {
           const fnc = this.nowProjectConfig.jsMethods

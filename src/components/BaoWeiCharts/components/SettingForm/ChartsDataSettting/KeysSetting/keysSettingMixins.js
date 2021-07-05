@@ -2,6 +2,7 @@ import serviceAxios from '@/utils/request.js'
 export default {
   data() {
     return {
+      settingType: '', // JS脚本配置弹窗类型
       isPageDisabled: false,
       listKeyAll: false, // 列表全选
       chartsKeyAll: false, // 图表全选
@@ -25,7 +26,7 @@ export default {
         proportion: 12, // 详情表格类列宽
         tableCustom: false, // 表格列自适应
         isClick: '0', // 字段是否可点击
-        stack: '堆栈'// 堆栈值
+        stack: '堆栈' // 堆栈值
       },
       proportionAll: [
         {
@@ -137,9 +138,7 @@ export default {
       })
 
       if (!this.form.url) return false
-      const reqData = { viewId: this.form.viewId,
-        pageSize: 1,
-        pageNumber: 1 }
+      const reqData = { viewId: this.form.viewId, pageSize: 1, pageNumber: 1 }
       // 数据视图参数配置(where语句拼接)
       if (this.form.viewParamType === '1') {
         // where语句拼接
@@ -147,23 +146,23 @@ export default {
       } else {
         reqData.queryParamList = queryParamList
       }
-      serviceAxios
-        .post(window.BaseApi + this.form.url, reqData)
-        .then(res => {
-          const code = res.code
-          const resData = res.data
-          if (code === 20000) {
-            this.form.keyArr = []
-            for (const key in resData.list[0]) {
-              const obj = {
-                key,
-                explain: key
-              }
-              this.setRowKey(obj)
-              this.form.keyArr.push(obj)
+      serviceAxios.post(window.BaseApi + this.form.url, reqData).then(res => {
+        const code = res.code
+        // const resData = res.data
+        if (code === 20000) {
+          // 返回数据格式化
+          const resData = this.formattingDataJsFnc(res.data)
+          this.form.keyArr = []
+          for (const key in resData.list[0]) {
+            const obj = {
+              key,
+              explain: key
             }
+            this.setRowKey(obj)
+            this.form.keyArr.push(obj)
           }
-        })
+        }
+      })
     },
     // 字段新增数据格式化
     setRowKey(obj) {
@@ -184,6 +183,7 @@ export default {
       if (this.form.moduleType === '0') {
         // 图表字段获取
         this.form.keyArr = []
+        console.log(1)
         this.getKeys(resData => {
           let keysItem = {}
           // 判断是否为分页数据
@@ -249,12 +249,34 @@ export default {
             ? window.config.applicationInterfaceApi + this.form.url
             : this.settingConfig.dataUrl + this.form.url
       }
+      console.log(1)
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {
-          const resData = res.data
+          // 返回数据格式化
+          const resData = this.formattingDataJsFnc(resData)
           fn(resData)
         }
       })
+    },
+    // 返回数据格式化
+    formattingDataJsFnc(resData) {
+      const fnc = this.form.formattingDataJs
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        try {
+          // eslint-disable-next-line no-eval
+          const test = eval('(false || ' + fnc + ')')
+          // const data = JSON.parse(JSON.stringify(resData))
+          return test(resData)
+          // console.log(resData, '222')
+        } catch (e) {
+          this.$message({
+            type: 'error',
+            message: '组件数据格式化执行脚本问题：' + e
+          })
+        }
+      } else {
+        return resData
+      }
     },
     // 向上排序
     sortPrev(item, index, offon) {
@@ -349,15 +371,32 @@ export default {
         }
       }
     },
-    // 数据加载完成后js脚本配置--弹出显示
-    loadJsMethodsSettingShow() {
-      this.$refs['JsMethodsSetting'].show({
-        jsMethods: this.form.jsMethods
-      })
+    // js脚本配置--弹出显示
+    loadJsMethodsSettingShow(settingType) {
+      // 数据加载完成js脚本配置
+      this.settingType = settingType
+      if (settingType === '5') {
+        this.$refs['JsMethodsSetting'].show({
+          jsMethods: this.form.jsMethods,
+          settingType
+        })
+      }
+      // 数据格式化js脚本
+      if (settingType === '6') {
+        this.$refs['JsMethodsSetting'].show({
+          jsMethods: this.form.formattingDataJs,
+          settingType
+        })
+      }
     },
-    // 数据加载完成后js脚本配置--确认事件
+    // js脚本配置--确认事件
     loadJsMethodsSettingSubmit(jsMethods) {
-      this.form.jsMethods = jsMethods
+      if (this.settingType === '5') {
+        this.form.jsMethods = jsMethods
+      }
+      if (this.settingType === '6') {
+        this.form.formattingDataJs = jsMethods
+      }
     }
   }
 }

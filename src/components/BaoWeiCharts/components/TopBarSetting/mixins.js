@@ -1,4 +1,4 @@
-import serviceAxios from '@/utils/request.js'
+// import serviceAxios from '@/utils/request.js'
 export default {
   data() {
     return {
@@ -21,11 +21,11 @@ export default {
       },
       topBarSettingData: [],
       tableCloums: [{
-        label: '索引',
-        key: 'index',
-        // disabled: true,
-        formType: 'number',
-        width: 80
+        label: '标题',
+        key: 'title',
+        disabled: true,
+        formType: 'input',
+        width: 250
       }, {
         label: '背景颜色',
         key: 'background',
@@ -88,86 +88,103 @@ export default {
       )
     },
     // 字段列表数据获取事件
-    getKeys(fn) {
-      let params = {}
-      this.form.paramConfig.forEach(item => {
-        if (item.isUse) {
-          switch (item.dataType) {
-            case 'number':
-              if (Number(item.paramValue)) {
-                this.$set(params, item.paramKey, Number(item.paramValue))
-              } else {
-                params[item.paramKey] = null
-              }
-              break
-            case 'object':
-              params[item.paramKey] = null
-              if (JSON.parse(item.paramValue)) {
-                params[item.paramKey] = JSON.parse(item.paramValue)
-              }
-              break
-            default:
-              params[item.paramKey] = item.paramValue
-          }
-        }
-      })
-      // console.log(params)
-      const options = this.form.options === 'POST' ? 'post' : 'get'
-      if (options === 'get') {
-        params = {
-          params: params
-        }
-      }
-      serviceAxios[options](this.form.url, params).then(res => {
-        if (res.code === 20000) {
-          const resData = res.data
-          fn(resData)
-        }
-      })
-    },
+    // getKeys(fn) {
+    //   let params = {}
+    //   this.form.paramConfig.forEach(item => {
+    //     if (item.isUse) {
+    //       switch (item.dataType) {
+    //         case 'number':
+    //           if (Number(item.paramValue)) {
+    //             this.$set(params, item.paramKey, Number(item.paramValue))
+    //           } else {
+    //             params[item.paramKey] = null
+    //           }
+    //           break
+    //         case 'object':
+    //           params[item.paramKey] = null
+    //           if (JSON.parse(item.paramValue)) {
+    //             params[item.paramKey] = JSON.parse(item.paramValue)
+    //           }
+    //           break
+    //         default:
+    //           params[item.paramKey] = item.paramValue
+    //       }
+    //     }
+    //   })
+    //   // console.log(params)
+    //   const options = this.form.options === 'POST' ? 'post' : 'get'
+    //   if (options === 'get') {
+    //     params = {
+    //       params: params
+    //     }
+    //   }
+    //   serviceAxios[options](this.form.url, params).then(res => {
+    //     if (res.code === 20000) {
+    //       const resData = res.data
+    //       fn(resData)
+    //     }
+    //   })
+    // },
     // 字段获取
-    getKeysData() {
-      this.topBarSettingData = []
-      let offon = false
-      this.itemApiData.forEach(items => {
-        if (items.aaaRequestUrl === this.form.url && items.returnField) {
-          items.returnField.forEach(item => {
-            this.topBarSettingData.push({
-              key: item.key,
-              label: item.label,
-              dw: '',
-              isShow: true
-            })
-          })
-          offon = true
-        }
-      })
-      if (offon) return false
-      this.getKeys(resData => {
-        if (resData.constructor !== Array) {
-          this.$message({
-            message: '返回数据格式错误，需返回标准对象',
-            type: 'error'
-          })
-          return false
-        }
+    // getKeysData() {
+    //   this.topBarSettingData = []
+    //   let offon = false
+    //   this.itemApiData.forEach(items => {
+    //     if (items.aaaRequestUrl === this.form.url && items.returnField) {
+    //       items.returnField.forEach(item => {
+    //         this.topBarSettingData.push({
+    //           key: item.key,
+    //           label: item.label,
+    //           dw: '',
+    //           isShow: true
+    //         })
+    //       })
+    //       offon = true
+    //     }
+    //   })
+    //   if (offon) return false
+    //   this.getKeys(resData => {
+    //     if (resData.constructor !== Array) {
+    //       this.$message({
+    //         message: '返回数据格式错误，需返回标准对象',
+    //         type: 'error'
+    //       })
+    //       return false
+    //     }
 
-        for (const key in resData[0]) {
-          this.topBarSettingData.push({
-            key: key,
-            label: '',
-            dw: '',
-            isShow: true
-          })
-        }
-        this.topBarSettingData.forEach(items => {
-          this.form.paramConfig.forEach(item => {
-            if (items.key === item.paramKey) {
-              items.label = item.description
-            }
-          })
-        })
-      })
+    //     for (const key in resData[0]) {
+    //       this.topBarSettingData.push({
+    //         key: key,
+    //         label: '',
+    //         dw: '',
+    //         isShow: true
+    //       })
+    //     }
+    //     this.topBarSettingData.forEach(items => {
+    //       this.form.paramConfig.forEach(item => {
+    //         if (items.key === item.paramKey) {
+    //           items.label = item.description
+    //         }
+    //       })
+    //     })
+    //   })
+    // },
+    getTopData() {
+      this.bgColorSettingData = []
+      const _this = this
+      this.$emit(
+        'getTopData',
+        { form: this.form,
+          callback(data) {
+            data.forEach(item => {
+              _this.bgColorSettingData.push({
+                title: item.title,
+                background: '#3b85d8'
+              })
+            })
+          } }
+
+      )
     }
   }
 }

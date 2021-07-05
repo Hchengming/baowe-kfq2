@@ -41,6 +41,7 @@
           <fieldset class="param-config-setting">
             <!-- 请求参数配置 -->
             <legend class="theme-color">背景配置</legend>
+            <el-button type="default" size="small" @click="getTopData">数据获取</el-button>
             <colums-setting
               :table-data="bgColorSettingData"
               :table-cloums="tableCloums"

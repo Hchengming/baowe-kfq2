@@ -38,6 +38,7 @@
       @update="topBarUpdate"
       @topBarClick="topBarClick"
       @interactive="topBarInteractiveIconClick"
+      @getTopData="getTopData"
     />
     <top-bar-setting
       ref="topBarSetting"
@@ -45,6 +46,7 @@
       :item-api-data="itemApiData"
       :setting-config="settingConfig"
       @submit="topBarAdd"
+      @getTopData="getTopData"
     />
     <!-- 页面配置 -->
     <div v-if="hoverMenuIsShow()" class="hoverMenu">

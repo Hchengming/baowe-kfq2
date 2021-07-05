@@ -21,7 +21,8 @@ export default {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
-                    '/busElementConfig/getElementDataByModuleId', { moduleId: this.nowMenuItem.menuId }
+            '/busElementConfig/getElementDataByModuleId',
+          { moduleId: this.nowMenuItem.menuId }
         )
         .then(res => {
           const code = res.code
@@ -32,7 +33,8 @@ export default {
               this.topListShow = true
               this.nowElementId = resData[0].elementId
               const elementConfig = JSON.parse(resData[0].elementConfigs)
-              this.topBarAll.bgColorSettingData = elementConfig.bgColorSettingData
+              this.topBarAll.bgColorSettingData =
+                elementConfig.bgColorSettingData
               this.topBarAll.configData = elementConfig.topBarSettingData
               this.topBarAll.moduleId = resData[0].moduleId
               this.topBarAll.form = elementConfig.form
@@ -41,13 +43,27 @@ export default {
           }
         })
     },
+    // 顶部栏背景 旧版本配置兼容
+    bgColorCompatible(data) {
+      if (this.topBarAll.bgColorSettingData) {
+        this.topBarAll.bgColorSettingData.forEach(item => {
+          if (item.index) {
+            item.title = data[item.index].title
+          }
+        })
+      }
+    },
     // 顶部栏渲染是数据变化事件
     changTopAll(viewcChange) {
       viewcChange(this.topBarAll)
     },
+    // 顶部栏数据获取按钮点击事件执行
+    getTopData(params) {
+      this.getTopBarData(null, params.form, params.callback)
+    },
     // 具体数据获取
-    getTopBarData(interactiveParams) {
-      const form = this.topBarAll.form
+    getTopBarData(interactiveParams, form, callback) {
+      form = form || this.topBarAll.form
       // 特殊情况处理 (获取数据格式特殊，默认情况无法处理)
       let sftsqk = false // 当前是否未特殊情况
       this.elementMethods({
@@ -71,11 +87,13 @@ export default {
         // form.url = '/kfqcxtj/getKfqmjqkData'
         // 判断当前接口是完全接口还是测试接口
         let nowUrl = ''
-        console.log(form.url)
         if (form.url.indexOf('http') > -1) {
           nowUrl = form.url
         } else {
-          nowUrl = form.url.indexOf('/api/service') > -1 ? window.config.applicationInterfaceApi + form.url : this.settingConfig.dataUrl + form.url
+          nowUrl =
+            form.url.indexOf('/api/service') > -1
+              ? window.config.applicationInterfaceApi + form.url
+              : this.settingConfig.dataUrl + form.url
         }
         let reqData = {}
         if (form.paramConfig && form.paramConfig.length > 0) {
@@ -96,6 +114,11 @@ export default {
           const resData = res.data
           if (code === 20000) {
             this.topBarAll.data = resData
+            if (callback) {
+              callback(resData)
+            }
+            // 顶部栏背景 旧版本配置兼容
+            this.bgColorCompatible(resData)
           }
         })
       }
@@ -128,13 +151,26 @@ export default {
     // 顶部栏新增事件
     topBarAdd(elementConfig, fn) {
       // this.topBarAll = elementConfig.topBarSettingData
-      fn()
-      const reqObj = {
-        moduleId: this.nowMenuItem.menuId,
-        projectId: this.settingConfig.answerId,
-        elementConfig: elementConfig
+      if (this.topBarAll.moduleId) {
+        this.$message({
+          type: 'warning',
+          message: '一个页面只能配置一个顶部栏组件'
+        })
+        return
+      } else {
+        fn()
+        const reqObj = {
+          moduleId: this.nowMenuItem.menuId,
+          projectId: this.settingConfig.answerId,
+          elementConfig: elementConfig
+        }
+        this.topBarEmit(
+          reqObj,
+          '/busElementConfig/insertElementData',
+          '新增',
+          fn
+        )
       }
-      this.topBarEmit(reqObj, '/busElementConfig/insertElementData', '新增', fn)
     },
     // 顶部栏修改事件
     topBarUpdate(elementConfig, fn) {
@@ -170,7 +206,8 @@ export default {
     topBarDelete() {
       serviceAxios
         .post(
-          this.settingConfig.commonUrl + '/busElementConfig/deleteElemeteById', { elementId: this.nowElementId, moduleId: this.nowMenuItem.menuId }
+          this.settingConfig.commonUrl + '/busElementConfig/deleteElemeteById',
+          { elementId: this.nowElementId, moduleId: this.nowMenuItem.menuId }
         )
         .then(res => {
           const code = res.code

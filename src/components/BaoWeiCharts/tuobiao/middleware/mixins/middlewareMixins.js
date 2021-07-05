@@ -50,6 +50,27 @@ export default {
         }
       }
     },
+    // 返回数据格式化
+    formattingDataJsFnc(componenInfo, resData) {
+      console.log(componenInfo.contentAreaConfig, 'componenInfo.contentAreaConfig')
+      const fnc = componenInfo.contentAreaConfig.formattingDataJs
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        try {
+          // eslint-disable-next-line no-eval
+          const test = eval('(false || ' + fnc + ')')
+          // const data = JSON.parse(JSON.stringify(resData))
+          return test(resData)
+          // console.log(resData, '222')
+        } catch (e) {
+          this.$message({
+            type: 'error',
+            message: '组件数据格式化执行脚本问题：' + e
+          })
+        }
+      } else {
+        return resData
+      }
+    },
     setOptions(param) {
       const obj = {
         methodsName: 'setOptions',

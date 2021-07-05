@@ -9,7 +9,11 @@
     <el-button size="small" @click="tableHeaderSetting">多表头配置</el-button>
     <el-button
       size="small"
-      @click="loadJsMethodsSettingShow"
+      @click="loadJsMethodsSettingShow('6')"
+    >数据格式化js脚本</el-button>
+    <el-button
+      size="small"
+      @click="loadJsMethodsSettingShow('5')"
     >数据加载完成js脚本配置</el-button>
     <br>
     <!-- <p class="tips">
@@ -307,7 +311,6 @@
     <!-- js脚本配置弹窗 -->
     <JsMethodsSetting
       ref="JsMethodsSetting"
-      setting-type="5"
       @submit="loadJsMethodsSettingSubmit"
     />
   </div>

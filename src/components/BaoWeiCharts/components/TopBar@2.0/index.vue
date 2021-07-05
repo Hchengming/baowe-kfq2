@@ -68,6 +68,7 @@
       :item-api-data="itemApiData"
       :setting-config="settingConfig"
       @submit="settingSubmit"
+      @getTopData="getTopData"
     />
   </div>
 </template>
@@ -129,8 +130,12 @@ export default {
     listBackground(obj, index) {
       const bgColorSettingData = this.topBarAll.bgColorSettingData
       let bgColor = '#3b85d8'
-      if (bgColorSettingData && bgColorSettingData[index]) {
-        bgColor = bgColorSettingData[index].background
+      console.log(bgColorSettingData, 'bgColorSettingData')
+      if (bgColorSettingData) {
+        const item = bgColorSettingData.filter(x => { return x.title === obj.title })[0]
+        if (item && item.background) {
+          bgColor = item.background
+        }
       }
       return bgColor + '!important'
     },
@@ -158,6 +163,10 @@ export default {
     // 顶部菜单点击事件
     topBarClick(obj) {
       this.$emit('topBarClick', obj)
+    },
+    // 顶部栏数据获取事件
+    getTopData(params) {
+      this.$emit('getTopData', params)
     }
   }
 }

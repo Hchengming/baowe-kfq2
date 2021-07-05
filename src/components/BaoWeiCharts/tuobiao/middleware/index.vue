@@ -193,7 +193,8 @@ export default {
         gridLeft: 60, // 图表边距-左侧
         gridBottom: 40, // 图表边距-底部
         gridRight: 5, // 图表边距-右侧
-        jsMethods: '' // 数据加载完成后执行js脚本
+        jsMethods: '', // 数据加载完成后执行js脚本
+        formattingDataJs: '' // 返回数据格式化js脚本
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -476,6 +477,7 @@ export default {
           item.contentAreaConfig.labelShow = true
           item.contentAreaConfig.barPosition = 'top'
         }
+        //
         if (this.settingConfig.isBigData) {
           this.settingConfig.url = '/.DataView/view/v1/sql/resultAppend'
         }
@@ -786,17 +788,20 @@ export default {
           serviceAxios[options](nowUrl, reqData)
             .then(res => {
               _this.pageData[obj.index].isLoading = false
-              const resData = res.data
+              // 返回数据格式化
+              const resData = this.formattingDataJsFnc(_this.pageData[obj.index], res.data)
+              // console.log(res.data, '33')
               _this.viewDataTranslation(resData, obj, config, reqData)
               // 数据加载完成后js执行
               _this.dataLoadingFnc(_this.pageData[obj.index], reqData)
             })
             .catch(msg => {
-              // this.$message({
-              //   message: '数据请求失败' + msg,
-              //   type: 'error'
-              // })
-              console.log('数据请求失败' + msg)
+              this.$message({
+                message: '数据请求失败' + msg,
+                type: 'error'
+              })
+              // console.log('数据请求失败' + msg)
+              _this.pageData[obj.index].isLoading = false
               return false
             })
         }, nowIndex)
