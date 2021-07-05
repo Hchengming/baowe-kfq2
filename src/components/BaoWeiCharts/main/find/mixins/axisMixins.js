@@ -66,7 +66,7 @@ export default {
           if (param.close) {
             param.close()
           }
-          this.categoryConfigSelect()
+          // this.categoryConfigSelect()
         }).catch(() => {
           this.$message({
             type: 'error',
@@ -92,10 +92,10 @@ export default {
           //   message: '类目轴所有配置数据查询成功'
           // })
         }).catch(() => {
-          this.$message({
-            type: 'error',
-            message: '类目轴所有配置数据查询失败'
-          })
+          // this.$message({
+          //   type: 'error',
+          //   message: '类目轴所有配置数据查询失败'
+          // })
         })
     },
     // 删除按钮点击事件
@@ -103,7 +103,7 @@ export default {
       serviceAxios
         .post(this.settingConfig.commonUrl + '/categoryConfig/deleteCategoryConfig', { moduleId: param.moduleId })
         .then(res => {
-          this.categoryConfigSelect()
+          // this.categoryConfigSelect()
           this.$message({
             type: 'success',
             message: '类目轴删除成功'

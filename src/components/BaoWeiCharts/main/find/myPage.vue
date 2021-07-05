@@ -316,7 +316,7 @@ export default {
       // 时间轴配置数据查询
       this.timeAxisSelect()
       // 类目轴配置数据查询
-      this.categoryConfigSelect()
+      // this.categoryConfigSelect()
       // 自定义组件数据查询
       this.customComponentSelect()
 

@@ -21,8 +21,8 @@
       </el-popconfirm>
     </div>
     <ul
-      v-loading="!topBarAll.data||topBarAll.data.length===0"
       id="top-bar-box"
+      v-loading="!topBarAll.data||topBarAll.data.length===0"
       element-loading-text="数据加载中"
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.2)"

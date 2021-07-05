@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog
-      v-drag
       :id="settingFormId()"
+      v-drag
       :append-to-body="true"
       :rules="rules"
       :modal="settingConfig.isBigData ? false : true"
@@ -340,8 +340,7 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio
-                    >
+                    >服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>
