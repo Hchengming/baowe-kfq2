@@ -787,13 +787,19 @@ export default {
         setTimeout(() => {
           serviceAxios[options](nowUrl, reqData)
             .then(res => {
-              _this.pageData[obj.index].isLoading = false
-              // 返回数据格式化
-              const resData = this.formattingDataJsFnc(_this.pageData[obj.index], res.data)
-              // console.log(res.data, '33')
-              _this.viewDataTranslation(resData, obj, config, reqData)
-              // 数据加载完成后js执行
-              _this.dataLoadingFnc(_this.pageData[obj.index], reqData)
+              if (_this.pageData[obj.index]) {
+                _this.pageData[obj.index].isLoading = false
+                // 返回数据格式化
+                const resData = this.formattingDataJsFnc(
+                  _this.pageData[obj.index],
+                  res.data,
+                  reqData
+                )
+                // console.log(res.data, '33')
+                _this.viewDataTranslation(resData, obj, config, reqData)
+                // 数据加载完成后js执行
+                _this.dataLoadingFnc(_this.pageData[obj.index], reqData)
+              }
             })
             .catch(msg => {
               this.$message({

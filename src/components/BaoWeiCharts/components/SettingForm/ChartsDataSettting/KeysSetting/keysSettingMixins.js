@@ -183,7 +183,6 @@ export default {
       if (this.form.moduleType === '0') {
         // 图表字段获取
         this.form.keyArr = []
-        console.log(1)
         this.getKeys(resData => {
           let keysItem = {}
           // 判断是否为分页数据
@@ -197,6 +196,7 @@ export default {
             }
             keysItem = resData.list[0]
           } else {
+            console.log(resData, 'resData')
             if (!resData || resData.constructor !== Array) {
               this.$message({
                 message: '返回数据格式错误，需返回标准数组',
@@ -249,11 +249,10 @@ export default {
             ? window.config.applicationInterfaceApi + this.form.url
             : this.settingConfig.dataUrl + this.form.url
       }
-      console.log(1)
       serviceAxios[options](url.replace(/\s*/g, ''), params).then(res => {
         if (res.code === 20000 || res.code === 200) {
           // 返回数据格式化
-          const resData = this.formattingDataJsFnc(resData)
+          const resData = this.formattingDataJsFnc(res.data)
           fn(resData)
         }
       })
@@ -267,7 +266,6 @@ export default {
           const test = eval('(false || ' + fnc + ')')
           // const data = JSON.parse(JSON.stringify(resData))
           return test(resData)
-          // console.log(resData, '222')
         } catch (e) {
           this.$message({
             type: 'error',

@@ -72,6 +72,22 @@ export default {
           //   return ['iframe', 'topBar', 'timeAxis', 'categoryAxis'].indexOf(items.moduleType) > -1 ? 'input' : 'select'
           // },
           // selectArr: []
+        }, {
+          key: 'mapKey',
+          label: '地图交互字段',
+          width: 100,
+          formType: 'select',
+          disabled: true,
+          selectArr: [{
+            lab: '定位到区县',
+            value: 'LocalQxbyname'
+          }, {
+            lab: '定位到开发区',
+            value: 'LocalKFQByName'
+          }, {
+            lab: '合同编码',
+            value: 'locationByHtbh'
+          }]
         },
         {
           key: 'jsMethods',

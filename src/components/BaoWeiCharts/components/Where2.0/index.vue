@@ -509,18 +509,24 @@ export default {
       if (item) {
         this.iptChangeJs(item)
         // 时间日期格式转换
-        if (item.type === 'date') {
-          this.whereAll.form[item.key] = new Date(
-            this.whereAll.form[item.key]
-          ).Format('yyyy-MM-dd')
-          // console.log(this.whereAll.form[item.key])
-        } else if (item.type === 'dateTime') {
-          this.whereAll.form[item.key] = new Date(
-            this.whereAll.form[item.key]
-          ).Format('yyyy-MM-dd hh:mm:ss')
+        if (this.whereAll.form[item.key]) {
+          if (item.type === 'date') {
+            this.whereAll.form[item.key] = new Date(
+              this.whereAll.form[item.key]
+            ).Format('yyyy-MM-dd')
+          } else if (item.type === 'dateTime') {
+            this.whereAll.form[item.key] = new Date(
+              this.whereAll.form[item.key]
+            ).Format('yyyy-MM-dd hh:mm:ss')
+          }
         }
       }
       if (!offon) return
+      this.whereAll.data.forEach(x => {
+        if (!this.whereAll.form[x.key] && ['date', 'dateTime'].indexOf(x.type) > -1) {
+          this.whereAll.form[x.key] = ''
+        }
+      })
       const form = JSON.parse(JSON.stringify(this.whereAll.form))
       this.$emit('whereSubmit', form)
     },

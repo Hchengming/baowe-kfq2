@@ -214,7 +214,7 @@ export default {
         }
       })
       // 03 判断是否设置标题字段，若未设置则默认第一条配置字段
-      if (!this.titleKey) {
+      if (!this.titleKey && this.chartColumn[0]) {
         this.titleKey = this.chartColumn[0].key
       }
     },

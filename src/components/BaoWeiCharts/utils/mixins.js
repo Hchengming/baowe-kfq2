@@ -61,6 +61,53 @@ export const commonMethods = {
         }
         fn(item)
       })
+    },
+    // 反向递归
+    backRecursion(all, childNames, key, val) {
+      let indexArr = []
+      // 给顶部元素添加 arr属性放置其index
+      for (var i = 0; i < all.length; i++) {
+        all[i].arr = [all[i][key]]
+      }
+      // 给说所有元素添加 arrarr属性放置其从祖父--现在的 检索值 集合
+      const bianli = function(data) {
+        data.forEach((item) => {
+          if (item[childNames] !== undefined) {
+            if (item[childNames].length > 0) {
+              item[childNames].forEach((items) => {
+                items.arr = [item.arr, items[key]]
+              })
+            }
+            bianli(item[childNames])
+          }
+          if (item[key] === val) {
+            indexArr = item.arr
+          }
+        })
+      }
+      bianli(all)
+      // 获取递归后的 检索值 数组
+      function datas(data, fn1) {
+        data.forEach(item => {
+          if (typeof item === 'object' && item.length > 0) {
+            datas(item, fn1)
+          } else {
+            fn1(item)
+          }
+        })
+      }
+      // 返回配置值-对象-数组
+      const indexArrs = []
+      datas(indexArr, val => {
+        this.recursion(all, childNames, (item) => {
+          if (item[key] === val) {
+            indexArrs.push(item)
+          }
+        })
+      })
+      // console.log(indexArrs);
+
+      return indexArrs
     }
   }
 }

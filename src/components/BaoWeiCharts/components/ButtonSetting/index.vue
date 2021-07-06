@@ -6,7 +6,7 @@
         <td width="100" class="txt2">方法名</td>
         <td width="100" class="txt3">按钮颜色</td>
         <td width="100" class="txt3">图标</td>
-        <td width="100" class="txt3">边框显示</td>
+        <td width="100" class="txt3">边框/边距填充</td>
         <td width="100" class="txt3">显示方式</td>
         <td width="200" class="txt4">Js脚本</td>
         <td width="80" class="t-head-cz">

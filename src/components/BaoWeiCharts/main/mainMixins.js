@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       LogoObj,
+      defaultOpeneds: [], // 左侧菜单树默认打开菜单
       leftMenuWidth: '250px', // 左侧区域宽度
       themeClass: 'charts-theme2', // 项目主题类名
       nowMenuId: '', // 当前menuid
@@ -320,6 +321,8 @@ export default {
             if (offon && item.children && item.children.length > 0) {
               this.menuClickRedusion(item.children[0])
             }
+          } else {
+            this.menuJump(item.menuCode, true)
           }
         }
       })
@@ -416,22 +419,32 @@ export default {
       })
       // console.log(data)
     },
-    // 最外层--通过menuCode触发菜单跳转事件
-    menuJump(menuCode) {
+    // 最外层--通过menuCode触发菜单跳转事件  offon 是否禁止加载当前页面配置数据
+    menuJump(menuCode, offon) {
       this.menuData.forEach((items, index) => {
         if (items.menuCode === menuCode) {
           this.menuActiveIndex = index
           this.leftMenu = items.children
-          this.$refs['myPage'].menuClick(items)
+          if (!offon) {
+            this.$refs['myPage'].menuClick(items)
+          }
+
           return false
         }
         if (items.children.length > 0) {
           this.recursion(items.children, 'children', item => {
             if (item.menuCode === menuCode) {
-              this.menuActiveIndex = index
+              // this.menuActiveIndex = index
               this.leftMenu = items.children
-              this.$refs['myPage'].menuClick(item)
-              this.defaultActive = menuCode
+              if (item.children && item.children.length > 0) {
+                this.defaultOpeneds = [item.menuCode]
+              } else {
+                this.defaultActive = menuCode
+              }
+              if (!offon) {
+                this.$refs['myPage'].menuClick(items)
+              }
+              // 反向递归查找其父级、祖父级，打开页面
             }
           })
         }

@@ -1311,9 +1311,8 @@ body {
   margin-right: 0;
   margin-left: 5px;
 }
-.static-where-2 .where-form .el-date-editor--date input,
-.static-where-2 .where-form .el-date-editor--datetime input {
-  text-indent: 24px;
+.static-where-2 .where-form .el-date-editor input {
+  text-indent: 3px;
 }
 .static-where-2 .where-form .el-checkbox-group {
   margin-top: 3px;

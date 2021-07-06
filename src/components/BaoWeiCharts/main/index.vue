@@ -41,6 +41,7 @@
             ref="elMenu"
             :default-active="defaultActive"
             :collapse="isCollapse"
+            :default-openeds="defaultOpeneds"
             :unique-opened="settingConfig.menuUniqueOpened===undefined?true:settingConfig.menuUniqueOpened"
             class="el-menu-vertical-demo menu-bg-color"
           >

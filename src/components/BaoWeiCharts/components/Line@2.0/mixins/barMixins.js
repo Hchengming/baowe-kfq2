@@ -91,7 +91,7 @@ export default {
             rotate: 90,
             align: 'left',
             verticalAlign: 'middle',
-            distance: 15
+            distance: 2
           })
         } else {
           obj.position = 'insideLeft'

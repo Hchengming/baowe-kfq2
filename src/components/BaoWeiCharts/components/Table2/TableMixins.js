@@ -93,7 +93,7 @@ export default {
     },
     // 单元格样式
     cellCursorClass(key) {
-      let calss = 'cursor-default'
+      let calss = ''
       if (this.settingForm.submodule === '1') {
         if (
           this.settingForm.clickToShow === 'row' &&

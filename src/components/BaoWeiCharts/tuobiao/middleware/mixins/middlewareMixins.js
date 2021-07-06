@@ -51,15 +51,14 @@ export default {
       }
     },
     // 返回数据格式化
-    formattingDataJsFnc(componenInfo, resData) {
-      console.log(componenInfo.contentAreaConfig, 'componenInfo.contentAreaConfig')
+    formattingDataJsFnc(componenInfo, resData, reqData) {
       const fnc = componenInfo.contentAreaConfig.formattingDataJs
       if (fnc && fnc.replace(/\s*/g, '')) {
         try {
           // eslint-disable-next-line no-eval
           const test = eval('(false || ' + fnc + ')')
           // const data = JSON.parse(JSON.stringify(resData))
-          return test(resData)
+          return test({ resData, reqData })
           // console.log(resData, '222')
         } catch (e) {
           this.$message({
@@ -222,8 +221,6 @@ export default {
             })
             // this.$set(this.pageModuleData.pageData, this.pageData)
             // this.pageModuleData.pageData = JSON.parse(JSON.stringify(this.pageData))
-            // console.log(this.pageModuleData.pageData)
-            // console.log('1111111111111')
           } else {
             this.$message({
               message: '模块修改失败',
@@ -234,7 +231,6 @@ export default {
     },
     // statistics组件--模块删除事件
     deleteMoule(param) {
-      // console.log('删除')
       let reqUrl = ''
       // if (param.menuId) {
       reqUrl = '/busSecondmasterpageconfig/deleteSecondMasterPageConfigData'
@@ -406,7 +402,6 @@ export default {
     // 新增确认事件
     addKeep(param) {
       const menuId = param.menuId ? param.menuId : this.menuId
-      console.log(menuId, '----')
       if (this.parentContainerType === 'container') {
         param.contentAreaConfig.parentModuleId = this.parentModuleId
         if (this.parentTabsCode) {

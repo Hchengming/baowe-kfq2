@@ -31,7 +31,7 @@
         <el-button
           v-for="val in settingForm.operateButton"
           :key="val.name"
-          :class="[val.showBorder==='0'?'nowBorder':'showBorder','theme-color']"
+          :class="[val.showBorder==='0'?'nowBorder':'showBorder',val.type==='default'?'theme-color':'button-wihte']"
           :type="val.type"
           :icon="val.renderType === '0' ? '' : 'iconfont ' + val.icon"
           :title="val.name"
@@ -153,6 +153,9 @@ export default {
     }
     &.showBorder{
       padding: 0 10px;
+    }
+    &.button-wihte{
+      color: white;
     }
   }
 }

@@ -10,6 +10,7 @@
       class="settingForm dialog-common"
     >
       <div slot="title" class="headerTitle">模块配置信息</div>
+
       <div class="setting-form-box">
         <el-form ref="settingForm" :model="form" label-width="140px">
           <el-row type="flex" class="row-bg">
