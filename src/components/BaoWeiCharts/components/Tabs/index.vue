@@ -1,5 +1,5 @@
 <template>
-  <article ref="listWrap" :id="settingForm.domId" :style="listWrapStyle" class="tabs-view">
+  <article ref="listWrap" :id="settingForm.domId" :style="listWrapStyle" :class="['tabs-view',{'admin':settingConfig.systemPermissions==='admin'}]">
     <div class="tabs-view-wrap">
       <div
 
@@ -31,6 +31,7 @@
         </div>
       </div>
       <stretch
+        v-if="settingConfig.systemPermissions==='admin'"
         :setting-form="settingForm"
         :stretch-elelemt="stretchElelemt"
         @stretchkeep="TZLSKeep"
@@ -160,7 +161,7 @@ export default {
     }
   }
 }
-.tabs-view:hover {
+.tabs-view.admin:hover {
   border: 1px dashed rgb(59, 133, 216);
   .stretch {
     display: block;

@@ -152,7 +152,7 @@
             :title="whereAll.form[item.key]"
             :style="{ width: item.rightWidth + 'px' }"
             size="small"
-            placeholder="请选择12"
+            placeholder="字段选择"
             @change="onSubmit(item.isInsert == '1', item)"
           >
             <el-option
@@ -162,6 +162,17 @@
               :value="option.value"
             />
           </el-select>
+          <!-- 输入框 -->
+          <!-- <span v-if="item.type == 'key-select'">-</span> -->
+          <el-input
+            v-if="item.type == 'key-select'"
+            v-model="whereAll.form[item.key+'Value']"
+            :style="{ width: '100px' }"
+            :title="whereAll.form[item.key+'Value']"
+            size="small"
+            placeholder="字段对应值"
+            @change="onSubmit(item.isInsert == '1', item)"
+          />
           <!-- 其他 通用配置项 -->
           <div
             v-if="['country-radio', 'country-select'].indexOf(item.type) > -1"
@@ -527,8 +538,15 @@ export default {
         if (!this.whereAll.form[x.key] && ['date', 'dateTime'].indexOf(x.type) > -1) {
           this.whereAll.form[x.key] = ''
         }
+        if (x.type === 'key-select') {
+          this.whereAll.form[this.whereAll.form[x.key]] = this.whereAll.form[x.key + 'Value']
+          console.log(x.key, this.whereAll.form[this.whereAll.form[x.key]], this.whereAll.form[this.whereAll.form[x.key + 'Value']], 'this.whereAll.form[this.whereAll.form[x.key]]')
+          delete this.whereAll.form[x.key + 'Value']
+          delete this.whereAll.form[x.key]
+        }
       })
       const form = JSON.parse(JSON.stringify(this.whereAll.form))
+      console.log(form, 'form')
       this.$emit('whereSubmit', form)
     },
     // 表单数值变化监听，执行js脚本
