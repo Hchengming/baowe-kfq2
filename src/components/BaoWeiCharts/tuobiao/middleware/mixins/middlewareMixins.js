@@ -24,11 +24,24 @@ export default {
     // iframe组件显示隐藏控制
     iframeHideShow(reqObj, items, item) {
       // console.log(reqObj, items, item, 'iframe组件显示隐藏控制')
+      let nowItem = null
       this.pageData.forEach(x => {
         if (x.moduleId === item.moduleId) {
-          x.isShow = item.hideShow === '1'
+          if (item.hideShow) {
+            nowItem = x
+            x.isShow = item.hideShow === '1'
+          }
         }
       })
+      // iframe组件地图交互
+      if (item.mapKey) {
+        const iframeId = nowItem.contentAreaConfig.iframeAll.iframeId || 'ifrmmap'
+        const doc = document.getElementById(iframeId)
+        doc.contentWindow.postMessage(`${item.mapKey}|${reqObj.rowItem[items.paramsChoose]}`, '*')
+      }
+
+      // console.log(reqObj, items, item, '000')
+      // console.log(iframeId)
     },
     // 组件数据加载完成后执行事件
     dataLoadingFnc(componenInfo, reqData) {

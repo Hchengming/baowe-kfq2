@@ -77,16 +77,18 @@ export default {
           label: '地图交互字段',
           width: 100,
           formType: 'select',
-          disabled: true,
+          disabled(items) {
+            return ['iframe'].indexOf(items.moduleType) === -1
+          },
           selectArr: [{
             lab: '定位到区县',
-            value: 'LocalQxbyname'
+            val: 'LocalQxbyname'
           }, {
             lab: '定位到开发区',
-            value: 'LocalKFQByName'
+            val: 'LocalKFQByName'
           }, {
             lab: '合同编码',
-            value: 'locationByHtbh'
+            val: 'locationByHtbh'
           }]
         },
         {
