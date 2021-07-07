@@ -511,9 +511,10 @@ export default {
         // 时间日期格式转换
         if (this.whereAll.form[item.key]) {
           if (item.type === 'date') {
+            const str = item.dateType === 'year' ? 'yyyy' : item.dateType === 'month' ? 'yyyy-MM' : 'yyyy-MM-dd'
             this.whereAll.form[item.key] = new Date(
               this.whereAll.form[item.key]
-            ).Format('yyyy-MM-dd')
+            ).Format(str)
           } else if (item.type === 'dateTime') {
             this.whereAll.form[item.key] = new Date(
               this.whereAll.form[item.key]

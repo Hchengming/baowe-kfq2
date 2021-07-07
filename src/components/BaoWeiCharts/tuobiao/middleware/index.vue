@@ -194,7 +194,8 @@ export default {
         gridBottom: 40, // 图表边距-底部
         gridRight: 5, // 图表边距-右侧
         jsMethods: '', // 数据加载完成后执行js脚本
-        formattingDataJs: '' // 返回数据格式化js脚本
+        formattingDataJs: '', // 返回数据格式化js脚本
+        suspensionFrameJs: '' // 图表悬浮框js脚本
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -237,7 +238,6 @@ export default {
     },
     // 图表组件被交互事件
     interactiveCover(params, interactiveCondig) {
-      console.log(interactiveCondig, 'interactiveCondig')
       let reqObj = {}
       this.whereData.forEach(item => {
         if (item.moduleId === interactiveCondig.moduleId && params) {

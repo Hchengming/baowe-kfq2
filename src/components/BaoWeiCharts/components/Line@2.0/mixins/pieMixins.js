@@ -32,6 +32,12 @@ export default {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c} ({d}%)'
       }
+      const fnc = this.settingForm.suspensionFrameJs
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        options.tooltip.formatter = (params) => {
+          return this.suspensionFrameFnc(params)
+        }
+      }
     },
     // 饼图、环图显示数据设置
     pieLabelSetting(options) {

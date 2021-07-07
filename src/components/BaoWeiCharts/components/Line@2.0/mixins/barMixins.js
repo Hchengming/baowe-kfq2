@@ -15,19 +15,26 @@ export default {
         })
         totalArr[index] = max
       })
+      const _this = this
       // 02 显示配置
       options.tooltip = {
         trigger: 'axis',
+        color: 'red',
         formatter(params) {
-          let str = `${params[0].axisValue}`
-          params.forEach((item, index) => {
-            const bfb = Number(item.data)
-              ? Math.floor((item.data / totalArr[index]) * 10000) / 100
-              : 0
+          const fnc = _this.settingForm.suspensionFrameJs
+          if (fnc && fnc.replace(/\s*/g, '')) {
+            return _this.suspensionFrameFnc(params)
+          } else {
+            let str = `${params[0].axisValue}`
+            params.forEach((item, index) => {
+              const bfb = Number(item.data)
+                ? Math.floor((item.data / totalArr[index]) * 10000) / 100
+                : 0
 
-            str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb})%`
-          })
-          return str
+              str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb})%`
+            })
+            return str
+          }
         }
       }
     },
@@ -76,11 +83,10 @@ export default {
       }
       return cursor
     },
-    labelOption() {
+    labelOption(stackArr) {
       let obj = {
         show: this.settingForm.labelShow, // 开启显示
         position: this.chartType === 'bar' ? 'right' : 'top', // 在上方显示
-
         fontSize: 15
       }
       // 柱状图
@@ -96,12 +102,68 @@ export default {
         } else {
           obj.position = 'insideLeft'
         }
+      } else {
+        if (this.settingForm.barHisShowType === '1') {
+          obj.formatter = param => {
+            let num = ''
+
+            stackArr.forEach(x => {
+              if (param.seriesName === x.explain) {
+                num = 0
+
+                x.keyArr.forEach(y => {
+                  // console.log(this.data[param.dataIndex][y])
+                  if (this.data[param.dataIndex]) {
+                    num += this.data[param.dataIndex][y.key]
+                  }
+                })
+                if (x.keyArr.length > 1) {
+                  num = `合计:${num}`
+                }
+              }
+            })
+            // console.log(num, 'num')
+            return num
+          }
+        }
       }
 
       return obj
     },
     // series图表显示配置
     setBarSeries(options) {
+      // 堆叠图数值显示字段(只有顶部块显示)
+      const stackArr = []
+      if (this.settingForm.barHisShowType === '1') {
+        this.chartColumns.forEach(item => {
+          if (item.stack) {
+            let offon = true
+            stackArr.forEach(x => {
+              if (x.stack === item.stack) {
+                offon = false
+                // console.log(item)
+                x.explain = item.explain
+                x.keyArr.push({
+                  explain: item.explain,
+                  key: item.key
+                })
+              }
+            })
+            if (offon) {
+              stackArr.push({
+                stack: item.stack,
+                explain: item.explain,
+                keyArr: [
+                  {
+                    explain: item.explain,
+                    key: item.key
+                  }
+                ]
+              })
+            }
+          }
+        })
+      }
       this.chartColumns.forEach((items, indexs) => {
         const obj = {
           name: items.title,
@@ -114,7 +176,7 @@ export default {
             : 100,
           data: [],
           stack: this.setStack(items),
-          label: this.labelOption(),
+          label: this.labelOption(stackArr),
           itemStyle: {
             // 柱体背景颜色
             color: this.setItemStyle(items, indexs)
@@ -162,7 +224,8 @@ export default {
     // x轴、y轴公共配置
     setBarAxis(options) {
       const valueAxis = {
-        type: 'value'
+        type: 'value',
+        axisLabel: {}
       }
       const dataTitle = []
       this.data.forEach(item => {
@@ -204,6 +267,15 @@ export default {
       this.xAxisLabel.rotate = this.settingForm.xRotate
       options.xAxis.axisLabel = this.xAxisLabel
       options.yAxis.axisLabel = this.yAxisLabel
+      if (this.chartType === 'bar') {
+        options.xAxis.axisLabel.formatter = function(param) {
+          return param
+        }
+      } else {
+        options.yAxis.axisLabel.formatter = function(param) {
+          return param
+        }
+      }
     }
   }
 }

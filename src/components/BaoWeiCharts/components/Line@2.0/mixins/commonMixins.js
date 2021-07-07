@@ -379,6 +379,27 @@ export default {
         chartsHeight -= 25
       }
       return chartsHeight
+    },
+    // 图表悬浮框js脚本
+    suspensionFrameFnc(params) {
+      const fnc = this.settingForm.suspensionFrameJs
+      let str = ''
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        try {
+          // eslint-disable-next-line no-eval
+          const test = eval('(false || ' + fnc + ')')
+          str = test({
+            params,
+            _this: this
+          })
+        } catch (e) {
+          this.$message({
+            type: 'error',
+            message: '图表悬浮框执行脚本问题：' + e
+          })
+        }
+      }
+      return str
     }
   }
 }

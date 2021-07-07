@@ -136,7 +136,7 @@
                 v-if="['histogram', 'bar'].indexOf(form.displayMode) > -1"
                 :span="8"
               >
-                <el-form-item label="图形显示" prop="titleShow">
+                <el-form-item label="图形显示" prop="barHisShowType">
                   <el-radio-group v-model="form.barHisShowType">
                     <el-radio label="0">默认</el-radio>
                     <el-radio label="1">堆叠图</el-radio>

@@ -386,6 +386,13 @@ export default {
           settingType
         })
       }
+      // 图表悬浮框js脚本
+      if (settingType === '7') {
+        this.$refs['JsMethodsSetting'].show({
+          jsMethods: this.form.suspensionFrameJs,
+          settingType
+        })
+      }
     },
     // js脚本配置--确认事件
     loadJsMethodsSettingSubmit(jsMethods) {
@@ -394,6 +401,9 @@ export default {
       }
       if (this.settingType === '6') {
         this.form.formattingDataJs = jsMethods
+      }
+      if (this.settingType === '7') {
+        this.form.suspensionFrameJs = jsMethods
       }
     }
   }

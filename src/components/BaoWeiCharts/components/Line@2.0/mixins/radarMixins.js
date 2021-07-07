@@ -50,6 +50,12 @@ export default {
     // 悬浮框 tooltip 配置
     setRadarToopTip(options) {
       options.tooltip = {}
+      const fnc = this.settingForm.suspensionFrameJs
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        options.tooltip.formatter = (params) => {
+          return this.suspensionFrameFnc(params)
+        }
+      }
     }
   }
 }

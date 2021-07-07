@@ -14,7 +14,12 @@
     <el-button
       size="small"
       @click="loadJsMethodsSettingShow('5')"
-    >数据加载完成js脚本配置</el-button>
+    >数据加载完成js脚本</el-button>
+    <el-button
+      v-if=" ['bar', 'histogram','ring','pie','radar'].indexOf(form.displayMode) > -1"
+      size="small"
+      @click="loadJsMethodsSettingShow('7')"
+    >图表悬浮框js脚本</el-button>
     <br>
     <!-- <p class="tips">
                 <span v-if="!isWidth">*第一个字段必须为图表标题字段</span>
