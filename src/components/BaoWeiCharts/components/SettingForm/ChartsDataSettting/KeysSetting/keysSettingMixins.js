@@ -26,7 +26,9 @@ export default {
         proportion: 12, // 详情表格类列宽
         tableCustom: false, // 表格列自适应
         isClick: '0', // 字段是否可点击
-        stack: '堆栈' // 堆栈值
+        stack: '堆栈', // 堆栈值
+        lineLabelPosition: 'top', // 折线图标签位置
+        lineLabelTop: 0 // 标签偏移量(top)
       },
       proportionAll: [
         {

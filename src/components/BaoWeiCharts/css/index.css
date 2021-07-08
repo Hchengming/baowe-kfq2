@@ -260,7 +260,7 @@ body {
   padding-bottom: 10px;
 }
 .pageSetting .el-drawer {
-  width: 265px !important;
+  width: 404px !important;
   position: absolute;
 }
 .pageSetting .assembly_wrap {
@@ -307,6 +307,15 @@ body {
 }
 .pageSetting .assembly_wrap li:hover .mengban {
   display: block;
+}
+.pageSetting .theme-choose .el-radio.is-bordered {
+  padding: 0 10px;
+  line-height: 36px;
+  width: 172px;
+  margin-right: 20px;
+}
+.pageSetting .theme-choose .el-radio.is-bordered:nth-child(2n) {
+  margin-right: 0;
 }
 /*queryStatistics */
 .queryStatistics {

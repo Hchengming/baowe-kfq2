@@ -193,6 +193,7 @@ export default {
         gridLeft: 60, // 图表边距-左侧
         gridBottom: 40, // 图表边距-底部
         gridRight: 5, // 图表边距-右侧
+
         jsMethods: '', // 数据加载完成后执行js脚本
         formattingDataJs: '', // 返回数据格式化js脚本
         suspensionFrameJs: '' // 图表悬浮框js脚本
@@ -477,7 +478,7 @@ export default {
           item.contentAreaConfig.labelShow = true
           item.contentAreaConfig.barPosition = 'top'
         }
-        //
+        // 大数据编排视图请求地址定死
         if (this.settingConfig.isBigData) {
           this.settingConfig.url = '/.DataView/view/v1/sql/resultAppend'
         }

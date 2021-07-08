@@ -61,11 +61,11 @@
         <span
           v-if="
             form.moduleType === '0' &&
-              ['bar', 'histogram'].indexOf(form.displayMode) > -1
+              ['bar', 'histogram','line'].indexOf(form.displayMode) > -1
           "
           class="hTxt83 hTxt"
         >
-          柱背景色
+          背景色
         </span>
         <span
           v-if="
@@ -74,7 +74,7 @@
           "
           class="hTxt83 hTxt"
         >
-          柱渐变色
+          渐变色
         </span>
 
         <span class="hTxt82 hTxt">表格列自适应</span>
@@ -185,7 +185,7 @@
         <span
           v-if="
             form.moduleType === '0' &&
-              ['bar', 'histogram'].indexOf(form.displayMode) > -1
+              ['bar', 'histogram','line'].indexOf(form.displayMode) > -1
           "
           class="hTxt83 hTxt"
         >

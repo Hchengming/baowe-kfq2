@@ -7,7 +7,9 @@ export default {
       otherKeySetting: {
         cellRenderer: null, // 单元格数据自定义js脚本渲染
         tipRenderer: null, // 单元格鼠标移入悬浮框内容自定义js脚本渲染
-        colDataformat: null // 表格数据格式化
+        colDataformat: null, // 表格数据格式化
+        lineLabelPosition: 'top', // 折线图标签位置
+        lineLabelTop: 0 // 标签偏移量(top)
       }
     }
   },
@@ -18,7 +20,9 @@ export default {
           this.otherKeySetting = {
             cellRenderer: null,
             tipRenderer: null,
-            colDataformat: null
+            colDataformat: null,
+            lineLabelPosition: 'top', // 折线图标签位置
+            lineLabelTop: 0 // 标签偏移量(top)
           }
         }
       }

@@ -62,6 +62,7 @@
             :setting-config="settingConfig"
             :now-project-config="nowProjectConfig"
             :slot-name="slotName"
+            :menu-data="menuData"
             @projectConfigChange="projectConfigChange"
             @projectConfigSubmit="projectConfigSubmit"
             @getMenuData="getMenuChange"

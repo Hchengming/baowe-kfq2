@@ -10,8 +10,27 @@
       <el-form
         ref="otherKeySettingForm"
         :model="otherKeySetting"
-        label-width="110px"
+        label-width="140px"
       >
+        <el-form-item v-if="form.displayMode==='line'" class="row-ipt" label="标签位置">
+          <el-select
+            v-model="otherKeySetting.lineLabelPosition"
+            size="small"
+            placeholder="折线图标签位置"
+          >
+            <el-option label="顶部" value="top" />
+            <el-option label="底部" value="bottom" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="form.displayMode==='line'" class="row-ipt" label="标签偏移量(top)">
+          <el-input-number
+            v-model="otherKeySetting.lineLabelTop"
+            :min="-300"
+            :max="300"
+            controls-position="right"
+            size="small"
+          />
+        </el-form-item>
         <el-form-item class="row-textarea" label="表格单元格渲染">
           <el-input
             v-model="otherKeySetting.cellRenderer"

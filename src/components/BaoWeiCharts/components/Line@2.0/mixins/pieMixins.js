@@ -80,6 +80,10 @@ export default {
         seriesData.push({
           value: Number(item[this.chooseItem.key]) ? Number(item[this.chooseItem.key]) : item[this.chooseItem.key],
           name: item[this.titleKey]
+          // itemStyle:{
+          //    // 背景颜色
+          //    color: items.zBgColor ? items.zBgColor : this.colorArr[indexs]
+          // }
         })
       })
       options.series = [{

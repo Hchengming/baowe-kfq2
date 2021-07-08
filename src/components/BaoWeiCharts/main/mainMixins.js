@@ -29,7 +29,9 @@ export default {
       themeOffon: false,
       nowProjectConfig: {
         theme: 2,
-        jsMethods: ''
+        jsMethods: '',
+        defaultMenuCode: '', // 初始选择页面菜单编码
+        defaultMenuName: ''// 初始选择页面菜单名称
       } // 当前查询后主题配置页面数据
     }
   },
@@ -88,6 +90,8 @@ export default {
         .then(res => {
           if (res.data && res.data.projectConfigs) {
             this.nowProjectConfig = JSON.parse(res.data.projectConfigs)
+            this.nowProjectConfig.defaultMenuName = this.nowProjectConfig.defaultMenuName || ''
+            this.nowProjectConfig.defaultMenuCode = this.nowProjectConfig.defaultMenuCode || ''
             this.themeClass = 'charts-theme' + this.nowProjectConfig.theme
             this.settingConfig.theme = this.nowProjectConfig.theme
           }
@@ -114,9 +118,15 @@ export default {
               })
             }
           }
+
           if (this.menuData) {
-            this.topMenuClick(this.menuData[0], 0)
-            console.log(this.leftMenu, 'this.menuData[0]')
+            // 1、配置了页面初始菜单
+            if (this.nowProjectConfig.defaultMenuCode) {
+              this.menuJump(this.nowProjectConfig.defaultMenuCode)
+            } else {
+            // 2、没有配置，自动加载打开第一个页面
+              this.topMenuClick(this.menuData[0], 0)
+            }
           }
         })
       }
@@ -432,9 +442,11 @@ export default {
           return false
         }
         if (items.children.length > 0) {
+          // const isChoose = false
           this.recursion(items.children, 'children', item => {
             if (item.menuCode === menuCode) {
-              // this.menuActiveIndex = index
+              // isChoose
+              this.menuActiveIndex = index
               this.leftMenu = items.children
               if (item.children && item.children.length > 0) {
                 this.defaultOpeneds = [item.menuCode]

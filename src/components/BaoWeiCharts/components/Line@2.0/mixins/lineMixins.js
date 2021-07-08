@@ -5,13 +5,17 @@ export default {
     },
     setLineSeries(options) {
       this.chartColumns.forEach((items, indexs) => {
+        console.log(items, items.lineLabelPosition, items.lineLabelTop)
         const obj = {
           name: items.title,
           type: 'line',
           barGap: 0,
           data: [],
           label: {
-            show: true
+            show: true,
+            distance: items.lineLabelTop || undefined,
+            fontSize: 15,
+            position: items.lineLabelPosition || 'top'
           },
           itemStyle: {
             // 柱体背景颜色

@@ -69,7 +69,7 @@
           >
             页面
           </li>
-          <li v-if="!settingConfig.isBigData" @click="rightDrawerShow('theme')">主题</li>
+          <li v-if="!settingConfig.isBigData" @click="rightDrawerShow('theme')">项目</li>
         </ul>
       </div>
     </div>
@@ -98,6 +98,7 @@
       <!-- 项目配置  主题配置 -->
       <project-config
         v-if="rightDrawerType == 'theme'"
+        :menu-data="menuData"
         :now-project-config="nowProjectConfig"
         @projectConfigChange="projectConfigChange"
         @projectConfigSubmit="projectConfigSubmit"
@@ -224,6 +225,9 @@ export default {
     nowProjectConfig: {
       type: Object,
       default: null
+    },
+    menuData: {
+      type: Array, default: null
     }
   },
   data() {
@@ -344,7 +348,7 @@ export default {
           this.rightDrawerTypeTitle = '组件新增'
           break
         case 'theme':
-          this.rightDrawerTypeTitle = '主题选择'
+          this.rightDrawerTypeTitle = '项目初始化配置'
           break
       }
       this.settingDrawer = true
