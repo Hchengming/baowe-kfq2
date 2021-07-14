@@ -12,6 +12,16 @@
         :model="otherKeySetting"
         label-width="140px"
       >
+        <el-form-item v-if="['line','histogram'].indexOf(form.displayMode)>-1" class="row-ipt" label="y轴坐标">
+          <el-select
+            v-model="otherKeySetting.yCoordinate"
+            size="small"
+            placeholder="y轴坐标选择(多个度量至少要有一个选择坐标1)"
+          >
+            <el-option label="坐标1(左侧坐标轴)" value="0" />
+            <el-option label="坐标2(右侧坐标轴)" value="1" />
+          </el-select>
+        </el-form-item>
         <el-form-item v-if="form.displayMode==='line'" class="row-ipt" label="标签位置">
           <el-select
             v-model="otherKeySetting.lineLabelPosition"

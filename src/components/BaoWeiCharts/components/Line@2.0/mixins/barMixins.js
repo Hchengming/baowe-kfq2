@@ -31,7 +31,7 @@ export default {
                 ? Math.floor((item.data / totalArr[index]) * 10000) / 100
                 : 0
 
-              str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb})%`
+              str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb}%)`
             })
             return str
           }
@@ -238,21 +238,49 @@ export default {
         type: 'category',
         data: dataTitle
       }
-
+      let offonx = false
       if (this.chartType === 'bar') {
         options.xAxis = valueAxis
         options.yAxis = dataAxis
       } else if (this.chartType === 'histogram' || this.chartType === 'line') {
         options.xAxis = dataAxis
-        options.yAxis = valueAxis
+        // 判断当前图表y轴是否为多个坐标轴
+
+        this.chartColumns.forEach(x => {
+          if (x.yCoordinate === '1') {
+            offonx = true
+          }
+          console.log(x, 'this.chartColumns.')
+        })
+        if (offonx) {
+          options.yAxis = [valueAxis, valueAxis]
+        } else {
+          options.yAxis = [valueAxis]
+        }
       }
       // y轴名称
       if (this.settingForm.yName) {
-        options.yAxis.name = this.settingForm.yName
-        options.yAxis.nameLocation = 'end'
-        options.yAxis.nameTextStyle = {
-          color: this.settingConfig.theme === 1 ? '#d3c6c6' : '#3b85d8'
-        }
+        // if (offonx) {
+        const arrName = this.settingForm.yName.split(',')
+        console.log(arrName)
+        const arr = JSON.parse(JSON.stringify(options.yAxis))
+        arr.map((x, index) => {
+          if (arrName[index]) {
+            x.name = arrName[index]
+            console.log(x.name, ' x.name')
+            x.nameLocation = 'end'
+            x.nameTextStyle = {
+              color: this.settingConfig.theme === 1 ? '#d3c6c6' : '#3b85d8'
+            }
+          }
+        })
+        options.yAxis = arr
+        // }
+        // options.yAxis.name = this.settingForm.yName
+        // options.yAxis.nameLocation = 'end'
+        // options.yAxis.nameTextStyle = {
+        //   color: this.settingConfig.theme === 1 ? '#d3c6c6' : '#3b85d8'
+        // }
       }
       // x轴名称
       if (this.settingForm.xName) {
@@ -266,15 +294,29 @@ export default {
       // console.log(this.settingConfig)
       this.xAxisLabel.rotate = this.settingForm.xRotate
       options.xAxis.axisLabel = this.xAxisLabel
-      options.yAxis.axisLabel = this.yAxisLabel
+      // if (offonx) {
+      //   options.yAxis[0].axisLabel = this.yAxisLabel
+      //   options.yAxis[1].axisLabel = this.yAxisLabel
+      // } else {
+      //   options.yAxis.axisLabel = this.yAxisLabel
+      // }
+      options.yAxis.map(x => {
+        x.axisLabel = this.yAxisLabel
+      })
       if (this.chartType === 'bar') {
         options.xAxis.axisLabel.formatter = function(param) {
           return param
         }
       } else {
-        options.yAxis.axisLabel.formatter = function(param) {
-          return param
-        }
+        options.yAxis.map(x => {
+          x.axisLabel.formatter = function(param) {
+            return param
+          }
+        })
+        console.log(options.yAxis, 'options.yAxis')
+        // options.yAxis.axisLabel.formatter = function(param) {
+        //   return param
+        // }
       }
     }
   }

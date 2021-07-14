@@ -35,7 +35,7 @@ export default {
       } else if (settingType === '6') {
         this.warn = '默认参数resData为当前接口返回数据,reqData为事件参数 function({resData,reqData}){return resData}'
       } else if (settingType === '7') {
-        this.warn = '默认参数params为当前图表当前条数据参数 function({params}){return 123}'
+        this.warn = '默认参数params为当前图表当前条数据参数,_this指向当前组件 function({params,_this}){return 123}'
       }
 
       this.isShow = true

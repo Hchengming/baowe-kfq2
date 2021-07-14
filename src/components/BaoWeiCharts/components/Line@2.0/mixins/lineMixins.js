@@ -5,12 +5,12 @@ export default {
     },
     setLineSeries(options) {
       this.chartColumns.forEach((items, indexs) => {
-        console.log(items, items.lineLabelPosition, items.lineLabelTop)
         const obj = {
           name: items.title,
           type: 'line',
           barGap: 0,
           data: [],
+          yAxisIndex: items.yCoordinate === '1' ? 1 : undefined,
           label: {
             show: true,
             distance: items.lineLabelTop || undefined,

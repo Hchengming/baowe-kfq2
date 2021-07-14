@@ -93,6 +93,7 @@ export default {
   box-sizing: border-box;
   border: 1px dashed transparent;
   overflow: hidden;
+  border-radius: 5px;
   .tabs-view-wrap {
     position: relative;
     width: 100%;

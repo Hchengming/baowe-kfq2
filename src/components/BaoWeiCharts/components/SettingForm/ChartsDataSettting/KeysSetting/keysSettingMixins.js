@@ -28,7 +28,8 @@ export default {
         isClick: '0', // 字段是否可点击
         stack: '堆栈', // 堆栈值
         lineLabelPosition: 'top', // 折线图标签位置
-        lineLabelTop: 0 // 标签偏移量(top)
+        lineLabelTop: 0, // 标签偏移量(top)
+        yCoordinate: '0'// 折线图、柱状图坐标选择
       },
       proportionAll: [
         {

@@ -405,7 +405,6 @@ export default {
             //   this.leftMenu = this.menuData[0].children
             // }
             this.menuOffon = true
-            console.log(1)
             this.initJsMethodsImplement()
           }
         })
@@ -454,7 +453,7 @@ export default {
                 this.defaultActive = menuCode
               }
               if (!offon) {
-                this.$refs['myPage'].menuClick(items)
+                this.$refs['myPage'].menuClick(item)
               }
               // 反向递归查找其父级、祖父级，打开页面
             }

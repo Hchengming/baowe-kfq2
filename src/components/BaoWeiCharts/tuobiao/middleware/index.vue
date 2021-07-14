@@ -435,7 +435,13 @@ export default {
       // 页面配置
       if (item.contentAreaConfig) {
         // 模块配置数据格式转换
-        item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
+        try {
+          item.contentAreaConfig = JSON.parse(item.contentAreaConfig)
+        } catch (e) {
+          item.contentAreaConfig = {}
+          console.log(e)
+          // item.contentAreaConfig={}
+        }
         // 菜单跳转字段旧版本未添加处理
         if (!item.contentAreaConfig.menuTapAll) {
           item.contentAreaConfig.menuTapAll = {

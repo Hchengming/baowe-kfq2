@@ -12,7 +12,7 @@ export default {
   methods: {
     // tabs切换点击事件
     handleClick() {
-      console.log(this.form.keyArr)
+      // console.log(this.form.keyArr)
       // if (this.activeName === 'first') {
       //     this.$refs['paramKeyConfig'].paramKeyConfigHenx()
       // }
