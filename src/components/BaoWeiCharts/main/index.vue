@@ -94,7 +94,9 @@ import MyPage from './find/myPage'
 import menuSetting from './find/menuSetting'
 import { commonMethods } from '../utils/mixins.js'
 import JSMixins from './mainMixins.js'
-
+import Vue from 'vue'
+import serviceAxios from '@/utils/request.js'
+Vue.prototype.$serviceAxios = serviceAxios
 export default {
   name: 'Wrap',
   components: { MyMenu, MyPage, menuSetting },

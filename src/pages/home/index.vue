@@ -58,7 +58,7 @@ export default {
         theme: '2', // 当前已配置主题选择 0:老实蓝色背景 1：大屏展示类背景风格 2：深蓝色主题风格(默认为2)
         isTestEnvironment: 'node', // 后台版本是否为node测试环境
         answerId: '001', // 应用id
-        menuUniqueOpened: false
+        menuUniqueOpened: true
       }
     }
   },

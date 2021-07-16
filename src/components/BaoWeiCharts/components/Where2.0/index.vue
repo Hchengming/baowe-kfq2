@@ -557,7 +557,8 @@ export default {
         const test = eval('(false || ' + funcStr + ')')
         test({
           form: this.whereAll.form,
-          key: item.key
+          key: item.key,
+          settingForm: this.settingForm
         })
       }
     },
@@ -584,6 +585,10 @@ export default {
       }
       this.$emit('whereOtherBtnClick', buttonSetting)
     }
+  },
+  function(obj) {
+    // console.log(obj)
+
   }
 }
 </script>

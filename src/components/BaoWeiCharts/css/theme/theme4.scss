@@ -281,6 +281,20 @@
             //     }
             // }
         }
+        >.el-menu-item {
+            color: #333333;
+            font-size: 16px;
+        }
+        >.el-menu-item.is-active {
+            color: #1890FF;
+            background-color: #F8FAFC;
+            // box-shadow: 0 0 3px red;
+            // text-shadow: 0 0 1px red;
+            font-weight: bold;
+            .iconfont {
+                color: #1890FF;
+            }
+        }
     }
     .el-form {
         .el-form-item {

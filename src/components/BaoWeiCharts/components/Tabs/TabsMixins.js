@@ -84,7 +84,25 @@ export default {
       this.$emit('delete', this.moduleId)
     },
     // tabs点击事件
-    handleClick() {},
+    handleClick() {
+      const fnc = this.settingForm.tabsJs
+      if (fnc && fnc.replace(/\s*/g, '')) {
+        try {
+          // eslint-disable-next-line no-eval
+          const test = eval('(false || ' + fnc + ')')
+          test({
+            activeName: this.activeName,
+            settingForm: this.settingForm,
+            _this: this
+          })
+        } catch (e) {
+          this.$message({
+            type: 'error',
+            message: '组件数据加载完成后执行脚本问题：' + e
+          })
+        }
+      }
+    },
     // 拖拽、拉伸后提交事件
     TZLSKeep() {
       this.$emit('tabsSettingSubmit', this.settingForm, null, this.moduleId)

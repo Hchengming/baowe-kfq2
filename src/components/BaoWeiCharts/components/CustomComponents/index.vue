@@ -1,51 +1,81 @@
 <template>
-  <article
-    ref="listWrap"
-    :style="listWrapStyle"
-    :class="[
-      'custom-components-view',
-      { 'custom-components-view-admin': isAdmin }
-    ]"
-  >
-    <div class="custom-components-wrap">
-      <div class="operation clearfix" @mousedown="mousedown_tz">
-        <span class="title">{{ settingForm.title }}</span>
-        <!-- <div class="right"> -->
-        <i class="iconfont iconxiugai theme-color" @click="edit" />
-        <el-popconfirm
-          icon="el-icon-info"
-          class="delete-template-popconfirm"
-          icon-color="red"
-          title="确认删除当前组件？"
-          @confirm="deleteTemplate"
-        >
-          <i slot="reference" title="删除" class="el-icon-delete" />
-        </el-popconfirm>
-        <!-- </div> -->
-      </div>
-
-      <div :id="'custom-' + moduleId" />
-      <stretch
-        :setting-form="settingForm"
-        :stretch-elelemt="stretchElelemt"
-        @stretchkeep="TZLSKeep"
-      />
-    </div>
-    <!-- 自定义组件配置 -->
-    <custom-components-setting
-      ref="customComponentsSetting"
-      :custom-components-config="settingForm"
-      @componentFunc="componentFunc"
+  <div>
+    <div
+      v-if="settingForm.mask && settingForm.mask == '1'"
+      v-show="settingForm.isShow !== false"
+      :style="{ 'z-index': settingForm.zindex }"
+      class="statisticsMask"
+      @click="customComponentsViewClose"
     />
-  </article>
+    <article
+      v-show="settingForm.isShow"
+      ref="listWrap"
+      :style="listWrapStyle"
+      :class="[
+        'custom-components-view',
+        { 'custom-components-view-admin': isAdmin }
+      ]"
+    >
+      <div class="custom-components-wrap">
+        <i
+          v-if="settingForm.isModuleClose"
+          class="el-icon-close"
+          @click="customComponentsViewClose"
+        />
+        <div
+          v-show="isAdmin || settingForm.isHeaderHide"
+          :class="[
+            'operation',
+            {
+              hide: isAdmin && !settingForm.isHeaderHide
+            },
+            'clearfix'
+          ]"
+          @mousedown="mousedown_tz"
+        >
+          <span class="title">{{ settingForm.title }}</span>
+          <!-- <div class="right"> -->
+          <i class="iconfont iconxiugai theme-color" @click="edit" />
+          <el-popconfirm
+            icon="el-icon-info"
+            class="delete-template-popconfirm"
+            icon-color="red"
+            title="确认删除当前组件？"
+            @confirm="deleteTemplate"
+          >
+            <i
+              slot="reference"
+              :class="[
+                'el-icon-delete',
+                { marginR: settingForm.isModuleClose }
+              ]"
+              title="删除"
+            />
+          </el-popconfirm>
+          <!-- </div> -->
+        </div>
+
+        <div :id="'custom-' + moduleId" />
+        <stretch
+          :setting-form="settingForm"
+          :stretch-elelemt="stretchElelemt"
+          @stretchkeep="TZLSKeep"
+        />
+      </div>
+      <!-- 自定义组件配置 -->
+      <custom-components-setting
+        ref="customComponentsSetting"
+        :custom-components-config="settingForm"
+        @componentFunc="componentFunc"
+      />
+    </article>
+  </div>
 </template>
 <script>
 import Stretch from '../Stretch'
 import drag from '../../utils/drag'
 import CustomComponentsSetting from '../CustomComponentsSetting'
 import Vue from 'vue'
-import serviceAxios from '@/utils/request.js'
-Vue.prototype.$serviceAxios = serviceAxios
 export default {
   components: { Stretch, CustomComponentsSetting },
   props: {
@@ -129,6 +159,7 @@ export default {
     },
     // 修改按钮点击事件
     edit() {
+      console.log(this.settingForm, 'edit')
       this.$refs['customComponentsSetting'].show()
     },
     // 组件删除事件
@@ -164,6 +195,10 @@ export default {
           moduleId: this.moduleId
         }
       })
+    },
+    // 弹窗关闭事件
+    customComponentsViewClose() {
+      this.settingForm.isShow = false
     }
   }
 }
@@ -175,13 +210,22 @@ export default {
   left: 0;
   width: 300px;
   height: 300px;
-  border: 1px dashed transparent;
+
   background: white;
   .custom-components-wrap {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    .el-icon-close {
+      position: absolute;
+      font-size: 22px;
+      right: 2px;
+      top: 2px;
+      color: #333333;
+      cursor: pointer;
+      z-index: 9999999999;
+    }
     .operation {
       position: absolute;
       height: 40px;
@@ -189,8 +233,8 @@ export default {
       text-align: right;
       background: #e8e8e8;
       line-height: 40px;
-      display: none;
-      span.title{
+
+      span.title {
         float: left;
         padding-left: 10px;
       }
@@ -202,15 +246,24 @@ export default {
       .el-icon-delete {
         color: red;
       }
+      .marginR {
+        margin-right: 30px;
+      }
+    }
+    .operation.hide {
+      display: none;
     }
   }
+}
+.custom-components-view-admin {
+  border: 1px dashed transparent;
 }
 .custom-components-view-admin:hover {
   border: 1px dashed rgb(59, 133, 216);
   .stretch {
     display: block;
   }
-  .operation{
+  .operation.hide {
     display: block;
   }
 }

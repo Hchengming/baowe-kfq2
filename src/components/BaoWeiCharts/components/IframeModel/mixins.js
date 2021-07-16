@@ -1,7 +1,8 @@
 export default {
   data() {
     return {
-      iframeStyle: {}
+      iframeStyle: {},
+      offon: true// iframe渲染开关
 
     }
   },
@@ -13,20 +14,33 @@ export default {
         ).contentWindow.location.href = this.iframeAll.iframeUrl
       }
     })
-    this.bigDataInit()
+    this.iframeInit()
   },
   watch: {
     // iframe路径变化监听
     'settingForm.iframeAll.iframeUrl': {
       handler() {
-        this.bigDataInit()
+        this.iframeInit()
       },
       deep: true
     }
   },
   methods: {
-    // 数据编排项目地图初始化
-    bigDataInit() {
+    //
+    iframeInit() {
+      if (this.settingForm.iframeAll && this.offon) {
+        this.offon = false
+        const doc = document.getElementById(this.iframeId())
+        if (doc) {
+          doc.src = ''
+          setTimeout(() => {
+            this.offon = true
+            doc.src = this.settingForm.iframeAll.iframeUrl
+            doc.contentWindow.location.href = this.settingForm.iframeAll.iframeUrl
+          }, 100)
+        }
+      }
+      // 数据编排项目地图初始化
       if (
         this.settingForm.iframeAll &&
         this.settingForm.iframeAll.iframeType === '0' &&

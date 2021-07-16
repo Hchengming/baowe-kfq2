@@ -199,6 +199,20 @@ export default {
           })
         })
       }
+
+      // 六、自定义组件
+      if (this.customComponentsData.length > 0) {
+        this.customComponentsData.forEach((item, index) => {
+          this.interactiveModuleAll.push({
+            moduleId: item.moduleId,
+            moduleName: item.config.title
+              ? item.config.title
+              : 'customComponent' + index,
+            type: 'customComponent',
+            interactiveParams: []
+          })
+        })
+      }
     },
     /* 阶段二--交互配置数据保存和查询*/
 
@@ -279,7 +293,6 @@ export default {
     },
     // 表格右侧按钮点击事件
     interactiveTableButtonClick(reqObj) {
-      console.log(reqObj, 'reqObj')
       this.interactiveModuleId = reqObj.moduleId
       const contentAreaConfig = reqObj.statisticsAll.contentAreaConfig
       const arr = ['table', 'list']
@@ -352,7 +365,7 @@ export default {
       const reqObj = {
         rowItem: rowItem
       }
-      console.log(reqObj, '1')
+
       this.interactiveImplement(reqObj)
     },
 
@@ -372,7 +385,6 @@ export default {
           const offon = reqObj.key ? reqObj.key === items.paramsChoose : true
           if (offon) {
             items.otherModuleConfig.forEach(item => {
-              console.log(item.moduleType, 'item.moduleType')
               if (item.moduleType) {
                 if (chartsTypeArr.indexOf(item.moduleType) > -1) {
                   // 图表组件集
@@ -404,10 +416,16 @@ export default {
                     if (items.triggerEvent === triggerEvent) {
                       offon2 = true
                     } else {
-                      if (triggerEvent === 'cellClick' && items.triggerEvent === 'click') {
+                      if (
+                        triggerEvent === 'cellClick' &&
+                        items.triggerEvent === 'click'
+                      ) {
                         offon2 = true
                       }
-                      if (triggerEvent === 'operationClick' && reqObj.buttonSetting.name === items.triggerEvent) {
+                      if (
+                        triggerEvent === 'operationClick' &&
+                        reqObj.buttonSetting.name === items.triggerEvent
+                      ) {
                         offon2 = true
                       }
                     }
@@ -415,6 +433,7 @@ export default {
                     offon2 = true
                   }
                   if (!offon2) return
+
                   switch (item.moduleType) {
                     case 'iframe': // iframe嵌入框
                       this.$refs['middleware'].iframeHideShow(
@@ -428,11 +447,14 @@ export default {
                       this.topBarBeInteractive(reqObj, items, item)
                       break
                     case 'timeAxis': // 时间轴
-                      console.log(reqObj, items, item)
+
                       this.timeAxisBeInteractive(reqObj, items, item)
                       break
                     case 'tabs': // tabs切换
                       this.tabsBeInteractive(reqObj, items, item)
+                      break
+                    case 'customComponent': // 自定义组件交互
+                      this.customComponentBeInteractive(reqObj, items, item)
                       break
                   }
                 }
@@ -462,9 +484,12 @@ export default {
         try {
           // eslint-disable-next-line no-eval
           const test = eval(`(false || ${item.jsMethods})`)
-          test({
-            [item.corParams]: reqObj.rowItem[items.paramsChoose]
-          }, reqObj.rowItem)
+          test(
+            {
+              [item.corParams]: reqObj.rowItem[items.paramsChoose]
+            },
+            reqObj.rowItem
+          )
         } catch (e) {
           this.$message({
             type: 'error',

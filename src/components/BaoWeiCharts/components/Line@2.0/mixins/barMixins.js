@@ -171,6 +171,7 @@ export default {
           barGap: this.settingForm.barGroup
             ? this.settingForm.barGroup / 100
             : 0,
+          yAxisIndex: items.yCoordinate === '1' && this.chartType === 'histogram' ? 1 : undefined,
           barMaxWidth: this.settingForm.barMaxWidth
             ? this.settingForm.barMaxWidth
             : 100,
@@ -239,9 +240,27 @@ export default {
         data: dataTitle
       }
       let offonx = false
+      // 判断是否右最大度量设置
+      let maxNumArr = null
+      if (this.settingForm.maxNum) {
+        maxNumArr = this.settingForm.maxNum.split(',')
+        console.log(maxNumArr, 'maxNumArr')
+        maxNumArr.map(x => {
+          if (Number(x)) {
+            x = Number(x)
+          } else {
+            this.$message({
+              type: 'error',
+              message: '最大度量设置含有非数字字符，请检查'
+            })
+            x = undefined
+          }
+        })
+      }
       if (this.chartType === 'bar') {
         options.xAxis = valueAxis
-        options.yAxis = dataAxis
+        if (maxNumArr) { options.xAxis.max = maxNumArr[0] }
+        options.yAxis = [dataAxis]
       } else if (this.chartType === 'histogram' || this.chartType === 'line') {
         options.xAxis = dataAxis
         // 判断当前图表y轴是否为多个坐标轴
@@ -250,24 +269,30 @@ export default {
           if (x.yCoordinate === '1') {
             offonx = true
           }
-          console.log(x, 'this.chartColumns.')
         })
         if (offonx) {
           options.yAxis = [valueAxis, valueAxis]
         } else {
           options.yAxis = [valueAxis]
         }
+        // 最大度量设置
+        const arr = JSON.parse(JSON.stringify(options.yAxis))
+        arr.map((x, index) => {
+          if (maxNumArr && maxNumArr[index]) {
+            x.max = maxNumArr[index]
+          }
+        })
+        options.yAxis = arr
       }
       // y轴名称
       if (this.settingForm.yName) {
         // if (offonx) {
         const arrName = this.settingForm.yName.split(',')
-        console.log(arrName)
         const arr = JSON.parse(JSON.stringify(options.yAxis))
         arr.map((x, index) => {
           if (arrName[index]) {
             x.name = arrName[index]
-            console.log(x.name, ' x.name')
+
             x.nameLocation = 'end'
             x.nameTextStyle = {
               color: this.settingConfig.theme === 1 ? '#d3c6c6' : '#3b85d8'
@@ -291,7 +316,7 @@ export default {
           color: this.settingConfig.theme === 1 ? '#d3c6c6' : '#3b85d8'
         }
       }
-      // console.log(this.settingConfig)
+
       this.xAxisLabel.rotate = this.settingForm.xRotate
       options.xAxis.axisLabel = this.xAxisLabel
       // if (offonx) {
@@ -313,7 +338,7 @@ export default {
             return param
           }
         })
-        console.log(options.yAxis, 'options.yAxis')
+
         // options.yAxis.axisLabel.formatter = function(param) {
         //   return param
         // }

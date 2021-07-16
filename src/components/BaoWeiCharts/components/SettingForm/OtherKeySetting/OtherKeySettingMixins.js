@@ -9,7 +9,8 @@ export default {
         tipRenderer: null, // 单元格鼠标移入悬浮框内容自定义js脚本渲染
         colDataformat: null, // 表格数据格式化
         lineLabelPosition: 'top', // 折线图标签位置
-        lineLabelTop: 0 // 标签偏移量(top)
+        lineLabelTop: 0, // 标签偏移量(top)
+        yCoordinate: '0'// 折线图、柱状图坐标选择
       }
     }
   },
@@ -22,7 +23,8 @@ export default {
             tipRenderer: null,
             colDataformat: null,
             lineLabelPosition: 'top', // 折线图标签位置
-            lineLabelTop: 0 // 标签偏移量(top)
+            lineLabelTop: 0, // 标签偏移量(top)
+            yCoordinate: '0'
           }
         }
       }

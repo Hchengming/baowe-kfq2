@@ -109,7 +109,9 @@ export default {
               // eslint-disable-next-line no-eval
               const test = eval('(false || ' + fnc + ')')
               test({
-                menuData: this.menuData
+                menuData: this.menuData,
+                _this: this,
+                serviceAxios
               })
             } catch (e) {
               this.$message({

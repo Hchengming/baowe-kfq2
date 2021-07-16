@@ -13,7 +13,7 @@
       label-width="130px"
     >
       <el-row type="flex" class="row-bg">
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="标题" prop="title">
             <el-input
               v-model="customComponentsConfig.title"
@@ -23,7 +23,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <el-form-item label="视图层级" prop="zindex">
             <el-input
               v-model="customComponentsConfig.zindex"
@@ -33,6 +33,28 @@
             />
           </el-form-item>
         </el-col>
+        <el-col :span="8">
+          <el-form-item label="组件隐藏/显示" prop="isShow">
+            <el-switch v-model="customComponentsConfig.isShow" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="标题栏是否隐藏" prop="isHeaderHide">
+            <el-switch v-model="customComponentsConfig.isHeaderHide" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="模块是否可关闭" prop="isModuleClose">
+            <el-switch v-model="customComponentsConfig.isModuleClose" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item prop="mask" label="是否添加遮罩层">
+            <el-switch v-model="customComponentsConfig.mask" />
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-form-item label="js部分代码" prop="js">
         <el-input
@@ -40,7 +62,7 @@
           :rows="5"
           type="textarea"
           size="small"
-          placeholder="若模块重叠,低层级模块会被高层级覆盖"
+          placeholder="自定义组件js部分代码{}"
         />
       </el-form-item>
       <el-form-item label="template部分代码" prop="temp">
@@ -49,7 +71,7 @@
           :rows="5"
           size="small"
           type="textarea"
-          placeholder="若模块重叠,低层级模块会被高层级覆盖"
+          placeholder="自定义组件html代码"
         />
       </el-form-item>
       <el-row type="flex" class="row-bg">
@@ -166,3 +188,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.custom-components-setting-dialog {
+  >>> .el-dialog {
+    width: 1000px;
+  }
+}
+</style>

@@ -196,7 +196,8 @@ export default {
 
         jsMethods: '', // 数据加载完成后执行js脚本
         formattingDataJs: '', // 返回数据格式化js脚本
-        suspensionFrameJs: '' // 图表悬浮框js脚本
+        suspensionFrameJs: '', // 图表悬浮框js脚本
+        maxNum: ''// 度量最大值设置(双坐标轴以逗号隔开)
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆

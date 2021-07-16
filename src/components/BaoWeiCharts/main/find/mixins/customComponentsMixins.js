@@ -14,7 +14,10 @@ export default {
         zindex: 8,
         title: '', // 标题
         parentModuleId: '', // 父级容器组件id
-        parentTabsCode: ''// 父级容器编码（用于选项卡）
+        parentTabsCode: '', // 父级容器编码（用于选项卡）
+        isHeaderHide: false, // 标题栏显示隐藏
+        isModuleClose: false, // 模块是否可关闭
+        mask: false// 是否添加遮罩层
       },
       customComponentsParamStr: ''// 交互传值监听
     }
@@ -23,6 +26,15 @@ export default {
     this.customComponentsChange()
   },
   methods: {
+    // 自定义组件被交互事件
+    customComponentBeInteractive(reqObj, items, item) {
+      console.log(reqObj, items, item)
+      this.customComponentsData.forEach(x => {
+        if (x.moduleId === item.moduleId) {
+          x.config.isShow = item.hideShow === '1'
+        }
+      })
+    },
     // 设置定时器监听组件交互情况
     customComponentsChange() {
       setInterval(() => {
@@ -62,6 +74,7 @@ export default {
           this.getTimeAxisDatas2(object.param, object.interactiveModuleId)
         }
       })
+      //
     },
     // 自定义模块配置页面弹出
     customComponentsSettingShow() {
@@ -121,9 +134,19 @@ export default {
           res.data.map(item => {
             item.config = JSON.parse(item.config)
           })
+          // 新开发功能旧版本兼容
+          res.data.forEach(x => {
+            x.config.isHeaderHide = x.config.isHeaderHide || false
+            x.config.isModuleClose = x.config.isModuleClose || false
+            x.config.mask = x.config.mask || false
+            x.config.isShow = x.config.isShow === undefined ? true : x.config.isShow
+            if (this.settingConfig.systemPermissions === 'admin') {
+              x.config.isShow = true
+            }
+          })
 
           this.customComponentsData = res.data
-          // console.log('111', this.customComponentsData)
+          console.log(this.customComponentsData, 'this.customComponentsData')
         })
         .catch(() => {
           this.$message({

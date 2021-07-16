@@ -316,6 +316,18 @@
                   />
                 </el-form-item>
               </el-col>
+
+            </el-row>
+            <el-row>
+              <el-col :span="8">
+                <el-form-item label="度量最大值" prop="maxNum">
+                  <el-input
+                    v-model="form.maxNum"
+                    placeholder="度量最大值设置(双坐标轴以逗号隔开)"
+                    size="small"
+                  />
+                </el-form-item>
+              </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">

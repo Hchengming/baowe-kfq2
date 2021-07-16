@@ -16,12 +16,9 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="标题栏显示" prop="titleIsShow">
-            <el-switch
-              v-model="tabsForm.titleIsShow"
-            />
+            <el-switch v-model="tabsForm.titleIsShow" />
           </el-form-item>
         </el-col>
-
       </el-row>
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
@@ -47,9 +44,21 @@
       </el-row>
       <fieldset class="keys-config-setting">
         <legend class="theme-color">tabs切换栏设置</legend>
-        <colums-setting :table-cloums="titleColums" :table-data="tabsForm.titleData" />
+        <colums-setting
+          :table-cloums="titleColums"
+          :table-data="tabsForm.titleData"
+        />
       </fieldset>
-
+      <el-row style="margin-top:10px" type="flex" class="row-bg">
+        <el-form-item style="width:100%" label="tabs切换脚本" prop="tabsJs">
+          <el-input
+            v-model="tabsForm.tabsJs"
+            :rows="10"
+            type="textarea"
+            placeholder="tabs切换点击执行js脚本function(param){}"
+          />
+        </el-form-item>
+      </el-row>
       <el-row type="flex" class="row-bg">
         <el-col :span="12">
           <el-form-item label="宽度(页面占比)" prop="width">
@@ -123,4 +132,3 @@ export default {
   }
 }
 </script>
-
