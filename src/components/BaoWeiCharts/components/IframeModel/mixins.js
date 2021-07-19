@@ -35,8 +35,8 @@ export default {
           doc.src = ''
           setTimeout(() => {
             this.offon = true
-            doc.src = this.settingForm.iframeAll.iframeUrl
-            doc.contentWindow.location.href = this.settingForm.iframeAll.iframeUrl
+            doc.src = this.iframeFormat()
+            doc.contentWindow.location.href = this.iframeFormat()
           }, 100)
         }
       }
@@ -107,8 +107,10 @@ export default {
           str = this.settingConfig.bigData.iframeDefaultUrl
         }
       }
+
       return str
     },
+
     // 递归循环修改src
     recursion(url, fn) {
       const num1 = url.indexOf('${') + 2

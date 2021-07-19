@@ -74,7 +74,12 @@ export default {
           this.getTimeAxisDatas2(object.param, object.interactiveModuleId)
         }
       })
-      //
+      // 4、交互对象为自定义组件(显示/隐藏控制)
+      this.customComponentsData.forEach(item => {
+        if (item.moduleId === object.interactiveModuleId) {
+          item.config.isShow = object.hideShow === 1
+        }
+      })
     },
     // 自定义模块配置页面弹出
     customComponentsSettingShow() {

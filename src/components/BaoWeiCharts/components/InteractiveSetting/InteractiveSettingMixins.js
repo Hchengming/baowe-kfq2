@@ -89,6 +89,9 @@ export default {
           }, {
             lab: '合同编码',
             val: 'locationByHtbh'
+          }, {
+            lab: '宗地位置',
+            val: 'locationByZdwz'
           }]
         },
         {

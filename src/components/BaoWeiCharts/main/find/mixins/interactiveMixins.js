@@ -433,7 +433,7 @@ export default {
                     offon2 = true
                   }
                   if (!offon2) return
-
+                  this.iframeBeInteractive(reqObj, items, item)
                   switch (item.moduleType) {
                     case 'iframe': // iframe嵌入框
                       this.$refs['middleware'].iframeHideShow(
@@ -441,13 +441,12 @@ export default {
                         items,
                         item
                       )
-                      this.iframeBeInteractive(reqObj, items, item)
+
                       break
                     case 'topBar': // 顶部栏
                       this.topBarBeInteractive(reqObj, items, item)
                       break
                     case 'timeAxis': // 时间轴
-
                       this.timeAxisBeInteractive(reqObj, items, item)
                       break
                     case 'tabs': // tabs切换
