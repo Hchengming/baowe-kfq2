@@ -197,7 +197,7 @@ export default {
         jsMethods: '', // 数据加载完成后执行js脚本
         formattingDataJs: '', // 返回数据格式化js脚本
         suspensionFrameJs: '', // 图表悬浮框js脚本
-        maxNum: ''// 度量最大值设置(双坐标轴以逗号隔开)
+        maxNum: '' // 度量最大值设置(双坐标轴以逗号隔开)
       },
       addSettingFormClone: {},
       conditionAreaConfigClone: {}, // 旧的筛选数据克隆
@@ -411,6 +411,9 @@ export default {
           obj.currentPage = param.paginationAll.currentPage
           obj.url = item.contentAreaConfig.url
           nowItem = item
+
+          item.whereForm = JSON.parse(JSON.stringify(param.whereForm))
+
           if (item.parentModuleId) {
             // 子级页面分页--测试
             offon = false
@@ -662,7 +665,9 @@ export default {
           paramValue = JSON.parse(paramValue)
           break
       }
-
+      if (item.type === 'checkbox') {
+        paramValue = JSON.parse(paramValue)
+      }
       return paramValue
     },
     // 数据获取参数配置
@@ -697,6 +702,9 @@ export default {
       }
       // 03-筛选变化后参数导入
       if (whereReqData) {
+        if (config.whereForm) {
+          Object.assign(reqData, config.whereForm)
+        }
         Object.assign(reqData, whereReqData)
       }
       // 04-区县-单选数据处理

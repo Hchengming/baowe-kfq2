@@ -4,7 +4,7 @@
       <tr class="t-head">
         <td width="100" class="txt1">按钮名</td>
         <td width="100" class="txt2">方法名</td>
-        <td width="100" class="txt3">按钮颜色</td>
+        <td width="50" class="txt3">颜色</td>
         <td width="100" class="txt3">图标</td>
         <td width="100" class="txt3">边框/边距填充</td>
         <td width="100" class="txt3">显示方式</td>
@@ -25,8 +25,8 @@
           />
         </td>
 
-        <td>
-          <el-select v-model="item.type" size="small" placeholder="按钮颜色">
+        <td style="text-algin:center">
+          <!-- <el-select v-model="item.type" size="small" placeholder="按钮颜色">
             <el-option
               v-for="value in buttonTypeArr"
               :key="value"
@@ -36,7 +36,8 @@
             >
               <el-button :type="value" size="small">{{ value }}</el-button>
             </el-option>
-          </el-select>
+          </el-select> -->
+          <el-color-picker v-model="item.color" />
         </td>
         <td>
           <el-select v-model="item.icon" size="small" placeholder="按钮图标">

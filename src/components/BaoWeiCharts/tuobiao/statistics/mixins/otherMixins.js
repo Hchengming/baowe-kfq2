@@ -13,7 +13,7 @@ export default {
       },
       boxOffon: false, // 内容区域显示控制
       stretchElelemt: null, // 被拉伸元素
-      defaultForm: {}// 表单项默认参数
+      defaultForm: {} // 表单项默认参数
     }
   },
   watch: {
@@ -48,19 +48,24 @@ export default {
         : document.getElementsByClassName('my_main_content')[0]
       style = {
         top:
-              parseFloat((this.settingForm.top * element.clientHeight) / 100) +
-              'px',
+          parseFloat((this.settingForm.top * element.clientHeight) / 100) +
+          'px',
         left:
-              parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
-              'px',
+          parseFloat((this.settingForm.left * element.scrollWidth) / 100) +
+          'px',
         'z-index': this.settingForm.zindex,
         width: (this.settingForm.width * element.scrollWidth) / 100 + 'px',
         height: (this.settingForm.height * element.clientHeight) / 100 + 'px'
-
       }
-      // this.setDemos()
-      // console.log(style, 'stysettingFormle')
-      // }
+      if (
+        this.settingForm.moduleType === '1' &&
+        this.statisticsAll.isShow === false
+      ) {
+        style.position = 'fixed'
+        style.left = window.innerWidth + 'px'
+      } else {
+        style.position = 'absolute'
+      }
 
       return style
     },
@@ -72,7 +77,7 @@ export default {
       let title = ''
       if (
         this.statisticsAll.isRowDrillDown === '1' ||
-          this.statisticsAll.drillDownKeyAll
+        this.statisticsAll.drillDownKeyAll
       ) {
         title = '当前模块已配置有子级，是否强制删除当前模块和所有子级模块？'
       } else {
@@ -92,16 +97,15 @@ export default {
         })
       })
 
-      exportExcel(cloums, this.statisticsAll.data, this.settingForm.title, 'text', [], [], this)
-
-      // console.log(copyTableColumns,
-      //   copyTableData,
-      //   name,
-      //   firstWorkName,
-      //   this.exportExcelAll.filter,
-      //   this.exportExcelAll.otherTable,
-      //   this)
-      console.log(this.nowClums())
+      exportExcel(
+        cloums,
+        this.statisticsAll.data,
+        this.settingForm.title,
+        'text',
+        [],
+        [],
+        this
+      )
     },
     // 表单内容区域高度
     boxHeight() {
@@ -120,7 +124,7 @@ export default {
             offon = true
           }
         })
-        if (offon)Height = this.modelStyle.height - 56 - this.whereHeight
+        if (offon) Height = this.modelStyle.height - 56 - this.whereHeight
       }
 
       // iframe模块
@@ -169,7 +173,9 @@ export default {
       let offon = this.isAdmin
       // 大数据编排项目判断
       if (this.settingConfig.isBigData) {
-        offon = this.settingConfig.answerId === this.settingConfig.bigData.bigDataTemplateId
+        offon =
+          this.settingConfig.answerId ===
+          this.settingConfig.bigData.bigDataTemplateId
       }
       return offon
     },
@@ -190,5 +196,4 @@ export default {
       this.boxOffon = offon
     }
   }
-
 }

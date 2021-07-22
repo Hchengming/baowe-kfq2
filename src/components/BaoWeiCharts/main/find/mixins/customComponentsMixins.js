@@ -4,7 +4,8 @@ export default {
   data() {
     return {
       customComponentsData: [], // 当前页面自定义组件数据
-      customComponentsConfig: {// 自定义组件配置数据
+      customComponentsConfig: {
+        // 自定义组件配置数据
         js: '', // js部分内容
         temp: '', // template(html)部分内容
         left: 1,
@@ -17,9 +18,9 @@ export default {
         parentTabsCode: '', // 父级容器编码（用于选项卡）
         isHeaderHide: false, // 标题栏显示隐藏
         isModuleClose: false, // 模块是否可关闭
-        mask: false// 是否添加遮罩层
+        mask: false // 是否添加遮罩层
       },
-      customComponentsParamStr: ''// 交互传值监听
+      customComponentsParamStr: '' // 交互传值监听
     }
   },
   mounted() {
@@ -28,7 +29,6 @@ export default {
   methods: {
     // 自定义组件被交互事件
     customComponentBeInteractive(reqObj, items, item) {
-      console.log(reqObj, items, item)
       this.customComponentsData.forEach(x => {
         if (x.moduleId === item.moduleId) {
           x.config.isShow = item.hideShow === '1'
@@ -48,16 +48,17 @@ export default {
     },
     // 交互对象判断
     customInteractive(object) {
-      // console.log(object, 'object')
       let offon = false
       if (!object || !object.interactiveModuleId) return
       // 1、判断是否为图表组件集交互
       const pageData = this.$refs['middleware'].pageData
 
       pageData.forEach(config => {
-        if (config.moduleId === object.interactiveModuleId) {
-          this.$refs['middleware'].interactiveCover(object.param, { moduleId: object.interactiveModuleId,
-            hideShow: object.hideShow })
+        if (object.interactiveModuleId.indexOf(config.moduleId) > -1) {
+          this.$refs['middleware'].interactiveCover(object.param, {
+            moduleId: config.moduleId,
+            hideShow: object.hideShow
+          })
           offon = true
         }
       })
@@ -76,7 +77,7 @@ export default {
       })
       // 4、交互对象为自定义组件(显示/隐藏控制)
       this.customComponentsData.forEach(item => {
-        if (item.moduleId === object.interactiveModuleId) {
+        if (object.interactiveModuleId.indexOf(item.moduleId) > -1) {
           item.config.isShow = object.hideShow === 1
         }
       })
@@ -131,7 +132,8 @@ export default {
     customComponentSelect() {
       serviceAxios
         .post(
-          this.settingConfig.commonUrl + '/customComponents/selectCustomComponentsConfig',
+          this.settingConfig.commonUrl +
+            '/customComponents/selectCustomComponentsConfig',
           { menuId: this.nowMenuItem.menuId }
         )
         .then(res => {
@@ -144,7 +146,8 @@ export default {
             x.config.isHeaderHide = x.config.isHeaderHide || false
             x.config.isModuleClose = x.config.isModuleClose || false
             x.config.mask = x.config.mask || false
-            x.config.isShow = x.config.isShow === undefined ? true : x.config.isShow
+            x.config.isShow =
+              x.config.isShow === undefined ? true : x.config.isShow
             if (this.settingConfig.systemPermissions === 'admin') {
               x.config.isShow = true
             }
@@ -164,7 +167,8 @@ export default {
     customComponentsDelete(param) {
       serviceAxios
         .post(
-          this.settingConfig.commonUrl + '/customComponents/deleteCustomComponentsConfig',
+          this.settingConfig.commonUrl +
+            '/customComponents/deleteCustomComponentsConfig',
           { moduleId: param.moduleId }
         )
         .then(res => {

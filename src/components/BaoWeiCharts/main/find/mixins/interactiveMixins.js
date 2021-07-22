@@ -479,6 +479,8 @@ export default {
     // (iframe)被交互事件 或其他js脚本执行
     iframeBeInteractive(reqObj, items, item) {
       // eslint-disable-next-line no-eval
+      // console.log(reqObj, items, item)
+
       if (item.jsMethods && item.jsMethods.replace(/\s*/g, '')) {
         try {
           // eslint-disable-next-line no-eval
@@ -487,7 +489,8 @@ export default {
             {
               [item.corParams]: reqObj.rowItem[items.paramsChoose]
             },
-            reqObj.rowItem
+            reqObj.rowItem,
+            { statisticsAll: reqObj.statisticsAll }
           )
         } catch (e) {
           this.$message({

@@ -8,7 +8,7 @@
       @click="statisticsClose"
     />
     <article
-      v-show="statisticsAll.isShow !== false"
+      v-show="statisticsAll.isShow !== false||settingForm.moduleType==='1'"
       :id="settingForm.elementId ? settingForm.elementId : undefined"
       :ref="'statisticsWrap'"
       :style="listWrapStyle"

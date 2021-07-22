@@ -5,6 +5,27 @@ export default {
     }
   },
   methods: {
+    // 按钮样式设置
+    buttonStyle(val) {
+      const style = {}
+      switch (val.renderType) {
+        case '1':
+          style.color = val.color
+          style.border = 'none'
+          break
+        case '0':
+          style.color = 'white'
+          style.border = '1px solid ' + val.color
+          style.backgroundColor = val.color
+          break
+        case '2':
+          style.color = 'white'
+          style.border = '1px solid ' + val.color
+          style.backgroundColor = val.color
+          break
+      }
+      return style
+    },
     // 单元格鼠标移入状态设置
     cellCursor(key) {
       const arr = []
@@ -97,14 +118,14 @@ export default {
       if (this.settingForm.submodule === '1') {
         if (
           this.settingForm.clickToShow === 'row' &&
-                    this.statisticsAll.isRowDrillDown === '1'
+          this.statisticsAll.isRowDrillDown === '1'
         ) {
           calss = 'cursor-pointer'
         }
         if (
           this.settingForm.clickToShow === 'cell' &&
-                    this.statisticsAll.drillDownKeyAll &&
-                    this.statisticsAll.drillDownKeyAll.indexOf(key) > -1
+          this.statisticsAll.drillDownKeyAll &&
+          this.statisticsAll.drillDownKeyAll.indexOf(key) > -1
         ) {
           calss = 'cursor-pointer'
         }

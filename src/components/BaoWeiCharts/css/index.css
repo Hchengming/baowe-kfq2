@@ -593,7 +593,7 @@ body {
   top: 2px;
   color: white;
   cursor: pointer;
-  z-index: 9999999999;
+  z-index: 9999;
 }
 .statisticsWrapCase2 .suofang {
   position: absolute;
@@ -706,7 +706,8 @@ body {
 .settingForm .el-form-item__label {
   font-size: 13px;
   padding-right: 5px;
-  line-height: 34px;
+  line-height: 38px;
+  min-height: 38px;
 }
 .settingForm .el-input-number {
   width: 172px;
@@ -1304,6 +1305,7 @@ body {
   margin-bottom: 0;
   margin-right: 5px;
   float: left;
+  min-height: 40px;
 }
 .static-where-2 .where-form .el-input__inner {
   padding: 0 5px;

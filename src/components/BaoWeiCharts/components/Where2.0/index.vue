@@ -6,7 +6,13 @@
           v-for="(item, index) in whereAll.data"
           v-show="item.isShow !== '0'"
           :key="index"
-          :class="['form-' + item.key,{'form-start-time':item.sfjssj === '0'&&(item.type === 'date' || item.type === 'dateTime')}
+          :class="[
+            'form-' + item.key,
+            {
+              'form-start-time':
+                item.sfjssj === '0' &&
+                (item.type === 'date' || item.type === 'dateTime')
+            }
           ]"
           :label="label(item)"
           :style="formItemStyle(item)"
@@ -18,7 +24,6 @@
                 : '0'
           "
         >
-
           <!-- 输入框 -->
           <el-input
             v-if="item.type == 'input'"
@@ -166,9 +171,9 @@
           <!-- <span v-if="item.type == 'key-select'">-</span> -->
           <el-input
             v-if="item.type == 'key-select'"
-            v-model="whereAll.form[item.key+'Value']"
+            v-model="whereAll.form[item.key + 'Value']"
             :style="{ width: '100px' }"
-            :title="whereAll.form[item.key+'Value']"
+            :title="whereAll.form[item.key + 'Value']"
             size="small"
             placeholder="字段对应值"
             @change="onSubmit(item.isInsert == '1', item)"
@@ -256,7 +261,7 @@ export default {
     'whereAll.form': {
       handler() {
         this.getWhereHeight()
-        // console.log(this.whereAll.form,'this.whereAll.form')
+        this.formStyleInit(this.conditionAreaConfig)
         this.$emit('whereFormKeep', this.whereAll.form)
       },
       deep: true
@@ -285,12 +290,47 @@ export default {
               this.setRadioButton(item)
             }
           }
+          if (item.type === 'checkbox') {
+            if (item.styleType === '2') {
+              this.setcheckboxButton(item)
+            }
+          }
         })
       }
+    },
+    setcheckboxButton(item) {
+      const checkbox = document.querySelector('.form-' + item.key)
+      if (!checkbox) return
+      const label = checkbox.querySelectorAll(
+        '.el-checkbox-group .el-checkbox-button .el-checkbox-button__inner'
+      )
+      setTimeout(() => {
+        item.arr.forEach((x, i) => {
+          // console.log(x.bgColor, 'x.bgColor')
+          if (x.bgColor) {
+            label[i].style.background = x.bgColor
+            label[i].style.borderColor = x.bgColor
+            label[i].style.color = x.color || 'white'
+            // label[i].style.fontSize = '16px'
+            // label[i].style.padding = '8px 16px'
+
+            if (this.whereAll.form[item.key].indexOf(x.value) > -1) {
+              label[i].style.background = x.bgColor
+              // label[i].style.borderBottom = '3px solid #4472c4'
+              // label[i].style.padding = '9px 16px'
+              label[i].style['box-shadow'] = 'none'
+              label[i].style.color = x.color || 'white'
+              // label[i].style.fontSize = '18px'
+              // console.log(label[i].style, x.value)
+            }
+          }
+        }, 100)
+      })
     },
     // 单选按钮组--按钮背景设置
     setRadioButton(item) {
       const group = document.querySelector('.form-' + item.key)
+      if (!group) return
       const label = group.querySelectorAll(
         '.el-radio-group .el-radio-button .el-radio-button__inner'
       )
@@ -299,14 +339,19 @@ export default {
           label[i].style.background = x.bgColor
           label[i].style.borderColor = x.bgColor
           label[i].style.color = x.color || 'white'
-        }
-        if (this.whereAll.form[item.key] === x.value) {
-          label[i].style.background = '#1890FF'
-          label[i].style.borderColor = '#1890FF'
-          label[i].style.color = 'white'
+          // label[i].style.fontSize = '16px'
+          // label[i].style.padding = '8px 16px'
+
+          if (this.whereAll.form[item.key] === x.value) {
+            label[i].style.background = x.bgColor
+            // label[i].style.borderBottom = '3px solid #4472c4'
+            // label[i].style.padding = '9px 16px'
+            label[i].style['box-shadow'] = 'none'
+            label[i].style.color = x.color || 'white'
+            // label[i].style.fontSize = '18px'
+          }
         }
       })
-      // .console.log(label)
     },
     // 字段下拉项
     keySelectOption() {
@@ -522,7 +567,12 @@ export default {
         // 时间日期格式转换
         if (this.whereAll.form[item.key]) {
           if (item.type === 'date') {
-            const str = item.dateType === 'year' ? 'yyyy' : item.dateType === 'month' ? 'yyyy-MM' : 'yyyy-MM-dd'
+            const str =
+              item.dateType === 'year'
+                ? 'yyyy'
+                : item.dateType === 'month'
+                  ? 'yyyy-MM'
+                  : 'yyyy-MM-dd'
             this.whereAll.form[item.key] = new Date(
               this.whereAll.form[item.key]
             ).Format(str)
@@ -535,18 +585,21 @@ export default {
       }
       if (!offon) return
       this.whereAll.data.forEach(x => {
-        if (!this.whereAll.form[x.key] && ['date', 'dateTime'].indexOf(x.type) > -1) {
+        if (
+          !this.whereAll.form[x.key] &&
+          ['date', 'dateTime'].indexOf(x.type) > -1
+        ) {
           this.whereAll.form[x.key] = ''
         }
         if (x.type === 'key-select') {
-          this.whereAll.form[this.whereAll.form[x.key]] = this.whereAll.form[x.key + 'Value']
-          console.log(x.key, this.whereAll.form[this.whereAll.form[x.key]], this.whereAll.form[this.whereAll.form[x.key + 'Value']], 'this.whereAll.form[this.whereAll.form[x.key]]')
+          this.whereAll.form[this.whereAll.form[x.key]] = this.whereAll.form[
+            x.key + 'Value'
+          ]
           delete this.whereAll.form[x.key + 'Value']
           delete this.whereAll.form[x.key]
         }
       })
       const form = JSON.parse(JSON.stringify(this.whereAll.form))
-      console.log(form, 'form')
       this.$emit('whereSubmit', form)
     },
     // 表单数值变化监听，执行js脚本
@@ -585,10 +638,6 @@ export default {
       }
       this.$emit('whereOtherBtnClick', buttonSetting)
     }
-  },
-  function(obj) {
-    // console.log(obj)
-
   }
 }
 </script>

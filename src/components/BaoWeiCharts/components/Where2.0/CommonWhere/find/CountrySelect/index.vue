@@ -60,17 +60,19 @@ export default {
   computed: {
     countryChild() {
       let arr = []
+
       countryData.forEach(item => {
         if (this.country.father === item.value && item.children) {
           arr = item.children
         }
       })
+
       return arr
     },
     // 所有区县获取
     moreCountry() {
       const arr = []
-      countryData.forEach(item => {
+      this.countryData.forEach(item => {
         if (item.children) {
           item.children.forEach(x => {
             if (x !== '所有') {
@@ -125,7 +127,7 @@ export default {
           if (val === '全市') {
             arr = this.moreCountry
           } else {
-            arr = x.children
+            arr = [...x.children]
             arr.splice(0, 1)
           }
         }
@@ -134,7 +136,11 @@ export default {
     },
     // 区县变化事件
     childChange(val) {
-      this.form[this.commonItem.key] = val
+      if (val === '所有') {
+        this.form[this.commonItem.key] = this.formValue(this.country.father)
+      } else {
+        this.form[this.commonItem.key] = val
+      }
       this.$emit('cuntryChange')
     }
   }

@@ -2,45 +2,59 @@
   <!-- 列表模块  开发区分类统计/开发区分类情况使用-->
   <div id="bw_list">
     <ul
-      :style="{'height':nowHieght+'px','overflow':'auto'}"
+      :style="{ height: nowHieght + 'px', overflow: 'auto' }"
       class="bw_list1"
     >
       <li
-        v-for="(item,index) in data"
+        v-for="(item, index) in data"
         :key="index"
-        :style="{'line-height':'30px'}"
-        :class="{'border':item.border?true:false}"
-        @click="rowClick(item,index)"
+        :style="{ 'line-height': '30px' }"
+        :class="{ border: item.border ? true : false }"
+        @click="rowClick(item, index)"
       >
         <div
-          v-for="(col,num) in colums"
+          v-for="(col, num) in colums"
           :key="num"
-          :class="['cell',cellCursorClass(col.key)]"
-          :style="{'width':col.width+'px'}"
-          @click="cellClick(item,col.key)"
+          :class="['cell', cellCursorClass(col.key)]"
+          :style="{ width: col.width + 'px' }"
+          @click="cellClick(item, col.key)"
         >
           <el-tooltip
-            v-if="col.key!=='operationButton'"
-            :content="cellTip(col,item)"
-            :placement="setPlacement(num,colums)"
+            v-if="col.key !== 'operationButton'"
+            :content="cellTip(col, item)"
+            :placement="setPlacement(num, colums)"
           >
             <span :class="colClass(col)">
               <!-- {{ item[col.key] }} -->
-              <span v-html="cellHtml(col,item)" />
-              <span class="txt3 theme-color">{{ col.dw?col.dw:"" }}</span>
+              <span v-html="cellHtml(col, item)" />
+              <span class="txt3 theme-color">{{ col.dw ? col.dw : '' }}</span>
             </span>
           </el-tooltip>
-          <div
-            v-else
-            class="right-operate-button"
-          >
-            <el-button
+          <div v-else class="right-operate-button">
+            <!-- <el-button
               v-for="val in settingForm.operateButton"
               :key="val.name"
               :type="val.type"
               size="mini"
               @click.native="operateButtonClick(val,item)"
-            >{{ val.name }}</el-button>
+            >{{ val.name }}</el-button> -->
+            <div
+              v-for="val in settingForm.operateButton"
+              :key="val.name"
+              :class="[
+                val.showBorder === '0' ? 'nowBorder' : 'showBorder',
+                'right-btn'
+              ]"
+              :title="val.name"
+              :style="buttonStyle(val)"
+              @click="operateButtonClick(val, scope.row)"
+            >
+              <span>{{ val.renderType === '1' ? '' : val.name }}</span>
+              <i
+                v-if="val.renderType !== '0'"
+                :class="'iconfont ' + val.icon"
+              />
+            </div>
           </div>
         </div>
       </li>
@@ -119,3 +133,35 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.right-operate-button {
+  padding: 0 5px;
+  box-sizing: border-box;
+  display: flex;
+  >>> .right-btn {
+    height: 32px;
+    line-height: 32px;
+    display: flex;
+    justify-items: center;
+    font-size: 16px;
+    margin-top: 4px;
+    // min-width: 30px;
+    // text-align: center;
+    margin: 0 3px;
+    cursor: pointer;
+    border-radius: 5px;
+    // background: red;
+    .iconfont {
+      margin-right: 3px;
+      font-size: 18px;
+    }
+    &.nowBorder {
+      padding: 0;
+      border: none;
+    }
+    &.showBorder {
+      padding: 0 10px;
+    }
+  }
+}
+</style>

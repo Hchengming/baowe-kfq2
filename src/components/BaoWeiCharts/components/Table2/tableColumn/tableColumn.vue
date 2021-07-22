@@ -28,16 +28,35 @@
         />
       </el-tooltip>
       <div v-else class="right-operate-button">
-        <el-button
+        <div
           v-for="val in settingForm.operateButton"
           :key="val.name"
-          :class="[val.showBorder==='0'?'nowBorder':'showBorder',val.type==='default'?'theme-color':'button-wihte']"
+          :class="[
+            val.showBorder === '0' ? 'nowBorder' : 'showBorder',
+            'right-btn'
+          ]"
+          :title="val.name"
+          :style="buttonStyle(val)"
+          @click="operateButtonClick(val, scope.row)"
+        >
+          <span>{{ val.renderType === '1' ? '' : val.name }}</span>
+          <i v-if="val.renderType !== '0'" :class="'iconfont ' + val.icon" />
+        </div>
+        <!-- <el-button
+          v-for="val in settingForm.operateButton"
+          :key="val.name"
+          :class="[
+            val.showBorder === '0' ? 'nowBorder' : 'showBorder',
+            val.type === 'default' ? 'theme-color' : 'button-wihte'
+          ]"
           :type="val.type"
           :icon="val.renderType === '0' ? '' : 'iconfont ' + val.icon"
           :title="val.name"
           size="small"
+          :style="buttonStyle(val)"
           @click="operateButtonClick(val, scope.row)"
-        >{{ val.renderType === '1' ? '' : val.name }}</el-button>
+          >{{ val.renderType === '1' ? '' : val.name }}</el-button
+        > -->
       </div>
       <!-- <span :title="scope.row[item.key]">{{scope.row[item.key]}}</span> -->
     </template>
@@ -132,7 +151,7 @@ export default {
   padding: 0 5px;
   box-sizing: border-box;
   display: flex;
-  >>> .el-button {
+  >>> .right-btn {
     height: 32px;
     line-height: 32px;
     display: flex;
@@ -141,21 +160,20 @@ export default {
     margin-top: 4px;
     // min-width: 30px;
     // text-align: center;
-    margin: 0 5px;
+    margin: 0 3px;
+    cursor: pointer;
+    border-radius: 5px;
+    // background: red;
     .iconfont {
       margin-right: 3px;
       font-size: 18px;
-
     }
-    &.nowBorder{
+    &.nowBorder {
       padding: 0;
-      border:none;
+      border: none;
     }
-    &.showBorder{
+    &.showBorder {
       padding: 0 10px;
-    }
-    &.button-wihte{
-      color: white;
     }
   }
 }

@@ -67,7 +67,8 @@ export default {
         showBorder: '1',
         renderType: '0',
         icon: '',
-        type: 'primary'
+        type: 'primary',
+        color: '#0091ff'
       })
     },
     // 其他按钮删除事件

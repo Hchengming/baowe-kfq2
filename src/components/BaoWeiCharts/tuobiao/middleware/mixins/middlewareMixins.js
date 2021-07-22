@@ -515,6 +515,7 @@ export default {
             obj.pageSize = item.contentAreaConfig.pageSize
             obj.currentPage = 1
           }
+          item.whereForm = JSON.parse(JSON.stringify(param.whereForm))
           this.getTableData(obj, param.whereForm, item)
         }
       })

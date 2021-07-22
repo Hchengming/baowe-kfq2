@@ -183,9 +183,16 @@ export default {
     .el-radio-group {
       display: block;
     }
-      >>> .el-radio-group.country-2 {
-      .el-radio-button .el-radio-button__inner {
-        border: none;
+    >>>.el-radio-group.country-1{
+      height: 40px;
+    }
+    >>> .el-radio-group.country-2 {
+      .el-radio-button {
+        // min-height: 36px;
+        .el-radio-button__inner {
+          border: none;
+          font-size: 16px !important;
+        }
       }
       .el-radio-button__orig-radio:checked + .el-radio-button__inner {
         background: none;
