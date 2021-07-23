@@ -23,11 +23,14 @@
           @click="customComponentsViewClose"
         />
         <div
-          v-show="isAdmin || settingForm.isHeaderHide"
+
           :class="[
             'operation',
             {
-              hide: isAdmin && !settingForm.isHeaderHide
+              hide: isAdmin && settingForm.isHeaderHide
+            },
+            {
+              show: !settingForm.isHeaderHide
             },
             'clearfix'
           ]"
@@ -35,8 +38,13 @@
         >
           <span class="title">{{ settingForm.title }}</span>
           <!-- <div class="right"> -->
-          <i class="iconfont iconxiugai theme-color" @click="edit" />
+          <i
+            v-if="isAdmin"
+            class="iconfont iconxiugai theme-color"
+            @click="edit"
+          />
           <el-popconfirm
+            v-if="isAdmin"
             icon="el-icon-info"
             class="delete-template-popconfirm"
             icon-color="red"
@@ -126,16 +134,20 @@ export default {
         console.log(document.querySelector('#custom-' + this.moduleId), '1')
         // document.querySelector('#custom-' + this.moduleId).innerHTML = ''
         // 这个组件结构是先定义好,动态组件的template  methods以及其他
-        // eslint-disable-next-line no-eval
-        const componentContent = eval(
-          '{var temp=' + this.settingForm.js + ';temp}'
-        )
-        componentContent.template = this.settingForm.temp || ''
-        // 注册动态组件内容
-        const DynamicComponent = Vue.extend(componentContent)
-        // 将组成的组件挂载到指定的DOM
-        if (document.querySelector('#custom-' + this.moduleId)) {
-          new DynamicComponent().$mount('#custom-' + this.moduleId)
+        try {
+          // eslint-disable-next-line no-eval
+          const componentContent = eval(
+            '{var temp=' + this.settingForm.js + ';temp}'
+          )
+          componentContent.template = this.settingForm.temp || ''
+          // 注册动态组件内容
+          const DynamicComponent = Vue.extend(componentContent)
+          // 将组成的组件挂载到指定的DOM
+          if (document.querySelector('#custom-' + this.moduleId)) {
+            new DynamicComponent().$mount('#custom-' + this.moduleId)
+          }
+        } catch (e) {
+          console.log(e + '解析失败')
         }
       }
     },
@@ -249,6 +261,9 @@ export default {
       .marginR {
         margin-right: 30px;
       }
+    }
+    .operation.show {
+      position: relative;
     }
     .operation.hide {
       display: none;

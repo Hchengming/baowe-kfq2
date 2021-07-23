@@ -96,7 +96,9 @@ import { commonMethods } from '../utils/mixins.js'
 import JSMixins from './mainMixins.js'
 import Vue from 'vue'
 import serviceAxios from '@/utils/request.js'
+import axios from 'axios'
 Vue.prototype.$serviceAxios = serviceAxios
+Vue.prototype.$axios = axios
 export default {
   name: 'Wrap',
   components: { MyMenu, MyPage, menuSetting },

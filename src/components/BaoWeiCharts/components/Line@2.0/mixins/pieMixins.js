@@ -71,11 +71,13 @@ export default {
     // 饼图、环图 series图表显示配置
     setPieSeries(options) {
       // 01 当前数据类选择
+      if (this.chartColumns.length === 0) return
       if (!this.chooseItem) {
         this.chooseItem = this.chartColumns[0]
       }
       // 02 series配置
       const seriesData = []
+      this.data = this.data || []
       this.data.forEach(item => {
         seriesData.push({
           value: Number(item[this.chooseItem.key]) ? Number(item[this.chooseItem.key]) : item[this.chooseItem.key],
