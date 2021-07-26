@@ -9,7 +9,11 @@
       :visible.sync="dialogVisible"
       class="settingForm dialog-common"
     >
-      <div slot="title" class="headerTitle">模块配置信息</div>
+      <div slot="title" class="headerTitle">
+        模块配置信息<span
+        >(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span
+        >
+      </div>
 
       <div class="setting-form-box">
         <el-form ref="settingForm" :model="form" label-width="140px">
@@ -47,15 +51,7 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="模块ID" prop="moreUrl">
-                <el-input
-                  v-model="form.elementId"
-                  size="small"
-                  placeholder="当前模块元素外层id"
-                />
-              </el-form-item>
-            </el-col>
+
             <el-col :span="8">
               <el-form-item label="是否添加更多按钮" prop="isAddMoreIcon">
                 <el-radio-group v-model="form.isAddMoreIcon">
@@ -96,7 +92,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="12">
+            <el-col :span="8">
               <el-form-item label="模块内容" prop="moduleType">
                 <el-radio-group
                   v-model="form.moduleType"
@@ -106,6 +102,24 @@
                   <el-radio label="1">iframe嵌入</el-radio>
                   <el-radio label="3">空白模板</el-radio>
                 </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="模块ID" prop="elementId">
+                <el-input
+                  v-model="form.elementId"
+                  size="small"
+                  placeholder="当前模块元素外层id"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="模块类名" prop="elementClass">
+                <el-input
+                  v-model="form.elementClass"
+                  size="small"
+                  placeholder="当前模块元素外层class类名"
+                />
               </el-form-item>
             </el-col>
           </el-row>
@@ -166,6 +180,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
+
             <el-row
               v-if="
                 ['histogram', 'bar', 'line', 'radar'].indexOf(
@@ -316,10 +331,14 @@
                   />
                 </el-form-item>
               </el-col>
-
             </el-row>
             <el-row>
-              <el-col :span="8">
+              <el-col
+                v-if="
+                  ['histogram', 'bar', 'line'].indexOf(form.displayMode) > -1
+                "
+                :span="8"
+              >
                 <el-form-item label="度量最大值" prop="maxNum">
                   <el-input
                     v-model="form.maxNum"
@@ -353,7 +372,8 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio>
+                    >服务接口</el-radio
+                    >
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -503,6 +523,7 @@
               </el-col>
             </el-row>
           </div>
+
           <!-- iframe嵌入 -->
           <div
             v-if="form.moduleType === '1'"
@@ -728,3 +749,21 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+// >>> .settingForm {
+//   background: red;
+.headerTitle {
+  font-size: 16px;
+  span {
+    font-size: 13px;
+    color: #409eff;
+  }
+}
+// }
+>>>.el-radio{
+  margin-right: 20px;
+  &:last-child{
+    margin-right: 0;
+  }
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div ref="containerViews" class="container-view">
-    <div class="el-tab-pane-icon">
+    <div v-show="settingConfig.systemPermissions==='admin'" class="el-tab-pane-icon">
       <i class="el-icon-circle-plus-outline" @click="drawerShow = true" />
     </div>
     <div>
@@ -217,9 +217,12 @@ export default {
     position: absolute;
     right: 5px;
     top: 5px;
+    z-index: 999;
+    background: white;
+    border-radius: 50%;
     i {
-      font-size: 22px;
-      color: #3b85d8;
+      font-size: 25px;
+      color:green;
       cursor: pointer;
     }
   }

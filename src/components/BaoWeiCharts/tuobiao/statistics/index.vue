@@ -19,7 +19,8 @@
         { 'iframe-statistics-wrap': settingForm.moduleType === '1' },
         { 'title-hide': settingForm.isHeaderHide },
         {'admin':isAdmin},
-        'statistics-'+settingForm.displayMode
+        'statistics-'+settingForm.displayMode,
+        settingForm.elementClass
       ]"
     >
       <div class="statisticsBox">

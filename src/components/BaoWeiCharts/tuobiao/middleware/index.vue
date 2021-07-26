@@ -109,6 +109,7 @@ export default {
         subtitle1: '', // 副标题1
         subtitle2: '', // 副标题2
         elementId: '', // 模块元素id
+        elementClass: '', // 模块元素class
         isShow: '1', // 组件初始显示/隐藏
         isAddMoreIcon: '0', // 是否添加更多按钮 0：否 1：是
         moreUrl: '', // 更多页面跳转路径(当前数据为空则不跳转页面，自行进行二次开发)

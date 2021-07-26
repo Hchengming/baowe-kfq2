@@ -105,6 +105,10 @@ export default {
         isClick: '0'
       }
     ]
+    // 项目初始化
+    if (this.$route.query.system) {
+      this.settingConfig.systemPermissions = this.$route.query.system
+    }
     this.$refs['baoweiCharts'].startRender()
 
     this.$nextTick(() => {

@@ -68,7 +68,7 @@ export default {
     // 其他按钮背景配置
     otherButtonStyle(item) {
       const style = {}
-      if (item.cellRenderer || item.cellRenderer || item.cellRenderer) {
+      if (item.cellRenderer || item.cellRenderer || item.cellRenderer || (item.lineLabelPosition && item.lineLabelPosition !== 'top') || item.lineLabelTop || (item.yCoordinate && item.yCoordinate !== '0') || (item.cellAlginClass && item.cellAlginClass !== 'cellCenter')) {
         style.background = '#7f6b6b9e'
         style.borderColor = '#7f6b6b9e'
       }

@@ -150,7 +150,7 @@ export default {
     return {
       isShow: false,
       helpTipsTxt: `
-      组件交互
+      组件交互(目前可交互对象:图表组件集、顶部栏、时间轴、自定义组件(显示/隐藏控制))
       const obj = {
         interactiveModuleId: moduleId, // 交互组件id
         hideShow:1,//交互组件显示隐藏控制
@@ -158,6 +158,9 @@ export default {
           asd: this.num
         }
       }
+      方案一
+      window.config.componentInteractiveT(obj)
+      方案二
       localStorage.setItem('customComponentsParam', JSON.stringify(obj))
       `
     }

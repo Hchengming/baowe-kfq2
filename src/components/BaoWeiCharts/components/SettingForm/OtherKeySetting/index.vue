@@ -12,7 +12,14 @@
         :model="otherKeySetting"
         label-width="140px"
       >
-        <el-form-item v-if="['line','histogram'].indexOf(form.displayMode)>-1" class="row-ipt" label="y轴坐标">
+        <!-- v-if="['line','histogram'].indexOf(form.displayMode)>-1"  -->
+        <!-- <el-row>
+          <el-col :span="12"></el-col>
+          <el-col :span="12"></el-col>
+        </el-row> -->
+
+        <el-form-item class="row-ipt" label="y轴坐标">
+          <p class="mark">(柱状图、折线图)</p>
           <el-select
             v-model="otherKeySetting.yCoordinate"
             size="small"
@@ -22,26 +29,52 @@
             <el-option label="坐标2(右侧坐标轴)" value="1" />
           </el-select>
         </el-form-item>
-        <el-form-item v-if="form.displayMode==='line'" class="row-ipt" label="标签位置">
-          <el-select
-            v-model="otherKeySetting.lineLabelPosition"
-            size="small"
-            placeholder="折线图标签位置"
-          >
-            <el-option label="顶部" value="top" />
-            <el-option label="底部" value="bottom" />
-          </el-select>
-        </el-form-item>
-        <el-form-item v-if="form.displayMode==='line'" class="row-ipt" label="标签偏移量(top)">
-          <el-input-number
-            v-model="otherKeySetting.lineLabelTop"
-            :min="-300"
-            :max="300"
-            controls-position="right"
-            size="small"
-          />
-        </el-form-item>
-        <el-form-item class="row-textarea" label="表格单元格渲染">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item class="row-ipt" label="标签位置">
+              <p class="mark">(折线图)</p>
+              <el-select
+                v-model="otherKeySetting.lineLabelPosition"
+                size="small"
+                placeholder="折线图标签位置"
+              >
+                <el-option label="顶部" value="top" />
+                <el-option label="底部" value="bottom" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item class="row-ipt" label="标签偏移量(top)">
+              <p class="mark">(折线图)</p>
+              <el-input-number
+                v-model="otherKeySetting.lineLabelTop"
+                :min="-300"
+                :max="300"
+                controls-position="right"
+                size="small"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item class="row-ipt" label="单元格对齐方式">
+              <p class="mark">(表格、列表)</p>
+              <el-select
+                v-model="otherKeySetting.cellAlginClass"
+                size="small"
+                placeholder="表格单元格对齐方式"
+              >
+                <el-option label="居左" value="cellLeft" />
+                <el-option label="居中" value="cellCenter" />
+                <el-option label="居右" value="cellRight" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="12"></el-col> -->
+        </el-row>
+        <el-form-item class="row-textarea" label="单元格渲染">
+          <p class="mark">(表格、列表)</p>
           <el-input
             v-model="otherKeySetting.cellRenderer"
             :rows="3"
@@ -53,7 +86,8 @@
             @click="enlarge('cellRenderer')"
           />
         </el-form-item>
-        <el-form-item class="row-textarea" label="表格tip渲染">
+        <el-form-item class="row-textarea" label="tip渲染">
+          <p class="mark">(表格、列表)</p>
           <el-input
             v-model="otherKeySetting.tipRenderer"
             :rows="3"
@@ -65,7 +99,8 @@
             @click="enlarge('tipRenderer')"
           />
         </el-form-item>
-        <el-form-item class="row-textarea" label="数据格式化">
+        <el-form-item class="row-textarea" label="单元格数据格式化">
+          <p class="mark">(表格、列表)</p>
           <el-input
             v-model="otherKeySetting.colDataformat"
             :rows="3"
@@ -106,3 +141,17 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.mark {
+  position: absolute;
+  left: -128px;
+  top: 25px;
+  width: 120px;
+  height: 20px;
+  font-size: 12px;
+  color: #409eff;
+  line-height: 20px;
+  text-align: right;
+  margin: 0;
+}
+</style>

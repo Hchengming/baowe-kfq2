@@ -626,13 +626,27 @@ body {
   }
 
   .el-table__row .cell {
-    padding: 0;
+    padding: 0 5px;
     height: 40px;
     line-height: 40px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-indent: 3px;
+    // text-indent: 3px;
+  }
+  .el-table__row {
+    td{
+      text-align: center;
+    }
+    td.cellCenter .cell{
+      text-align: center;
+    }
+    td.cellLeft .cell{
+      text-align: left;
+    }
+    .cellRight .cell{
+      text-align: right;
+    }
   }
 }
 

@@ -15,27 +15,41 @@ export default {
         })
         totalArr[index] = max
       })
-      const _this = this
+      // const _this = this
       // 02 显示配置
       options.tooltip = {
         trigger: 'axis',
         color: 'red',
         formatter(params) {
-          const fnc = _this.settingForm.suspensionFrameJs
-          if (fnc && fnc.replace(/\s*/g, '')) {
-            return _this.suspensionFrameFnc(params)
-          } else {
-            let str = `${params[0].axisValue}`
-            params.forEach((item, index) => {
-              const bfb = Number(item.data)
-                ? Math.floor((item.data / totalArr[index]) * 10000) / 100
-                : 0
-
-              str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb}%)`
-            })
-            return str
-          }
+          let str = `${params[0].axisValue}`
+          let max = 0
+          params.forEach(x => {
+            max += x.data
+          })
+          params.forEach(x => {
+            const bfb = Number(x.data)
+              ? Math.floor((x.data / max) * 10000) / 100
+              : 0
+            str += `<br><span class="e-charts-tooltip-list" style="background:${x.color}"></span> ${x.seriesName}：${x.data} (${bfb}%)`
+          })
+          return str
         }
+        // formatter(params) {
+        //   const fnc = _this.settingForm.suspensionFrameJs
+        //   if (fnc && fnc.replace(/\s*/g, '')) {
+        //     return _this.suspensionFrameFnc(params)
+        //   } else {
+        //     let str = `${params[0].axisValue}`
+        //     params.forEach((item, index) => {
+        //       const bfb = Number(item.data)
+        //         ? Math.floor((item.data / totalArr[index]) * 10000) / 100
+        //         : 0
+
+        //       str += `<br><span class="e-charts-tooltip-list" style="background:${item.color}"></span> ${item.seriesName}：${item.data} (${bfb}%)`
+        //     })
+        //     return str
+        //   }
+        // }
       }
     },
     // 柱状图、条形图出现点击状态事件

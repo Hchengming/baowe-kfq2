@@ -25,6 +25,12 @@ export default {
   },
   mounted() {
     this.customComponentsChange()
+    // 二级首页组件交互触发(外部自定义js 触发)
+    if (!window.config.componentInteractiveT) {
+      window.config.componentInteractiveT = (object) => {
+        this.customInteractive(object)
+      }
+    }
   },
   methods: {
     // 自定义组件被交互事件
@@ -154,7 +160,6 @@ export default {
           })
 
           this.customComponentsData = res.data
-          console.log(this.customComponentsData, 'this.customComponentsData')
         })
         .catch(() => {
           this.$message({
@@ -187,3 +192,4 @@ export default {
     }
   }
 }
+

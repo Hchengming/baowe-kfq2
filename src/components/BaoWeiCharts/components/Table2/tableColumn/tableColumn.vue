@@ -1,7 +1,13 @@
 <template>
   <el-table-column
     v-if="!item.children || item.children.length === 0"
-    :class-name="item.className + ' ' + cellCursorClass(item.key)"
+    :class-name="
+      item.className +
+        ' ' +
+        cellCursorClass(item.key) +
+        ' ' +
+        item.cellAlginClass
+    "
     :prop="item.key"
     :label="colLabel(item)"
     :width="colWidth(item)"
@@ -11,8 +17,10 @@
         ? item.colFixed
         : undefined
     "
+    header-align="center"
+    label-class-name="ASDF"
   >
-    <template slot-scope="scope">
+    <template slot-scope="scope" class="asdfg">
       <el-tooltip
         v-if="item.key !== 'operationButton'"
         :content="cellTip(item, scope.row)"
@@ -147,6 +155,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .right-operate-button {
   padding: 0 5px;
   box-sizing: border-box;

@@ -10,7 +10,8 @@ export default {
         colDataformat: null, // 表格数据格式化
         lineLabelPosition: 'top', // 折线图标签位置
         lineLabelTop: 0, // 标签偏移量(top)
-        yCoordinate: '0'// 折线图、柱状图坐标选择
+        yCoordinate: '0', // 折线图、柱状图坐标选择
+        cellAlginClass: 'cellCenter'// 表格单元格对齐方式
       }
     }
   },
@@ -24,7 +25,8 @@ export default {
             colDataformat: null,
             lineLabelPosition: 'top', // 折线图标签位置
             lineLabelTop: 0, // 标签偏移量(top)
-            yCoordinate: '0'
+            yCoordinate: '0',
+            cellAlginClass: 'cellCenter'// 表格单元格对齐方式
           }
         }
       }

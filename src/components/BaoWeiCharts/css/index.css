@@ -485,13 +485,24 @@ body {
   bottom: 2px;
 }
 #bw_table .el-table__row .cell {
-  padding: 0;
+  padding: 0 5px;
   height: 40px;
   line-height: 40px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  text-indent: 3px;
+}
+#bw_table .el-table__row td {
+  text-align: center;
+}
+#bw_table .el-table__row td.cellCenter .cell {
+  text-align: center;
+}
+#bw_table .el-table__row td.cellLeft .cell {
+  text-align: left;
+}
+#bw_table .el-table__row .cellRight .cell {
+  text-align: right;
 }
 #bw_list thead .cell,
 #bw_table thead .cell {
