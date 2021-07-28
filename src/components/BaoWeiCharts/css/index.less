@@ -284,7 +284,7 @@ body {
   position: fixed;
   top: 50%;
   right: 20px;
-  z-index: 99;
+  z-index: 99999;
   cursor: pointer;
   transition: all 0.3s;
 
@@ -315,13 +315,16 @@ body {
       overflow-y: hidden;
 
       li {
-        height: 30px;
+        // min-height: 30px;
         text-align: center;
-        line-height: 30px;
+        line-height: 20px;
+        padding: 5px 0;
         cursor: pointer;
         list-style: none;
-        padding: 0;
-        margin: 0;
+        // padding: 0;
+        // margin: 0;
+        width: 30px;
+        margin: 0 auto;
       }
     }
   }
@@ -466,7 +469,7 @@ body {
 }
 
 .statistics_title {
-  z-index: 9999;
+  z-index: 999;
   position: relative;
   height: 36px;
   border-bottom: 1px solid #d8d8d8;
@@ -752,7 +755,7 @@ body {
 
 // case2
 .statisticsWrapCase2.admin {
-  .statisticsBox:hover {
+  .statisticsBox:hover,.statisticsBox.choose {
     border: 1px dashed rgb(59, 133, 216);
 
     .stretch {

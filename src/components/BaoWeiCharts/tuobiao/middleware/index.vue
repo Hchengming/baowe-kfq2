@@ -394,6 +394,7 @@ export default {
           this.$set(item, 'isShow', false)
         }
       })
+      console.log('12222')
       obj.methodsName = obj.method
       this.chartsMethods(obj)
     },
@@ -626,8 +627,7 @@ export default {
         }
         // 初始隐藏组件
         if (
-          item.contentAreaConfig.isShow === '0' &&
-          this.settingConfig.systemPermissions === 'user'
+          item.contentAreaConfig.isShow === '0'
         ) {
           item.isShow = false
         }
@@ -635,7 +635,7 @@ export default {
       if (param && param.getPageData) {
         param.getPageData(this.pageData)
       }
-
+      this.settingConfig.pageData = this.pageData
       this.pageModuleData.pageData = this.pageData
       this.chartsMethods({
         methodsName: 'getPageData',

@@ -10,9 +10,7 @@
       class="settingForm dialog-common"
     >
       <div slot="title" class="headerTitle">
-        模块配置信息<span
-        >(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span
-        >
+        模块配置信息<span>(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span>
       </div>
 
       <div class="setting-form-box">
@@ -372,8 +370,7 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio
-                    >
+                    >服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>

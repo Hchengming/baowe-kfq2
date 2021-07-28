@@ -120,7 +120,9 @@ export default {
               })
             }
           }
-
+          if (window.config.SecondPageDataApi) {
+            this.settingConfig.dataUrl = window.config.SecondPageDataApi
+          }
           if (this.menuData) {
             // 1、配置了页面初始菜单
             if (this.nowProjectConfig.defaultMenuCode) {

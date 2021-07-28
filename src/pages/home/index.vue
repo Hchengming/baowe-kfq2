@@ -62,23 +62,23 @@ export default {
       }
     }
   },
-  watch: {
-    'settingConfig.mapPramConfig': {
-      handler(val) {
-        if (val[0].paramValue !== this.defaultType) {
-          this.defaultType = val[0].paramValue
-          if (this.defaultType === 'classBreaksDef') {
-            val[4].isShow = false
-            val[3].isShow = true
-          } else {
-            val[4].isShow = true
-            val[3].isShow = false
-          }
-        }
-      },
-      deep: true
-    }
-  },
+  // watch: {
+  //   'settingConfig.mapPramConfig': {
+  //     handler(val) {
+  //       if (val[0].paramValue !== this.defaultType) {
+  //         this.defaultType = val[0].paramValue
+  //         if (this.defaultType === 'classBreaksDef') {
+  //           val[4].isShow = false
+  //           val[3].isShow = true
+  //         } else {
+  //           val[4].isShow = true
+  //           val[3].isShow = false
+  //         }
+  //       }
+  //     },
+  //     deep: true
+  //   }
+  // },
   // components:{BaoWeiCharts},
   mounted() {
     // 组件开始渲染加载数据事件

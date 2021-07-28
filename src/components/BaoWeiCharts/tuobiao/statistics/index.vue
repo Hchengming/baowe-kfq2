@@ -23,10 +23,12 @@
         settingForm.elementClass
       ]"
     >
-      <div class="statisticsBox">
+      <div :class="['statisticsBox',chooseClass]" @click="statisticsBoxClick">
         <!-- 拉伸组件 -->
         <stretch
           v-if="isScaleStretch()"
+          :component-id="statisticsAll.moduleId"
+          :setting-config="settingConfig"
           :setting-form="settingForm"
           :stretch-elelemt="stretchElelemt"
           :container-elelemt="containerElelemt"

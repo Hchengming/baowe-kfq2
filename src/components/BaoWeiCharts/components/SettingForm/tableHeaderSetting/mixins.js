@@ -23,14 +23,38 @@ export default {
   methods: {
     // 页面显示事件
     show() {
-      console.log(this.genID(32))
       this.isShow = true
       if (
         this.form.tableHeaderConfig &&
         this.form.tableHeaderConfig.headerSetting
       ) {
         this.tableHeaderConfig.hierarchy = this.form.tableHeaderConfig.hierarchy
+
         this.tableHeaderConfig.headerSetting = this.form.tableHeaderConfig.headerSetting
+        const deleteItemArr = []
+        // 1、初始表头修改
+        this.reduiction(
+          this.tableHeaderConfig.headerSetting,
+          (item) => {
+            if (item.children.length === 0 && item.key) {
+              let offon = false
+              this.form.keyArr.forEach(x => {
+                if (x.key === item.key) {
+                  item.headerName = x.explain
+                  item.label = x.explain
+                  offon = true
+                }
+              })
+              if (!offon) {
+                deleteItemArr.push(item)
+              }
+            }
+          }
+        )
+        // 2、初始已删除字段表头删除
+        deleteItemArr.forEach(x => {
+          this.deleteItem(x)
+        })
       }
     },
     // 树形选中保存事件
@@ -64,6 +88,12 @@ export default {
     // 删除按钮点击事件
     remove(data) {
       this.chooseItem = data
+      this.deleteItem(data)
+      // console.log(this.tableHeaderConfig.headerSetting)
+      // this.tableHeaderConfig.headerSetting = []
+    },
+    // 删除
+    deleteItem(data) {
       this.reduiction(this.tableHeaderConfig.headerSetting, item => {
         if (item.children.length > 0) {
           item.children.forEach((val, index) => {
@@ -73,13 +103,11 @@ export default {
           })
         }
       })
-      // console.log(this.tableHeaderConfig.headerSetting)
-      // this.tableHeaderConfig.headerSetting = []
     },
     // 递归遍历树形数据
     reduiction(data, fn) {
       data.forEach((item, index) => {
-        fn(item, index)
+        fn(item, index, data)
 
         if (item.children && item.children.length > 0) {
           this.reduiction(item.children, fn)

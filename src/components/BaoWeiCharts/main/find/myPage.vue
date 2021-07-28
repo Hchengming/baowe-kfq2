@@ -56,20 +56,36 @@
         </div>
         <ul class="theme-box-shadow">
           <li
-            v-if="settingConfig.isCustomMenu&&!settingConfig.isBigData"
-            @click="rightDrawerShow('menu')"
+            v-show="settingConfig.isCustomMenu && !settingConfig.isBigData"
+            :class="{ 'theme-color': chooseType == 0 }"
+            @mouseover="chooseType = 0"
+            @click="rightDrawerShow('menu', 0)"
           >
             菜单
           </li>
           <li
             :class="{ 'theme-color': chooseType == 1 }"
-            @click="rightDrawerShow('assembly')"
+            @click="rightDrawerShow('assembly', 1)"
             @mouseout="chooseType = null"
             @mouseover="chooseType = 1"
           >
             页面
           </li>
-          <li v-if="!settingConfig.isBigData" @click="rightDrawerShow('theme')">项目</li>
+          <li
+            v-show="!settingConfig.isBigData"
+            :class="{ 'theme-color': chooseType == 2 }"
+            @mouseover="chooseType = 2"
+            @click="rightDrawerShow('theme', 2)"
+          >
+            项目
+          </li>
+          <li
+            :class="{ 'theme-color': chooseType == 3 }"
+            @mouseover="chooseType = 3"
+            @click="rightDrawerShow('component', 3)"
+          >
+            组件
+          </li>
         </ul>
       </div>
     </div>
@@ -153,7 +169,21 @@
       @componentFunc="componentFunc"
     />
     <!-- 自定义组件渲染   -->
-    <custom-components v-for="item in customComponentsData" :key="item.moduleId" :setting-form="item.config" :module-id="item.moduleId" :setting-config="settingConfig" @componentFunc="componentFunc" />
+    <custom-components
+      v-for="item in customComponentsData"
+      :key="item.moduleId"
+      :setting-form="item.config"
+      :module-id="item.moduleId"
+      :setting-config="settingConfig"
+      @componentFunc="componentFunc"
+    />
+    <!-- 组件列表 -->
+    <component-list
+      v-show="rightDrawerType == 'component'"
+      ref="componentList"
+      :setting-config="settingConfig"
+      @close="componentListClose"
+    />
   </div>
 </template>
 <script>
@@ -183,6 +213,7 @@ import otherMixins from './mixins/otherMixins'
 import CustomComponentsSetting from '../../components/CustomComponentsSetting'
 import customComponentsMixins from './mixins/customComponentsMixins.js'
 import CustomComponents from '../../components/CustomComponents/index'
+import ComponentList from './componentList'
 /* ====end==== */
 // import myMap from '../../components/maps/map'
 export default {
@@ -199,7 +230,8 @@ export default {
     TimeAxisSetting,
     TimeAxis,
     CustomComponentsSetting,
-    CustomComponents
+    CustomComponents,
+    ComponentList
     // myMap
   },
   mixins: [
@@ -227,7 +259,8 @@ export default {
       default: null
     },
     menuData: {
-      type: Array, default: null
+      type: Array,
+      default: null
     }
   },
   data() {
@@ -279,6 +312,10 @@ export default {
     }
   },
   methods: {
+    // 组件列表关闭事件
+    componentListClose() {
+      this.rightDrawerType = ''
+    },
     // 列表组件新增事件事件传递
     addChartList(param) {
       this.$refs['middleware'].addKeep(param)
@@ -340,18 +377,30 @@ export default {
     // 右侧抽屉显示事件
     rightDrawerShow(type) {
       this.rightDrawerType = type
+
       switch (type) {
         case 'menu':
           this.rightDrawerTypeTitle = '菜单配置'
+          this.settingDrawer = true
           break
         case 'assembly':
           this.rightDrawerTypeTitle = '组件新增'
+          this.settingDrawer = true
           break
         case 'theme':
           this.rightDrawerTypeTitle = '项目初始化配置'
+          this.settingDrawer = true
+          break
+        case 'component':
+          this.rightDrawerTypeTitle = '页面组件列表'
+          this.$nextTick(() => {
+            this.$refs['componentList'].init({
+              pageData: this.$refs['middleware'].pageData
+            })
+          })
+
           break
       }
-      this.settingDrawer = true
     },
     // 右侧抽屉关闭事件
     drawerClose() {

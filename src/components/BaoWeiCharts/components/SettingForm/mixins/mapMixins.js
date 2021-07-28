@@ -39,12 +39,14 @@ export default {
   },
   watch: {
     'settingConfig.mapPramConfig': {
-      handler() {
-        this.mapPramConfigChange((item, val) => {
-          if (val.isShow !== item.isShow) {
-            item.isShow = val.isShow
-          }
-        })
+      handler(value) {
+        if (value) {
+          this.mapPramConfigChange((item, val) => {
+            if (val.isShow !== item.isShow) {
+              item.isShow = val.isShow
+            }
+          })
+        }
       },
       deep: true
     }

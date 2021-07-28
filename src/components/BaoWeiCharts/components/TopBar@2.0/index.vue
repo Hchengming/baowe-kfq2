@@ -95,13 +95,9 @@ export default {
       default: null
     }
   },
-  // data() {
-  //   return {}
-  // },
   methods: {
     // 顶部栏交互按钮点击事件
     Interactive() {
-      // console.log(this.topBarAll)
       this.$emit('interactive')
     },
     liTop() {
@@ -130,7 +126,6 @@ export default {
     listBackground(obj, index) {
       const bgColorSettingData = this.topBarAll.bgColorSettingData
       let bgColor = '#3b85d8'
-      console.log(bgColorSettingData, 'bgColorSettingData')
       if (bgColorSettingData) {
         const item = bgColorSettingData.filter(x => { return x.title === obj.title })[0]
         if (item && item.background) {

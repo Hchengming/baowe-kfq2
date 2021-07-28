@@ -217,7 +217,7 @@ body {
   position: fixed;
   top: 50%;
   right: 20px;
-  z-index: 99;
+  z-index: 99999;
   cursor: pointer;
   transition: all 0.3s;
 }
@@ -247,13 +247,13 @@ body {
   overflow-y: hidden;
 }
 .hoverMenu .box ul li {
-  height: 30px;
   text-align: center;
-  line-height: 30px;
+  line-height: 20px;
+  padding: 5px 0;
   cursor: pointer;
   list-style: none;
-  padding: 0;
-  margin: 0;
+  width: 30px;
+  margin: 0 auto;
 }
 .hoverMenu:hover .box ul {
   height: auto;
@@ -361,7 +361,7 @@ body {
   margin-bottom: 0;
 }
 .statistics_title {
-  z-index: 9999;
+  z-index: 999;
   position: relative;
   height: 36px;
   border-bottom: 1px solid #d8d8d8;
@@ -575,10 +575,12 @@ body {
 .YDGCStatistics2 .statistics_box .YDGCStatisticsRight {
   width: 50%;
 }
-.statisticsWrapCase2.admin .statisticsBox:hover {
+.statisticsWrapCase2.admin .statisticsBox:hover,
+.statisticsWrapCase2.admin .statisticsBox.choose {
   border: 1px dashed #3b85d8;
 }
-.statisticsWrapCase2.admin .statisticsBox:hover .stretch {
+.statisticsWrapCase2.admin .statisticsBox:hover .stretch,
+.statisticsWrapCase2.admin .statisticsBox.choose .stretch {
   display: block;
 }
 .statisticsWrapCase2 {

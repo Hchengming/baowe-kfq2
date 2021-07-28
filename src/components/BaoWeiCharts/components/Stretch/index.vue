@@ -1,11 +1,11 @@
 <template>
   <!-- 模块缩放组件 -->
-  <div class="stretch">
+  <div :style="stretchStyle" class="stretch">
     <span
       v-for="(item, index) in spotData"
       :key="index"
       :class="[item.position[0], item.position[1]]"
-      @mousedown="mousedown_stretch(item.position,...arguments)"
+      @mousedown="mousedown_stretch(item.position, ...arguments)"
     />
   </div>
 </template>
@@ -15,7 +15,9 @@ export default {
   props: {
     settingForm: { type: Object, default: null },
     stretchElelemt: { type: HTMLElement, default: null },
-    containerElelemt: { type: HTMLElement, default: null }
+    containerElelemt: { type: HTMLElement, default: null },
+    settingConfig: { type: Object, default: null },
+    componentId: { type: String, default: null }
   },
   data() {
     return {
@@ -28,9 +30,25 @@ export default {
         { position: ['bottom', 'left'] },
         { position: ['bottom', 'center'] },
         { position: ['bottom', 'right'] }
-      ]
+      ],
+      stretchStyle: {}
     }
   },
+  // watch: {
+  //   'settingConfig.chooseComponent': {
+  //     handler(chooseComponent) {
+  //       if (chooseComponent) {
+  //         this.stretchStyle = {}
+  //         if (
+  //           chooseComponent.componentId === this.componentId
+  //         ) {
+  //           this.stretchStyle.display = 'block'
+  //         }
+  //       }
+  //     },
+  //     deep: true
+  //   }
+  // },
   methods: {
     // 模块拉伸事件
     mousedown_stretch(position, event) {
@@ -68,7 +86,6 @@ export default {
     border-radius: 50%;
     position: absolute;
     z-index: 999999;
-
   }
   span:nth-child(2),
   span:nth-child(7) {

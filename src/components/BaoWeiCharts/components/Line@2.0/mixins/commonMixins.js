@@ -64,14 +64,14 @@ export default {
     }
   },
   watch: {
-    settingConfig: {
-      handler() {
-        const myChart = this.$echarts.init(this.$refs['myCharts'])
-        myChart.resize()
-        this.echartsInit()
-      },
-      deep: true
-    },
+    // settingConfig: {
+    //   handler() {
+    //     const myChart = this.$echarts.init(this.$refs['myCharts'])
+    //     myChart.resize()
+    //     this.echartsInit()
+    //   },
+    //   deep: true
+    // },
     // 显示类型变化监听
     chartType: {
       handler() {
