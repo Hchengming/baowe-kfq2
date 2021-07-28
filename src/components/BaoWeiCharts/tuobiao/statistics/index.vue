@@ -23,7 +23,7 @@
         settingForm.elementClass
       ]"
     >
-      <div :class="['statisticsBox',chooseClass]" @click="statisticsBoxClick">
+      <div :class="['statisticsBox',{'choose':statisticsAll.choose}]" @click="statisticsBoxClick">
         <!-- 拉伸组件 -->
         <stretch
           v-if="isScaleStretch()"

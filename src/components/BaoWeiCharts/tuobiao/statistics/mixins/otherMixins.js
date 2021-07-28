@@ -13,8 +13,8 @@ export default {
       },
       boxOffon: false, // 内容区域显示控制
       stretchElelemt: null, // 被拉伸元素
-      defaultForm: {}, // 表单项默认参数
-      chooseClass: '123'// 组件选中类名
+      defaultForm: {} // 表单项默认参数
+      // chooseClass: '123'// 组件选中类名
     }
   },
   watch: {
@@ -33,22 +33,6 @@ export default {
     'statisticsAll.isShow': {
       handler() {
         this.$refs['where'].setWhereAll(this.statisticsAll.conditionAreaConfig)
-      },
-      deep: true
-    },
-    'settingConfig.chooseComponent': {
-      handler(chooseComponent) {
-        if (chooseComponent) {
-          this.chooseClass = ''
-          this.statisticsAll.isShow = this.settingForm.isShow !== '0'
-          if (
-            chooseComponent.componentId === this.statisticsAll.moduleId
-          ) {
-            this.chooseClass = 'choose'
-            this.statisticsAll.isShow = chooseComponent.nowShow
-          }
-          // console.log(chooseComponent, 'chooseComponent')
-        }
       },
       deep: true
     }
@@ -83,11 +67,6 @@ export default {
       } else {
         style.position = 'absolute'
       }
-      // if (
-      //   this.settingConfig.chooseComponent && this.settingConfig.chooseComponent.componentId === this.statisticsAll.moduleId
-      // ) {
-      //   style['z-index'] = '999'
-      // }
       return style
     },
     isAdmin() {
@@ -110,13 +89,15 @@ export default {
   methods: {
     // 内容模块点击事件
     statisticsBoxClick() {
-      this.$set(this.settingConfig, 'chooseComponent', {
-        componentName: this.settingForm.title,
-        isShow: this.settingForm.isShow === '1',
-        nowShow: this.settingForm.isShow === '1',
-        componentId: this.statisticsAll.moduleId,
-        type: 'char'
-      })
+      if (this.isAdmin) {
+        this.$emit('componentFunc', {
+          method: 'componentChooseClick',
+          name: '组件点击选中事件',
+          param: {
+            moduleId: this.statisticsAll.moduleId
+          }
+        })
+      }
     },
     // 本地导出excel事件
     localExportExcel() {

@@ -35,7 +35,11 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="组件隐藏/显示" prop="isShow">
-            <el-switch v-model="customComponentsConfig.isShow" />
+            <!-- <el-switch v-model="customComponentsConfig.isShow" /> -->
+            <el-radio-group v-model="customComponentsConfig.isShow">
+              <el-radio label="1">显示</el-radio>
+              <el-radio label="0">隐藏</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>

@@ -172,6 +172,7 @@
     <custom-components
       v-for="item in customComponentsData"
       :key="item.moduleId"
+      :component-config="item"
       :setting-form="item.config"
       :module-id="item.moduleId"
       :setting-config="settingConfig"
@@ -183,6 +184,7 @@
       ref="componentList"
       :setting-config="settingConfig"
       @close="componentListClose"
+      @componentListClick="componentListClick"
     />
   </div>
 </template>
@@ -395,7 +397,8 @@ export default {
           this.rightDrawerTypeTitle = '页面组件列表'
           this.$nextTick(() => {
             this.$refs['componentList'].init({
-              pageData: this.$refs['middleware'].pageData
+              pageData: this.$refs['middleware'].pageData,
+              customComponentsData: this.customComponentsData
             })
           })
 

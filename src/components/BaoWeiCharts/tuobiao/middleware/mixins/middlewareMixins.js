@@ -35,9 +35,13 @@ export default {
       })
       // iframe组件地图交互
       if (item.mapKey) {
-        const iframeId = nowItem.contentAreaConfig.iframeAll.iframeId || 'ifrmmap'
+        const iframeId =
+          nowItem.contentAreaConfig.iframeAll.iframeId || 'ifrmmap'
         const doc = document.getElementById(iframeId)
-        doc.contentWindow.postMessage(`${item.mapKey}|${reqObj.rowItem[items.paramsChoose]}`, '*')
+        doc.contentWindow.postMessage(
+          `${item.mapKey}|${reqObj.rowItem[items.paramsChoose]}`,
+          '*'
+        )
       }
 
       // console.log(reqObj, items, item, '000')
@@ -171,9 +175,8 @@ export default {
     updateMoule(param) {
       // contentAreaConfig, moduleId, fn, whereForm
       // 大数据编排项目修改
-      if (
-        this.settingConfig.isBigData
-      ) {
+      //
+      if (this.settingConfig.isBigData) {
         this.$emit('chartsMethods', {
           methodsName: 'updateChartList',
           name: '图表组件配置修改事件',
@@ -215,25 +218,24 @@ export default {
                 newItem = item
               }
             })
-            obj.index = this.pageData.length - 1
             obj.url = param.contentAreaConfig.url
             if (param.contentAreaConfig.isPage === '1') {
               obj.pageSize = param.contentAreaConfig.pageSize
               obj.currentPage = 1
             }
+
             if (
               param.contentAreaConfig.moduleType !== '1' &&
-                param.contentAreaConfig.moduleType !== '3'
+              param.contentAreaConfig.moduleType !== '3'
             ) {
               this.getTableData(obj, param.whereForm, newItem)
             }
+            if (param) return
             this.pageModuleData.pageData.forEach(x => {
               if (x.moduleId === param.moduleId) {
                 x.contentAreaConfig = param.contentAreaConfig
               }
             })
-            // this.$set(this.pageModuleData.pageData, this.pageData)
-            // this.pageModuleData.pageData = JSON.parse(JSON.stringify(this.pageData))
           } else {
             this.$message({
               message: '模块修改失败',

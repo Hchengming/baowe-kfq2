@@ -12,6 +12,39 @@ export default {
     }
   },
   methods: {
+    // 组件点击选中事件
+    componentChooseClick(param) {
+      this.$refs['componentList'].treeCurrentKey(param.moduleId)
+      // console.log(param, '组件点击选中事件')
+
+      this.componentListClick({ componentId: param.moduleId })
+    },
+    // 组件列表点击选中事件
+    componentListClick(param) {
+      // 自定义组件
+      if (this.customComponentsData.length > 0) {
+        this.customComponentsData.forEach(x => {
+          this.$set(x, 'choose', false)
+          x.isShow = x.config.isShow !== '0'
+          if (x.moduleId === param.componentId) {
+            x.isShow = true
+            x.choose = true
+          }
+        })
+      }
+      // 图表组件集
+      const pageData = this.$refs['middleware'].pageData
+      if (pageData && pageData.length > 0) {
+        pageData.forEach(x => {
+          this.$set(x, 'choose', false)
+          x.isShow = x.contentAreaConfig.isShow !== '0'
+          if (x.moduleId === param.componentId) {
+            x.isShow = true
+            x.choose = true
+          }
+        })
+      }
+    },
     // 组件方法暴露
     componentFunc(obj) {
       if (this[obj.method]) {

@@ -35,19 +35,6 @@ export default {
     }
   },
   // watch: {
-  //   'settingConfig.chooseComponent': {
-  //     handler(chooseComponent) {
-  //       if (chooseComponent) {
-  //         this.stretchStyle = {}
-  //         if (
-  //           chooseComponent.componentId === this.componentId
-  //         ) {
-  //           this.stretchStyle.display = 'block'
-  //         }
-  //       }
-  //     },
-  //     deep: true
-  //   }
   // },
   methods: {
     // 模块拉伸事件

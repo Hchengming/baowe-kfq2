@@ -394,7 +394,6 @@ export default {
           this.$set(item, 'isShow', false)
         }
       })
-      console.log('12222')
       obj.methodsName = obj.method
       this.chartsMethods(obj)
     },
@@ -779,7 +778,6 @@ export default {
           }
         }
         // }
-
         // 当未确认接口时可直接获取测试数据
         if (
           this.settingConfig.isProducrTestData &&
@@ -812,7 +810,6 @@ export default {
                   res.data,
                   reqData
                 )
-                // console.log(res.data, '33')
                 _this.viewDataTranslation(resData, obj, config, reqData)
                 // 数据加载完成后js执行
                 _this.dataLoadingFnc(_this.pageData[obj.index], reqData)

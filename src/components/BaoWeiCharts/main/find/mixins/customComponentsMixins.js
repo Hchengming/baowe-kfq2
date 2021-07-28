@@ -18,6 +18,7 @@ export default {
         parentTabsCode: '', // 父级容器编码（用于选项卡）
         isHeaderHide: false, // 标题栏显示隐藏
         isModuleClose: false, // 模块是否可关闭
+        isShow: '1',
         mask: false // 是否添加遮罩层
       },
       customComponentsParamStr: '' // 交互传值监听
@@ -37,7 +38,7 @@ export default {
     customComponentBeInteractive(reqObj, items, item) {
       this.customComponentsData.forEach(x => {
         if (x.moduleId === item.moduleId) {
-          x.config.isShow = item.hideShow === '1'
+          x.isShow = item.hideShow === '1'
         }
       })
     },
@@ -84,7 +85,7 @@ export default {
       // 4、交互对象为自定义组件(显示/隐藏控制)
       this.customComponentsData.forEach(item => {
         if (object.interactiveModuleId.indexOf(item.moduleId) > -1) {
-          item.config.isShow = object.hideShow === 1
+          item.isShow = object.hideShow === 1
         }
       })
     },
@@ -125,7 +126,7 @@ export default {
           if (param.close) {
             param.close()
           }
-          this.customComponentSelect()
+          this.customComponentSelect(true)
         })
         .catch(() => {
           this.$message({
@@ -135,7 +136,7 @@ export default {
         })
     },
     // 页面自定义组件配置数据查询事件
-    customComponentSelect() {
+    customComponentSelect(offon) {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
@@ -152,10 +153,10 @@ export default {
             x.config.isHeaderHide = x.config.isHeaderHide || false
             x.config.isModuleClose = x.config.isModuleClose || false
             x.config.mask = x.config.mask || false
-            x.config.isShow =
-              x.config.isShow === undefined ? true : x.config.isShow
-            if (this.settingConfig.systemPermissions === 'admin') {
-              x.config.isShow = true
+            x.isShow =
+              x.config.isShow !== '0'
+            if (offon) {
+              x.isShow = true
             }
           })
 

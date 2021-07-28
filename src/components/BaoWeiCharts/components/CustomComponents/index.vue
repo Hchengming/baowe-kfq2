@@ -2,19 +2,22 @@
   <div>
     <div
       v-if="settingForm.mask && settingForm.mask == '1'"
-      v-show="settingForm.isShow !== false"
+      v-show="componentConfig.isShow"
       :style="{ 'z-index': settingForm.zindex }"
       class="statisticsMask"
       @click="customComponentsViewClose"
     />
     <article
-      v-show="settingForm.isShow"
+      v-show="componentConfig.isShow"
       ref="listWrap"
       :style="listWrapStyle"
       :class="[
         'custom-components-view',
-        { 'custom-components-view-admin': isAdmin }
+        { 'custom-components-view-admin': isAdmin },
+        ,
+        { choose: componentConfig.choose }
       ]"
+      @click="componentClick"
     >
       <div class="custom-components-wrap">
         <i
@@ -23,7 +26,6 @@
           @click="customComponentsViewClose"
         />
         <div
-
           :class="[
             'operation',
             {
@@ -37,7 +39,6 @@
           @mousedown="mousedown_tz"
         >
           <span class="title">{{ settingForm.title }}</span>
-          <!-- <div class="right"> -->
           <i
             v-if="isAdmin"
             class="iconfont iconxiugai theme-color"
@@ -89,13 +90,15 @@ export default {
   props: {
     settingForm: { type: Object, default: null },
     moduleId: { type: String, default: null },
-    settingConfig: { type: Object, default: null }
+    settingConfig: { type: Object, default: null },
+    componentConfig: { type: Object, default: null }
   },
   data() {
     return {
       stretchElelemt: null, // 被拉伸元素
       num: 1,
       isShow: true
+      // chooseClass: ''
       // customComponentsConfig: {}
     }
   },
@@ -121,11 +124,25 @@ export default {
       return this.settingConfig.systemPermissions === 'admin'
     }
   },
+  // watch: {
+  // },
   mounted() {
     this.stretchElelemt = this.$refs['listWrap']
     this.pageGetWidget()
   },
   methods: {
+    // 组件点击事件
+    componentClick() {
+      if (this.isAdmin) {
+        this.$emit('componentFunc', {
+          method: 'componentChooseClick',
+          name: '组件点击选中事件',
+          param: {
+            moduleId: this.componentConfig.moduleId
+          }
+        })
+      }
+    },
     // 动态组件挂载
     pageGetWidget() {
       this.isShow = false
@@ -210,7 +227,7 @@ export default {
     },
     // 弹窗关闭事件
     customComponentsViewClose() {
-      this.settingForm.isShow = false
+      this.componentConfig.isShow = false
     }
   }
 }
@@ -273,7 +290,8 @@ export default {
 .custom-components-view-admin {
   border: 1px dashed transparent;
 }
-.custom-components-view-admin:hover {
+.custom-components-view-admin:hover,
+.custom-components-view-admin.choose {
   border: 1px dashed rgb(59, 133, 216);
   .stretch {
     display: block;
