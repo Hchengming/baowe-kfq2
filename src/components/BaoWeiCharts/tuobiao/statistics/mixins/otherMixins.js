@@ -13,7 +13,8 @@ export default {
       },
       boxOffon: false, // 内容区域显示控制
       stretchElelemt: null, // 被拉伸元素
-      defaultForm: {} // 表单项默认参数
+      defaultForm: {}, // 表单项默认参数
+      isMeng: false
       // chooseClass: '123'// 组件选中类名
     }
   },
@@ -38,9 +39,19 @@ export default {
     }
   },
   mounted() {
-    this.stretchElelemt = this.$refs['statisticsWrap']
+    // this.stretchElelemt = this.$refs['statisticsWrap']
+    // statisticsAll.isShow !== false||
   },
   computed: {
+    componentsShow() {
+      let offon = false
+      if (this.settingForm.moduleType === '1') {
+        offon = true
+      } else {
+        offon = this.statisticsAll.isShow !== false
+      }
+      return offon
+    },
     listWrapStyle() {
       let style = {}
       // if (this.settingForm.top) {
@@ -64,6 +75,7 @@ export default {
       ) {
         style.position = 'fixed'
         style.left = window.innerWidth + 'px'
+        // style.width = 10 + 'px'
       } else {
         style.position = 'absolute'
       }

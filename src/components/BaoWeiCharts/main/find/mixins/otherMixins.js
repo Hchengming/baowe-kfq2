@@ -21,6 +21,7 @@ export default {
     },
     // 组件列表点击选中事件
     componentListClick(param) {
+      console.log(param, 'paramparam')
       // 自定义组件
       if (this.customComponentsData.length > 0) {
         this.customComponentsData.forEach(x => {

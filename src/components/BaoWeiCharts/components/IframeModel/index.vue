@@ -2,7 +2,7 @@
   <div>
     <iframe
       :id="iframeId()"
-      :src="iframeFormat()"
+      :src="src"
       :style="{'height':height+'px'}"
       :class="['static-iframe','ifrmmap-'+statisticsAll.moduleId]"
     />

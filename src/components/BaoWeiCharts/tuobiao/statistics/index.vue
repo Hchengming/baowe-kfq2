@@ -8,7 +8,7 @@
       @click="statisticsClose"
     />
     <article
-      v-show="statisticsAll.isShow !== false||settingForm.moduleType==='1'"
+      v-show="componentsShow"
       :id="settingForm.elementId ? settingForm.elementId : undefined"
       :ref="'statisticsWrap'"
       :style="listWrapStyle"
@@ -23,7 +23,7 @@
         settingForm.elementClass
       ]"
     >
-      <div :class="['statisticsBox',{'choose':statisticsAll.choose}]" @click="statisticsBoxClick">
+      <div :class="['statisticsBox',{'choose':statisticsAll.choose}]">
         <!-- 拉伸组件 -->
         <stretch
           v-if="isScaleStretch()"
@@ -48,6 +48,7 @@
           :style="{ cursor: isAdmin ? 'move' : 'default' }"
           class="statistics_title theme-bg-color"
           @mousedown="mousedown_tz"
+          @click="statisticsBoxClick"
         >
           <!-- <i v-if="isModuleClose()"
              class="el-icon-close"
@@ -165,6 +166,7 @@
           element-loading-text="数据加载中"
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
+          @click="statisticsBoxClick"
         >
           <div v-show="boxOffon" class="boxShow" />
           <!-- 筛选模块 -->
@@ -474,6 +476,7 @@ export default {
     },
     // 弹窗关闭事件
     statisticsClose() {
+      this.statisticsAll.isShow = false
       this.$emit('componentFunc', {
         method: 'blankTemplateClose',
         name: '弹窗关闭事件',

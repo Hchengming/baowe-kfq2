@@ -17,7 +17,6 @@
         ,
         { choose: componentConfig.choose }
       ]"
-      @click="componentClick"
     >
       <div class="custom-components-wrap">
         <i
@@ -25,6 +24,7 @@
           class="el-icon-close"
           @click="customComponentsViewClose"
         />
+        <!-- <div class="box-meng" style="width: 100%;height:100%;pos"></div> -->
         <div
           :class="[
             'operation',
@@ -37,6 +37,7 @@
             'clearfix'
           ]"
           @mousedown="mousedown_tz"
+          @click="componentClick"
         >
           <span class="title">{{ settingForm.title }}</span>
           <i
@@ -64,7 +65,7 @@
           <!-- </div> -->
         </div>
 
-        <div :id="'custom-' + moduleId" />
+        <div :id="'custom-' + moduleId" @click="componentClick" />
         <stretch
           :setting-form="settingForm"
           :stretch-elelemt="stretchElelemt"

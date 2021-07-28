@@ -2,8 +2,8 @@ export default {
   data() {
     return {
       iframeStyle: {},
-      offon: true// iframe渲染开关
-
+      offon: true, // iframe渲染开关
+      src: ''
     }
   },
   mounted() {
@@ -15,6 +15,7 @@ export default {
       }
     })
     this.iframeInit()
+    this.src = this.iframeFormat()
   },
   watch: {
     // iframe路径变化监听
@@ -33,11 +34,19 @@ export default {
         const doc = document.getElementById(this.iframeId())
         if (doc) {
           doc.src = ''
-          setTimeout(() => {
+          const userAgent = navigator.userAgent // 取得浏览器的userAgent字符串
+          const isFF = userAgent.indexOf('Firefox') > -1 // 判断是否Firefox浏览器
+          if (isFF) {
+            setTimeout(() => {
+              this.offon = true
+              doc.src = this.iframeFormat()
+              doc.contentWindow.location.href = this.iframeFormat()
+            }, 100)
+          } else {
             this.offon = true
             doc.src = this.iframeFormat()
             doc.contentWindow.location.href = this.iframeFormat()
-          }, 100)
+          }
         }
       }
       // 数据编排项目地图初始化

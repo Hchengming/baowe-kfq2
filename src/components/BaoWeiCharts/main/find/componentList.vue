@@ -15,8 +15,7 @@
       <span slot-scope="{ node, data }" class="custom-tree-node">
         <span
           :class="{ 'is-hide': !data.isShow && data.componentId.length > 10 }"
-        >{{ node.label }}</span
-        >
+        >{{ node.label }}</span>
       </span>
     </el-tree>
   </div>
