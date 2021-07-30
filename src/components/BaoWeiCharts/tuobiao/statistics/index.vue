@@ -23,7 +23,7 @@
         settingForm.elementClass
       ]"
     >
-      <div :class="['statisticsBox',{'choose':statisticsAll.choose}]">
+      <div :class="['statisticsBox',{'choose':statisticsAll.choose}]" @click.stop="statisticsBoxClick">
         <!-- 拉伸组件 -->
         <stretch
           v-if="isScaleStretch()"
@@ -38,7 +38,7 @@
         <i
           v-if="isModuleClose()"
           class="el-icon-close"
-          @click="statisticsClose"
+          @click.stop="statisticsClose"
         />
         <div
           v-if="
@@ -48,7 +48,6 @@
           :style="{ cursor: isAdmin ? 'move' : 'default' }"
           class="statistics_title theme-bg-color"
           @mousedown="mousedown_tz"
-          @click="statisticsBoxClick"
         >
           <!-- <i v-if="isModuleClose()"
              class="el-icon-close"
@@ -166,7 +165,6 @@
           element-loading-text="数据加载中"
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.2)"
-          @click="statisticsBoxClick"
         >
           <div v-show="boxOffon" class="boxShow" />
           <!-- 筛选模块 -->

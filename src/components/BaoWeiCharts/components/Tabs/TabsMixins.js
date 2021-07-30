@@ -48,6 +48,18 @@ export default {
     }
   },
   methods: {
+    // 组件点击事件
+    componentClick() {
+      if (this.isAdmin) {
+        this.$emit('componentFunc', {
+          method: 'componentChooseClick',
+          name: '组件点击选中事件',
+          param: {
+            moduleId: this.moduleId
+          }
+        })
+      }
+    },
     // 标签切换选中事件
     chooseActive(tabsCode) {
       this.activeName = tabsCode

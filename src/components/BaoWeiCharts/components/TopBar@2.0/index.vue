@@ -1,7 +1,7 @@
 <template>
   <div
     :style="{ height: liHeight(), background: wrapBg(), width: wrapWidth(),top:liTop() }"
-    class="top-bar-wrap"
+    :class="['top-bar-wrap']"
   >
     <div v-if="settingConfig.systemPermissions === 'admin'" class="operation">
       <i class="iconfont iconxiugai theme-color" @click="emit" />
@@ -23,16 +23,18 @@
     <ul
       v-loading="!topBarAll.data||topBarAll.data.length===0"
       id="top-bar-box"
+      :class="{'choose':topBarAll.choose}"
       element-loading-text="数据加载中"
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.2)"
       style="height:100%"
+      @click="componentClick"
     >
       <!-- 'flex':indexs===2?5:((indexs===0||indexs===3||indexs===5)?3:4) -->
       <li
         v-for="(obj, indexs) in topBarAll.data"
         :key="indexs"
-        :style="{ height: liHeight(), background: listBackground(obj, indexs),'flex':obj.data.length?obj.data.length:2 }"
+        :style="{ height: '100%', background: listBackground(obj, indexs),'flex':obj.data.length?obj.data.length:2 }"
         class="theme-bg-color"
         @click="topBarClick(obj)"
       >
@@ -162,7 +164,28 @@ export default {
     // 顶部栏数据获取事件
     getTopData(params) {
       this.$emit('getTopData', params)
+    },
+    componentClick() {
+      if (this.settingConfig.systemPermissions === 'admin') {
+        this.$emit('componentFunc', {
+          method: 'componentChooseClick',
+          name: '组件点击选中事件',
+          param: {
+            moduleId: this.topBarAll.moduleId
+          }
+        })
+      }
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+#top-bar-box{
+  padding: 1px 0;
+  border: 1px dashed transparent;
+}
+   #top-bar-box.choose{
+    //  box-shadow: 0 5px 5px #008000;
+    border: 1px dashed #008000;
+   }
+</style>

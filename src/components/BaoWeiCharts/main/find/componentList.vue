@@ -104,14 +104,94 @@ export default {
           })
           // }
         })
+
         childData.push(obj)
       }
+
+      // 3、tabs切换栏
+
+      if (params.tabsSettingData.length > 0) {
+        const obj = {
+          componentName: 'tabs容器组件',
+          componentId: '1-3',
+          children: []
+        }
+        params.tabsSettingData.forEach((x, index) => {
+          // if (x.contentAreaConfig.isShow === '1') {
+          obj.children.push({
+            componentName: x.tabsConfig.title || '未命名' + index,
+            componentId: x.moduleId,
+            nowShow: true,
+            isShow: true,
+            type: 'tabs'
+          })
+          // }
+        })
+
+        childData.push(obj)
+      }
+
+      // 4、顶部栏
+      if (params.topBarAll.moduleId) {
+        const obj = {
+          componentName: '顶部栏组件',
+          componentId: '1-4',
+          children: []
+        }
+        obj.children.push({
+          componentName: '顶部栏1',
+          componentId: params.topBarAll.moduleId,
+          nowShow: true,
+          isShow: true,
+          type: 'top'
+        })
+
+        childData.push(obj)
+      }
+      // 5、timeSource  时间轴
+      if (params.timeSource.length > 0) {
+        const obj = {
+          componentName: '时间轴组件',
+          componentId: '1-5',
+          children: []
+        }
+        params.timeSource.forEach((x, index) => {
+          obj.children.push({
+            componentName: '时间轴' + index,
+            componentId: x.moduleId,
+            nowShow: true,
+            isShow: true,
+            type: 'time'
+          })
+        })
+
+        childData.push(obj)
+      }
+
+      // 6、类目轴
+      if (params.axisSource.length > 0) {
+        const obj = {
+          componentName: '类目轴组件',
+          componentId: '1-6',
+          children: []
+        }
+        params.axisSource.forEach((x, index) => {
+          obj.children.push({
+            componentName: '类目轴' + index,
+            componentId: x.moduleId,
+            nowShow: true,
+            isShow: true,
+            type: 'axis'
+          })
+        })
+
+        childData.push(obj)
+      }
+
       this.treeData[0].children = childData
       this.$nextTick(() => {
         if (this.nowComponentId) {
-          this.$refs.tree.setCurrentKey(
-            this.nowComponentId
-          )
+          this.$refs.tree.setCurrentKey(this.nowComponentId)
         }
       })
       // console.log(this.treeData, childData, 'this.treeData')

@@ -25,11 +25,11 @@
       <li
         v-for="(data, indexs) in topBarData"
         :key="indexs"
-        class="theme-bg-color"
         :style="{
           height: liHeight(),
           background: listBackground(data, indexs),
         }"
+        class="theme-bg-color"
       >
         <div class="top-bar-boxs">
           <div :class="['list-box', { 'list-box-2': data.length > 2 }]">

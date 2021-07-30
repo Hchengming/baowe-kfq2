@@ -16,6 +16,7 @@ export default {
         zindex: '8', // 视图层级
         isDrafting: false, // 是否启用拖拽功能
         mask: false, // 是否添加遮罩层
+        chooseModuleId: '', // 当前选中组件id
         titleData: [
           {
             label: '用户管理',
@@ -53,6 +54,15 @@ export default {
           //
           res.data.map(item => { item.tabsConfig = JSON.parse(item.tabsConfig) })
           this.tabsSettingData = res.data
+          if (this.chooseModuleId) {
+            this.$emit('componentFunc', {
+              method: 'componentChooseClick',
+              name: '组件点击选中事件',
+              param: {
+                moduleId: this.chooseModuleId
+              }
+            })
+          }
         })
         .catch(() => {
           this.$message({
@@ -66,6 +76,7 @@ export default {
       const reqData = {
         tabsConfigs: config
       }
+      this.chooseModuleId = moduleId
       let api = ''
       if (moduleId) {
         // 修改

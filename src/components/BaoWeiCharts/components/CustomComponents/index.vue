@@ -5,7 +5,7 @@
       v-show="componentConfig.isShow"
       :style="{ 'z-index': settingForm.zindex }"
       class="statisticsMask"
-      @click="customComponentsViewClose"
+      @click.stop="customComponentsViewClose"
     />
     <article
       v-show="componentConfig.isShow"
@@ -18,11 +18,11 @@
         { choose: componentConfig.choose }
       ]"
     >
-      <div class="custom-components-wrap">
+      <div class="custom-components-wrap" @click.stop="componentClick">
         <i
           v-if="settingForm.isModuleClose"
           class="el-icon-close"
-          @click="customComponentsViewClose"
+          @click.stop="customComponentsViewClose"
         />
         <!-- <div class="box-meng" style="width: 100%;height:100%;pos"></div> -->
         <div
@@ -37,7 +37,6 @@
             'clearfix'
           ]"
           @mousedown="mousedown_tz"
-          @click="componentClick"
         >
           <span class="title">{{ settingForm.title }}</span>
           <i
@@ -64,8 +63,10 @@
           </el-popconfirm>
           <!-- </div> -->
         </div>
+        <div id="custom-wrap">
+          <div :id="'custom-' + moduleId" />
+        </div>
 
-        <div :id="'custom-' + moduleId" @click="componentClick" />
         <stretch
           :setting-form="settingForm"
           :stretch-elelemt="stretchElelemt"
@@ -97,8 +98,7 @@ export default {
   data() {
     return {
       stretchElelemt: null, // 被拉伸元素
-      num: 1,
-      isShow: true
+      num: 1
       // chooseClass: ''
       // customComponentsConfig: {}
     }
@@ -125,13 +125,36 @@ export default {
       return this.settingConfig.systemPermissions === 'admin'
     }
   },
-  // watch: {
-  // },
+  watch: {
+    'settingForm.temp': {
+      handler() {
+        this.updateContent()
+      },
+      deep: true
+    },
+    'settingForm.js': {
+      handler() {
+        this.updateContent()
+      },
+      deep: true
+    }
+  },
   mounted() {
     this.stretchElelemt = this.$refs['listWrap']
     this.pageGetWidget()
   },
   methods: {
+    // 动态组件挂载重新挂载
+    updateContent() {
+      const customWrap = document.getElementById('custom-wrap')
+      const doc = document.createElement('div')
+      doc.id = 'custom-' + this.moduleId
+      customWrap.innerHTML = ''
+      customWrap.appendChild(doc)
+      this.$nextTick(() => {
+        this.pageGetWidget()
+      })
+    },
     // 组件点击事件
     componentClick() {
       if (this.isAdmin) {
@@ -146,10 +169,7 @@ export default {
     },
     // 动态组件挂载
     pageGetWidget() {
-      this.isShow = false
       if (this.settingForm.js && this.settingForm.temp) {
-        this.isShow = true
-        console.log(document.querySelector('#custom-' + this.moduleId), '1')
         // document.querySelector('#custom-' + this.moduleId).innerHTML = ''
         // 这个组件结构是先定义好,动态组件的template  methods以及其他
         try {
@@ -189,7 +209,6 @@ export default {
     },
     // 修改按钮点击事件
     edit() {
-      console.log(this.settingForm, 'edit')
       this.$refs['customComponentsSetting'].show()
     },
     // 组件删除事件

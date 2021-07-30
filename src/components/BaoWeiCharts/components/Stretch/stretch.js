@@ -40,7 +40,7 @@ const stretch = ({
 }) => {
   stopPropagation(event)
   stopDefault(event)
-  if (typeof stretch.setCapture !== 'undefined') {
+  if (stretch && typeof stretch.setCapture !== 'undefined') {
     stretch.setCapture()
   }
   // 1 获取鼠标按下时的位置
@@ -93,7 +93,7 @@ const stretch = ({
     this.onmousemove = null
     this.onmouseup = null
     // 修复低版本ie bug
-    if (typeof stretch.releaseCapture !== 'undefined') {
+    if (stretch && typeof stretch.releaseCapture !== 'undefined') {
       stretch.releaseCapture()
     }
     fnc()

@@ -39,6 +39,7 @@
       @topBarClick="topBarClick"
       @interactive="topBarInteractiveIconClick"
       @getTopData="getTopData"
+      @componentFunc="componentFunc"
     />
     <top-bar-setting
       ref="topBarSetting"
@@ -284,11 +285,11 @@ export default {
           name: '顶部栏组件',
           icon: 'icondingbulan'
         },
-        {
-          type: 'axis',
-          name: '类目轴',
-          icon: 'icondangan'
-        },
+        // {
+        //   type: 'axis',
+        //   name: '类目轴',
+        //   icon: 'icondangan'
+        // },
         {
           type: 'timeAxis',
           name: '时间轴',
@@ -395,10 +396,15 @@ export default {
           break
         case 'component':
           this.rightDrawerTypeTitle = '页面组件列表'
+          this.settingDrawer = false
           this.$nextTick(() => {
             this.$refs['componentList'].init({
               pageData: this.$refs['middleware'].pageData,
-              customComponentsData: this.customComponentsData
+              customComponentsData: this.customComponentsData,
+              tabsSettingData: this.$refs['middleware'].tabsSettingData,
+              topBarAll: this.topBarAll,
+              timeSource: this.timeSource,
+              axisSource: this.axisSource
             })
           })
 

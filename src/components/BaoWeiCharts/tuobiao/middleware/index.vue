@@ -68,6 +68,7 @@
       :module-id="item.moduleId"
       :page-module-data="pageModuleData"
       :add-setting-form="addSettingForm"
+      :component-config="item"
       @tabsSettingSubmit="tabsSettingSubmit"
       @delete="tabsSettingdelete"
       @componentFunc="componentFunc"

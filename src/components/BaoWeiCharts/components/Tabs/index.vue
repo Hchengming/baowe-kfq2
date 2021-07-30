@@ -1,5 +1,11 @@
 <template>
-  <article ref="listWrap" :id="settingForm.domId" :style="listWrapStyle" :class="['tabs-view',{'admin':settingConfig.systemPermissions==='admin'}]">
+  <article
+    ref="listWrap"
+    :id="settingForm.domId"
+    :style="listWrapStyle"
+    :class="['tabs-view',{'admin':settingConfig.systemPermissions==='admin'}, { choose: componentConfig.choose }]"
+    @click="componentClick"
+  >
     <div class="tabs-view-wrap">
       <div
 
@@ -81,7 +87,8 @@ export default {
     moduleId: { type: String, default: null },
     settingConfig: { type: Object, default: null },
     pageModuleData: { type: Object, default: null },
-    addSettingForm: { type: Object, default: null }
+    addSettingForm: { type: Object, default: null },
+    componentConfig: { type: Object, default: null }
   }
 }
 </script>
@@ -162,7 +169,7 @@ export default {
     }
   }
 }
-.tabs-view.admin:hover {
+.tabs-view.admin:hover,.tabs-view.admin.choose {
   border: 1px dashed rgb(59, 133, 216);
   .stretch {
     display: block;

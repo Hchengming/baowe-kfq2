@@ -2,8 +2,9 @@
   <div
     :ref="'listWrap'"
     :style="listWrapStyle"
-    :class="['time-axis', { 'time-axis-admin': isAdmin }, settingForm.class]"
+    :class="['time-axis', { 'time-axis-admin': isAdmin }, settingForm.class,{choose:settingForm.choose}]"
     @mousedown="mousedown_tz"
+    @click.stop="componentClick"
   >
     <div class="operation">
       <i class="iconfont iconxiugai theme-color" @click="edit" />
@@ -22,7 +23,7 @@
         <i slot="reference" title="删除" class="el-icon-delete" />
       </el-popconfirm>
     </div>
-    <div class="time-axis-content">
+    <div :class="['time-axis-content']">
       <div :style="{ width: labelWidth + 'px' }" class="label">
         {{ settingForm.label }}:
       </div>
@@ -139,6 +140,17 @@ export default {
     this.getDefaultTime()
   },
   methods: {
+    componentClick() {
+      if (this.settingConfig.systemPermissions === 'admin') {
+        this.$emit('componentFunc', {
+          method: 'componentChooseClick',
+          name: '组件点击选中事件',
+          param: {
+            moduleId: this.moduleId
+          }
+        })
+      }
+    },
     mousedown_tz(e) {
       const _this = this
       if (this.isAdmin) {
@@ -268,3 +280,16 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.time-axis-content{
+  padding: 20px 0 10px 0;
+  height: auto;
+}
+.time-axis-admin{
+  border: 1px solid transparent;
+}
+   .time-axis-admin.choose{
+     border: 1px dashed #008000;
+    // box-shadow: 0 5px 5px #008000;
+   }
+</style>

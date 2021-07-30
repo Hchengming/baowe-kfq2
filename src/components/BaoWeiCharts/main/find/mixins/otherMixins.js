@@ -15,9 +15,9 @@ export default {
     // 组件点击选中事件
     componentChooseClick(param) {
       this.$refs['componentList'].treeCurrentKey(param.moduleId)
-      // console.log(param, '组件点击选中事件')
+      console.log(param, '组件点击选中事件')
 
-      this.componentListClick({ componentId: param.moduleId })
+      this.componentListClick({ componentId: param.moduleId || param.componentId })
     },
     // 组件列表点击选中事件
     componentListClick(param) {
@@ -41,6 +41,41 @@ export default {
           x.isShow = x.contentAreaConfig.isShow !== '0'
           if (x.moduleId === param.componentId) {
             x.isShow = true
+            x.choose = true
+          }
+        })
+      }
+      // tabs容器
+      const tabsSettingData = this.$refs['middleware'].tabsSettingData
+      if (tabsSettingData && tabsSettingData.length > 0) {
+        tabsSettingData.forEach(x => {
+          this.$set(x, 'choose', false)
+          if (x.moduleId === param.componentId) {
+            x.choose = true
+          }
+        })
+      }
+      // 顶部栏
+      if (this.topBarAll.moduleId) {
+        this.$set(this.topBarAll, 'choose', false)
+        if (this.topBarAll.moduleId === param.componentId) {
+          this.topBarAll.choose = true
+        }
+      }
+      // 时间轴
+      if (this.timeSource.length > 0) {
+        this.timeSource.forEach(x => {
+          this.$set(x.timeAxisConfig, 'choose', false)
+          if (x.moduleId === param.componentId) {
+            x.timeAxisConfig.choose = true
+          }
+        })
+      }
+      // 类目轴
+      if (this.axisSource.length > 0) {
+        this.axisSource.forEach(x => {
+          this.$set(x, 'choose', false)
+          if (x.moduleId === param.componentId) {
             x.choose = true
           }
         })

@@ -99,11 +99,11 @@ export default {
           name: '图表组件集',
           icon: 'icontubiao'
         },
-        {
-          type: 'axis',
-          name: '类目轴',
-          icon: 'icondangan'
-        },
+        // {
+        //   type: 'axis',
+        //   name: '类目轴',
+        //   icon: 'icondangan'
+        // },
         {
           type: 'timeAxis',
           name: '时间轴',
