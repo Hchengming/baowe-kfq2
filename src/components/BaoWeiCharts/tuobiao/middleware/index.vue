@@ -341,13 +341,13 @@ export default {
       })
     },
     // 菜单点击事件
-    menuClick(menuItem, menuTypes, fn) {
+    menuClick(menuItem, menuTypes, fn, JumpParams) {
       this.menuId = menuItem.menuId
       // this.$nextTick(() => {
       if (menuTypes || fn) {
-        this.getData({ menuTypes, fn })
+        this.getData({ menuTypes, fn }, JumpParams)
       } else {
-        this.getData()
+        this.getData(null, JumpParams)
       }
       // })
 
@@ -553,7 +553,7 @@ export default {
       this.$emit('pageLoding', offon)
     },
     // 模块图表配置数据获取
-    getData(param) {
+    getData(param, JumpParams) {
       this.pageData = []
       this.pageLoding(true)
       serviceAxios['post'](
@@ -573,14 +573,14 @@ export default {
                 param.fn(true)
               } else {
                 param.fn(false)
-                this.setPageData(resData, param)
+                this.setPageData(resData, param, JumpParams)
               }
             }
             // else {
             //   this.setPageData(resData, param)
             // }
             if (!param) {
-              this.setPageData(resData)
+              this.setPageData(resData, null, JumpParams)
             }
           }
           this.pageLoding(false)
@@ -595,7 +595,7 @@ export default {
         })
     },
     // 当前页面模块数据处理
-    setPageData(resData, param) {
+    setPageData(resData, param, JumpParams) {
       this.pageData = []
       resData.forEach((item, index) => {
         this.itemGSH(item, index)
@@ -623,12 +623,25 @@ export default {
           item.contentAreaConfig.moduleType !== '1' &&
           item.contentAreaConfig.moduleType !== '3'
         ) {
-          this.getTableData(obj, {}, item, index)
+          let reqData = {}
+          if (JumpParams) {
+            JumpParams.forEach(x => {
+              if (x.moduleId === item.moduleId) {
+                reqData = x.reqData
+                for (const key in x.reqData) {
+                  item.conditionAreaConfig.screenData.forEach(y => {
+                    if (y.key === key) {
+                      y.defaultValue = x.reqData[key]
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.getTableData(obj, reqData, item, index)
         }
         // 初始隐藏组件
-        if (
-          item.contentAreaConfig.isShow === '0'
-        ) {
+        if (item.contentAreaConfig.isShow === '0') {
           item.isShow = false
         }
       })

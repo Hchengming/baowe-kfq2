@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "16302074",
+      "name": "资产：闲置（低效）用地监管",
+      "font_class": "zichanxianzhidixiaoyongdijianguan",
+      "unicode": "e683",
+      "unicode_decimal": 59011
+    },
+    {
+      "icon_id": "436377",
+      "name": "钱",
+      "font_class": "50",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "18164283",
+      "name": "握手,合作,协作",
+      "font_class": "cooperation",
+      "unicode": "e85d",
+      "unicode_decimal": 59485
+    },
+    {
+      "icon_id": "18735855",
+      "name": "塔吊",
+      "font_class": "tadiao",
+      "unicode": "e6d3",
+      "unicode_decimal": 59091
+    },
+    {
       "icon_id": "20081195",
       "name": "文档",
       "font_class": "wendang",

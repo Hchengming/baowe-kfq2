@@ -43,13 +43,31 @@ export default {
     this.userDataInit()
     // 项目常用缓存数据设置
     this.setlocalStorage()
+    // 自定义js页面跳转
+    this.customMenuJump()
   },
   methods: {
+    // 自定义js页面跳转
+    customMenuJump() {
+      // 最外层--通过menuCode触发菜单跳转事件  offon 是否禁止加载当前页面配置数据
+    // menuJump(menuCode, offon) {
+      if (!window.config.customMenuJump) {
+        // let JumpParams = [{
+        //   moduleId: '',
+        //   reqData: {}
+        // }]
+
+        window.config.customMenuJump = (menuCode, JumpParams) => {
+          this.menuJump(menuCode, false, JumpParams)
+        }
+      }
+    },
     // 项目常用缓存数据设置
     setlocalStorage() {
       const date = new Date()
       // console.log(date)
       localStorage.setItem('currentDate', date.Format('yyyy-MM-dd'))
+      localStorage.setItem('currentYearMonth', date.Format('yyyy-MM'))
       localStorage.setItem('currentMonth', date.Format('MM'))
     },
     // 登录用户数据处理-获取登录用户地区权限
@@ -432,14 +450,14 @@ export default {
       })
       // console.log(data)
     },
-    // 最外层--通过menuCode触发菜单跳转事件  offon 是否禁止加载当前页面配置数据
-    menuJump(menuCode, offon) {
+    // 最外层--通过menuCode触发菜单跳转事件  offon 是否禁止加载当前页面配置数据 JumpParams 外部(js自定义)跳转时传入组件数据获取参数
+    menuJump(menuCode, offon, JumpParams) {
       this.menuData.forEach((items, index) => {
         if (items.menuCode === menuCode) {
           this.menuActiveIndex = index
           this.leftMenu = items.children
           if (!offon) {
-            this.$refs['myPage'].menuClick(items)
+            this.$refs['myPage'].menuClick(items, null, null, JumpParams)
           }
 
           return false
@@ -457,7 +475,7 @@ export default {
                 this.defaultActive = menuCode
               }
               if (!offon) {
-                this.$refs['myPage'].menuClick(item)
+                this.$refs['myPage'].menuClick(item, null, null, JumpParams)
               }
               // 反向递归查找其父级、祖父级，打开页面
             }

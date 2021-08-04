@@ -379,7 +379,6 @@ export default {
     },
     // 表单类型变化事件
     typeChange(item, index, config) {
-      console.log(item, index, config, 'item,config')
       if (['date', 'dateTime'].indexOf(item.type) === -1) {
         item.sfjssj = '0'
       }

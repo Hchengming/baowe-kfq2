@@ -354,9 +354,9 @@ export default {
       this.interactiveElementMethods(reqObj)
     },
     // 菜单点击事件
-    menuClick(menuItem, menuTypes, fn) {
+    menuClick(menuItem, menuTypes, fn, JumpParams) {
       this.nowMenuItem = menuItem
-      this.$refs['middleware'].menuClick(menuItem, menuTypes, fn)
+      this.$refs['middleware'].menuClick(menuItem, menuTypes, fn, JumpParams)
       // 顶部栏数据查询
       this.getTopBarConfig()
       // 时间轴配置数据查询

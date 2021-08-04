@@ -15,13 +15,10 @@ export default {
     // 组件点击选中事件
     componentChooseClick(param) {
       this.$refs['componentList'].treeCurrentKey(param.moduleId)
-      console.log(param, '组件点击选中事件')
-
       this.componentListClick({ componentId: param.moduleId || param.componentId })
     },
     // 组件列表点击选中事件
     componentListClick(param) {
-      console.log(param, 'paramparam')
       // 自定义组件
       if (this.customComponentsData.length > 0) {
         this.customComponentsData.forEach(x => {

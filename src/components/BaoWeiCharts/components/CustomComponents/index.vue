@@ -126,6 +126,12 @@ export default {
     }
   },
   watch: {
+    'componentConfig.isShow': {
+      handler(val) {
+        if (val) this.updateContent()
+      },
+      deep: true
+    },
     'settingForm.temp': {
       handler() {
         this.updateContent()

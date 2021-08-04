@@ -31,7 +31,7 @@ export default {
         this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(param1,param2){} `
       } else if (settingType === '5') {
         this.warn = '默认参数componenInfo为当前组件信息,reqData为事件参数,_this指向当前vue页面 function({componenInfo,reqData,_this}){}'
-        this.jsMethods = obj.jsMethods ? obj.jsMethods : `function(componenInfo,reqData,_this){} `
+        this.jsMethods = obj.jsMethods ? obj.jsMethods : `function({componenInfo,reqData,_this}){} `
       } else if (settingType === '6') {
         this.warn = '默认参数resData为当前接口返回数据,reqData为事件参数 function({resData,reqData}){return resData}'
       } else if (settingType === '7') {

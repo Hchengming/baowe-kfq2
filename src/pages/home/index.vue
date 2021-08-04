@@ -4,11 +4,11 @@
     <bao-wei-charts
       ref="baoweiCharts"
       :setting-config="settingConfig"
-      :slot-name="['slot']"
+      :slot-name="['当月预警']"
       @elementMethods="elementMethods"
     >
-      <div slot="slot" style="width:100%;height:100%">
-        哈哈哈哈
+      <div slot="当月预警" style="width:100%;height:100%">
+        <dyyj/>
       </div>
     </bao-wei-charts>
   </div>
@@ -19,6 +19,7 @@ import BaoWeiCharts from '@/components/BaoWeiCharts/main'
 Vue.component('BaoWeiCharts', BaoWeiCharts)
 // import './system.scss'
 import { elementMethodsMixins } from './mixins.js'
+import dyyj from '../other/当月预警/index.vue'
 /**
  * settingConfig
  * commonUrl String 配置数据接口公共部分
@@ -39,6 +40,7 @@ import { elementMethodsMixins } from './mixins.js'
  menuUniqueOpened  左侧菜单是否只展开一个子菜单
  */
 export default {
+  components: { dyyj },
   mixins: [elementMethodsMixins],
   data() {
     return {
@@ -62,24 +64,6 @@ export default {
       }
     }
   },
-  // watch: {
-  //   'settingConfig.mapPramConfig': {
-  //     handler(val) {
-  //       if (val[0].paramValue !== this.defaultType) {
-  //         this.defaultType = val[0].paramValue
-  //         if (this.defaultType === 'classBreaksDef') {
-  //           val[4].isShow = false
-  //           val[3].isShow = true
-  //         } else {
-  //           val[4].isShow = true
-  //           val[3].isShow = false
-  //         }
-  //       }
-  //     },
-  //     deep: true
-  //   }
-  // },
-  // components:{BaoWeiCharts},
   mounted() {
     // 组件开始渲染加载数据事件
     // setTimeout(() => {

@@ -30,7 +30,8 @@ export default {
             const bfb = Number(x.data)
               ? Math.floor((x.data / max) * 10000) / 100
               : 0
-            str += `<br><span class="e-charts-tooltip-list" style="background:${x.color}"></span> ${x.seriesName}：${x.data} (${bfb}%)`
+            const bfbStr = params.length > 1 ? `(${bfb}%)` : ''
+            str += `<br><span class="e-charts-tooltip-list" style="background:${x.color}"></span> ${x.seriesName}：${x.data} ${bfbStr}`
           })
           return str
         }
