@@ -10,7 +10,9 @@
       class="settingForm dialog-common"
     >
       <div slot="title" class="headerTitle">
-        模块配置信息<span>(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span>
+        模块配置信息<span
+        >(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span
+        >
       </div>
 
       <div class="setting-form-box">
@@ -49,7 +51,14 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-
+            <el-col :span="8">
+              <el-form-item
+                label="展现切换图标是否隐藏"
+                prop="isDisplayModeHide"
+              >
+                <el-switch v-model="form.isDisplayModeHide" />
+              </el-form-item>
+            </el-col>
             <el-col :span="8">
               <el-form-item label="是否添加更多按钮" prop="isAddMoreIcon">
                 <el-radio-group v-model="form.isAddMoreIcon">
@@ -346,13 +355,19 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row>
+            <el-row v-if="form.displayMode === 'table'" >
+
               <el-col :span="8">
-                <el-form-item label="展现切换图标" prop="isDisplayModeHide">
-                  <el-switch v-model="form.isDisplayModeHide" />
+                <el-form-item label="表格添加行点击效果" prop="clickEffect">
+                  <el-switch v-model="form.clickEffect" />
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.displayMode === 'table'" :span="8">
+              <el-col v-show="form.clickEffect" :span="8">
+                <el-form-item label="表格行点击选中颜色" prop="clickEffectColor">
+                  <el-color-picker v-model="form.clickEffectColor" size="small" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
                 <el-form-item label="表格是否添加合计行" prop="showSummary">
                   <el-switch v-model="form.showSummary" />
                 </el-form-item>
@@ -370,7 +385,8 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio>
+                    >服务接口</el-radio
+                    >
                   </el-radio-group>
                 </el-form-item>
               </el-col>
@@ -757,9 +773,9 @@ export default {
   }
 }
 // }
->>>.el-radio{
+>>> .el-radio {
   margin-right: 20px;
-  &:last-child{
+  &:last-child {
     margin-right: 0;
   }
 }

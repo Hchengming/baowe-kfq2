@@ -79,10 +79,16 @@
         background: linear-gradient(180deg, #fff 0, #eef6ff);
     }
     .el-table thead.is-group th {
-        background-color: #fff;
+        background-color: transparent;
+    }
+    // .el-table--striped .el-table__body tr.current-row {
+    //     background: red !important;
+    // }
+    .el-table__body tr.current-row>td {
+        background: transparent;
     }
     .el-table--striped .el-table__body tr.el-table__row--striped td {
-        background: #fff;
+        background: transparent;
     }
     .el-pagination {
         padding: 10px;

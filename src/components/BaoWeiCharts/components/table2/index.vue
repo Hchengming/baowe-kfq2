@@ -9,9 +9,11 @@
     <!-- :show-summary="settingForm.showSummary" -->
     <el-table
       v-if="tableShow"
+      ref="elTable"
       :border="true"
       :data="tabledata"
       :fit="true"
+      :highlight-current-row="settingForm.clickEffect"
       :row-class-name="tableRowClassName"
       :height="nowHieght()"
       :row-key="
@@ -26,6 +28,7 @@
         hasChildren: 'hasChildren'
       }"
       :style="{ width: '100%' }"
+      :class="'table-'+statisticsAll.moduleId"
 
       stripe
       @cell-click="cellClick"
@@ -119,6 +122,10 @@ export default {
     this.getTableColums()
   },
   methods: {
+    // 表格样式设置
+    // tableStyle(){
+
+    // },
     operateButtonClick2(buttonSetting, rowItem) {
       if (
         buttonSetting.jsMethods &&
@@ -243,6 +250,21 @@ export default {
     // 行点击事件
     rowClick(row) {
       this.$emit('rowClick', row, row.rowIndex)
+      if (this.settingForm.clickEffect) {
+        // const table = this.$refs['elTable'] .current-row
+        this.$nextTick(() => {
+          const row = document.querySelectorAll(`.table-${this.statisticsAll.moduleId} .el-table__body tr`)
+          row.forEach((x, index) => {
+            x.style.background = 'white'
+            if (index % 2 === 1) {
+              x.style.background = 'linear-gradient(180deg, #fff 0, #eef6ff)'
+            }
+            if (x.className.indexOf('current-row') > -1) {
+              x.style.background = this.settingForm.clickEffectColor
+            }
+          })
+        })
+      }
     },
     // 表格单元格点击事件
     cellClick(row, column) {

@@ -185,6 +185,8 @@ export default {
         xRotate: 25, // x轴标题倾斜角度
         yName: '', // y轴标题字段
         showSummary: false, // 表格是否添加合计行
+        clickEffect: false, // 表格是否添加行点击效果
+        clickEffectColor: '', // 表格行点击选中颜色
         legendOrient: 'horizontal', // 图例布局
         legendLocation: 'center', // 图例显示位置
         barGroup: 0, // 柱体间距(%)
@@ -473,6 +475,11 @@ export default {
         // 表格功能组件选择旧版本兼容
         if (!item.contentAreaConfig.tablefunctionalComponents) {
           item.contentAreaConfig.tablefunctionalComponents = []
+        }
+        // 表格行选中效果兼容
+        if (!item.contentAreaConfig.clickEffect) {
+          item.contentAreaConfig.clickEffect = false
+          item.contentAreaConfig.clickEffectColor = ''
         }
         if (item.contentAreaConfig.xRotate === undefined) {
           item.contentAreaConfig.xRotate = 25
