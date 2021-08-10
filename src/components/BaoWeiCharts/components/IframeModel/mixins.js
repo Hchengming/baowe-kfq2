@@ -32,20 +32,21 @@ export default {
       if (this.settingForm.iframeAll && this.offon) {
         this.offon = false
         const doc = document.getElementById(this.iframeId())
+        console.log('doc', doc)
         if (doc) {
           doc.src = ''
           const userAgent = navigator.userAgent // 取得浏览器的userAgent字符串
           const isFF = userAgent.indexOf('Firefox') > -1 // 判断是否Firefox浏览器
           if (isFF) {
+            doc.src = this.iframeFormat()
             setTimeout(() => {
               this.offon = true
-              doc.src = this.iframeFormat()
-              doc.contentWindow.location.href = this.iframeFormat()
-            }, 100)
+              doc.contentWindow.location = this.iframeFormat()
+            }, 1000)
           } else {
             this.offon = true
             doc.src = this.iframeFormat()
-            doc.contentWindow.location.href = this.iframeFormat()
+            doc.contentWindow.location = this.iframeFormat()
           }
         }
       }

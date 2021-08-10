@@ -63,7 +63,7 @@
           </el-popconfirm>
           <!-- </div> -->
         </div>
-        <div id="custom-wrap">
+        <div :id="'custom-wrap-' + moduleId" style="height:100%">
           <div :id="'custom-' + moduleId" />
         </div>
 
@@ -77,6 +77,7 @@
       <custom-components-setting
         ref="customComponentsSetting"
         :custom-components-config="settingForm"
+        :module-id="moduleId"
         @componentFunc="componentFunc"
       />
     </article>
@@ -139,7 +140,8 @@ export default {
       deep: true
     },
     'settingForm.js': {
-      handler() {
+      handler(val) {
+        console.log(this.moduleId, val, 'js')
         this.updateContent()
       },
       deep: true
@@ -152,7 +154,7 @@ export default {
   methods: {
     // 动态组件挂载重新挂载
     updateContent() {
-      const customWrap = document.getElementById('custom-wrap')
+      const customWrap = document.getElementById('custom-wrap-' + this.moduleId)
       const doc = document.createElement('div')
       doc.id = 'custom-' + this.moduleId
       customWrap.innerHTML = ''
@@ -271,7 +273,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     .el-icon-close {
       position: absolute;
       font-size: 22px;

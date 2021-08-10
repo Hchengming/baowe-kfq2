@@ -5,7 +5,7 @@
     :visible.sync="isShow"
     class="dialog-common custom-components-setting-dialog"
   >
-    <div slot="title" class="headerTitle">Vue自定义组件配置信息</div>
+    <div slot="title" class="headerTitle">Vue自定义组件配置信息--<span>(组件id:{{ moduleId }})</span></div>
     <help-tips :help-tips-txt="helpTipsTxt" />
     <el-form
       ref="customComponentsConfig"
@@ -199,6 +199,13 @@ export default {
 .custom-components-setting-dialog {
   >>> .el-dialog {
     width: 1000px;
+  }
+}
+.headerTitle {
+  font-size: 16px;
+  span {
+    font-size: 13px;
+    color: #409eff;
   }
 }
 </style>

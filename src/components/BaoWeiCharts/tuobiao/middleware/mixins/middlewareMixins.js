@@ -35,13 +35,15 @@ export default {
       })
       // iframe组件地图交互
       if (item.mapKey) {
-        const iframeId =
-          nowItem.contentAreaConfig.iframeAll.iframeId || 'ifrmmap'
-        const doc = document.getElementById(iframeId)
-        doc.contentWindow.postMessage(
-          `${item.mapKey}|${reqObj.rowItem[items.paramsChoose]}`,
-          '*'
-        )
+        setTimeout(() => {
+          const iframeId =
+nowItem.contentAreaConfig.iframeAll.iframeId || 'ifrmmap'
+          const doc = document.getElementById(iframeId)
+          doc.contentWindow.postMessage(
+            `${item.mapKey}|${reqObj.rowItem[items.paramsChoose]}`,
+            '*'
+          )
+        }, 1200)
       }
 
       // console.log(reqObj, items, item, '000')

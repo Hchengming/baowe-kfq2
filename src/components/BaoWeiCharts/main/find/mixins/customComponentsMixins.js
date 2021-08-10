@@ -56,37 +56,42 @@ export default {
     // 交互对象判断
     customInteractive(object) {
       let offon = false
-      if (!object || !object.interactiveModuleId) return
-      // 1、判断是否为图表组件集交互
-      const pageData = this.$refs['middleware'].pageData
+      this.$nextTick(() => {
+        if (!object || !object.interactiveModuleId) return
+        // 1、判断是否为图表组件集交互
+        if (this.$refs['middleware']) {
+          const pageData = this.$refs['middleware'].pageData
 
-      pageData.forEach(config => {
-        if (object.interactiveModuleId.indexOf(config.moduleId) > -1) {
-          this.$refs['middleware'].interactiveCover(object.param, {
-            moduleId: config.moduleId,
-            hideShow: object.hideShow
+          pageData.forEach(config => {
+            if (object.interactiveModuleId.indexOf(config.moduleId) > -1) {
+              this.$refs['middleware'].interactiveCover(object.param, {
+                moduleId: config.moduleId,
+                hideShow: object.hideShow
+              })
+              offon = true
+            }
           })
-          offon = true
+          if (offon) return
         }
-      })
-      if (offon) return
-      // 2、判断是否为顶部栏交互
-      if (object.interactiveModuleId === this.nowMenuItem.menuId) {
-        this.getTopBarData(object.param)
-        return
-      }
-      // 3、时间轴交互
-      this.timeSource.forEach(item => {
-        if (item.moduleId === object.interactiveModuleId) {
-          // console.log(item.timeAxisConfig.moduleId)
-          this.getTimeAxisDatas2(object.param, object.interactiveModuleId)
+
+        // 2、判断是否为顶部栏交互
+        if (object.interactiveModuleId === this.nowMenuItem.menuId) {
+          this.getTopBarData(object.param)
+          return
         }
-      })
-      // 4、交互对象为自定义组件(显示/隐藏控制)
-      this.customComponentsData.forEach(item => {
-        if (object.interactiveModuleId.indexOf(item.moduleId) > -1) {
-          item.isShow = object.hideShow === 1
-        }
+        // 3、时间轴交互
+        this.timeSource.forEach(item => {
+          if (item.moduleId === object.interactiveModuleId) {
+            // console.log(item.timeAxisConfig.moduleId)
+            this.getTimeAxisDatas2(object.param, object.interactiveModuleId)
+          }
+        })
+        // 4、交互对象为自定义组件(显示/隐藏控制)
+        this.customComponentsData.forEach(item => {
+          if (object.interactiveModuleId.indexOf(item.moduleId) > -1) {
+            item.isShow = object.hideShow === '1'
+          }
+        })
       })
     },
     // 自定义模块配置页面弹出
