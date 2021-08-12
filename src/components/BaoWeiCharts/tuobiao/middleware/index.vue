@@ -689,6 +689,16 @@ export default {
       if (item.type === 'checkbox') {
         paramValue = JSON.parse(paramValue)
       }
+      if (['country-radio', 'country-select'].indexOf(item.type) > -1) {
+        // 判断是否添加权限控制
+        let val = ''
+        if (item.isAddPower) {
+          val = localStorage.getItem('country')
+        } else {
+          val = paramValue
+        }
+        paramValue = this.getDefaultCountry(val)
+      }
       return paramValue
     },
     // 数据获取参数配置

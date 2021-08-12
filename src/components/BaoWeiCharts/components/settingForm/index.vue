@@ -10,11 +10,8 @@
       class="settingForm dialog-common"
     >
       <div slot="title" class="headerTitle">
-        模块配置信息<span
-        >(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span
-        >
+        模块配置信息<span>(组件ID--{{ statisticsAll ? statisticsAll.moduleId : '' }})</span>
       </div>
-
       <div class="setting-form-box">
         <el-form ref="settingForm" :model="form" label-width="140px">
           <el-row type="flex" class="row-bg">
@@ -355,7 +352,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row v-if="form.displayMode === 'table'" >
+            <el-row v-if="form.displayMode === 'table'">
 
               <el-col :span="8">
                 <el-form-item label="表格添加行点击效果" prop="clickEffect">
@@ -385,8 +382,7 @@
                     <el-radio
                       :disabled="settingConfig.isBigData"
                       label="1"
-                    >服务接口</el-radio
-                    >
+                    >服务接口</el-radio>
                   </el-radio-group>
                 </el-form-item>
               </el-col>

@@ -221,6 +221,7 @@ import CommonWhere from './CommonWhere'
 // 时间段选择组件
 import TimeSlot from './TimeSlot'
 import axios from 'axios'
+import countryData from '@/components/BaoWeiCharts/components/Where2.0/CommonWhere/find/Country/country.json'
 export default {
   components: { CommonWhere, TimeSlot },
   props: {
@@ -522,7 +523,35 @@ export default {
             )
           }
         }
+        if (['country-radio', 'country-select'].indexOf(item.type) > -1) {
+          // 判断是否添加权限控制
+          let val = ''
+          if (item.isAddPower) {
+            val = localStorage.getItem('country')
+          } else {
+            val = item.defaultValue
+          }
+          this.whereAll.form[item.key] = this.getDefaultCountry(val)
+        }
       })
+    },
+    // 所有区县获取
+    getDefaultCountry(val) {
+      let str = ''
+      if (['市局', '所有', '全市'].indexOf(val) > -1) {
+        const arr = []
+        countryData.forEach(x => {
+          if (x.children && x.children.length > 0) {
+            x.children.forEach(y => {
+              if (y !== '所有')arr.push(y)
+            })
+          }
+        })
+        str = arr.join(',')
+      } else {
+        str = val
+      }
+      return str
     },
     // localStorage自定义参数-值获取
     getParamValue(val, item) {

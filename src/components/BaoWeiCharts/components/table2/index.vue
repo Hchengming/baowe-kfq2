@@ -115,6 +115,19 @@ export default {
     colums() {
       this.newClums = JSON.parse(JSON.stringify(this.colums))
       this.getTableColums()
+    },
+    tabledata() {
+      if (this.settingForm.clickEffect) {
+        this.$nextTick(() => {
+          const row = document.querySelectorAll(`.table-${this.statisticsAll.moduleId} .el-table__body tr`)
+          row.forEach((x, index) => {
+            x.style.background = 'white'
+            if (index % 2 === 1) {
+              x.style.background = 'linear-gradient(180deg, #fff 0, #eef6ff)'
+            }
+          })
+        })
+      }
     }
   },
   mounted() {
@@ -122,10 +135,6 @@ export default {
     this.getTableColums()
   },
   methods: {
-    // 表格样式设置
-    // tableStyle(){
-
-    // },
     operateButtonClick2(buttonSetting, rowItem) {
       if (
         buttonSetting.jsMethods &&

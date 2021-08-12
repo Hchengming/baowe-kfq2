@@ -32,7 +32,6 @@ export default {
       if (this.settingForm.iframeAll && this.offon) {
         this.offon = false
         const doc = document.getElementById(this.iframeId())
-        console.log('doc', doc)
         if (doc) {
           doc.src = ''
           const userAgent = navigator.userAgent // 取得浏览器的userAgent字符串

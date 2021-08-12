@@ -231,7 +231,7 @@ export default {
               key: 'isAddPower',
               formType: 'switch',
               isHide(form, index) {
-                return ['country-radio'].indexOf(form.type) === -1
+                return ['country-radio', 'country-select'].indexOf(form.type) === -1
               },
               defaultValue: false
             },

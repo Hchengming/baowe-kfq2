@@ -291,7 +291,7 @@ export const childMixins = {
     }
   }
 }
-
+import countryData from '@/components/BaoWeiCharts/components/Where2.0/CommonWhere/find/Country/country.json'
 // 筛选模块数据配置
 export const screenMixins = {
   data() {
@@ -302,7 +302,7 @@ export const screenMixins = {
     }
   },
   mounted() {
-    this.setWhereForm(this.statisticsAll.conditionAreaConfig)
+    // this.setWhereForm(this.statisticsAll.conditionAreaConfig)
   },
   methods: {
     // 筛选数据获取
@@ -317,7 +317,37 @@ export const screenMixins = {
         if (item.defaultValue) {
           this.whereForm[item.key] = item.defaultValue
         }
+
+        if (['country-radio', 'country-select'].indexOf(item.type) > -1) {
+          // 判断是否添加权限控制
+          let val = ''
+          if (item.isAddPower) {
+            val = localStorage.getItem('country')
+          } else {
+            val = item.defaultValue
+          }
+          this.whereForm[item.key] = this.getDefaultCountry(val)
+        }
       })
+      console.log(this.whereForm, 'this.whereForm')
+    },
+    // 所有区县获取
+    getDefaultCountry(val) {
+      let str = ''
+      if (['市局', '所有', '全市'].indexOf(val) > -1) {
+        const arr = []
+        countryData.forEach(x => {
+          if (x.children && x.children.length > 0) {
+            x.children.forEach(y => {
+              if (y !== '所有')arr.push(y)
+            })
+          }
+        })
+        str = arr.join(',')
+      } else {
+        str = val
+      }
+      return str
     },
     // 筛选保存事件
     whereSubmit(form) {

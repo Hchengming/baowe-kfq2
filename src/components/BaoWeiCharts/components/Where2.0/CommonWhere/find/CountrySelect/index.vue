@@ -7,6 +7,7 @@
         :style="{
           width: commonItem.rightWidth ? commonItem.rightWidth + 'px' : '100px'
         }"
+        :disabled="fatherDisabled"
         size="small"
         placeholder="请选择"
         @change="fatherChange"
@@ -21,6 +22,7 @@
       <el-select
         v-show="countryChild.length > 0"
         v-model="country.child"
+        :disabled="childDisabled"
         :style="{
           width: commonItem.rightWidth ? commonItem.rightWidth + 'px' : '100px'
         }"
@@ -54,13 +56,14 @@ export default {
         father: '',
         child: ''
       },
+      fatherDisabled: false,
+      childDisabled: false,
       countryData: countryData
     }
   },
   computed: {
     countryChild() {
       let arr = []
-
       countryData.forEach(item => {
         if (this.country.father === item.value && item.children) {
           arr = item.children
@@ -88,10 +91,23 @@ export default {
     this.defaultCountry()
   },
   methods: {
-    // 默认区县选择
+    // 默认区县选择和权限管理
     defaultCountry() {
-      const defaultValue = this.commonItem.defaultValue
-      if (this.commonItem.defaultValue) {
+      let defaultValue = this.commonItem.defaultValue
+      // 判断当前组件是否配置权限管理
+      if (this.commonItem.isAddPower) {
+        defaultValue = localStorage.getItem('country')
+      }
+      if (['市局', '全市', '所有'].indexOf(defaultValue) > -1) {
+        defaultValue = '全市'
+        this.country.father = '全市'
+      } else {
+        if (this.commonItem.isAddPower) {
+          this.fatherDisabled = true
+          this.childDisabled = true
+        }
+      }
+      if (defaultValue) {
         this.countryData.forEach(x => {
           if (x.value === defaultValue) {
             this.country.father = x.value

@@ -16,7 +16,7 @@ export default {
         title: '', // 标题
         parentModuleId: '', // 父级容器组件id
         parentTabsCode: '', // 父级容器编码（用于选项卡）
-        isHeaderHide: false, // 标题栏显示隐藏
+        isHeaderHide: false, // 标题栏是否隐藏
         isModuleClose: false, // 模块是否可关闭
         isShow: '1',
         mask: false // 是否添加遮罩层
@@ -131,7 +131,7 @@ export default {
           if (param.close) {
             param.close()
           }
-          this.customComponentSelect(true)
+          this.customComponentSelect(param.moduleId)
         })
         .catch(() => {
           this.$message({
@@ -141,7 +141,7 @@ export default {
         })
     },
     // 页面自定义组件配置数据查询事件
-    customComponentSelect(offon) {
+    customComponentSelect(updateModuleId) {
       serviceAxios
         .post(
           this.settingConfig.commonUrl +
@@ -155,12 +155,14 @@ export default {
           })
           // 新开发功能旧版本兼容
           res.data.forEach(x => {
-            x.config.isHeaderHide = x.config.isHeaderHide || false
+            if (x.config.isHeaderHide === undefined) {
+              x.config.isHeaderHide = true
+            }
             x.config.isModuleClose = x.config.isModuleClose || false
             x.config.mask = x.config.mask || false
             x.isShow =
               x.config.isShow !== '0'
-            if (offon) {
+            if (updateModuleId && updateModuleId === x.moduleId) {
               x.isShow = true
             }
           })

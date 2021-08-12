@@ -63,7 +63,7 @@
           </el-popconfirm>
           <!-- </div> -->
         </div>
-        <div :id="'custom-wrap-' + moduleId" style="height:100%">
+        <div v-if="offon" :id="'custom-wrap-' + moduleId" :style="{maxHeight:settingForm.isHeaderHide?'100%':'calc(100% - 50px)',overflow:'auto'}">
           <div :id="'custom-' + moduleId" />
         </div>
 
@@ -99,7 +99,8 @@ export default {
   data() {
     return {
       stretchElelemt: null, // 被拉伸元素
-      num: 1
+      num: 1,
+      offon: true
       // chooseClass: ''
       // customComponentsConfig: {}
     }
@@ -127,29 +128,36 @@ export default {
     }
   },
   watch: {
-    'componentConfig.isShow': {
-      handler(val) {
-        if (val) this.updateContent()
-      },
-      deep: true
-    },
+    // 'componentConfig.isShow': {
+    //   handler(val) {
+    //     console.log(val, 'val')
+    //     if (val) {
+    //       console.log(123)
+    //       this.updateContent()
+    //     }
+    //   },
+    //   deep: true
+    // }
     'settingForm.temp': {
       handler() {
-        this.updateContent()
+        if (this.isAdmin) {
+          this.updateContent()
+        }
       },
       deep: true
     },
     'settingForm.js': {
-      handler(val) {
-        console.log(this.moduleId, val, 'js')
-        this.updateContent()
+      handler() {
+        if (this.isAdmin) {
+          this.updateContent()
+        }
       },
       deep: true
     }
   },
   mounted() {
     this.stretchElelemt = this.$refs['listWrap']
-    this.pageGetWidget()
+    this.updateContent()
   },
   methods: {
     // 动态组件挂载重新挂载
@@ -185,7 +193,10 @@ export default {
           const componentContent = eval(
             '{var temp=' + this.settingForm.js + ';temp}'
           )
-          componentContent.template = this.settingForm.temp || ''
+          // console.log('-======')
+          if (this.settingForm.temp) {
+            componentContent.template = this.settingForm.temp || ''
+          }
           // 注册动态组件内容
           const DynamicComponent = Vue.extend(componentContent)
           // 将组成的组件挂载到指定的DOM
@@ -213,7 +224,10 @@ export default {
           close: param.close
         }
       })
-      this.pageGetWidget()
+      //  if (this.isAdmin) {
+      //     this.updateContent()
+      //   }
+      // this.pageGetWidget()
     },
     // 修改按钮点击事件
     edit() {
@@ -273,7 +287,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    // overflow: auto;
     .el-icon-close {
       position: absolute;
       font-size: 22px;

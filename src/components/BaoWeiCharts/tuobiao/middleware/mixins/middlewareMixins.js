@@ -1,5 +1,6 @@
 let _this
 import serviceAxios from '@/utils/request.js'
+import countryData from '@/components/BaoWeiCharts/components/Where2.0/CommonWhere/find/Country/country.json'
 export default {
   data() {
     return {
@@ -21,6 +22,24 @@ export default {
     _this = this
   },
   methods: {
+    // 所有区县获取
+    getDefaultCountry(val) {
+      let str = ''
+      if (['市局', '所有', '全市'].indexOf(val) > -1) {
+        const arr = []
+        countryData.forEach(x => {
+          if (x.children && x.children.length > 0) {
+            x.children.forEach(y => {
+              if (y !== '所有')arr.push(y)
+            })
+          }
+        })
+        str = arr.join(',')
+      } else {
+        str = val
+      }
+      return str
+    },
     // iframe组件显示隐藏控制
     iframeHideShow(reqObj, items, item) {
       // console.log(reqObj, items, item, 'iframe组件显示隐藏控制')
@@ -178,6 +197,7 @@ nowItem.contentAreaConfig.iframeAll.iframeId || 'ifrmmap'
       // contentAreaConfig, moduleId, fn, whereForm
       // 大数据编排项目修改
       //
+      console.log(param, 'param')
       if (this.settingConfig.isBigData) {
         this.$emit('chartsMethods', {
           methodsName: 'updateChartList',
